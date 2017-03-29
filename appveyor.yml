@@ -1,0 +1,52 @@
+language: julia
+os:
+  - linux
+  - osx
+julia:
+  - 0.5
+  - nightly
+environment:
+  matrix:
+  - JULIAVERSION: "julialang/bin/winnt/x86/0.5/julia-0.5-latest-win32.exe"
+  - JULIAVERSION: "julialang/bin/winnt/x64/0.5/julia-0.5-latest-win64.exe"
+  - JULIAVERSION: "julianightlies/bin/winnt/x86/julia-latest-win32.exe"
+  - JULIAVERSION: "julianightlies/bin/winnt/x64/julia-latest-win64.exe"
+matrix:
+  allow_failures:
+    - julia: nightly
+    - JULIAVERSION: "julianightlies/bin/winnt/x86/julia-latest-win32.exe"
+    - JULIAVERSION: "julianightlies/bin/winnt/x64/julia-latest-win64.exe"
+branches:
+  only:
+    - master
+    - /release-.*/
+notifications:
+  - provider: Email
+    on_build_success: false
+    on_build_failure: false
+    on_build_status_changed: false
+script:
+#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - julia -e 'Pkg.init(); Pkg.clone("https://github.com/JeffreySarnoff/RollingFunctions.jl")'
+  - julia -e 'Pkg.test("SortingNetworks",coverage=true)'
+after_success:
+  - julia -e 'Pkg.clone("https://github.com/MichaelHatherly/Documenter.jl")'
+  - julia -e 'cd(Pkg.dir("RollingFunctions")); include(joinpath("docs", "make.jl"))'
+  - julia -e 'cd(Pkg.dir("RollingFunctions")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'cd(Pkg.dir("RollingFunctions")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(process_folder())'
+install:
+# Download most recent Julia Windows binary
+  - ps: (new-object net.webclient).DownloadFile(
+        $("http://s3.amazonaws.com/"+$env:JULIAVERSION),
+        "C:\projects\julia-binary.exe")
+# Run installer silently, output to C:\projects\julia
+  - C:\projects\julia-binary.exe /S /D=C:\projects\julia
+
+build_script:
+# Need to convert from shallow to complete for Pkg.clone to work
+  - IF EXIST .git\shallow (git fetch --unshallow)
+  - C:\projects\julia\bin\julia -e "versioninfo();
+      Pkg.clone(pwd(), \"RollingFunctions\"); Pkg.build(\"RollingFunctions\")"
+
+test_script:
+  - C:\projects\julia\bin\julia -e "Pkg.test(\"RollingFunctions\")"
