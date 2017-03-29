@@ -1,8 +1,8 @@
 # RollingFunctions.jl
 
-Roll a function over data or eun a function along data.
+### Roll a function over data or eun a function along data.
 
-#### Copyright © 2017 by Jeffrey Sarnoff.  Released under the MIT License.
+##### Copyright © 2017 by Jeffrey Sarnoff.  Released under the MIT License.
 
 
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
