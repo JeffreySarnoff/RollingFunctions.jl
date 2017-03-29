@@ -2,7 +2,7 @@
 """
 rolling(fn, span, data)    
 
-applies **fn** to successive sub-**span**s of **data**    
+applies fn to successive sub-spans of data   
 
 length(result) == length(data) - span + 1
 """
