@@ -3,21 +3,20 @@ module RollingFunctions
 export AbstractRoller, Roller, Runner, 
        RollFullSpans, RollFirstSpans, RollFinalSpans
 
-using Compat
 
-@compat abstract type AbstractRoller{T} end
+abstract type AbstractRoller{T} end
 
-@compat struct Roller{T} <: AbstractRoller{T}
+struct Roller{T} <: AbstractRoller{T}
     fn::Function
     span::Int64
 end
 
-@compat const RollFullSpans  = Roller{Val{:full}}    # use only completely spanned values (shorter result)
-@compat const RollFirstSpans = Roller{Val{:first}}   # final values are spanned coarsely  (equilength result, tapiring at end)
-@compat const RollFinalSpans = Roller{Val{:final}}   # first values are spanned coarsely  (equilength result, tapiring at start)
+const RollFullSpans  = Roller{Val{:full}}    # use only completely spanned values (shorter result)
+const RollFirstSpans = Roller{Val{:first}}   # final values are spanned coarsely  (equilength result, tapiring at end)
+const RollFinalSpans = Roller{Val{:final}}   # first values are spanned coarsely  (equilength result, tapiring at start)
 
 
-@compat struct Runner{T, R} <: AbstractRoller{T}
+struct Runner{T, R} <: AbstractRoller{T}
     roll::Roller{T}
 end
 
