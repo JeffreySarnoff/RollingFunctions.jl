@@ -6,7 +6,7 @@ roll(fn, span, data, RollControl)
 
 applies fn to successive sub-spans of data   
 """
-function rolling{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollControl())
+function roll{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollControl())
     return
         if !rc.keep_length
             rolling(fn, span, data)
