@@ -2,4 +2,6 @@
 roll a function over data or run a function along data
 
 
-#  Runner(RollFinalValue(mean,5), data)
+runmean(n,data)  = Runner(RollFinalSpans(mean,n), data)
+runmean_20(data) = runmean(20, data)
+
