@@ -1,8 +1,23 @@
+const ways_to_roll_taipered = ( rolling_behind, rolling_ahead )
+const ways_to_roll_copyends = ( rolling_final,  rolling_first )
+
 """
 roll(fn, span, data, RollControl)     
 
 applies fn to successive sub-spans of data   
 """
+function rolling{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollControl())
+    return
+        if !rc.keep_length
+            rolling(fn, span, data)
+        elseif rc.taiper_ends
+            ways_to_roll_taipered[ 1 + rc.look_ahead ]( fn, span, data )
+        else
+            ways_to_roll_copyends[ 1 + rc.look_ahead ]( fn, span, data )
+        end
+end    
+        
+        
 function rolling{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollControl())
     if !rc.keep_length
         rolling(fn, span, data)
