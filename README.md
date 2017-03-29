@@ -1,5 +1,13 @@
 # RollingFunctions.jl
-roll a function over data or run a function along data
+## roll a function over data or run a function along data
+
+#### Copyright © 2016 by Jeffrey Sarnoff.  Released under the MIT License.
+
+
+[![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
+
+
+=====
 
 ```julia
 using RunningFunctions
