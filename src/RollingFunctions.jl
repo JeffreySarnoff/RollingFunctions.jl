@@ -5,6 +5,20 @@ export RollControl, rolling, rolling_ahead, rolling_behind, rolling_first, rolli
 const Rollable = AbstractVector{T} where T
 const Runnable = AbstractArray{T}  where T
 
+"""
+    roller{**S**}( fn, data )    
+
+    A cannonical rolling function, it applies 
+      fn to contiguous data subsbans of extent **S**.
+"""
+function roller{S}( ::Type{Val{S}}, fn::Function, data::AbstractArray ) 
+    rolling( fn, S, data )
+end    
+
+roll20(fn, data) = roller(Val{20}, fn, data)
+roll5(fn, data) = roller(Val{5}, fn, data)
+
+
 struct RollControl
     keep_length::Bool
     taiper_ends::Bool
