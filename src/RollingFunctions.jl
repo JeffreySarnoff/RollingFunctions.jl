@@ -8,8 +8,8 @@ const Runnable = AbstractArray{T}  where T
 struct RollControl
     keep_length::Bool
     taiper_ends::Bool
-    look_ahead::Bool      #  ahead && around is around (even n extra obs after midpoint)
-    look_around::Bool     # !ahead && around is around (even n extra obsbefore midpoint)
+    look_ahead::Bool     #  about && around is around (even n extra obs after midpoint)
+    look_about::Bool     # !about && around is around (even n extra obsbefore midpoint)
 end
 
 RollControl() = RollControl(true, false, true, false)
