@@ -18,14 +18,11 @@ This example shows how you may create other running functions.
 ```julia
 using RunningFunctions
 
-data = map(sqrt, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61,
-                   67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137 ]);
+running_norm(n,data) = Runner(FinalSpansRoller(norm,n), data)
 
-runmean(n,data)  = Runner(FinalSpansRoller(mean,n), data)
-result = runmean(20, data)
+data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
 
-runmean_20(data) = runmean(20, data)
-result = runmean_20(data)
+result = running_norm(5, data)
 ```
 
 There are a few kinds of Rollers: FinalSpansRoller, FirstSpansRoller, FullSpansRoller.    
