@@ -6,6 +6,7 @@
 
 -----
 
+This Package is forJulia version 0.6.0    
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
 
 -----
