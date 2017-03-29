@@ -6,7 +6,7 @@ export AbstractRoller, Roller, Runner,
 
 abstract type AbstractRoller{T} end
 
-struct Roller{T} <: AbstractRoller{T}
+@compat struct Roller{T} <: AbstractRoller{T}
     fn::Function
     span::Int64
 end
