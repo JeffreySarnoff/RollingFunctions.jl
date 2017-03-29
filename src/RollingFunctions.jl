@@ -11,9 +11,9 @@ struct Roller{T} <: AbstractRoller{T}
     span::Int64
 end
 
-const RollFullSpans  = Roller{Val{:full}}    # use only completely spanned values (shorter result)
-const RollFirstSpans = Roller{Val{:first}}   # final values are spanned coarsely  (equilength result, tapiring at end)
-const RollFinalSpans = Roller{Val{:final}}   # first values are spanned coarsely  (equilength result, tapiring at start)
+@compat const RollFullSpans  = Roller{Val{:full}}    # use only completely spanned values (shorter result)
+@compat const RollFirstSpans = Roller{Val{:first}}   # final values are spanned coarsely  (equilength result, tapiring at end)
+@compat const RollFinalSpans = Roller{Val{:final}}   # first values are spanned coarsely  (equilength result, tapiring at start)
 
 
 struct Runner{T, R} <: AbstractRoller{T}
