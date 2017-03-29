@@ -4,7 +4,7 @@ export AbstractRoller, Roller, Runner,
        RollFullSpans, RollFirstSpans, RollFinalSpans
 
 
-abstract type AbstractRoller{T} end
+@compat abstract type AbstractRoller{T} end
 
 @compat struct Roller{T} <: AbstractRoller{T}
     fn::Function
