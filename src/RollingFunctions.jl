@@ -1,6 +1,7 @@
 module RollingFunctions
 
-export AbstractRoller, Roller, Runner, 
+export running_minimum, running_maximum, running_median, running_mean,
+       AbstractRoller, Roller, Runner, 
        FullSpansRoller, FirstSpansRoller, FinalSpansRoller
 
 
@@ -34,6 +35,6 @@ end
 
 
 include("rolling.jl")
-
+include("running.jl")
 
 end # module
