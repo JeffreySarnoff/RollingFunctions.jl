@@ -1,3 +1,21 @@
+"""
+roll(fn, span, data, RollControl)     
+
+applies fn to successive sub-spans of data   
+"""
+function rolling{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollControl())
+    if !rc.keep_length
+        rolling(fn, span, data)
+    elseif !rc.look_about
+        if rc.look_ahead
+           rc.taiper_ends ? rolling_ahead(fn, span, data) : rolling_final(fn, span, data)
+        else
+           rc.taiper_ends ? rolling_behind(fn, span, data) : rolling_first(fn, span, data)
+        end
+    else # look_about
+    end
+end    
+
 
 """
 rolling(fn, span, data)    
