@@ -11,6 +11,19 @@ const Runnable = AbstractArray{T}  where T
     A cannonical rolling function, it applies 
       fn to contiguous data subsbans of extent **S**.
 """
+abstract type AbstractRoller{T} end
+
+#                view
+struct Roller{T,V} <: AbstractRoller{T}
+    fn::Function
+    span::Int
+end
+
+fuction Roller{S,A,T}(fn::Function, data::AbstractArray)
+    rolling( fn, S, data )
+end
+
+
 function roller{S}( ::Type{Val{S}}, fn::Function, data::AbstractArray ) 
     rolling( fn, S, data )
 end    
