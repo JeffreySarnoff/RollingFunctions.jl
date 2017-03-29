@@ -7,7 +7,7 @@ roll(fn, span, data, RollControl)
 applies fn to successive sub-spans of data   
 """
 function roll{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollControl())
-    return
+    return begin
         if !rc.keep_length
             rolling(fn, span, data)
         elseif rc.taiper_ends
@@ -15,6 +15,7 @@ function roll{T}(fn::Function, span::Int, data::Vector{T}, rc::RollControl=RollC
         else
             ways_to_roll_copyends[ 1 + rc.look_ahead ]( fn, span, data )
         end
+    end  
 end    
         
         
