@@ -1,4 +1,4 @@
-module RollingFunctions.jl
+module RollingFunctions
 
 export AbstractRoller, Roller, Runner, 
        RollFullSpans, RollFirstSpans, RollFinalSpans
