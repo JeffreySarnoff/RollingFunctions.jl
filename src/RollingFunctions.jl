@@ -1,50 +1,38 @@
 module RollingFunctions.jl
 
-export RollControl, rolling, rolling_ahead, rolling_behind, rolling_first, rolling_final
+export AbstractRoller, Roller, Runner, 
+       RollFullSpans, RollFirstSpans, RollFinalSpans
 
-const Rollable = AbstractVector{T} where T
-const Runnable = AbstractArray{T}  where T
 
-"""
-    roller{**S**}( fn, data )    
-
-    A cannonical rolling function, it applies 
-      fn to contiguous data subsbans of extent **S**.
-"""
 abstract type AbstractRoller{T} end
 
-#                view
-struct Roller{T,V} <: AbstractRoller{T}
+struct Roller{T} <: AbstractRoller{T}
     fn::Function
-    span::Int
+    span::Int64
 end
 
-fuction Roller{S,A,T}(fn::Function, data::AbstractArray)
-    rolling( fn, S, data )
+const RollFullSpans  = Roller{Val{:full}}    # use only completely spanned values (shorter result)
+const RollFirstSpans = Roller{Val{:first}}   # final values are spanned coarsely  (equilength result, tapiring at end)
+const RollFinalSpans = Roller{Val{:final}}   # first values are spanned coarsely  (equilength result, tapiring at start)
+
+struct Runner{T, R} <: AbstractRoller{T}
+    roll::Roller{T}
 end
 
-
-function roller{S}( ::Type{Val{S}}, fn::Function, data::AbstractArray ) 
-    rolling( fn, S, data )
-end    
-
-roll20(fn, data) = roller(Val{20}, fn, data)
-roll5(fn, data) = roller(Val{5}, fn, data)
-
-
-struct RollControl
-    keep_length::Bool
-    taiper_ends::Bool
-    look_ahead::Bool     #  about && around is around (even n extra obs after midpoint)
-    look_about::Bool     # !about && around is around (even n extra obsbefore midpoint)
+function Runner{T,R}(roll::RollFullSpans, data::Vector{R})
+    rolling(roll.fn, roll.span, data)
 end
 
-RollControl() = RollControl(true, false, true, false)
-RollControl(tf::Bool) = RollControl(tf, tf, true, false)
+function Runner{T,R}(roll::RollFirstValue, data::Vector{R})
+    rolling_start(roll.fn, roll.span, data)
+end
+
+function Runner{T,R}(roll::RollFinalValue, data::Vector{R})
+    rolling_finish(roll.fn, roll.span, data)
+end
 
 
 include("rolling.jl")
-include("running.jl")
 
 
 end # module
