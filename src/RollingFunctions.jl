@@ -20,15 +20,15 @@ struct Runner{T, R} <: AbstractRoller{T}
     roll::Roller{T}
 end
 
-function Runner{R}(roll::RollFullSpans, data::Vector{R})
+function Runner{R}(roll::FullSpansRoller, data::Vector{R})
     rolling(roll.fn, roll.span, data)
 end
 
-function Runner{R}(roll::RollFirstSpans, data::Vector{R})
+function Runner{R}(roll::FirstSpansRoller, data::Vector{R})
     rolling_start(roll.fn, roll.span, data)
 end
 
-function Runner{R}(roll::RollFinalSpans, data::Vector{R})
+function Runner{R}(roll::FinalSpansRoller, data::Vector{R})
     rolling_finish(roll.fn, roll.span, data)
 end
 
