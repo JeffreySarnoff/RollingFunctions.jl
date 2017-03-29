@@ -20,8 +20,8 @@ They are used in the same way as the example above.
 **FinalSpansRoller** fully applies the spanning function after span-1 initial entries are more coarsely handled.    
 This is most commonly used form.
 
-**FirstSpansRoller** fully applies the spanning function from the first data item, the final span-1 entries are more coarsely handled.    
+**FirstSpansRoller** fully applies the spanning function from the first entry; the final span-1 entries are oarsely handled.    
 This is used with time series where the newest information is less well established.
 
-**FullSpansRoller** fully applies the spanning function everywhere.  It returns span-1 fewer values than it is given.
+**FullSpansRoller** fully applies the spanning function everywhere.  It returns span-1 fewer values than it is given.    
 This is used with functions that do not taiper well, and in developing other transformations.
