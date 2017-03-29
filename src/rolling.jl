@@ -1,5 +1,5 @@
-const ways_to_roll_taipered = ( rolling_behind, rolling_ahead )
-const ways_to_roll_copyends = ( rolling_final,  rolling_first )
+const ways_to_roll_taipered = ( rolling_start,  rolling_finish )
+const ways_to_roll_copyends = ( rolling_first,  rolling_final )
 
 """
 roll(fn, span, data, RollControl)     
@@ -55,7 +55,7 @@ function rolling{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_ahead(fn, span, data)    
+rolling_finish(fn, span, data)    
 
 applies fn to successive sub-spans of data
 
@@ -67,7 +67,7 @@ result[1] = fn(data[1])
 
 result[2] = fn(data[1], data[2]) ..
 """
-function rolling_ahead{T}(fn::Function, span::Int, data::Vector{T})
+function rolling_finish{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     res = zeros(T, n_in)
     span -= 1 
@@ -82,7 +82,7 @@ function rolling_ahead{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_behind(fn, span, data)    
+rolling_start(fn, span, data)    
 
 applies *fn* to successive sub-*span*s of *data*    
 
@@ -94,7 +94,7 @@ result[end] = fn(data[end])
 
 result[end-1] = fn(data[end-1], data[end]) ..
 """
-function rolling_behind{T}(fn::Function, span::Int, data::Vector{T})
+function rolling_start{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     res = zeros(T, n_in)
     span -= 1 
