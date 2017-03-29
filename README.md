@@ -10,6 +10,11 @@
 
 -----
 
+### exports
+
+This package exports running_minimum, running_maximum, running_median, running_mean.    
+This example shows how you may create other running functions.
+
 ```julia
 using RunningFunctions
 
