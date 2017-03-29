@@ -16,7 +16,7 @@ end
 @compat const RollFinalSpans = Roller{Val{:final}}   # first values are spanned coarsely  (equilength result, tapiring at start)
 
 
-struct Runner{T, R} <: AbstractRoller{T}
+@compat struct Runner{T, R} <: AbstractRoller{T}
     roll::Roller{T}
 end
 
