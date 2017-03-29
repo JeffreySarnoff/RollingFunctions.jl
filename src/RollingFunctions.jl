@@ -3,6 +3,7 @@ module RollingFunctions
 export AbstractRoller, Roller, Runner, 
        RollFullSpans, RollFirstSpans, RollFinalSpans
 
+using Compat
 
 @compat abstract type AbstractRoller{T} end
 
