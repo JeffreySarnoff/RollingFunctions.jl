@@ -1,9 +1,8 @@
 module RollingFunctions
 
 export running_minimum, running_maximum, running_span,
-       running_median, running_mode, 
-       running_mean, running_geomean, running_harmmean,
-       running_variation, running_sem, runnning_mad, 
+       running_median, running_mode, running_mean, running_geomean, running_harmmean,
+       running_variation, running_sem, runnning_mad, running_entropy,
        AbstractRoller, Roller, Runner, 
        FullSpansRoller, FirstSpansRoller, FinalSpansRoller
 
