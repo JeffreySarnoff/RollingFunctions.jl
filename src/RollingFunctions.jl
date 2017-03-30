@@ -1,9 +1,13 @@
 module RollingFunctions
 
-export running_minimum, running_maximum, running_median, running_mean,
+export running_minimum, running_maximum, running_span,
+       running_median, running_mode, 
+       running_mean, running_geomean, running_harmmean,
+       running_variation, running_sem, runnning_mad, 
        AbstractRoller, Roller, Runner, 
        FullSpansRoller, FirstSpansRoller, FinalSpansRoller
 
+using StatsBase
 
 abstract type AbstractRoller{T} end
 
