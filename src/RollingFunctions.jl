@@ -1,65 +1,27 @@
 module RollingFunctions
 
 export Roller, runner,
-       running_minimum, running_maximum, running_span,
-       running_median, running_mode, running_mean, running_geomean, running_harmmean,
-       running_std, running_var, running_variation, running_sem, runnning_mad, running_entropy
+       rolling, rolling_backfill, rolling_forwardfill, rolling_centerfill,
+       runminimum, runmaximum, runspan,
+       runmedian, runmode, runmean, rungeomean, runharmmean,
+       runstd, runvar, runsem, runmad, runvariation, runentropy,
+       runminimum_backfill, runmaximum_backfill, runspan_backfill,
+       runmedian_backfill, runmode_backfill, runmean_backfill, rungeomean_backfill, runharmmean_backfill,
+       runstd_backfill, runvar_backfill, runsem_backfill, runmad_backfill, runvariation_backfill, runentropy_backfill
        
 using StatsBase
 
 
 struct Roller
     roll::Function
-    func::Function
+    apply::Function
     span::Int64
 end
 
 function runner(roller::Roller, data::Vector{T}) where T<:Number
-    roller.roll(roller.func, roller.span, data)
+    roller.roll(roller.apply, roller.span, data)
 end
 
-
-#=
-const FullSpansRoller   = Roller{Val{:full}}     # use only completely spanned values (shorter result)
-const StartSpansRoller  = Roller{Val{:start}}    # final values are spanned coarsely  (equilength result, tapering at end)
-const FinishSpansRoller = Roller{Val{:finish}}   # first values are spanned coarsely  (equilength result, tapering at start)
-const FirstSpansRoller  = Roller{Val{:first}}    # final values are filled forward    (equilength result, carrying forward at end)
-const LastSpansRoller   = Roller{Val{:final}}    # first values are filled backward   (equilength result, carrying backward at start)
-
-
-struct Runner{T, R} <: AbstractRoller{T}
-    roll::Roller{T}
-end
-
-function Runner{R}(roll::FullSpansRoller, data::Vector{R})
-    rolling(roll.fn, roll.span, data)
-end
-
-function Runner{R}(roll::StartSpansRoller, data::Vector{R})
-    rolling(roll.fn, roll.span, data)
-end
-
-function Runner{R}(roll::FinishSpansRoller, data::Vector{R})
-    rolling(roll.fn, roll.span, data)
-end
-
-function Runner{R}(roll::FirstSpansRoller, data::Vector{R})
-    rolling(roll.fn, roll.span, data)
-end
-
-function Runner{R}(roll::LastSpansRoller, data::Vector{R})
-    rolling(roll.fn, roll.span, data)
-end
-
-
-for T in (:FullSpansRoller, :StartSpansRoller, :FinishSpansRoller, :FirstSpansRoller, :FinalSpansRoller)
-    @eval begin
-       function Runner{R}(roll::$T, data::Vector{R})
-           rolling(roll.fn, roll.span, data)
-       end
-    end
-end       
-=#
 
 include("rolling.jl")
 include("running.jl")
