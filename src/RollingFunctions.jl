@@ -15,11 +15,10 @@ using StatsBase
 struct Roller
     roll::Function
     apply::Function
-    span::Int64
 end
 
-function runner(roller::Roller, data::Vector{T}) where T<:Number
-    roller.roll(roller.apply, roller.span, data)
+function runner(roller::Roller, span::Int, data::Vector{T}) where T<:Number
+    roller.roll(roller.apply, span, data)
 end
 
 
