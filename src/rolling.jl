@@ -28,21 +28,26 @@ length(result) == length(data)
 
 result[1:span-1] use coarser applications of fn:      
 
-result[1] = fn(data[1])    
+result[1] = result[2]
 
-result[2] = fn(data[1], data[2]) ..
+result[2] = fn([data[1], data[2]])    
+
+result[3] = fn([data[1], data[2], data[3]]) ..
 """
 function rolling_finish{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     res = zeros(T, n_in)
     span -= 1 
     
-    for i in 1:span
+    for i in 2:span
         res[i] = fn(data[1:i])
-    end    
+    end
+    res[1] = res[2]
+    
     for i in 1+span:n_in
         res[i] = fn(data[i-span:i]); 
-    end        
+    end
+    
     return res
 end
 
@@ -55,9 +60,11 @@ length(result) == length(data)
 
 result[end-span+1:end] use coarser applications of fn:       
 
-result[end] = fn(data[end])    
+result[end] = result[end-1]
 
-result[end-1] = fn(data[end-1], data[end]) ..
+result[end-1] = fn([data[end-1], data[end]])    
+
+result[end-2] = fn([data[end-2], data[end-1], data[end]]) ..
 """
 function rolling_start{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
@@ -67,9 +74,10 @@ function rolling_start{T}(fn::Function, span::Int, data::Vector{T})
     for i in 1:n_in-span
         res[i] = fn(data[i:i+span]); 
     end    
-    for i in n_in-span+1:n_in
+    for i in n_in-span+1:n_in-1
         res[i] = fn(data[i:n_in])
-    end        
+    end
+    res[n_in] = res[n_in-1]
     return res
 end
 
