@@ -10,11 +10,12 @@ using StatsBase
 
 struct Roller
     roll::Function
+    func::Function
     span::Int64
 end
 
 function Runner(roller::Roller, data::Vector{T}) where T<:Number
-    roller.roll(roller.span, data)
+    roller.roll(roller.func, roller.span, data)
 end
 
 
