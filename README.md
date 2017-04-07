@@ -12,7 +12,7 @@
 
 ### exports
 
-*windowed functions yeilding vectors of length(input)-window_size* 
+*windowed functions yeilding vectors of length(input)-window_size+1* 
 
 rollstd, rollvar, rollmad,    
 rollmedian, rollmode, rollmean,     
@@ -20,9 +20,9 @@ rollminimum, rollmaximum, rollspan
 
 *windowed functions extended to the length of the input*
 
-runstd_backfill, runvar_backfill, runmad_backfill,     
-runmedian_backfill, runmode_backfill, runmean_backfill,     
-runminimum_backfill, runmaximum_backfill, runspan_backfill         
+runstd_fill, runvar_fill, runmad_fill,     
+runmedian_fill, runmode_fill, runmean_fill,     
+runminimum_fill, runmaximum_fill, runspan_fill         
 
 *and functions that allow you to make your own*    
 
