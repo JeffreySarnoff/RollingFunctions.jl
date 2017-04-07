@@ -67,5 +67,5 @@ averages rolling_locf and rolling_focb
 length(result) == length(data)
 """
 function rolling_centerfill{T}(fn::Function, span::Int, data::Vector{T})
-    return 0.5*rolling_forwardfill(fn, span, data) + 0.4*rolling_backfill(fn, span, data)
+    return 0.5*rolling_forwardfill(fn, span, data) + 0.5*rolling_backfill(fn, span, data)
 end    
