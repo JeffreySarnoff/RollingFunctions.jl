@@ -8,13 +8,13 @@ export running_minimum, running_maximum, running_span,
 
 using StatsBase
 
-abstract type AbstractRoller{T} end
 
-struct Roller{T} <: AbstractRoller{T}
-    fn::Function
+struct Roller
+    roll::Function
     span::Int64
 end
 
+#=
 const FullSpansRoller   = Roller{Val{:full}}     # use only completely spanned values (shorter result)
 const StartSpansRoller  = Roller{Val{:start}}    # final values are spanned coarsely  (equilength result, tapering at end)
 const FinishSpansRoller = Roller{Val{:finish}}   # first values are spanned coarsely  (equilength result, tapering at start)
@@ -46,7 +46,7 @@ function Runner{R}(roll::LastSpansRoller, data::Vector{R})
     rolling(roll.fn, roll.span, data)
 end
 
-#=
+
 for T in (:FullSpansRoller, :StartSpansRoller, :FinishSpansRoller, :FirstSpansRoller, :FinalSpansRoller)
     @eval begin
        function Runner{R}(roll::$T, data::Vector{R})
