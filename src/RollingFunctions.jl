@@ -13,8 +13,8 @@ struct Roller
     span::Int64
 end
 
-function Roller(roller::Roller, data::Vector{T}) where T<:Number
-    roller.roll(roll.span, data)
+function Runner(roller::Roller, data::Vector{T}) where T<:Number
+    roller.roll(roller.span, data)
 end
 
 
