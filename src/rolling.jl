@@ -74,7 +74,7 @@ function rolling_start{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_final(fn, span, data)    
+rolling_last(fn, span, data)    
 
 applies fn to successive sub-spans of data    
 
@@ -82,7 +82,7 @@ length(result) == length(data)
 
 result[1:span-1] == data[1:span-1]
 """
-function rolling_final{T}(fn::Function, span::Int, data::Vector{T})
+function rolling_last{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     res = zeros(T, n_in)
     span -= 1
