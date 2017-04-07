@@ -12,21 +12,19 @@
 
 ### exports
 
-*windowed functions yeilding vectors of length(input)-window_size+1* 
+*windowed functions yeilding vectors of length(input)-window_size+1*     
+*and windowed functions extended to the length of the input*    
 
 rollstd, rollvar, rollmad,    
 rollmedian, rollmode, rollmean,     
-rollminimum, rollmaximum, rollspan         
-
-*windowed functions extended to the length of the input*
-
-runstd_fill, runvar_fill, runmad_fill,     
-runmedian_fill, runmode_fill, runmean_fill,     
-runminimum_fill, runmaximum_fill, runspan_fill         
+rollminimum, rollmaximum, rollspan,         
+# how to fill, if filling is desired
+AtFirst, AtLast, AtBoth
 
 *and functions that allow you to make your own*    
 
-Roller, runner, rolling, rolling_backfill, rolling_forwardfill, rolling_centerfill
+Roller, runner, rolling, 
+rolling_backfill, rolling_forwardfill, rolling_centerfill
 
 ### use
 
@@ -38,6 +36,7 @@ using RollingFunctions
 
 rollgeomean{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling, geomean), n, data)
 rollgeomean_backfill{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling_backfill, geomean), n, data)
+
 
 data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
 
