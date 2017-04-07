@@ -19,12 +19,12 @@ rollstd, rollvar, rollmad,
 rollmedian, rollmode, rollmean,     
 rollminimum, rollmaximum, rollspan,         
 # how to fill, if filling is desired
-AtFirst, AtLast, AtBoth
+AtFirst, AtLast, AtCenter
 
 *and functions that allow you to make your own*    
 
 Roller, runner, rolling, 
-rolling_backfill, rolling_forwardfill, rolling_centerfill
+rolling_fill_first, rolling_fill_last, rolling_fill_center
 
 ### use
 
@@ -35,13 +35,14 @@ using StatsBase
 using RollingFunctions
 
 rollgeomean{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling, geomean), n, data)
-rollgeomean_backfill{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling_backfill, geomean), n, data)
-
+rollgeomean{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  = runner(Roller(rolling_fill_first, geoman), n, data)
+rollgeomean{T<:Number}(::Type{AtLast}, n::Int, data::Vector{T})   = runner(Roller(rolling_fill_last, geomean), n, data)
+rollgeomean{T<:Number}(::Type{AtCenter}, n::Int, data::Vector{T}) = runner(Roller(rolling_fill_center, geomean), n, data)
 
 data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
 
 rollgeomean(5, data)
-rollgeomean_backfill(5, data)
+rollgeomean(AtFirst, 5, data)
 
 ```
 
