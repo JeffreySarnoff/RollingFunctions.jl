@@ -62,10 +62,10 @@ end
 rolling_fill_center(fn, span, data) is rolling bounding results are carried around   
 
 applies fn to successive sub-spans of data    
-averages rolling_locf and rolling_focb
+averages rolling_fill_first and rolling_fill_last
 
 length(result) == length(data)
 """
 function rolling_fill_center{T}(fn::Function, span::Int, data::Vector{T})
-    return 0.5*rolling_forwardfill(fn, span, data) + 0.5*rolling_backfill(fn, span, data)
+    return 0.5*rolling_fill_first(fn, span, data) + 0.5*rolling_fill_last(fn, span, data)
 end    
