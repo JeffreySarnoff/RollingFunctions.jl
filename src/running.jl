@@ -1,4 +1,3 @@
-rollspan{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling, span), n, data)
 rollstd{T<:Number}(n::Int, data::Vector{T})  = runner(Roller(rolling, std), n, data)
 rollvar{T<:Number}(n::Int, data::Vector{T})  =  runner(Roller(rolling, var), n, data)
 rollmad{T<:Number}(n::Int, data::Vector{T})  = runner(Roller(rolling, mad), n, data)
@@ -10,7 +9,6 @@ rollmode{T<:Number}(n::Int, data::Vector{T})    = runner(Roller(rolling, mode), 
 rollmean{T<:Number}(n::Int, data::Vector{T})    = runner(Roller(rolling, mean), n, data)
 
 
-rollspan_backfill{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling_backfill, span), n, data)
 rollstd_backfill{T<:Number}(n::Int, data::Vector{T})  = runner(Roller(rolling_backfill, std), n, data)
 rollvar_backfill{T<:Number}(n::Int, data::Vector{T})  = runner(Roller(rolling_backfill, var), n, data)
 rollmad_backfill{T<:Number}(n::Int, data::Vector{T})  = runner(Roller(rolling_backfill, mad), n, data)
