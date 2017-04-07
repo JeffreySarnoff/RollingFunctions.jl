@@ -18,7 +18,7 @@ end
 const FullSpansRoller   = Roller{Val{:full}}     # use only completely spanned values (shorter result)
 const StartSpansRoller  = Roller{Val{:start}}    # final values are spanned coarsely  (equilength result, tapering at end)
 const FinishSpansRoller = Roller{Val{:finish}}   # first values are spanned coarsely  (equilength result, tapering at start)
-const FirstSpansRoller  = Roller{Val{:first}}    # final values are filled forward   (equilength result, carrying forward at end)
+const FirstSpansRoller  = Roller{Val{:first}}    # final values are filled forward    (equilength result, carrying forward at end)
 const LastSpansRoller   = Roller{Val{:final}}    # first values are filled backward   (equilength result, carrying backward at start)
 
 
