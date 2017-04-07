@@ -1,6 +1,6 @@
 module RollingFunctions
 
-export Roller,
+export Roller, runner,
        running_minimum, running_maximum, running_span,
        running_median, running_mode, running_mean, running_geomean, running_harmmean,
        running_std, running_var, running_variation, running_sem, runnning_mad, running_entropy
@@ -14,7 +14,7 @@ struct Roller
     span::Int64
 end
 
-function Runner(roller::Roller, data::Vector{T}) where T<:Number
+function runner(roller::Roller, data::Vector{T}) where T<:Number
     roller.roll(roller.func, roller.span, data)
 end
 
