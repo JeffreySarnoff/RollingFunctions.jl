@@ -70,6 +70,7 @@ function rolling_boca{T}(fn::Function, span::Int, data::Vector{T})
     return 0.5*rolling_locf(fn, span, data) + 0.4*rolling_focb(fn, span, data)
 end    
 
+#=
 """
 rolling_finish(fn, span, data)    
 
@@ -174,4 +175,4 @@ function rolling_first{T}(fn::Function, span::Int, data::Vector{T})
     return res
 end
 
-
+=#
