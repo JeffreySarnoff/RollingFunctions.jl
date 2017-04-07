@@ -2,8 +2,9 @@ module RollingFunctions
 
 export rollminimum, rollmaximum, rollspan,
        rollmedian, rollmode, rollmean, rollstd, rollvar,
+       # constructive
        Roller, rolling, runner,
-       rolling_backfill, rolling_forwardfill, rolling_centerfill,
+       rolling_fill_first, rolling_fill_last, rolling_fill_center,
        AtFirst, AtLast, AtBoth
        
        
