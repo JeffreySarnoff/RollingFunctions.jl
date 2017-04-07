@@ -13,6 +13,11 @@ struct Roller
     span::Int64
 end
 
+function Roller(roller::Roller, data::Vector{R})
+    roller.roll(roll.span, data)
+end
+
+
 #=
 const FullSpansRoller   = Roller{Val{:full}}     # use only completely spanned values (shorter result)
 const StartSpansRoller  = Roller{Val{:start}}    # final values are spanned coarsely  (equilength result, tapering at end)
