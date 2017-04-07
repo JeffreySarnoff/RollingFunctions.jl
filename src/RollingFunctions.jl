@@ -5,7 +5,7 @@ export rollminimum, rollmaximum, rollspan,
        # constructive
        Roller, rolling, runner,
        rolling_fill_first, rolling_fill_last, rolling_fill_center,
-       AtFirst, AtLast, AtBoth
+       AtFirst, AtLast, AtCenter
        
        
 using StatsBase
@@ -22,9 +22,9 @@ end
 
 struct FillAt{T} end
 
-AtFirst = FillAt{Val{:first}}
-AtLast  = FillAt{Val{:last}}
-AtBoth  = FillAt{Val{:both}}
+AtFirst  = FillAt{Val{:first}}
+AtLast   = FillAt{Val{:last}}
+AtCenter = FillAt{Val{:center}}
 
 
 include("rolling.jl")
