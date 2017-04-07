@@ -36,8 +36,8 @@ This example shows how you may create other running functions.
 using StatsBase
 using RollingFunctions
 
-rollgeomean(n,data) = runner(Roller(rolling, geomean), n, data)
-rollgeomean_backfill(n,data) = runner(Roller(rolling_backfill, geomean), n, data)
+rollgeomean{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling, geomean), n, data)
+rollgeomean_backfill{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling_backfill, geomean), n, data)
 
 data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
 
