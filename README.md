@@ -12,11 +12,28 @@
 
 ### exports
 
-This package exports running_minimum, running_maximum, running_median, running_mean.    
+*windowed functions yeilding vectors of length(input)-window_size* 
+
+runminimum, runmaximum, runspan,     
+runmedian, runmode, runmean,     
+runstd, runvar, runmad    
+
+*windowed functions extended to the length of the input*
+
+runminimum_backfill, runmaximum_backfill, runspan_backfill,     
+runmedian_backfill, runmode_backfill, runmean_backfill,     
+runstd_backfill, runvar_backfill, runmad_backfill
+
+*and functions that allow you to make your own*    
+
+Roller, runner, rolling, rolling_backfill, rolling_forwardfill, rolling_centerfill
+
+### use
+
 This example shows how you may create other running functions.
 
 ```julia
-using RunningFunctions
+using RollingFunctions
 
 running_norm(n,data) = Runner(FinalSpansRoller(norm,n), data)
 
