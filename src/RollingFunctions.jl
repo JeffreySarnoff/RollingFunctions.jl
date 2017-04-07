@@ -26,6 +26,27 @@ struct Runner{T, R} <: AbstractRoller{T}
     roll::Roller{T}
 end
 
+function Runner{R}(roll::FullSpansRoller, data::Vector{R})
+    rolling(roll.fn, roll.span, data)
+end
+
+function Runner{R}(roll::StartSpansRoller, data::Vector{R})
+    rolling(roll.fn, roll.span, data)
+end
+
+function Runner{R}(roll::FinishSpansRoller, data::Vector{R})
+    rolling(roll.fn, roll.span, data)
+end
+
+function Runner{R}(roll::FirstSpansRoller, data::Vector{R})
+    rolling(roll.fn, roll.span, data)
+end
+
+function Runner{R}(roll::FinalSpansRoller, data::Vector{R})
+    rolling(roll.fn, roll.span, data)
+end
+
+#=
 for T in (:FullSpansRoller, :StartSpansRoller, :FinishSpansRoller, :FirstSpansRoller, :FinalSpansRoller)
     @eval begin
        function Runner{R}(roll::$T, data::Vector{R})
@@ -33,7 +54,7 @@ for T in (:FullSpansRoller, :StartSpansRoller, :FinishSpansRoller, :FirstSpansRo
        end
     end
 end       
-
+=#
 
 include("rolling.jl")
 include("running.jl")
