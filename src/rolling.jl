@@ -7,6 +7,8 @@ length(result) == length(data) - span + 1
 """
 function rolling{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
+    (span >= 1 && n_in >= span) || throw(DomainError())
+
     n_out = n_in - span + 1
     res = zeros(T, n_out)
     span -= 1 
@@ -28,6 +30,8 @@ length(result) == length(data)
 """
 function rolling_locf{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
+    (span >= 1 && n_in >= span) || throw(DomainError())
+
     n_out = n_in - span + 1   
     res   = zeros(T, n_in)
     res[1:n_out] = rolling(fn, span, data)
@@ -45,6 +49,8 @@ length(result) == length(data)
 """
 function rolling_focb{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
+    (span >= 1 && n_in >= span) || throw(DomainError())
+
     n_out = n_in - span   
     res   = zeros(T, n_in)
     res[span:n_out+span] = rolling(fn, span, data)
