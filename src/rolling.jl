@@ -21,14 +21,14 @@ function rolling{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_locf(fn, span, data) is is rolling last_obs_carry_forward      
+rolling_forwardfill(fn, span, data) is is rolling last result is carried forward      
 
 applies fn to successive sub-spans of data    
 carries the (end-span)_th result forward
 
 length(result) == length(data)
 """
-function rolling_locf{T}(fn::Function, span::Int, data::Vector{T})
+function rolling_forwardfill{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(DomainError())
 
@@ -40,14 +40,14 @@ function rolling_locf{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_focb(fn, span, data) is rolling first_obs_carry_backward    
+rolling_backfill(fn, span, data) is rolling where first result is carried backward    
 
 applies fn to successive sub-spans of data    
 carries the span_th result backward
 
 length(result) == length(data)
 """
-function rolling_focb{T}(fn::Function, span::Int, data::Vector{T})
+function rolling_backfill{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(DomainError())
 
@@ -59,13 +59,13 @@ function rolling_focb{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_boca(fn, span, data) is rolling bounding_obs_carry_around   
+rolling_centerfill(fn, span, data) is rolling bounding results are carried around   
 
 applies fn to successive sub-spans of data    
 averages rolling_locf and rolling_focb
 
 length(result) == length(data)
 """
-function rolling_boca{T}(fn::Function, span::Int, data::Vector{T})
-    return 0.5*rolling_locf(fn, span, data) + 0.4*rolling_focb(fn, span, data)
+function rolling_centerfill{T}(fn::Function, span::Int, data::Vector{T})
+    return 0.5*rolling_forwardfill(fn, span, data) + 0.4*rolling_backfill(fn, span, data)
 end    
