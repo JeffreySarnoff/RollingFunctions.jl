@@ -1,13 +1,10 @@
 module RollingFunctions
 
-export Roller, runner,
-       rolling, rolling_backfill, rolling_forwardfill, rolling_centerfill,
-       rollminimum, rollmaximum, rollspan,
-       rollmedian, rollmode, rollmean,
-       rollstd, rollvar, 
-       rollminimum_backfill, rollmaximum_backfill, rollspan_backfill,
-       rollmedian_backfill, rollmode_backfill, rollmean_backfill,
-       rollstd_backfill, rollvar_backfill
+export rollminimum, rollmaximum, rollspan,
+       rollmedian, rollmode, rollmean, rollstd, rollvar,
+       Roller, rolling, runner,
+       rolling_backfill, rolling_forwardfill, rolling_centerfill
+       
        
 using StatsBase
 
