@@ -33,15 +33,16 @@ Roller, runner, rolling, rolling_backfill, rolling_forwardfill, rolling_centerfi
 This example shows how you may create other running functions.
 
 ```julia
+using StatsBase
 using RollingFunctions
 
-rollnorm(n,data) = runner(rolling(norm,n), data)
-rollnorm_backfill(n,data) = runner(rolling_backfill(norm,n), data)
+rollgeomean(n,data) = runner(Roller(rolling, geomean, n), data)
+rollgeomean_backfill(n,data) = runner(Roller(rolling_backfill, geomean, n), data)
 
 data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
 
-rollnorm(5, data)
-rollnorm_backfill(5, data)
+rollgeomean(5, data)
+rollgeomean_backfill(5, data)
 
 ```
 
