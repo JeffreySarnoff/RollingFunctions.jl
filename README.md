@@ -34,10 +34,15 @@ This example shows how you may create other running functions.
 using StatsBase
 using RollingFunctions
 
-rollgeomean{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling, geomean), n, data)
-rollgeomean{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  = runner(Roller(rolling_fill_first, geoman), n, data)
-rollgeomean{T<:Number}(::Type{AtLast}, n::Int, data::Vector{T})   = runner(Roller(rolling_fill_last, geomean), n, data)
-rollgeomean{T<:Number}(::Type{AtCenter}, n::Int, data::Vector{T}) = runner(Roller(rolling_fill_center, geomean), n, data)
+rollgeomean{T<:Number}(n::Int, data::Vector{T}) =
+    runner(Roller(rolling, geomean), n, data)
+    
+rollgeomean{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  =
+    runner(Roller(rolling_fill_first, geoman), n, data)
+rollgeomean{T<:Number}(::Type{AtLast}, n::Int, data::Vector{T})   =
+    runner(Roller(rolling_fill_last, geomean), n, data)
+rollgeomean{T<:Number}(::Type{AtCenter}, n::Int, data::Vector{T}) =
+   runner(Roller(rolling_fill_center, geomean), n, data)
 
 data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
 
