@@ -18,8 +18,7 @@
 rollstd, rollvar, rollmad,    
 rollmedian, rollmode, rollmean,     
 rollminimum, rollmaximum, rollspan,         
-# how to fill, if filling is desired
-AtFirst, AtLast, AtCenter
+AtFirst, AtLast, AtCenter             # how to fill, if filling is desired
 
 *and functions that allow you to make your own*    
 
