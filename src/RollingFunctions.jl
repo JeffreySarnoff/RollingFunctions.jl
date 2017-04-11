@@ -4,15 +4,36 @@ export rollminimum, rollmaximum
        rollmedian, rollmode, rollmean, rollstd, rollvar,
        # constructive
        Roller, rolling, runner,
-       rolling_fill_first, rolling_fill_last, rolling_fill_center,
-       FillFirst, FillLast, FillCenter
+       fillin_first, fillin_last, fillin_firstlast, fillin_center,
+       FillNoPart, FillFirstPart, FillLastPart, FillBothParts,
+       FillWithNothing, FillWithClosest, FillWithTapered
        
        
 using StatsBase
 
+struct FillThisPart{T} end
+FillNoPart    = FillThisPart{Val{:FillNoPart}}
+FillFirstPart = FillThisPart{Val{:FillFirstPart}}
+FillLastPart  = FillThisPart{Val{:FillLastPart}}
+FillBothParts = FillThisPart{Val{:FillBothParts}}
+
+struct FillWith{T} end
+FillWithNothing  = FillWith{Val{:FillWithNothing}}
+FillWithClosest  = FillWith{Val{:FillWithClosest}}
+FillWithTapered  = FillWith{Val{:FillWithTapeedr}}
+
+
+
+struct DataFiller
+    filled::Bool
+    fillin::Sy
+end
 
 struct Roller
-    roll::Function
+    apply::Function
+    spans::Int64
+    filled::Bool
+    
     apply::Function
 end
 
