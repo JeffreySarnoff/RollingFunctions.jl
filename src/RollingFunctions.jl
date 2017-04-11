@@ -1,6 +1,6 @@
 module RollingFunctions
 
-export rollminimum, rollmaximum, rollspan,
+export rollminimum, rollmaximum
        rollmedian, rollmode, rollmean, rollstd, rollvar,
        # constructive
        Roller, rolling, runner,
