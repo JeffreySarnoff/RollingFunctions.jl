@@ -29,19 +29,19 @@ rolling_fill_first, rolling_fill_last, rolling_fill_center
 This example shows how you may create other running functions.
 
 ```julia
-using StatsBase
+import StatsBase: middle
 using RollingFunctions
 
-rollgeomean{T<:Number}(n::Int, data::Vector{T}) =
-    runner(Roller(rolling, geomean), n, data)
+rollmiddle{T<:Number}(n::Int, data::Vector{T}) =
+    runner(Roller(rolling, middle), n, data)
     
-rollgeomean{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  =
-    runner(Roller(rolling_fill_first, geoman), n, data)
+rollmiddle{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  =
+    runner(Roller(rolling_fill_first, middle), n, data)
 
-data = map(float,[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]);
+data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ];
 
-rollgeomean(5, data)
-rollgeomean(AtFirst, 5, data)
+rollmiddle(3, data)              #           [ 3.0,  5.0,  8.0,  11.0 ]
+rollmiddle(AtFirst, 3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
 
 ```
 
