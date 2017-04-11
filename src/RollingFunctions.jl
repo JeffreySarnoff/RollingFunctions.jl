@@ -20,11 +20,11 @@ function runner(roller::Roller, span::Int, data::Vector{T}) where T<:Number
     roller.roll(roller.apply, span, data)
 end
 
-struct FillAt{T} end
+struct Filling{T} end
 
-FillFirst  = FillAt{Val{:first}}
-FillLast   = FillAt{Val{:last}}
-FillCenter = FillAt{Val{:center}}
+FillFirst  = Filling{Val{:first}}
+FillLast   = Filling{Val{:last}}
+FillCenter = Filling{Val{:center}}
 
 
 include("rolling.jl")
