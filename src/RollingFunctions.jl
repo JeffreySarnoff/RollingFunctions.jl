@@ -6,7 +6,7 @@ export rollminimum, rollmaximum
        Roller, rolling, runner,
        fillin_first, fillin_last, fillin_firstlast, fillin_center,
        FillNoPart, FillFirstPart, FillLastPart, FillBothParts,
-       FillWithNothing, FillWithClosest, FillWithTapered
+       FillWithNothing, FillWithRepeated, FillWithTapered
        
        
 using StatsBase
@@ -17,10 +17,10 @@ FillFirstPart = FillThisPart{Val{:FillFirstPart}}
 FillLastPart  = FillThisPart{Val{:FillLastPart}}
 FillBothParts = FillThisPart{Val{:FillBothParts}}
 
-struct FillWith{T} end
+struct FilWith{T} end
 FillWithNothing  = FillWith{Val{:FillWithNothing}}
-FillWithClosest  = FillWith{Val{:FillWithClosest}}
-FillWithTapered  = FillWith{Val{:FillWithTapeedr}}
+FillWithRepeated = FillWith{Val{:FillWithRepeated}}
+FillWithTapered  = FillWith{Val{:FillWithTapered}}
 
 
 
