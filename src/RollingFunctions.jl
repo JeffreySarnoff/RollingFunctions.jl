@@ -17,17 +17,24 @@ FillFirstPart = FillThisPart{Val{:FillFirstPart}}
 FillLastPart  = FillThisPart{Val{:FillLastPart}}
 FillBothParts = FillThisPart{Val{:FillBothParts}}
 
-struct FilWith{T} end
+struct FillWith{T} end
 FillWithNothing  = FillWith{Val{:FillWithNothing}}
 FillWithRepeated = FillWith{Val{:FillWithRepeated}}
 FillWithTapered  = FillWith{Val{:FillWithTapered}}
 
 
-
-struct DataFiller
-    filled::Bool
-    fillin::Sy
+struct Filler{P, W}
+    part::FillThisPart{P}
+    with::FillWith{W}
 end
+
+Filler() = Filler{FillNoPart, FillWithNothing}
+Filler(FillNoPart) = Filler()
+Filler(FillWithNothing) = Filler()
+Filler(FillThisPart, FillWithNothing) = Filler()
+Filler(FillNoPart, FillWith) = Filler()
+
+
 
 struct Roller
     apply::Function
