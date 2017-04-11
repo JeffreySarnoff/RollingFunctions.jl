@@ -12,14 +12,14 @@
 
 ### exports
 
-* windowed functions
+#### windowed functions
 
 rollstd, rollvar, rollmad,    
 rollmedian, rollmode, rollmean,     
 rollminimum, rollmaximum, rollspan,         
 AtFirst, AtLast, AtCenter             # how to fill, if filling is desired
 
-* windowed function construction tools
+#### windowed function construction tools
 
 Roller, runner, rolling, 
 rolling_fill_first, rolling_fill_last, rolling_fill_center
