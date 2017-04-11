@@ -17,7 +17,7 @@
 rollstd, rollvar, rollmad,    
 rollmedian, rollmode, rollmean,     
 rollminimum, rollmaximum, rollspan,         
-AtFirst, AtLast, AtCenter             # how to fill, if filling is desired
+FillFirst, FillLast, FillCenter        # how to fill, if filling is desired
 
 #### windowed function construction tools
 
@@ -35,13 +35,13 @@ using RollingFunctions
 rollmiddle{T<:Number}(n::Int, data::Vector{T}) =
     runner(Roller(rolling, middle), n, data)
     
-rollmiddle{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  =
+rollmiddle{T<:Number}(::Type{FillFirst}, n::Int, data::Vector{T})  =
     runner(Roller(rolling_fill_first, middle), n, data)
 
-rollmiddle{T<:Number}(::Type{AtLast}, n::Int, data::Vector{T})  =
+rollmiddle{T<:Number}(::Type{FillLast}, n::Int, data::Vector{T})  =
     runner(Roller(rolling_fill_last, middle), n, data)
     
-rollmiddle{T<:Number}(::Type{AtCenter}, n::Int, data::Vector{T})  =
+rollmiddle{T<:Number}(::Type{FillCenter}, n::Int, data::Vector{T})  =
     runner(Roller(rolling_fill_center, middle), n, data)
 
 
