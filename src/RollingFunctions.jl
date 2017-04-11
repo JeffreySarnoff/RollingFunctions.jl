@@ -24,11 +24,25 @@ struct FillWithNothing  <: AbstractFillWith end
 struct FillWithRepeated <: AbstractFillWith end
 struct FillWithTapered  <: AbstractFillWith end
 
+const NoPart    = FillNoPart()
+const FirstPart = FillFirstPart()
+const LastPart  = FillLastPart()
+const BothParts = FillBothParts()
+
+const WithNothing  = FillWithNothing()
+const WithRepeated = FillWithRepeated()
+const WithTapered  = FillWithTapered()
+
+
+
+
 struct Filler{FP, FW} where FP<:AbstractFillPart where FW<:AbstractFillWith
     part::FP
     with::FW
 end
 
+fillpart{FP, FW}(x::Filler{FP, FW}) = FP
+fillwith{FP, FW}(x::Filler{FP, FW}) = FW
 
 struct FillThisPart{T} end
 FillNoPart    = FillThisPart{Val{:FillNoPart}}
