@@ -12,15 +12,14 @@
 
 ### exports
 
-windowed functions yeilding vectors of length(input)-window_size+1
-and windowed functions extended to the length of the input
+* windowed functions
 
 rollstd, rollvar, rollmad,    
 rollmedian, rollmode, rollmean,     
 rollminimum, rollmaximum, rollspan,         
 AtFirst, AtLast, AtCenter             # how to fill, if filling is desired
 
-and functions that allow you to make your own
+* windowed function construction tools
 
 Roller, runner, rolling, 
 rolling_fill_first, rolling_fill_last, rolling_fill_center
