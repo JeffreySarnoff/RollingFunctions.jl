@@ -11,6 +11,25 @@ export rollminimum, rollmaximum
        
 using StatsBase
 
+abstract type AbstractFill end
+abstract type AbstractFillPart <: AbstractFill end
+abstract type AbstractFillWith <: AbstractFill end
+
+struct FillNoPart    <: AbstractFillPart end
+struct FillFirstPart <: AbstractFillPart end
+struct FillLastPart  <: AbstractFillPart end
+struct FillBothParts <: AbstractFillPart end
+
+struct FillWithNothing  <: AbstractFillWith end
+struct FillWithRepeated <: AbstractFillWith end
+struct FillWithTapered  <: AbstractFillWith end
+
+struct Filler{FP, FW} where FP<:AbstractFillPart where FW<:AbstractFillWith
+    part::FP
+    with::FW
+end
+
+
 struct FillThisPart{T} end
 FillNoPart    = FillThisPart{Val{:FillNoPart}}
 FillFirstPart = FillThisPart{Val{:FillFirstPart}}
