@@ -38,10 +38,19 @@ rollmiddle{T<:Number}(n::Int, data::Vector{T}) =
 rollmiddle{T<:Number}(::Type{AtFirst}, n::Int, data::Vector{T})  =
     runner(Roller(rolling_fill_first, middle), n, data)
 
+rollmiddle{T<:Number}(::Type{AtLast}, n::Int, data::Vector{T})  =
+    runner(Roller(rolling_fill_last, middle), n, data)
+    
+rollmiddle{T<:Number}(::Type{AtCenter}, n::Int, data::Vector{T})  =
+    runner(Roller(rolling_fill_center, middle), n, data)
+
+
 data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ];
 
-rollmiddle(3, data)              #           [ 3.0,  5.0,  8.0,  11.0 ]
-rollmiddle(AtFirst, 3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
+rollmiddle(3, data)               #           [ 3.0,  5.0,  8.0,  11.0 ]
+rollmiddle(AtFirst,  3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
+rollmiddle(AtLast,   3, data)     #           [ 3.0,  5.0,  8.0,  11.0, 11.0, 11.0 ]
+rollmiddle(AtCenter, 3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 ]
 
 ```
 
