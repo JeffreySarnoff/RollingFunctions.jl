@@ -20,6 +20,7 @@ function runner(roller::Roller, span::Int, data::Vector{T}) where T<:Number
     roller.roll(roller.apply, span, data)
 end
 
+
 struct Filling{T} end
 
 FillNone   = Filling{Val{:none}}
