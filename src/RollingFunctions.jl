@@ -24,8 +24,8 @@ FillWithTapered  = FillWith{Val{:FillWithTapered}}
 
 
 struct Filler{P, W}
-    part::FillThisPart{P}
-    with::FillWith{W}
+    part::Type{FillThisPart{P}}
+    with::Type{FillWith{W}}
 end
 
 Filler() = Filler{FillNoPart, FillWithNothing}
@@ -34,6 +34,8 @@ Filler(FillWithNothing) = Filler()
 Filler(FillThisPart, FillWithNothing) = Filler()
 Filler(FillNoPart, FillWith) = Filler()
 
+Base.show{P,W}(io::IO, x::Filler{P,W}) = show(io, (x.part, x.with))
+Base.show{P,W}(io::IO, x::Filler{P,W}) = show(io, (x.part, x.with))
 
 
 struct Roller
