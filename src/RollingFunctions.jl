@@ -22,6 +22,7 @@ end
 
 struct Filling{T} end
 
+FillNone   = Filling{Val{:none}}
 FillFirst  = Filling{Val{:first}}
 FillLast   = Filling{Val{:last}}
 FillCenter = Filling{Val{:center}}
