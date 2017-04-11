@@ -18,7 +18,7 @@ rollstd, rollvar, rollmad,
 rollmedian, rollmode, rollmean,     
 rollminimum, rollmaximum, rollspan
 
-#### how to fill (not required)
+#### how to fill, if desired
 FillFirst, FillLast, FillCenter
 
 #### windowed function construction tools
