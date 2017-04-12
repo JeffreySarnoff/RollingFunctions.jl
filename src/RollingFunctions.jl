@@ -46,6 +46,13 @@ struct Roller{FP, FW}
 end
 
 
+function roll{FW,T}(roller::Roller{FillNoPart, FW}, data::Vector{T})
+    return rolling(roller.rolling, roller.rollspan, data)
+end
+function roll{FP,T}(roller::Roller{FP, FillWithNothing}, data::Vector{T})
+    return rolling(roller.rolling, roller.rollspan, data)
+end
+
 function roll{T}(roller::Roller{FillFirstPart, FillWithRepeated}, data::Vector{T})
     return rolling_fill_first(roller.rolling, roller.rollspan, data)
 end
