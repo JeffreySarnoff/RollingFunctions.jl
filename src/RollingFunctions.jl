@@ -14,16 +14,18 @@ using StatsBase
                                
 abstract type AbstractDataFiller{A,B,C} end
 
-abstract type InitialRepeatingFiller{:Initial, :Repeating, C} <: AbstractDataFiller{A,B,C} end
-abstract type InitialTaperingFiller(:Initial, :Tapering, C} <: AbstractDataFiller{A,B,C} end
-abstract type FinalRepeatingFiller{:Final, :Repeating, C}l} <: AbstractDataFiller{A,B,C} end
-abstract type FinalTaperingFiller{:Final, :Tapering, C}} <: AbstractDataFiller{A,B,C} end
+abstract type InitialRepeatingFiller{C} <: AbstractDataFiller{:Initial, :Repeating, C} end
+abstract type InitialTaperingFiller{C} <: AbstractDataFiller{:Initial, :Tapering, C} end
+abstract type FinalalRepeatingFiller{C} <: AbstractDataFiller{:Final, :Repeating, C} end
+abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C} end
+
+
 
        
-struct InitialRepeating{C} <: InitialRepeatingFiller{:Initial, :Repeating, C} end
-struct InitialTapering{C} <: InitialTaperingFiller{:Initial, :Tapering, C} end
-struct FinalRepeating{C} <: InitialRepeatingFiller{:Final, :Repeating, C} end
-struct FinalTapering{C} <: InitialRaperingFiller{:Final, :Tapering, C} end
+struct InitialRepeating{C} <: InitialRepeatingFiller{C} end
+struct InitialTapering{C} <: InitialTaperingFiller{C} end
+struct FinalRepeating{C} <: FinalRepeatingFiller{ C} end
+struct FinalTapering{C} <: FinalRaperingFiller{C} end
 
 
 
