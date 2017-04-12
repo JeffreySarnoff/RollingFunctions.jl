@@ -12,9 +12,11 @@ export Roller, rolling, runner,
        
 using StatsBase
 
-abstract type AbstractFill end
-abstract type AbstractFillPart <: AbstractFill end
-abstract type AbstractFillWith <: AbstractFill end
+abstract type AbstractDataFiller{T} end
+abstract type CarriesFromFirst{T}   <: AbstractDataFiller{T} end
+abstract type CarriesFromNearest{T} <: AbstractDataFiller{T} end
+abstract type CarriesFromFinal{T}   <: AbstractDataFiller{T} end
+
 
 struct FillNoPart    <: AbstractFillPart end
 struct FillFirstPart <: AbstractFillPart end
