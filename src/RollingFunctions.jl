@@ -54,7 +54,7 @@ end
 function roll{T}(roller::Roller{FirstPart, WithRepeated}, data::Vector{T})
        return rolling_fill_first(roller.rolling, roller.span, data)
 end
-function roll{FW,T}(roller::Roller{LastPart, WithRepeated}, data::Vector{T})
+function roll{T}(roller::Roller{LastPart, WithRepeated}, data::Vector{T})
        return rolling_fill_last(roller.rolling, roller.span, data)
 end
 
