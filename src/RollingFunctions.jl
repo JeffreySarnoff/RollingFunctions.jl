@@ -22,7 +22,7 @@ abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C}
 struct InitialRepeating{C} <: InitialRepeatingFiller{C} end
 struct InitialTapering{C} <: InitialTaperingFiller{C} end
 struct FinalRepeating{C} <: FinalRepeatingFiller{ C} end
-struct FinalTapering{C} <: FinalRaperingFiller{C} end
+struct FinalTapering{C} <: FinalTaperingFiller{C} end
 
 
 
