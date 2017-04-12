@@ -1,6 +1,18 @@
 
-rollmean{FW, T<:Number}(::Type{FillFirstPart}, ::Type{FW}, rollspan::Int, data::Vector{T}) =
-    Roller(FirstPart, WithRepeated, mean, rollspan)
+rolling_mean(rollspan::Int; fillpart::AbstractFillPart=FirstPart, fillwith::AbstractFillWith=WithRepeated) =
+    Roller(fillpart, fillwith, mean, rollspan)
+
+rollmean{T<:Number}(rollspan::Int, data::Vector{T}) =
+    roll(rolling_mean(rollspan), data)
+
+rollmean{T<:Number}(fillpart::AbstractFillPart, rollspan::Int, data::Vector{T}) = 
+    roll(rolling_mean(rollspan, fillpart=fillpart), data)
+
+function rollmean{T<:Number}(fillpart::AbstractFillPart, fillwith::AbstractFillWith, rollspan::Int, data::Vector{T})
+    rolling = rolling_mean(rollspan, fillpart=fillpart, fillwith=fillwith)
+    return roll(rolling, data)
+end
+
 rollmean{FW, T<:Number}(::Type{FillLastPart}, ::Type{FW}, rollspan::Int, data::Vector{T}) =
     Roller(LastPart, WithRepeated, mean, rollspan)
 
