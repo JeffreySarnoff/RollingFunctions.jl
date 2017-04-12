@@ -1,13 +1,14 @@
 module RollingFunctions
 
 export rollminimum, rollmaximum
-       rollmedian, rollmode, rollmean, rollstd, rollvar,
-       # constructive
-       Roller, rolling, runner,
+       rollmedian, rollmode, rollmean, rollstd, rollvar
+
+#= constructive
+export Roller, rolling, runner,
        fillin_first, fillin_last, fillin_firstlast, fillin_center,
        FillNoPart, FillFirstPart, FillLastPart, FillBothParts,
-       FillWithNothing, FillWithRepeated, FillWithTapered
-       
+       FillWithNothing, FillWithNaNs, FillWithRepeated, FillWithTapered
+=#       
        
 using StatsBase
 
@@ -21,6 +22,8 @@ struct FillLastPart  <: AbstractFillPart end
 struct FillBothParts <: AbstractFillPart end
 
 struct FillWithNothing  <: AbstractFillWith end
+struct FillWithNaN      <: AbstractFillWith end
+struct FillWithNullable <: AbstractFillWith end
 struct FillWithRepeated <: AbstractFillWith end
 struct FillWithTapered  <: AbstractFillWith end
 
@@ -30,6 +33,8 @@ const LastPart  = FillLastPart()
 const BothParts = FillBothParts()
 
 const WithNothing  = FillWithNothing()
+const WithNaN      = FillWithNaN()
+const WithNullable = FillWithNullable()
 const WithRepeated = FillWithRepeated()
 const WithTapered  = FillWithTapered()
 
