@@ -11,12 +11,29 @@ export Roller, rolling, runner,
 =#       
        
 using StatsBase
-
+                               
 abstract type AbstractDataFiller{T} end
-abstract type CarriesFromFirst{T}   <: AbstractDataFiller{T} end
-abstract type CarriesFromNearest{T} <: AbstractDataFiller{T} end
-abstract type CarriesFromFinal{T}   <: AbstractDataFiller{T} end
 
+# orientations: fromfirst==forward, fromfinal==backward, fromnearest==closest
+
+abstract type DataFiller{T, ORIENTATION, FILLING} <: AbstractDataFiller{T} en
+       
+abstract type ForwardFiller{T, FILLING} <: DataFiller{T, :forward, FILLING}  end
+abstract type BackwardFiller{T, FILLING} <: DataFiller{T, :backward, FILLING}  end
+abstract type BothWaysFiller{T, FILLING} <: DataFiller{T, :bothways, FILLING}  end
+
+struct RepetitiveFiller{T, ORIENTATION} <: DataFiller{T, ORIENTATION, :repetitive} end
+struct TaperedFiller{T, ORIENTATION} <: DataFiller{T, ORIENTATION, :tapered} end
+struct NullableFiller{T, ORIENTATION} <: DataFiller{T, ORIENTATION, :nullable} end
+
+
+abstract type CarriesFromFirst{CARRY}   <: AbstractDataFiller{CARRY, FILL} end
+abstract type CarriesFromNearest{CARRY} <: AbstractDataFiller{CARRY, FILL} end
+abstract type CarriesFromFinal{CARRY}   <: AbstractDataFiller{CARRY, FILL} end
+
+abstract type FillsWithNothing{FILL}   <: AbstractDataFiller{CARRY, FILL} end
+abstract type FillsWithNearest{FILL}   <: AbstractDataFiller{CARRY, FILL} end
+       
 
 struct FillNoPart    <: AbstractFillPart end
 struct FillFirstPart <: AbstractFillPart end
