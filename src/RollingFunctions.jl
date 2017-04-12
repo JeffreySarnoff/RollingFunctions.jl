@@ -12,7 +12,30 @@ export Roller, rolling, runner,
        
 using StatsBase
                                
-abstract type AbstractDataFiller{T} end
+abstract type AbstractDataFiller{A,B,C} end
+
+abstract type InitialRepeatingFiller{:Initial, :Repeating, C} <: AbstractDataFiller{A,B,C} end
+abstract type InitialTaperingFiller(:Initial, :Tapering, C} <: AbstractDataFiller{A,B,C} end
+abstract type FinalRepeatingFiller{:Final, :Repeating, C}l} <: AbstractDataFiller{A,B,C} end
+abstract type FinalTaperingFiller{:Final, :Tapering, C}} <: AbstractDataFiller{A,B,C} end
+
+       
+struct InitialRepeating{C} <: InitialRepeatingFiller{:Initial, :Repeating, C} end
+struct InitialTapering{C} <: InitialTaperingFiller{:Initial, :Tapering, C} end
+struct FinalRepeating{C} <: InitialRepeatingFiller{:Final, :Repeating, C} end
+struct FinalTapering{C} <: InitialRaperingFiller{:Final, :Tapering, C} end
+
+
+
+
+       
+abstract type InitialDataFiller{A,B,:Initial} <: AbstractDataFiller{A,B,C} end
+abstract type FinalDataFiller{A,B,:Final}     <: AbstractDataFiller{A,B,C} end
+
+abstract type RepeatingDataFiller{A,:Repeating,C} <: AbstractDataFiller{A,B,C} end
+abstract type TaperingDataFiller{A,:Tapering,C}   <: AbstractDataFiller{A,B,C} end
+
+struct DataFiller{A,B,C} <: AbstractDataFiller{A,B,C} end
 
 # orientations: fromfirst==forward, fromfinal==backward, fromnearest==closest
 
