@@ -30,7 +30,11 @@ initial_tapering_mean(rollspan::Signed) = InitialTaperingFunction{mean}(rollspan
 final_tapering_mean(rollspan::Signed) = FinalTaperingFunction{mean}(rollspan%Int64)
 
 initial_tapering_mean_of5 = initial_tapering_mean(5)
-
+#=
+ dump(initial_tapering_mean_of5)
+    InitialTaperingFunction{mean}
+         rollspan: Int64 5
+=#
 
        
 abstract type InitialDataFiller{A,B,:Initial} <: AbstractDataFiller{A,B,C} end
