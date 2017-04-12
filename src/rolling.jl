@@ -63,11 +63,11 @@ function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_fill_center(fn, span, data) is rolling bounding results are carried around   
+rolling_fill_both(fn, span, data) is rolling bounding results are carried around   
 applies fn to successive sub-spans of data    
 averages rolling_fill_first and rolling_fill_last
 length(result) == length(data)
 """
-function rolling_fill_center{T}(fn::Function, span::Int, data::Vector{T})
+function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T})
     return 0.5*rolling_fill_first(fn, span, data) + 0.5*rolling_fill_last(fn, span, data)
 end    
