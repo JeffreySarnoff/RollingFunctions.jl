@@ -45,6 +45,21 @@ struct Roller{FP, FW}
     rollspan::Int            # vector subsequence length    
 end
 
+
+function roll{T}(roller::Roller{FillFirstPart, FillWithRepeated}, data::Vector{T})
+    return rolling_fill_first(roller.rolling, roller.rollspan, data)
+end
+
+#=
+function roll{T}(roller::Roller{FillFirstPart, FillWithRepeated}, data::Vector{T})
+    return rolling_fill_first(roller.rolling, roller.rollspan, data)
+end
+
+r2=Roller(FirstPart,WithRepeated,mean,5)
+data=map(Float64,collect(1:8:100))
+result=roll(r2,data)
+=#
+
 function roll{FW,T}(roller::Roller{NoPart,FW}, data::Vector{T})
        return rolling(roller.rolling, roller.span, data)
 end
