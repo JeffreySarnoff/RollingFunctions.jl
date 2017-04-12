@@ -19,12 +19,11 @@ abstract type InitialTaperingFiller{C} <: AbstractDataFiller{:Initial, :Tapering
 abstract type FinalRepeatingFiller{C} <: AbstractDataFiller{:Final, :Repeating, C} end
 abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C} end
 
-struct InitialRepeating{C} <: InitialRepeatingFiller{C} end
-struct InitialTapering{C} <: InitialTaperingFiller{C} end
-struct FinalRepeating{C} <: FinalRepeatingFiller{ C} end
-struct FinalTapering{C} <: FinalTaperingFiller{C} end
+struct InitialTaperingFunction{C} <: InitialTaperingFiller{C} end
+struct FinalTaperingFunction{C} <: FinalTaperingFiller{C} end
 
-
+initial_tapering_mean = InitialTaperingFunction{mean}()
+final_tapering_mean = FinalTaperingFunction{mean}()
 
 
        
