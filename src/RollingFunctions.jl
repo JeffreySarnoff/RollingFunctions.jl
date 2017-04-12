@@ -38,63 +38,25 @@ const WithNullable = FillWithNullable()
 const WithRepeated = FillWithRepeated()
 const WithTapered  = FillWithTapered()
 
-
-
-
-struct Filler{FP, FW} where FP<:AbstractFillPart where FW<:AbstractFillWith
-    part::FP
-    with::FW
+struct Roller{FP<:AbstractFillPart, FW<:AbstractFillWith}  
+    fillpart::FP             # {NoPart, FirstPart, LastPart, BothParts}
+    fillwith::FW             # {WithNothing, WithNaN, WithNullable, WithRepeated, WithTapered}
+    rolling::Function        # statistical function of vector subsequence
+    rollspan::Int            # vector subsequence length    
 end
 
-fillpart{FP, FW}(x::Filler{FP, FW}) = FP
-fillwith{FP, FW}(x::Filler{FP, FW}) = FW
-
-struct FillThisPart{T} end
-FillNoPart    = FillThisPart{Val{:FillNoPart}}
-FillFirstPart = FillThisPart{Val{:FillFirstPart}}
-FillLastPart  = FillThisPart{Val{:FillLastPart}}
-FillBothParts = FillThisPart{Val{:FillBothParts}}
-
-struct FillWith{T} end
-FillWithNothing  = FillWith{Val{:FillWithNothing}}
-FillWithRepeated = FillWith{Val{:FillWithRepeated}}
-FillWithTapered  = FillWith{Val{:FillWithTapered}}
-
-
-struct Filler{P, W}
-    part::Type{FillThisPart{P}}
-    with::Type{FillWith{W}}
+function roll{FW,T}(roller::Roller{NoPart,FW}, data::Vector{T})
+       return rolling(roller.rolling, roller.span, data)
 end
-
-Filler() = Filler{FillNoPart, FillWithNothing}
-Filler(FillNoPart) = Filler()
-Filler(FillWithNothing) = Filler()
-Filler(FillThisPart, FillWithNothing) = Filler()
-Filler(FillNoPart, FillWith) = Filler()
-
-Base.show{P,W}(io::IO, x::Filler{P,W}) = show(io, (x.part, x.with))
-Base.show{P,W}(io::IO, x::Filler{P,W}) = show(io, (x.part, x.with))
-
-
-struct Roller
-    apply::Function
-    spans::Int64
-    filled::Bool
-    
-    apply::Function
+function roll{FP,T}(roller::Roller{FP, WithNothing}, data::Vector{T})
+       return rolling(roller.rolling, roller.span, data)
 end
-
-function runner(roller::Roller, span::Int, data::Vector{T}) where T<:Number
-    roller.roll(roller.apply, span, data)
+function roll{T}(roller::Roller{FirstPart, WithRepeated}, data::Vector{T})
+       return rolling_fill_first(roller.rolling, roller.span, data)
 end
-
-
-struct Filling{T} end
-
-FillNone   = Filling{Val{:none}}
-FillFirst  = Filling{Val{:first}}
-FillLast   = Filling{Val{:last}}
-FillCenter = Filling{Val{:center}}
+function roll{FW,T}(roller::Roller{LastPart, WithRepeated}, data::Vector{T})
+       return rolling_fill_last(roller.rolling, roller.span, data)
+end
 
 
 include("rolling.jl")
