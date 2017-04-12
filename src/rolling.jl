@@ -18,16 +18,6 @@ function rolling{T}(fn::Function, span::Int, data::Vector{T})
     return res
 end
 
-rolling{T}(fn::Function, filling::Type{FillFirst}, span::Int, data::Vector{T}) =
-    rolling_fill_first(fn, span, data)
-
-rolling{T}(fn::Function, filling::Type{FillLast}, span::Int, data::Vector{T}) =
-    rolling_fill_last(fn, span, data)
-
-rolling{T}(fn::Function, filling::Type{FillCenter}, span::Int, data::Vector{T}) =
-    rolling_fill_center(fn, span, data)
-
-
 """
 rolling_fill_last(fn, span, data) is is rolling last result is carried forward      
 applies fn to successive sub-spans of data    
