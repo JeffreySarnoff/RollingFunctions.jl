@@ -38,7 +38,7 @@ const WithNullable = FillWithNullable()
 const WithRepeated = FillWithRepeated()
 const WithTapered  = FillWithTapered()
 
-struct Roller{FP<:AbstractFillPart, FW<:AbstractFillWith}  
+struct Roller{FP. FW}  
     fillpart::FP             # {NoPart, FirstPart, LastPart, BothParts}
     fillwith::FW             # {WithNothing, WithNaN, WithNullable, WithRepeated, WithTapered}
     rolling::Function        # statistical function of vector subsequence
