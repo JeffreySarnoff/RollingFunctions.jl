@@ -19,12 +19,81 @@ abstract type InitialTaperingFiller{C} <: AbstractDataFiller{:Initial, :Tapering
 abstract type FinalRepeatingFiller{C} <: AbstractDataFiller{:Final, :Repeating, C} end
 abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C} end
 
-struct InitialTaperingFunction{C} <: InitialTaperingFiller{C}
+
+
+struct InitialRepeating{1} <: InitialRepeatingFiller{C}
     rollspan::Int64
 end
-struct FinalTaperingFunction{C} <: FinalTaperingFiller{C} 
+struct InitialRepeating{2} <: InitialRepeatingFiller{C}
     rollspan::Int64
 end
+struct FinalRepeating{1} <: FinalRepeatingFiller{C}
+    rollspan::Int64
+end
+struct FinalRepeating{2} <: FinalRepeatingFiller{C}
+    rollspan::Int64
+end
+
+struct InitialRepeating{C} <: InitialRepeatingFiller{C}
+    rollspan::Int64
+end
+struct FinalRepeating{C} <: FinalRepeatingFiller{C}
+    rollspan::Int64
+end
+
+
+struct InitialRepeating{1} <: InitialRepeatingFiller{C}
+    rollspan::Int64
+end
+struct InitialRepeating{2} <: InitialRepeatingFiller{C}
+    rollspan::Int64
+end
+struct FinalRepeating{1} <: FinalRepeatingFiller{C}
+    rollspan::Int64
+end
+struct FinalRepeating{2} <: FinalRepeatingFiller{C}
+    rollspan::Int64
+end
+
+
+
+struct InitialTapering{1} <: InitialTaperingFiller{C}
+    rollspan::Int64
+end
+struct InitialTapering{2} <: InitialTaperingFiller{C}
+    rollspan::Int64
+end
+struct FinalTapering{1} <: FinalTaperingFiller{C}
+    rollspan::Int64
+end
+struct FinalTapering{2} <: FinalTaperingFiller{C}
+    rollspan::Int64
+end
+
+struct InitialTapering{C} <: InitialTaperingFiller{C}
+    rollspan::Int64
+end
+struct FinalTapering{C} <: FinalTaperingFiller{C}
+    rollspan::Int64
+end
+
+
+struct InitialTapering{1} <: InitialTaperingFiller{C}
+    rollspan::Int64
+end
+struct InitialTapering{2} <: InitialTaperingFiller{C}
+    rollspan::Int64
+end
+struct FinalTapering{1} <: FinalTaperingFiller{C}
+    rollspan::Int64
+end
+struct FinalTapering{2} <: FinalTaperingFiller{C}
+    rollspan::Int64
+end
+
+
+
+
 
 initial_tapering_mean(rollspan::Signed) = InitialTaperingFunction{mean}(rollspan%Int64)
 final_tapering_mean(rollspan::Signed) = FinalTaperingFunction{mean}(rollspan%Int64)
