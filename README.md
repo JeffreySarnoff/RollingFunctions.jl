@@ -14,9 +14,13 @@
 
 #### windowed functions
 
-rollstd, rollvar, rollmad,    
-rollmedian, rollmode, rollmean,     
-rollminimum, rollmaximum, rollspan
+roll_minimum, roll_maximum, roll_mean,
+roll_std, roll_var, roll_mad
+#### versions that fill to the length of the data vector
+roll_minimum_filled, roll_maximum_filled, roll_mean_filled,
+roll_std_filled, roll_var_filled, roll_mad_filled
+#### versions that taper the window to fill the length
+roll_minimum_tapered, roll_maximum_tapered, roll_mean_tapered
 
 #### how to fill, if desired
 FillFirst, FillLast, FillCenter
