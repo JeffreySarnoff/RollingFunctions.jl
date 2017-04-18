@@ -1,21 +1,85 @@
+"""
+rolling(FILL_FIRST, fn, span, data)
+applies fn to successive sub-spans of data    
+carries the span_th result backward
+length(result) == length(data)
+"""
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
     rolling_fill_first(fn, span, data)
+
+"""
+rolling(FILL_LAST, fn, span, filler, data)
+applies fn to successive sub-spans of data    
+uses filler to fill the last span-1 entries
+length(result) == length(data)
+"""
 rolling{T}(::Type{FILL_LAST}, fn::Function, span::Int, data::Vector{T}) =
     rolling_fill_last(fn, span, data)
+
+"""
+rolling(FILL_BOTH, fn, span, data)   
+applies fn to successive sub-spans of data    
+averages rolling_fill_first and rolling_fill_last
+length(result) == length(data)
+"""
 rolling{T}(::Type{FILL_BOTH}, fn::Function, span::Int, data::Vector{T}) =
     rolling_fill_both(fn, span, data)
 
+
+"""
+rolling(FILL_FIRST, fn, span, filler, data)
+applies fn to successive sub-spans of data    
+uses filler to fill the first span-1 entries
+length(result) == length(data)
+"""
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, filler::T, data::Vector{T}) =
     rolling_fill_first(fn, span, filler, data)
+
+"""
+rolling(FILL_LAST, fn, span, filler, data)
+applies fn to successive sub-spans of data    
+uses filler to fill the last span-1 entries
+length(result) == length(data)
+"""
 rolling{T}(::Type{FILL_LAST}, fn::Function, span::Int, filler::T, data::Vector{T}) =
     rolling_fill_last(fn, span, filler, data)
+
+"""
+rolling(FILL_BOTH, fn, span, filler, data)   
+applies fn to successive sub-spans of data    
+averages rolling_fill_first and rolling_fill_last
+uses filler to fill the each extremals' span-1 entries
+length(result) == length(data)
+"""
 rolling{T}(::Type{FILL_BOTH}, fn::Function, span::Int, filler::T, data::Vector{T}) =
     rolling_fill_both(fn, span, filler, data)
 
+
+"""
+rolling(TAPER_FIRST, fn, span, tapered_span, data)
+applies fn to successive sub-spans of data    
+tapers the window until its span is tapered_span, then copies
+length(result) == length(data)
+"""
 rolling{T}(::Type{TAPER_FIRST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
     rolling_taper_first(fn, span,  tapered_span, data)
+
+"""
+rolling(TAPER_LAST, fn, span, tapered_span, data)
+applies fn to successive sub-spans of data    
+tapers the window until its span is tapered_span, then copies
+length(result) == length(data)
+"""
 rolling{T}(::Type{TAPER_LAST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
     rolling_taper_last(fn, span,  tapered_span, data)
+
+"""
+rolling(TAPER_BOTH, fn, span, tapered_span, data)   
+applies fn to successive sub-spans of data    
+averages rolling_taper_first and rolling_taper_last
+tapers each window until its span is tapered_span, then copies
+length(result) == length(data)
+"""
 rolling{T}(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
     rolling_taper_both(fn, span,  tapered_span, data)
 
