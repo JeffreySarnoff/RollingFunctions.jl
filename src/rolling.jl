@@ -40,9 +40,7 @@ function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
-    n_out = n_in - span + 1 
-    res   = zeros(T, n_in)
-    
+    res = zeros(T, n_in)    
     res[span:end] = rolling(fn, span, data)
     res[1:span-1] = res[span]
     
@@ -59,9 +57,7 @@ function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T}, filler:
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
-    n_out = n_in - span + 1  
-    res   = zeros(T, n_in)
-    
+    res = zeros(T, n_in)
     res[span:end] = rolling(fn, span, data)
     res[1:span-1] = filler
 
@@ -79,11 +75,11 @@ function rolling_fill_last{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
-    n_out = n_in - span + 1   
+    n_rolled = n_in - span + 1   
     res   = zeros(T, n_in)
     
-    res[1:n_out] = rolling(fn, span, data)
-    res[n_out+1:end] = res[n_out]
+    res[1:n_rolled] = rolling(fn, span, data)
+    res[n_rolled+1:end] = res[n_rolled]
 
     return res
 end
@@ -98,11 +94,11 @@ function rolling_fill_last{T}(fn::Function, span::Int, data::Vector{T}, filler::
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
-    n_out = n_in - span + 1   
+    n_rolled = n_in - span + 1   
     res   = zeros(T, n_in)
     
-    res[1:n_out] = rolling(fn, span, data)
-    res[n_out+1:end] = filler
+    res[1:n_rolled] = rolling(fn, span, data)
+    res[n_rolled+1:end] = filler
 
     return res
 end
@@ -140,10 +136,8 @@ function rolling_taper_first{T}(fn::Function, span::Int, data::Vector{T}, tapere
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
     (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
 
-    n_out = n_in - span + 1  
     res   = zeros(T, n_in)
-    
-    res[span:n_out+span] = rolling(fn, span, data)
+    res[span:end] = rolling(fn, span, data)
     
     for i in (span-1):-1:tapered_span
         res[i] = fn(data[1:i])
@@ -163,13 +157,13 @@ function rolling_taper_last{T}(fn::Function, span::Int, data::Vector{T}, tapersp
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
-    n_out = n_in - span + 1   
+    n_rolled = n_in - span + 1   
     res   = zeros(T, n_in)
     
-    res[1:n_out] = rolling(fn, span, data)
+    res[1:n_rolled] = rolling(fn, span, data)
 
-    for i in n_out+1:n_out+tapered_span
-        res[i] = fn(data[n_out+i:end])
+    for i in n_rolled+1:n_rolled+tapered_span
+        res[i] = fn(data[n_rolled+i:end])
     end
     res[end-tapered_span+1:end] = res[end-tapered_span]
     
