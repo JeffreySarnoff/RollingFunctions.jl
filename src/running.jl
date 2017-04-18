@@ -1,5 +1,8 @@
+
 roll_minimum{T}(span::Int, data::Vector{T}) =
     rolling(minimum, span, data)
+roll_minimum{T}(::Type{FILL_FIRST}, span::Int, data::Vector{T}) =
+    rolling(FILL_FIRST, minimum, span, data)
 roll_minimum_filled{T}(span::Int, data::Vector{T}) =
     rolling_fill_first(minimum, span, data)
 roll_minimum_filled{T}(span::Int, filler::T, data::Vector{T}) =
