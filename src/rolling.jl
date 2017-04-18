@@ -1,9 +1,10 @@
 """
 rolling(FILL_FIRST, fn, span, data)
 
-(a) applies fn to successive sub-spans of data    
-(b) carries the span_th result backward    
-length(result) == length(data)
+- applies fn to successive sub-spans of data    
+- carries the span_th result backward    
+
+`length(result) == length(data)`
 """
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
     rolling_fill_first(fn, span, data)
