@@ -12,107 +12,57 @@ export Roller, rolling, runner,
        
 using StatsBase
                                
+#=
+   A is {:Initial, :Final} portion of the vector 
+   B is {:Repeating, :Tapering} way to fill that portion of the vector
+   C is for :Tapering, 1 tapers to a single observation, 2 tapers to two observations...
+=#
 abstract type AbstractDataFiller{A,B,C} end
 
-abstract type InitialRepeatingFiller{C} <: AbstractDataFiller{:Initial, :Repeating, C} end
+abstract type WindowedDataFiller <: AbstractDataFiller{:Total, B, C} end
+
+abstract type InitialRepeatingFiller <: AbstractDataFiller{:Initial, :Repeating, C} end
+abstract type FinalRepeatingFiller   <: AbstractDataFiller{:Final, :Repeating, C} end
+
 abstract type InitialTaperingFiller{C} <: AbstractDataFiller{:Initial, :Tapering, C} end
-abstract type FinalRepeatingFiller{C} <: AbstractDataFiller{:Final, :Repeating, C} end
 abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C} end
 
-
-
-struct InitialRepeating{1} <: InitialRepeatingFiller{C}
-    rollspan::Int64
-end
-struct InitialRepeating{2} <: InitialRepeatingFiller{C}
-    rollspan::Int64
-end
-struct FinalRepeating{1} <: FinalRepeatingFiller{C}
-    rollspan::Int64
-end
-struct FinalRepeating{2} <: FinalRepeatingFiller{C}
-    rollspan::Int64
+struct Roll <: WindowedDataFiller
+    rollfunc::Function
+    rollspan::Int
 end
 
-struct InitialRepeating{C} <: InitialRepeatingFiller{C}
-    rollspan::Int64
+struct RollInitialRepeating <: InitialRepeatingFiller
+    rollfunc::Function
+    rollspan::Int
 end
-struct FinalRepeating{C} <: FinalRepeatingFiller{C}
-    rollspan::Int64
+struct RollFinalRepeating <: FinalRepeatingFiller
+    rollfunc::Function
+    rollspan::Int
 end
 
-
-struct InitialRepeating{1} <: InitialRepeatingFiller{C}
-    rollspan::Int64
+struct RollInitialTapering{C} <: InitialTaperingFiller{C}
+    rollfunc::Function
+    rollspan::Int
 end
-struct InitialRepeating{2} <: InitialRepeatingFiller{C}
-    rollspan::Int64
-end
-struct FinalRepeating{1} <: FinalRepeatingFiller{C}
-    rollspan::Int64
-end
-struct FinalRepeating{2} <: FinalRepeatingFiller{C}
-    rollspan::Int64
+struct RollFinalTapering{C} <: FinalTaperingFiller{C}
+    rollfunc::Function
+    rollspan::Int
 end
 
 
-
-struct InitialTapering{1} <: InitialTaperingFiller{C}
-    rollspan::Int64
+rolling_mean(rollspan::Int) = Roll(mean, rollspan)
+function rolling_mean_repeating(rollspan::Int; fill_initial::Bool=true)
+    return fill_initial ? RollInitialRepeating(mean, rollspan) : RollFinalRepeating(mean, rollspan)
 end
-struct InitialTapering{2} <: InitialTaperingFiller{C}
-    rollspan::Int64
+function rolling_mean_tapering(rollspan::Int; fill_initial::Bool=true, taper::Int=5)
+    return fill_initial ? RollInitialTapering{taper}(mean, rollspan) : RollFinalTapering{taper}(mean, rollspan)
 end
-struct FinalTapering{1} <: FinalTaperingFiller{C}
-    rollspan::Int64
-end
-struct FinalTapering{2} <: FinalTaperingFiller{C}
-    rollspan::Int64
-end
-
-struct InitialTapering{C} <: InitialTaperingFiller{C}
-    rollspan::Int64
-end
-struct FinalTapering{C} <: FinalTaperingFiller{C}
-    rollspan::Int64
-end
-
-
-struct InitialTapering{1} <: InitialTaperingFiller{C}
-    rollspan::Int64
-end
-struct InitialTapering{2} <: InitialTaperingFiller{C}
-    rollspan::Int64
-end
-struct FinalTapering{1} <: FinalTaperingFiller{C}
-    rollspan::Int64
-end
-struct FinalTapering{2} <: FinalTaperingFiller{C}
-    rollspan::Int64
-end
+ 
 
 
 
 
-
-initial_tapering_mean(rollspan::Signed) = InitialTaperingFunction{mean}(rollspan%Int64)
-final_tapering_mean(rollspan::Signed) = FinalTaperingFunction{mean}(rollspan%Int64)
-
-initial_tapering_mean_of5 = initial_tapering_mean(5)
-#=
- dump(initial_tapering_mean_of5)
-    InitialTaperingFunction{mean}
-         rollspan: Int64 5
-=#
-
-       
-abstract type InitialDataFiller{A,B,:Initial} <: AbstractDataFiller{A,B,C} end
-abstract type FinalDataFiller{A,B,:Final}     <: AbstractDataFiller{A,B,C} end
-
-abstract type RepeatingDataFiller{A,:Repeating,C} <: AbstractDataFiller{A,B,C} end
-abstract type TaperingDataFiller{A,:Tapering,C}   <: AbstractDataFiller{A,B,C} end
-
-struct DataFiller{A,B,C} <: AbstractDataFiller{A,B,C} end
 
 # orientations: fromfirst==forward, fromfinal==backward, fromnearest==closest
 
