@@ -6,6 +6,10 @@ function span_error(n_in, span)
     end
 end
 
+function taperedspan_error(span, tapered_span)
+    ErrorException("The span ($span) must be larger than the tapered span ($tapered_span)."
+end
+    
 """
 rolling(fn, span, data)    
 applies fn to successive sub-spans of data   
@@ -126,20 +130,25 @@ end
 
 
 """
-rolling_taper_first(fn, span, data, taperspan)
+rolling_taper_first(fn, span, data, tapered_span)
 applies fn to successive sub-spans of data    
 tapers the window until its span is taperspan, then copies
 length(result) == length(data)
 """
-function rolling_taper_first{T}(fn::Function, span::Int, data::Vector{T}, taperspan::Int)
+function rolling_taper_first{T}(fn::Function, span::Int, data::Vector{T}, tapered_span::Int)
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
 
     n_out = n_in - span + 1  
     res   = zeros(T, n_in)
     
     res[span:n_out+span] = rolling(fn, span, data)
-    res[1:span-1] = filler
+    
+    for i in (span-1):-1:tapered_span
+        res[i] = fn(data[1:i])
+    end
+    res[1:tapered_span-1] = res[tapered_span]
 
     return res
 end
@@ -158,8 +167,12 @@ function rolling_taper_last{T}(fn::Function, span::Int, data::Vector{T}, tapersp
     res   = zeros(T, n_in)
     
     res[1:n_out] = rolling(fn, span, data)
-    res[n_out+1:end] = filler
 
+    for i in n_out+1:n_out+tapered_span
+        res[i] = fn(data[n_out+i:end])
+    end
+    res[end-tapered_span+1:end] = res[end-tapered_span]
+    
     return res
 end
 
