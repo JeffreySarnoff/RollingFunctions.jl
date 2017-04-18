@@ -1,5 +1,7 @@
-for (F,R) in [(:minimum, :roll_minimum), (:maximum, :roll_maximum), (:mean, :roll_mean),
-              (:std, :roll_std), (:var, :roll_var), (:mad, :roll_mad)]
+for (F,R) in [(:minimum, :roll_minimum), (:maximum, :roll_maximum), 
+              (:mean, :roll_mean), (:median, :roll_median),
+              (:std, :roll_std), (:var, :roll_var), (:mad, :roll_mad),
+              (:sum, :roll_sum), (:prod, :roll_prod)]
     @eval begin
         $R{T}(span::Int, data::Vector{T}) = rolling($F, span, data)
         $R{T}(::Type{FILL_FIRST}, span::Int, data::Vector{T}) =
