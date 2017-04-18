@@ -60,10 +60,10 @@ roll_middle{T<:Real}(TAPER_BOTH, window_size::Int, tapered_size::Int, data::Vect
 
 data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ];
 
-rollmiddle(3, data)                 #           [ 3.0,  5.0,  8.0,  11.0 ]
-rollmiddle(FILL_FIRST, 3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
-rollmiddle(FILL_LAST,  3, data)     #           [ 3.0,  5.0,  8.0,  11.0, 11.0, 11.0 ]
-rollmiddle(FILL_BOTH,  3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 ]
+roll_middle(3, data)                 #           [ 3.0,  5.0,  8.0,  11.0 ]
+roll_middle(FILL_FIRST, 3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
+roll_middle(FILL_LAST,  3, data)     #           [ 3.0,  5.0,  8.0,  11.0, 11.0, 11.0 ]
+roll_middle(FILL_BOTH,  3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 ]
 
 ```
 
