@@ -1,150 +1,17 @@
 module RollingFunctions
 
-export rollminimum, rollmaximum
-       rollmedian, rollmode, rollmean, rollstd, rollvar
-
-#= constructive
-export Roller, rolling, runner,
-       fillin_first, fillin_last, fillin_firstlast, fillin_center,
-       FillNoPart, FillFirstPart, FillLastPart, FillBothParts,
-       FillWithNothing, FillWithNaNs, FillWithRepeated, FillWithTapered
-=#       
+export roll_minimum, roll_maximum, roll_median, roll_mean, 
+       roll_std, roll_var, roll_mad,
+       roll_minimum_filled, roll_maximum_filled, roll_median_filled, roll_mean_filled, 
+       roll_std_filled, roll_var_filled, roll_mad_filled,
+       roll_minimum_tapered, roll_maximum_tapered, roll_median_tapered, roll_mean_tapered, 
+       roll_std_tapered, roll_var_tapered, roll_mad_tapered
        
 using StatsBase
 
-
-const FillFromFirst = :FillFromFirst
-const FillFromLast  = :FillFromLast
-const FillFromBoth  = :FillFromBoth
-
-abstract type AbstractDataFiller end
-
-abstract type WindowedDataFiller <: AbstractDataFiller end
-
-struct Roll <: WindowedDataFiller
-    rolling::Function
-    windowsize::Int
-end
-
-struct RollRepeating{D} <: WindowedDataFiller
-    rolling::Function
-    windowsize::Int
-    direction::Symbol
-end
-
-struct RollTapering{D} <: WindowedDataFiller
-    rolling::Function
-    windowsize::Int
-    direction::Symbol
-    taperto::Int
-end
-
-
-
-
-
-struct RollInitialRepeating <: InitialRepeatingFiller
-    rollfunc::Function
-    windowsize::Int
-end
-struct RollFinalRepeating <: FinalRepeatingFiller
-    rollfunc::Function
-    windowsize::Int
-end
-
-struct RollInitialTapering{C} <: InitialTaperingFiller{C}
-    rollfunc::Function
-    windowsize::Int
-end
-struct RollFinalTapering{C} <: FinalTaperingFiller{C}
-    rollfunc::Function
-    windowsize::Int
-end
-
-
-make_rolling_mean(windowsize::Int) = Roll(mean, windowsize)
-function make_rolling_mean_that_repeats(windowsize::Int; fill_initial::Bool=true)
-    return fill_initial ? RollInitialRepeating(mean, windowsize) : RollFinalRepeating(mean, windowsize)
-end
-function make_rolling_mean_that_tapers(windowsize::Int; fill_initial::Bool=true, taper::Int=5)
-    return fill_initial ? RollInitialTapering{taper}(mean, windowsize) : RollFinalTapering{taper}(mean, windowsize)
-end
-
-function rolling_mean{T}(windowsize::Int, data::Vector{T})
-   return rolling(mean, windowsize, data)    
-end
-function rolling_mean{T}(windowsize::Int, data::Vector{T})
-   return rolling_fill_first(mean, windowsize, data)
-end
-
-# orientations: fromfirst==forward, fromfinal==backward, fromnearest==closest
-
-abstract type DataFiller{T, ORIENTATION, FILLING} <: AbstractDataFiller{T} en
-       
-abstract type ForwardFiller{T, FILLING} <: DataFiller{T, :forward, FILLING}  end
-abstract type BackwardFiller{T, FILLING} <: DataFiller{T, :backward, FILLING}  end
-abstract type BothWaysFiller{T, FILLING} <: DataFiller{T, :bothways, FILLING}  end
-
-struct RepetitiveFiller{T, ORIENTATION} <: DataFiller{T, ORIENTATION, :repetitive} end
-struct TaperedFiller{T, ORIENTATION} <: DataFiller{T, ORIENTATION, :tapered} end
-struct NullableFiller{T, ORIENTATION} <: DataFiller{T, ORIENTATION, :nullable} end
-
-
-abstract type CarriesFromFirst{CARRY}   <: AbstractDataFiller{CARRY, FILL} end
-abstract type CarriesFromNearest{CARRY} <: AbstractDataFiller{CARRY, FILL} end
-abstract type CarriesFromFinal{CARRY}   <: AbstractDataFiller{CARRY, FILL} end
-
-abstract type FillsWithNothing{FILL}   <: AbstractDataFiller{CARRY, FILL} end
-abstract type FillsWithNearest{FILL}   <: AbstractDataFiller{CARRY, FILL} end
-       
-
-struct FillNoPart    <: AbstractFillPart end
-struct FillFirstPart <: AbstractFillPart end
-struct FillLastPart  <: AbstractFillPart end
-struct FillBothParts <: AbstractFillPart end
-
-struct FillWithNothing  <: AbstractFillWith end
-struct FillWithNaN      <: AbstractFillWith end
-struct FillWithNullable <: AbstractFillWith end
-struct FillWithRepeated <: AbstractFillWith end
-struct FillWithTapered  <: AbstractFillWith end
-
-const NoPart    = FillNoPart()
-const FirstPart = FillFirstPart()
-const LastPart  = FillLastPart()
-const BothParts = FillBothParts()
-
-const WithNothing  = FillWithNothing()
-const WithNaN      = FillWithNaN()
-const WithNullable = FillWithNullable()
-const WithRepeated = FillWithRepeated()
-const WithTapered  = FillWithTapered()
-
-struct Roller{FP, FW}  
-    fillpart::FP             # {NoPart, FirstPart, LastPart, BothParts}
-    fillwith::FW             # {WithNothing, WithNaN, WithNullable, WithRepeated, WithTapered}
-    rolling::Function        # statistical function of vector subsequence
-    rollspan::Int            # vector subsequence length    
-end
-
-
-function roll{FW,T}(roller::Roller{FillNoPart, FW}, data::Vector{T})
-    return rolling(roller.rolling, roller.rollspan, data)
-end
-function roll{FP,T}(roller::Roller{FP, FillWithNothing}, data::Vector{T})
-    return rolling(roller.rolling, roller.rollspan, data)
-end
-
-function roll{T}(roller::Roller{FillFirstPart, FillWithRepeated}, data::Vector{T})
-    return rolling_fill_first(roller.rolling, roller.rollspan, data)
-end
-function roll{T}(roller::Roller{FillLastPart, FillWithRepeated}, data::Vector{T})
-    return rolling_fill_last(roller.rolling, roller.rollspan, data)
-end
-function roll{T}(roller::Roller{FillBothParts, FillWithRepeated}, data::Vector{T})
-    return rolling_fill_both(roller.rolling, roller.rollspan, data)
-end
-
+const FromFirst = :FromFirst
+const FromLast  = :FromLast
+const FromBoth  = :FromBoth
 
 include("rolling.jl")
 include("running.jl")
