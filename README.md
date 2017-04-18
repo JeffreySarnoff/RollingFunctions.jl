@@ -16,24 +16,18 @@
 
 roll_minimum, roll_maximum, roll_mean,
 roll_std, roll_var, roll_mad
-#### versions that fill to the length of the data vector
-roll_minimum_filled, roll_maximum_filled, roll_mean_filled,
-roll_std_filled, roll_var_filled, roll_mad_filled
-#### versions that taper the window to fill the length
-roll_minimum_tapered, roll_maximum_tapered, roll_mean_tapered
 
 #### how to fill, if desired
-FillFirst, FillLast, FillCenter
+FILL_FIRST, FILL_LAST, FILL_BOTH,
+TAPER_FIRST, TAPER_LAST, TAPER_BOTH
 
-#### windowed function construction tools
-rolling, 
-rolling_fill_first, rolling_fill_last, rolling_fill_both,
-rolling_taper_first, rolling_taper_last, rolling_taper_both
-
+#### windowed function construction
+rolling 
 
 ### use
 
-This example shows how you may create other running functions.
+This example shows how you may create other running functions.   
+You do not need to define all of the forms, just the ones you want to use.
 
 ```julia
 import StatsBase: middle
@@ -41,31 +35,35 @@ using RollingFunctions
 
 roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
     rolling(middle, window_size, data)
-    
-roll_middle_filled{T<:Real}(window_size::Int, data::Vector{T})  =
-    rolling_fill_first(middle, window_size, data)
 
-roll_middle_filled{T<:Real}(window_size::Int, filler::T, data::Vector{T})  =
-    rolling_fill_first(middle, window_size, filler, data)
+roll_middle{T<:Real}(FILL_FIRST, window_size::Int, data::Vector{T})  =
+    rolling(FILL_FIRST, middle, window_size, data)
+roll_middle{T<:Real}(FILL_LAST, window_size::Int, data::Vector{T})  =
+    rolling(FILL_LAST, middle, window_size, data)
+roll_middle{T<:Real}(FILL_BOTH, window_size::Int, data::Vector{T})  =
+    rolling(FILL_BOTH, middle, window_size, data)
 
-roll_middle_tapered{T<:Real}(window_size::Int, data::Vector{T})  =
-    rolling_taper_first(middle, window_size, data)
-    
-function roll_middle_taper{T<:Real}(::Type{FillCenter}, n::Int, data::Vector{T}; fillfirst::Bool=true)
-    if fillfirst
-       rolling_taper_first(middle, window_size, data)
-    else
-       rolling_taper_last(middle, window_size, data)
-    end
-end
+roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
+    rolling(FILL_FIRST, middle, window_size, filler, data)
+roll_middle{T<:Real}(FILL_LAST, window_size::Int, filler::T, data::Vector{T})  =
+    rolling(FILL_LAST, middle, window_size, filler, data)
+roll_middle{T<:Real}(FILL_BOTH, window_size::Int, filler::T, data::Vector{T})  =
+    rolling(FILL_BOTH, middle, window_size, filler, data)
+
+roll_middle{T<:Real}(TAPER_FIRST, window_size::Int, tapered_size::Int, data::Vector{T})  =
+    rolling(TAPER_FIRST, middle, window_size, tapered_size, data)
+roll_middle{T<:Real}(TAPER_LAST, window_size::Int, tapered_size::Int, data::Vector{T})  =
+    rolling(TAPER_LAST, middle, window_size, tapered_size, data)
+roll_middle{T<:Real}(TAPER_BOTH, window_size::Int, tapered_size::Int, data::Vector{T})  =
+    rolling(TAPER_BOTH, middle, window_size, tapered_size, data)
 
 
 data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ];
 
-rollmiddle(3, data)               #           [ 3.0,  5.0,  8.0,  11.0 ]
-rollmiddle(AtFirst,  3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
-rollmiddle(AtLast,   3, data)     #           [ 3.0,  5.0,  8.0,  11.0, 11.0, 11.0 ]
-rollmiddle(AtCenter, 3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 ]
+rollmiddle(3, data)                 #           [ 3.0,  5.0,  8.0,  11.0 ]
+rollmiddle(FILL_FIRST, 3, data)     # [ 3.0, 3.0, 3.0,  5.0,  8.0,  11.0 ]
+rollmiddle(FILL_LAST,  3, data)     #           [ 3.0,  5.0,  8.0,  11.0, 11.0, 11.0 ]
+rollmiddle(FILL_BOTH,  3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 ]
 
 ```
 
