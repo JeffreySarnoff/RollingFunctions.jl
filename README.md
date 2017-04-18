@@ -26,9 +26,10 @@ roll_minimum_tapered, roll_maximum_tapered, roll_mean_tapered
 FillFirst, FillLast, FillCenter
 
 #### windowed function construction tools
+rolling, 
+rolling_fill_first, rolling_fill_last, rolling_fill_both,
+rolling_taper_first, rolling_taper_last, rolling_taper_both
 
-Roller, runner, rolling, 
-rolling_fill_first, rolling_fill_last, rolling_fill_center
 
 ### use
 
@@ -38,17 +39,25 @@ This example shows how you may create other running functions.
 import StatsBase: middle
 using RollingFunctions
 
-rollmiddle{T<:Number}(n::Int, data::Vector{T}) =
-    runner(Roller(rolling, middle), n, data)
+roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
+    rolling(middle, window_size, data)
     
-rollmiddle{T<:Number}(::Type{FillFirst}, n::Int, data::Vector{T})  =
-    runner(Roller(rolling(middle, FillFirst, n, data)))
+roll_middle_filled{T<:Real}(window_size::Int, data::Vector{T})  =
+    rolling_fill_first(middle, window_size, data)
 
-rollmiddle{T<:Number}(::Type{FillLast}, n::Int, data::Vector{T})  =
-    runner(Roller(rolling(middle, FillLast, n, data)))
+roll_middle_filled{T<:Real}(window_size::Int, filler::T, data::Vector{T})  =
+    rolling_fill_first(middle, window_size, filler, data)
+
+roll_middle_tapered{T<:Real}(window_size::Int, data::Vector{T})  =
+    rolling_taper_first(middle, window_size, data)
     
-rollmiddle{T<:Number}(::Type{FillCenter}, n::Int, data::Vector{T})  =
-    runner(Roller(rolling(middle, FillCenter, n, data)))
+function roll_middle_taper{T<:Real}(::Type{FillCenter}, n::Int, data::Vector{T}; fillfirst::Bool=true)
+    if fillfirst
+       rolling_taper_first(middle, window_size, data)
+    else
+       rolling_taper_last(middle, window_size, data)
+    end
+end
 
 
 data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ];
