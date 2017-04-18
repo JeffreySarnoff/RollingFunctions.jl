@@ -40,7 +40,7 @@ roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
 # (b) use
 rolled_data = roll_middle(window_size, data)
 
-# if you only want one form, say, to fill the first part with NaNs
+# to roll a function filling the first part with NaNs
 # (a) define
 roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
     rolling(FILL_FIRST, middle, window_size, filler, data)
@@ -91,5 +91,3 @@ roll_middle(FILL_LAST,  3, data)     #           [ 3.0,  5.0,  8.0,  11.0, 11.0,
 roll_middle(FILL_BOTH,  3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 ]
 
 ```
-
-
