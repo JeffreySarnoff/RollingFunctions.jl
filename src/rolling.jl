@@ -43,7 +43,7 @@ function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T})
     n_out = n_in - span + 1 
     res   = zeros(T, n_in)
     
-    res[span:n_out+span] = rolling(fn, span, data)
+    res[span:end] = rolling(fn, span, data)
     res[1:span-1] = res[span]
     
     return res
@@ -62,7 +62,7 @@ function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T}, filler:
     n_out = n_in - span + 1  
     res   = zeros(T, n_in)
     
-    res[span:n_out+span] = rolling(fn, span, data)
+    res[span:end] = rolling(fn, span, data)
     res[1:span-1] = filler
 
     return res
