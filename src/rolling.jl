@@ -126,12 +126,12 @@ end
 
 
 """
-rolling_taper_first(fn, span, data, tapered_span)
+rolling_taper_first(fn, span, tapered_span, data)
 applies fn to successive sub-spans of data    
 tapers the window until its span is tapered_span, then copies
 length(result) == length(data)
 """
-function rolling_taper_first{T}(fn::Function, span::Int, data::Vector{T}, tapered_span::Int)
+function rolling_taper_first{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
     (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
@@ -148,12 +148,12 @@ function rolling_taper_first{T}(fn::Function, span::Int, data::Vector{T}, tapere
 end
 
 """
-rolling_taper_last(fn, span, data, tapered_span)
+rolling_taper_last(fn, span, tapered_span, data)
 applies fn to successive sub-spans of data    
 tapers the window until its span is tapered_span, then copies
 length(result) == length(data)
 """
-function rolling_taper_last{T}(fn::Function, span::Int, data::Vector{T}, tapered_span::Int)
+function rolling_taper_last{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -162,22 +162,23 @@ function rolling_taper_last{T}(fn::Function, span::Int, data::Vector{T}, tapered
     
     res[1:n_rolled] = rolling(fn, span, data)
 
-    for i in n_rolled+1:n_rolled+tapered_span
-        res[i] = fn(data[n_rolled+i:end])
+    tapered_span = tapered_span - 1
+    for i in n_rolled+1:n_in-tapered_span
+        res[i] = fn(data[i:end])
     end
-    res[end-tapered_span+1:end] = res[end-tapered_span]
+    res[n_in-tapered_span+1:end] = res[n_in-tapered_span]
     
     return res
 end
 
 """
-rolling_taper_both(fn, span, data, tapered+span)   
+rolling_taper_both(fn, span, tapered_span, data)   
 applies fn to successive sub-spans of data    
 averages rolling_taper_first and rolling_taper_last
 tapers each window until its span is tapered_span, then copies
 length(result) == length(data)
 """
-function rolling_taper_both{T}(fn::Function, span::Int, data::Vector{T}, tapered_span::Int)
-    return 0.5*rolling_taper_first(fn, span, data, tapered_span) + 0.5*rolling_taper_last(fn, span, data, tapered_span)
+function rolling_taper_both{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
+    return 0.5*rolling_taper_first(fn, span, tapered_span, data) + 0.5*rolling_taper_last(fn, span, tapered_span, data)
 end
 
