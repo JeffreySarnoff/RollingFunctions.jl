@@ -14,8 +14,8 @@
 
 #### windowed functions
 
-roll_minimum, roll_maximum, roll_mean,
-roll_std, roll_var, roll_mad
+roll_minimum, roll_maximum, roll_mean, roll_median,
+roll_std, roll_var, roll_mad, roll_sum, roll_prod
 
 #### how to fill, if desired
 FILL_FIRST, FILL_LAST, FILL_BOTH,
