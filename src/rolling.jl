@@ -114,7 +114,7 @@ function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T})
 end    
 
 """
-rolling_fill_both(fn, span, data)   
+rolling_fill_both(fn, span, data, filler)   
 applies fn to successive sub-spans of data    
 averages rolling_fill_first and rolling_fill_last
 uses filler to fill the each extremals' span-1 entries
