@@ -33,6 +33,28 @@ You do not need to define all of the forms, just the ones you want to use.
 import StatsBase: middle
 using RollingFunctions
 
+# to roll a function keeping only complete windows
+roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
+    rolling(middle, window_size, data)
+
+# if you only want one form, say, to fill the first part with NaNs
+# (a) define
+roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
+    rolling(FILL_FIRST, middle, window_size, filler, data)
+# (b) specialize
+roll_middle_fillfirst_with_NaNs{T<:Real}(window_size::Int, data::Vector{T}) =
+    roll_middle(FILL_FIRST, window_size, (T)NaN, data)
+# (c) use
+rolled_data = roll_middle_fillfirst_with_NaNs(window_size, data)
+
+```
+
+Here are all of the forms
+
+```julia
+import StatsBase: middle
+using RollingFunctions
+
 roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
     rolling(middle, window_size, data)
 
