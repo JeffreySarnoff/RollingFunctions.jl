@@ -65,7 +65,7 @@ tapers the window until its span is tapered_span, then copies
 length(result) == length(data)
 """
 rolling{T}(::Type{TAPER_FIRST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
-    rolling_taper_first(fn, span,  tapered_span, data)
+    rolling_taper_first(fn, span,  max(2, tapered_span), data)
 
 """
 rolling(TAPER_LAST, fn, span, tapered_span, data)
@@ -74,7 +74,7 @@ tapers the window until its span is tapered_span, then copies
 length(result) == length(data)
 """
 rolling{T}(::Type{TAPER_LAST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
-    rolling_taper_last(fn, span,  tapered_span, data)
+    rolling_taper_last(fn, span,  max(2, tapered_span), data)
 
 """
 rolling(TAPER_BOTH, fn, span, tapered_span, data)   
