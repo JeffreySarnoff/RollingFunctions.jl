@@ -1,7 +1,8 @@
 """
 rolling(FILL_FIRST, fn, span, data)
-applies fn to successive sub-spans of data    
-carries the span_th result backward
+
+(a) applies fn to successive sub-spans of data    
+(b) carries the span_th result backward    
 length(result) == length(data)
 """
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
@@ -9,8 +10,10 @@ rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
 
 """
 rolling(FILL_LAST, fn, span, filler, data)
+
 applies fn to successive sub-spans of data    
 uses filler to fill the last span-1 entries
+
 length(result) == length(data)
 """
 rolling{T}(::Type{FILL_LAST}, fn::Function, span::Int, data::Vector{T}) =
@@ -98,8 +101,10 @@ function taperedspan_error(span, tapered_span)
 end
     
 """
-rolling(fn, span, data)    
-applies fn to successive sub-spans of data   
+rolling(fn, span, data)
+
+applies fn to successive sub-spans of data
+
 length(result) == length(data) - span + 1
 """
 function rolling{T}(fn::Function, span::Int, data::Vector{T})
