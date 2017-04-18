@@ -156,6 +156,7 @@ length(result) == length(data)
 function rolling_taper_last{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
 
     n_rolled = n_in - span + 1   
     res   = zeros(T, n_in)
