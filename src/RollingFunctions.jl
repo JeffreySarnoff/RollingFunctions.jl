@@ -29,40 +29,42 @@ abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C}
 
 struct Roll <: WindowedDataFiller
     rollfunc::Function
-    rollspan::Int
+    windowsize::Int
 end
 
 struct RollInitialRepeating <: InitialRepeatingFiller
     rollfunc::Function
-    rollspan::Int
+    windowsize::Int
 end
 struct RollFinalRepeating <: FinalRepeatingFiller
     rollfunc::Function
-    rollspan::Int
+    windowsize::Int
 end
 
 struct RollInitialTapering{C} <: InitialTaperingFiller{C}
     rollfunc::Function
-    rollspan::Int
+    windowsize::Int
 end
 struct RollFinalTapering{C} <: FinalTaperingFiller{C}
     rollfunc::Function
-    rollspan::Int
+    windowsize::Int
 end
 
 
-rolling_mean(rollspan::Int) = Roll(mean, rollspan)
-function rolling_mean_repeating(rollspan::Int; fill_initial::Bool=true)
-    return fill_initial ? RollInitialRepeating(mean, rollspan) : RollFinalRepeating(mean, rollspan)
+make_rolling_mean(windowsize::Int) = Roll(mean, windowsize)
+function make_rolling_mean_that_repeats(windowsize::Int; fill_initial::Bool=true)
+    return fill_initial ? RollInitialRepeating(mean, windowsize) : RollFinalRepeating(mean, windowsize)
 end
-function rolling_mean_tapering(rollspan::Int; fill_initial::Bool=true, taper::Int=5)
-    return fill_initial ? RollInitialTapering{taper}(mean, rollspan) : RollFinalTapering{taper}(mean, rollspan)
+function make_rolling_mean_that_tapers(windowsize::Int; fill_initial::Bool=true, taper::Int=5)
+    return fill_initial ? RollInitialTapering{taper}(mean, windowsize) : RollFinalTapering{taper}(mean, windowsize)
 end
- 
 
-
-
-
+function rolling_mean{T}(windowsize::Int, data::Vector{T})
+   return rolling(mean, windowsize, data)    
+end
+function rolling_mean{T}(windowsize::Int, data::Vector{T})
+   return rolling_fill_first(mean, windowsize, data)
+end
 
 # orientations: fromfirst==forward, fromfinal==backward, fromnearest==closest
 
