@@ -183,3 +183,26 @@ function rolling_taper_both{T}(fn::Function, span::Int, tapered_span::Int, data:
     return 0.5*rolling_taper_first(fn, span, tapered_span, data) + 0.5*rolling_taper_last(fn, span, tapered_span, data)
 end
 
+
+rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
+    rolling_fill_first(fn, span, data)
+rolling{T}(::Type{FILL_LAST}, fn::Function, span::Int, data::Vector{T}) =
+    rolling_fill_last(fn, span, data)
+rolling{T}(::Type{FILL_BOTH}, fn::Function, span::Int, data::Vector{T}) =
+    rolling_fill_both(fn, span, data)
+
+rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(fn, span, filler, data)
+rolling{T}(::Type{FILL_LAST}, fn::Function, span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_last(fn, span, filler, data)
+rolling{T}(::Type{FILL_BOTH}, fn::Function, span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_both(fn, span, filler, data)
+
+rolling{T}(::Type{TAPER_FIRST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(fn, span,  tapered_span, data)
+rolling{T}(::Type{TAPER_LAST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_last(fn, span,  tapered_span, data)
+rolling{T}(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_both(fn, span,  tapered_span, data)
+
+
