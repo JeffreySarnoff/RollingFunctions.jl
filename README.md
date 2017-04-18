@@ -34,8 +34,11 @@ import StatsBase: middle
 using RollingFunctions
 
 # to roll a function keeping only complete windows
+# (a) define
 roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
     rolling(middle, window_size, data)
+# (b) use
+rolled_data = roll_middle(window_size, data)
 
 # if you only want one form, say, to fill the first part with NaNs
 # (a) define
