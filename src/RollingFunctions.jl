@@ -11,26 +11,37 @@ export Roller, rolling, runner,
 =#       
        
 using StatsBase
-                               
-#=
-   A is {:Initial, :Final} portion of the vector 
-   B is {:Repeating, :Tapering} way to fill that portion of the vector
-   C is for :Tapering, 1 tapers to a single observation, 2 tapers to two observations...
-=#
-abstract type AbstractDataFiller{A,B,C} end
 
-abstract type WindowedDataFiller <: AbstractDataFiller{:Total, B, C} end
 
-abstract type InitialRepeatingFiller <: AbstractDataFiller{:Initial, :Repeating, C} end
-abstract type FinalRepeatingFiller   <: AbstractDataFiller{:Final, :Repeating, C} end
+const FillFromFirst = :FillFromFirst
+const FillFromLast  = :FillFromLast
+const FillFromBoth  = :FillFromBoth
 
-abstract type InitialTaperingFiller{C} <: AbstractDataFiller{:Initial, :Tapering, C} end
-abstract type FinalTaperingFiller{C} <: AbstractDataFiller{:Final, :Tapering, C} end
+abstract type AbstractDataFiller end
+
+abstract type WindowedDataFiller <: AbstractDataFiller end
 
 struct Roll <: WindowedDataFiller
-    rollfunc::Function
+    rolling::Function
     windowsize::Int
 end
+
+struct RollRepeating{D} <: WindowedDataFiller
+    rolling::Function
+    windowsize::Int
+    direction::Symbol
+end
+
+struct RollTapering{D} <: WindowedDataFiller
+    rolling::Function
+    windowsize::Int
+    direction::Symbol
+    taperto::Int
+end
+
+
+
+
 
 struct RollInitialRepeating <: InitialRepeatingFiller
     rollfunc::Function
