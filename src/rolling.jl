@@ -111,7 +111,7 @@ length(result) == length(data)
 """
 function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T})
     return 0.5*rolling_fill_first(fn, span, data) + 0.5*rolling_fill_last(fn, span, data)
-end    
+end
 
 """
 rolling_fill_both(fn, span, data, filler)   
@@ -122,4 +122,55 @@ length(result) == length(data)
 """
 function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T}, filler::T)
     return 0.5*rolling_fill_first(fn, span, data, filler) + 0.5*rolling_fill_last(fn, span, data, filler)
-end    
+end
+
+
+"""
+rolling_taper_first(fn, span, data, taperspan)
+applies fn to successive sub-spans of data    
+tapers the window until its span is taperspan, then copies
+length(result) == length(data)
+"""
+function rolling_taper_first{T}(fn::Function, span::Int, data::Vector{T}, taperspan::Int)
+    n_in  = length(data)
+    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+
+    n_out = n_in - span + 1  
+    res   = zeros(T, n_in)
+    
+    res[span:n_out+span] = rolling(fn, span, data)
+    res[1:span-1] = filler
+
+    return res
+end
+
+"""
+rolling_taper_last(fn, span, data, taperspan)
+applies fn to successive sub-spans of data    
+tapers the window until its span is taperspan, then copies
+length(result) == length(data)
+"""
+function rolling_taper_last{T}(fn::Function, span::Int, data::Vector{T}, taperspan::Int)
+    n_in  = length(data)
+    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+
+    n_out = n_in - span + 1   
+    res   = zeros(T, n_in)
+    
+    res[1:n_out] = rolling(fn, span, data)
+    res[n_out+1:end] = filler
+
+    return res
+end
+
+"""
+rolling_taper_both(fn, span, data, taperspan)   
+applies fn to successive sub-spans of data    
+averages rolling_taper_first and rolling_taper_last
+tapers each window until its span is taperspan
+length(result) == length(data)
+"""
+function rolling_taper_both{T}(fn::Function, span::Int, data::Vector{T}, taperspan::Int)
+    return 0.5*rolling_taper_first(fn, span, data, taperspan) + 0.5*rolling_taper_last(fn, span, data, taperspan)
+end
+
