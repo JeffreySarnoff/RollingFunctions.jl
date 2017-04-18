@@ -11,9 +11,9 @@ export roll_minimum, roll_maximum, roll_median, roll_mean,
        
 using StatsBase
 
-const FromFirst = :FromFirst
-const FromLast  = :FromLast
-const FromBoth  = :FromBoth
+const FIRST = :FIRST
+const LAST  = :LAST
+const BOTH  = :BOTH
 
 include("rolling.jl")
 include("running.jl")
