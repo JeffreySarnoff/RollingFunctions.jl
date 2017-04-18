@@ -7,7 +7,7 @@ function span_error(n_in, span)
 end
 
 function taperedspan_error(span, tapered_span)
-    ErrorException("The span ($span) must be larger than the tapered span ($tapered_span)."
+    ErrorException("The span ($span) must be larger than the tapered span ($tapered_span).")
 end
     
 """
