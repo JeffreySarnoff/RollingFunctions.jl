@@ -19,13 +19,6 @@ roll_mean_filled{T}(span::Int, filler::T, data::Vector{T}) =
 roll_mean_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
     rolling_taper_first(mean, span, tapered_span, data)
 
-roll_median{T}(span::Int, data::Vector{T}) =
-    rolling(mean, span, data)
-roll_median_filled{T}(span::Int, filler::T, data::Vector{T}) =
-    rolling_fill_first(median, span, filler, data)
-roll_median_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
-    rolling_taper_first(median, span, tapered_span, data)
-
 roll_std{T}(span::Int, data::Vector{T}) =
     rolling(std, span, data)
 roll_std_filled{T}(span::Int, filler::T, data::Vector{T}) =
