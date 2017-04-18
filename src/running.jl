@@ -1,39 +1,55 @@
+rolling_minimum{T}(span::Int, data::Vector{T}) =
+    rolling(minimum, span, data)
+rolling_minimum_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(minimum, span, filler, data)
+rolling_minimum_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(minimum, span, tapered_span, data)
 
-rolling_mean(rollspan::Int; fillpart::AbstractFillPart=FirstPart, fillwith::AbstractFillWith=WithRepeated) =
-    Roller(fillpart, fillwith, mean, rollspan)
+rolling_maximum{T}(span::Int, data::Vector{T}) =
+    rolling(maximum, span, data)
+rolling_maximum_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(maximum, span, filler, data)
+rolling_maximum_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(maximum, span, tapered_span, data)
 
-rollmean{T<:Number}(rollspan::Int, data::Vector{T}) =
-    roll(rolling_mean(rollspan), data)
+rolling_mean{T}(span::Int, data::Vector{T}) =
+    rolling(mean, span, data)
+rolling_mean_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(mean, span, filler, data)
+rolling_mean_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(mean, span, tapered_span, data)
 
-rollmean{T<:Number}(fillpart::AbstractFillPart, rollspan::Int, data::Vector{T}) = 
-    roll(rolling_mean(rollspan, fillpart=fillpart), data)
+rolling_mean{T}(span::Int, data::Vector{T}) =
+    rolling(mean, span, data)
+rolling_mean_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(mean, span, filler, data)
+rolling_mean_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(mean, span, tapered_span, data)
 
-function rollmean{T<:Number}(fillpart::AbstractFillPart, fillwith::AbstractFillWith, rollspan::Int, data::Vector{T})
-    rolling = rolling_mean(rollspan, fillpart=fillpart, fillwith=fillwith)
-    return roll(rolling, data)
-end
+rolling_median{T}(span::Int, data::Vector{T}) =
+    rolling(mean, span, data)
+rolling_median_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(median, span, filler, data)
+rolling_median_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(median, span, tapered_span, data)
 
-rollmean{FW, T<:Number}(::Type{FillLastPart}, ::Type{FW}, rollspan::Int, data::Vector{T}) =
-    Roller(LastPart, WithRepeated, mean, rollspan)
+rolling_std{T}(span::Int, data::Vector{T}) =
+    rolling(std, span, data)
+rolling_std_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(std, span, filler, data)
+rolling_std_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(std, span, tapered_span, data)
 
-#=
-function roll{T}(roller::Roller{FillFirstPart, FillWithRepeated}, data::Vector{T})
-    return rolling_fill_first(roller.rolling, roller.rollspan, data)
-end
+rolling_var{T}(span::Int, data::Vector{T}) =
+    rolling(var, span, data)
+rolling_var_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(var, span, filler, data)
+rolling_var_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(var, span, tapered_span, data)
 
-rolling_mean_fill_first=Roller(FirstPart,WithRepeated,mean,5)
-
-data = map(Float64,collect(1:8:100))
-result = roll(rolling_mean_fill_first, data)
-=#
-
-for (F,N) in [(:minimum, :rollminimum), (:maximum, :rollmaximum),
-              (:median, :rollmedian), (:mode, :rollmode), (:mean, :rollmean),
-              (:std, :rollstd), (:var, :rollvar), (:mad, :rollmad)]
-    @eval begin
-        $N{T<:Number}(n::Int, data::Vector{T}) = runner(Roller(rolling, $F), n, data)
-        $N{T<:Number}(::Type{FillFirst}, n::Int, data::Vector{T})  = runner(Roller(rolling_fill_first, $F), n, data)
-        $N{T<:Number}(::Type{FillLast}, n::Int, data::Vector{T})   = runner(Roller(rolling_fill_last, $F), n, data)
-        $N{T<:Number}(::Type{FillBoth}, n::Int, data::Vector{T}) = runner(Roller(rolling_fill_center, $F), n, data)
-    end
-end
+rolling_mad{T}(span::Int, data::Vector{T}) =
+    rolling(mad, span, data)
+rolling_mad_filled{T}(span::Int, filler::T, data::Vector{T}) =
+    rolling_fill_first(mad, span, filler, data)
+rolling_mad_tapered{T}(span::Int, tapered_span::Int, data::Vector{T}) =
+    rolling_taper_first(mad, span, tapered_span, data)
