@@ -11,6 +11,7 @@ using StatsBase
 const FILL_FIRST = Val{:FILL_FIRST}
 const FILL_LAST  = Val{:FILL_LAST}
 const FILL_BOTH  = Val{:FILL_BOTH}
+
 const TAPER_FIRST = Val{:TAPER_FIRST}
 const TAPER_LAST  = Val{:TAPER_LAST}
 const TAPER_BOTH  = Val{:TAPER_BOTH}
