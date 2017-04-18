@@ -20,7 +20,6 @@ for (F,R) in [(:minimum, :roll_minimum), (:maximum, :roll_maximum), (:mean, :rol
                  rolling(TAPER_LAST,  $F, span, tapered_span, data)
              $R{T}(::Type{TAPER_BOTH},  span::Int, tapered_span::Int, data::Vector{T}) = 
                  rolling(TAPER_BOTH,  $F, span, tapered_span, data)                
-          end 
     end
 end
 
