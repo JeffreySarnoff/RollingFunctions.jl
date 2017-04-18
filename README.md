@@ -42,10 +42,10 @@ roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
 roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
     rolling(FILL_FIRST, middle, window_size, filler, data)
 # (b) specialize
-roll_middle_fillfirst_with_NaNs{T<:Real}(window_size::Int, data::Vector{T}) =
+roll_middle_NaN{T<:Real}(window_size::Int, data::Vector{T}) =
     roll_middle(FILL_FIRST, window_size, (T)NaN, data)
 # (c) use
-rolled_data = roll_middle_fillfirst_with_NaNs(window_size, data)
+rolled_data = roll_middle_NaN(window_size, data)
 
 ```
 
