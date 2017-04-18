@@ -48,12 +48,12 @@ function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_fill_first(fn, span, data, filler)
+rolling_fill_first(fn, span, filler, data)
 applies fn to successive sub-spans of data    
 uses filler to fill the first span-1 entries
 length(result) == length(data)
 """
-function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T}, filler::T)
+function rolling_fill_first{T}(fn::Function, span::Int, filler::T, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -85,12 +85,12 @@ function rolling_fill_last{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_fill_last(fn, span, data, filler)
+rolling_fill_last(fn, span, filler, data)
 applies fn to successive sub-spans of data    
 uses filler to fill the last span-1 entries
 length(result) == length(data)
 """
-function rolling_fill_last{T}(fn::Function, span::Int, data::Vector{T}, filler::T)
+function rolling_fill_last{T}(fn::Function, span::Int, filler::T, data::Vector{T})
     n_in  = length(data)
     (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -114,13 +114,13 @@ function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling_fill_both(fn, span, data, filler)   
+rolling_fill_both(fn, span, filler, data)   
 applies fn to successive sub-spans of data    
 averages rolling_fill_first and rolling_fill_last
 uses filler to fill the each extremals' span-1 entries
 length(result) == length(data)
 """
-function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T}, filler::T)
+function rolling_fill_both{T}(fn::Function, span::Int, filler::T, data::Vector{T})
     return 0.5*rolling_fill_first(fn, span, data, filler) + 0.5*rolling_fill_last(fn, span, data, filler)
 end
 
