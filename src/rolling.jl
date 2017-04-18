@@ -1,8 +1,8 @@
 """
 rolling(FILL_FIRST, fn, span, data)
 
-applies fn to successive sub-spans of data    
-carries the span_th result backward    
+-applies fn to successive sub-spans of data
+-carries the span_th result backward    
 
 `length(result) == length(data)`
 """
