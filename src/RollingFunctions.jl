@@ -1,7 +1,7 @@
 module RollingFunctions
 
-export roll_minimum, roll_maximum, roll_mean, 
-       roll_std, roll_var, roll_mad,       
+export roll_minimum, roll_maximum, roll_mean, roll_median,
+       roll_std, roll_var, roll_mad, roll_sum, roll_prod,
        rolling, 
        FILL_FIRST, FILL_LAST, FILL_BOTH,
        TAPER_FIRST, TAPER_LAST, TAPER_BOTH
