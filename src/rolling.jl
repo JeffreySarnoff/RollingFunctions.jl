@@ -3,7 +3,7 @@ rolling(fn, span, data)
 
 This rolls by applying fn to successive data sub-spans.  It does not fill.
 
-length(result) == length(data) - span + 1
+`length(result) == length(data) - span + 1`
 """
 function rolling{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
