@@ -113,4 +113,8 @@ roll_middle(FILL_BOTH,  3, data)     #      [ 3.0, 4.0,  5.5,  8.0,   9.5, 11.0 
 roll_middle(TAPER_FIRST,3, 2, data)  #      [ 2.0, 2.0, 3.0,  5.0,  8.0, 11.0 ]
 roll_middle(TAPER_LAST, 3, 2, data)  #      [ 3.0, 5.0, 8.0, 11.0, 13.0, 13.0 ]
 roll_middle(TAPER_BOTH, 3, 2, data)  #      [ 2.5, 3.5, 5.5,  8.0, 10.5, 12.0 ]
+
+weights = [1/8, 2/8, 5/8]
+roll_middle(3, weights, data)        #           [ 1.625, 2.375, 3.75, 5.125 ]
+
 ```
