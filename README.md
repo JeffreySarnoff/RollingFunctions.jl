@@ -13,19 +13,22 @@
 ### exports
 
 #### windowed functions
-
+```julia
 roll_minimum, roll_maximum, 
 roll_mean, roll_median,
 roll_std, roll_var, roll_mad, 
 roll_sum, roll_prod, roll_norm
+```
 
 #### how to fill, if desired
+```julia
 FILL_FIRST, FILL_LAST, FILL_BOTH,     # same value used repeatedly    
 TAPER_FIRST, TAPER_LAST, TAPER_BOTH   # smaller windows (to `tapered_size`) used, copies last repeatedly    
                                       # note: `tapered_size = max(2, tapered_size)`, needed for coherence
+```
 
 #### windowed function construction
-rolling 
+`rolling`
 
 ### use
 
