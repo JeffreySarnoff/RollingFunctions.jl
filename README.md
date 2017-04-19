@@ -48,6 +48,7 @@ roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
 # (b) use
 rolled_data = roll_middle(window_size, data)
 
+
 # to roll a function filling the first part with NaNs
 # (a) define
 roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
@@ -57,6 +58,16 @@ roll_middle_NaN{T<:Real}(window_size::Int, data::Vector{T}) =
     roll_middle(FILL_FIRST, window_size, (T)NaN, data)
 # (c) use
 rolled_data = roll_middle_NaN(window_size, data)
+
+
+
+# to roll a function over weighted windows keeping only complete windows
+# (with this release, weighted rolls are not supported with filling)
+# (a) define
+roll_middle{T<:Real}(window_size::Int, weights::Vector{T}, data::Vector{T}) =
+    rolling(middle, window_size, weights, data)
+# (b) use -- length(weights) must equal window_size
+rollweighted_data = roll_middle(window_size, weights, data)
 
 ```
 
