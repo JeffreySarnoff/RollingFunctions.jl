@@ -119,7 +119,7 @@ roll_middle(3, weights, data)        #           [ 1.625, 2.375, 3.75, 5.125 ]
 
 ```
 
-### Other's Packages
+### Also Consider
 
  - The mapwindow function from [ImageFiltering](https://github.com/JuliaImages/ImageFiltering.jl)
     supports multidimensional window indexing and different maps.
