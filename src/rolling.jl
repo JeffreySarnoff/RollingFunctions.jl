@@ -96,8 +96,8 @@ function rolling_fill_first{T}(fn::Function, span::Int, filler::T, data::Vector{
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     res = zeros(T, n_in)
-    @inbounds res[span:end] = rolling(fn, span, data)
-    @inbounds res[1:span-1] = filler
+    res[span:end] = rolling(fn, span, data)
+    res[1:span-1] = filler
 
     return res
 end
@@ -117,8 +117,8 @@ function rolling_fill_last{T}(fn::Function, span::Int, data::Vector{T})
     n_rolled = n_in - span + 1   
     res = zeros(T, n_in)
     
-    @inbounds res[1:n_rolled] = rolling(fn, span, data)
-    @inbounds res[n_rolled+1:end] = res[n_rolled]
+    res[1:n_rolled] = rolling(fn, span, data)
+    res[n_rolled+1:end] = res[n_rolled]
 
     return res
 end
@@ -137,8 +137,8 @@ function rolling_fill_last{T}(fn::Function, span::Int, filler::T, data::Vector{T
     n_rolled = n_in - span + 1   
     res = zeros(T, n_in)
     
-    @inbounds res[1:n_rolled] = rolling(fn, span, data)
-    @inbounds res[n_rolled+1:end] = filler
+    res[1:n_rolled] = rolling(fn, span, data)
+    res[n_rolled+1:end] = filler
 
     return res
 end
