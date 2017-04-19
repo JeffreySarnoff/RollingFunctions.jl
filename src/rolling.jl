@@ -14,7 +14,7 @@ function rolling{T}(fn::Function, span::Int, data::Vector{T})
 
     span = span - 1     
     for i in 1:n_out
-        @inbounds res[i] = fn(data[i:i+span])
+        @inbounds res[i] = fn(view(data, i:i+span))
     end
     
     return res
@@ -183,7 +183,7 @@ function rolling_taper_first{T}(fn::Function, span::Int, tapered_span::Int, data
     res[span:end] = rolling(fn, span, data)
     
     for i in (span-1):-1:tapered_span
-        @inbounds res[i] = fn(data[1:i])
+        @inbounds res[i] = fn(view(data, 1:i))
     end
     res[1:tapered_span-1] = res[tapered_span]
 
@@ -210,7 +210,7 @@ function rolling_taper_last{T}(fn::Function, span::Int, tapered_span::Int, data:
 
     tapered_span = tapered_span - 1
     for i in n_rolled+1:n_in-tapered_span
-        @inbounds res[i] = fn(data[i:end])
+        @inbounds res[i] = fn(view(data,i:n_in))
     end
     res[n_in-tapered_span+1:end] = res[n_in-tapered_span]
     
