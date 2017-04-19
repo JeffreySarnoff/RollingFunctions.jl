@@ -45,8 +45,7 @@ rolling{T}(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data:
 """
 rolling_fill_first(fn, span, data)
 
-> applies fn to successive sub-spans of data    
-carries the span_th result backward
+applies fn to successive sub-spans of data\n carries the span_th result backward
 
 `length(result) == length(data)`
 """
@@ -64,8 +63,8 @@ end
 """
 rolling_fill_first(fn, span, filler, data)
 
-> applies fn to successive sub-spans of data    
-> uses filler to fill the first span-1 entries
+applies fn to successive sub-spans of data\n
+uses filler to fill the first span-1 entries
 
 `length(result) == length(data)`
 """
