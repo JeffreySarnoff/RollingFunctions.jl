@@ -20,6 +20,30 @@ function rolling{T}(fn::Function, span::Int, data::Vector{T})
     return res
 end
 
+"""
+rolling(fn, span, weights, data)
+
+This rolls by applying fn to successively weighted data sub-spans.  It does not fill.
+
+`length(result) == length(data) - span + 1`
+"""
+function rolling{T}(fn::Function, span::Int, weights::Vector{T}, data::Vector{T})
+    n_in  = length(data)
+    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (length(weights) == span)   || throw(weights_error(length(weights), span))
+
+    n_out = n_in - span + 1
+    res = zeros(T, n_out)
+
+    span -= 1     
+    for i in 1:n_out
+        res[i] = fn(data[i:i+span] .* weights)
+    end
+    
+    return res
+end
+
+
 
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
     rolling_fill_first(fn, span, data)
@@ -217,4 +241,8 @@ end
 
 function taperedspan_error(span, tapered_span)
     ErrorException("The span ($span) must be larger than the tapered span ($tapered_span).")
+end
+
+function weights_error(nweights, span)
+    ErrorException("The number of weights ($nweights) must equal the span ($span).")
 end
