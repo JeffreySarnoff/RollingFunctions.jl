@@ -37,36 +37,37 @@ rolling
 This example shows how you may create other running functions.   
 You do not need to define all of the forms, just the ones you want to use.
 
+
 ```julia
 import StatsBase: middle
 using RollingFunctions
 
-# to roll a function keeping only complete windows
-# (a) define
-roll_middle{T<:Real}(window_size::Int, data::Vector{T}) =
-    rolling(middle, window_size, data)
-# (b) use
-rolled = roll_middle(window_size, data)
+# Roll a function.
+# define it
+roll_middle{T<:Real}(window::Int, data::Vector{T}) =
+    rolling(middle, window, data)
+# use it
+rolled = roll_middle(window, data)
+
+# Roll a function filling the first part with NaNs.
+# define it
+roll_middle{T<:Real}(FILL_FIRST, window::Int, filler::T, data::Vector{T})  =
+    rolling(FILL_FIRST, middle, window, filler, data)
+# specialize it
+roll_middle_NaN{T<:Real}(window::Int, data::Vector{T}) =
+    roll_middle(FILL_FIRST, window, (T)NaN, data)
+# use it
+rolled = roll_middle_NaN(window, data)
 
 
-# to roll a function filling the first part with NaNs
-# (a) define
-roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
-    rolling(FILL_FIRST, middle, window_size, filler, data)
-# (b) specialize
-roll_middle_NaN{T<:Real}(window_size::Int, data::Vector{T}) =
-    roll_middle(FILL_FIRST, window_size, (T)NaN, data)
-# (c) use
-rolled = roll_middle_NaN(window_size, data)
-
-
-# to roll a function over weighted windows keeping only complete windows
-# (with this release, weighted rolls are not supported with filling)
-# (a) define
+# Roll a function over weighted windows.
+# define it
 roll_middle{T<:Real}(window_size::Int, weights::Vector{T}, data::Vector{T}) =
     rolling(middle, window_size, weights, data)
-# (b) use -- length(weights) must equal window_size
+# use it
 rolled_weighted = roll_middle(window_size, weights, data)
+
+# (length(weights) must equal window_size)
 
 ```
 
