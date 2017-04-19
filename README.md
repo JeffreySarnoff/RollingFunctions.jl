@@ -28,7 +28,9 @@ TAPER_FIRST, TAPER_LAST, TAPER_BOTH   # smaller windows (to `tapered_size`) used
 ```
 
 #### windowed function construction
-`rolling`
+```julia
+rolling
+```
 
 ### use
 
