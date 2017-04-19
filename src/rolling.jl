@@ -7,14 +7,14 @@ This rolls by applying fn to successive data sub-spans.  It does not fill.
 """
 function rolling{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     n_out = n_in - span + 1
     res = zeros(T, n_out)
 
     span -= 1     
     for i in 1:n_out
-        res[i] = fn(data[i:i+span])
+        @inbounds res[i] = fn(data[i:i+span])
     end
     
     return res
@@ -29,7 +29,7 @@ This rolls by applying fn to successively weighted data sub-spans.  It does not 
 """
 function rolling{T}(fn::Function, span::Int, weights::Vector{T}, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
     (length(weights) == span)   || throw(weights_error(length(weights), span))
 
     n_out = n_in - span + 1
@@ -37,7 +37,7 @@ function rolling{T}(fn::Function, span::Int, weights::Vector{T}, data::Vector{T}
 
     span -= 1     
     for i in 1:n_out
-        res[i] = fn(data[i:i+span] .* weights)
+        @inbounds res[i] = fn(data[i:i+span] .* weights)
     end
     
     return res
@@ -75,11 +75,11 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 """
 function rolling_fill_first{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     res = zeros(T, n_in)    
-    res[span:end] = rolling(fn, span, data)
-    res[1:span-1] = res[span]
+    @inbounds res[span:end] = rolling(fn, span, data)
+    @inbounds res[1:span-1] = res[span]
     
     return res
 end
@@ -93,11 +93,11 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 """
 function rolling_fill_first{T}(fn::Function, span::Int, filler::T, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     res = zeros(T, n_in)
-    res[span:end] = rolling(fn, span, data)
-    res[1:span-1] = filler
+    @inbounds res[span:end] = rolling(fn, span, data)
+    @inbounds res[1:span-1] = filler
 
     return res
 end
@@ -112,13 +112,13 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 """
 function rolling_fill_last{T}(fn::Function, span::Int, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     n_rolled = n_in - span + 1   
     res   = zeros(T, n_in)
     
-    res[1:n_rolled] = rolling(fn, span, data)
-    res[n_rolled+1:end] = res[n_rolled]
+    @inbounds res[1:n_rolled] = rolling(fn, span, data)
+    @inbounds res[n_rolled+1:end] = res[n_rolled]
 
     return res
 end
@@ -132,13 +132,13 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 """
 function rolling_fill_last{T}(fn::Function, span::Int, filler::T, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     n_rolled = n_in - span + 1   
     res   = zeros(T, n_in)
     
-    res[1:n_rolled] = rolling(fn, span, data)
-    res[n_rolled+1:end] = filler
+    @inbounds res[1:n_rolled] = rolling(fn, span, data)
+    @inbounds res[n_rolled+1:end] = filler
 
     return res
 end
@@ -176,14 +176,14 @@ the window until its span equals tapered_span and finally copies.
 """
 function rolling_taper_first{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
     (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
 
     res   = zeros(T, n_in)
     res[span:end] = rolling(fn, span, data)
     
     for i in (span-1):-1:tapered_span
-        res[i] = fn(data[1:i])
+        @inbounds res[i] = fn(data[1:i])
     end
     res[1:tapered_span-1] = res[tapered_span]
 
@@ -200,7 +200,7 @@ the window until its span equals tapered_span and finally copies.
 """
 function rolling_taper_last{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
     n_in  = length(data)
-    (span >= 1 && n_in >= span) || throw(span_error(n_in, span))
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
     (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
 
     n_rolled = n_in - span + 1   
@@ -210,7 +210,7 @@ function rolling_taper_last{T}(fn::Function, span::Int, tapered_span::Int, data:
 
     tapered_span = tapered_span - 1
     for i in n_rolled+1:n_in-tapered_span
-        res[i] = fn(data[i:end])
+        @inbounds res[i] = fn(data[i:end])
     end
     res[n_in-tapered_span+1:end] = res[n_in-tapered_span]
     
@@ -232,10 +232,10 @@ end
 # error explication
 
 function span_error(n_in, span)
-    if span >= 1
+    if span > 1
         ErrorException("The data length ($n_in) is less than the window size ($span).")
     else
-        ErrorException("The window size ($span) is less than 1.")
+        ErrorException("The window size ($span) must be at least 2 for continuity.")
     end
 end
 
