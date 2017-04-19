@@ -63,8 +63,8 @@ end
 """
 rolling_fill_first(fn, span, filler, data)
 
-applies fn to successive sub-spans of data\n
-uses filler to fill the first span-1 entries
+a. applies fn to successive sub-spans of data
+b. uses filler to fill the first span-1 entries
 
 `length(result) == length(data)`
 """
@@ -83,8 +83,8 @@ end
 """
 rolling_fill_last(fn, span, data)
 
-- applies fn to successive sub-spans of data    
-- carries the (end-span)_th result forward
+1. applies fn to successive sub-spans of data    
+2. carries the (end-span)_th result forward
 
 `length(result) == length(data)`
 """
