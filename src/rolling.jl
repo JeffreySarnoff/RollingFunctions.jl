@@ -64,7 +64,7 @@ rolling{T}(::Type{TAPER_FIRST}, fn::Function, span::Int, tapered_span::Int, data
 rolling{T}(::Type{TAPER_LAST}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
     rolling_taper_last(fn, span,  max(2, tapered_span), data)
 rolling{T}(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data::Vector{T}) =
-    rolling_taper_both(fn, span,  tapered_span, data)
+    rolling_taper_both(fn, span,  max(2, tapered_span), data)
 
 """
 rolling_fill_first(fn, span, data)
@@ -162,7 +162,7 @@ This rolls by averaging rolling_fill_first and rolling_fill_last.  It uses fille
 `length(result) == length(data)`
 """
 function rolling_fill_both{T}(fn::Function, span::Int, filler::T, data::Vector{T})
-    return (0.5 * rolling_fill_first(fn, span, data, filler)) + (0.5 * rolling_fill_last(fn, span, data, filler))
+    return (0.5 * rolling_fill_first(fn, span, filler, data)) + (0.5 * rolling_fill_last(fn, span, filler, data))
 end
 
 
@@ -225,6 +225,7 @@ This rolls by averaging rolling_taper_first and rolling_taper_last.
 `length(result) == length(data)`
 """
 function rolling_taper_both{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
+    tapered_span = max(2, tapered_span)
     return 0.5*rolling_taper_first(fn, span, tapered_span, data) + 0.5*rolling_taper_last(fn, span, tapered_span, data)
 end
 
