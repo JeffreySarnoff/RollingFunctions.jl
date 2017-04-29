@@ -6,9 +6,9 @@
 
 -----
 
-The master branch source text is in flux. ~/RollingFunctions/stable/src/ copies the current release.  
+**The master branch source text is in flux. ~/RollingFunctions/stable/src/ copies the current release.**
 
------
+-
 
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
 
