@@ -6,6 +6,11 @@
 
 -----
 
+## The program source text files in _/JeffreySarnoff/RollingFunctions.jl/src are in flux.
+## The current released version is in _/JeffreySarnoff/stable/src.
+
+-----
+
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
 
 -----
