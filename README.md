@@ -6,8 +6,7 @@
 
 -----
 
-The master branch source text is in flux. Pkg.add("RollingFunctions") does work.    
-The source text Pkg.add_ed is mirrored in _/JeffreySarnoff/RollingFunctions/stable/src.
+The master branch source text is in flux. ~/RollingFunctions/stable/src/ copies the current release.  
 
 -----
 
