@@ -6,8 +6,8 @@
 
 -----
 
-## The program source text files in _/JeffreySarnoff/RollingFunctions.jl/src are in flux.
-## The current released version is in _/JeffreySarnoff/stable/src.
+#### The program source text files in _/JeffreySarnoff/RollingFunctions.jl/src are in flux.
+#### The current version is in _/JeffreySarnoff/stable/src and this README applies.
 
 -----
 
