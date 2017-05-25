@@ -44,30 +44,30 @@ using RollingFunctions
 
 # Roll a function.
 # define it
-roll_middle{T<:Real}(window::Int, data::Vector{T}) =
-    rolling(middle, window, data)
+roll_middle{T<:Real}(window_span::Int, data::Vector{T}) =
+    rolling(middle, window_span, data)
 # use it
-rolled = roll_middle(window, data)
+rolled = roll_middle(window_span, data)
+
 
 # Roll a function filling the first part with NaNs.
 # define it
-roll_middle{T<:Real}(FILL_FIRST, window::Int, filler::T, data::Vector{T})  =
-    rolling(FILL_FIRST, middle, window, filler, data)
+roll_middle{T<:Real}(FILL_FIRST, window_span::Int, filler::T, data::Vector{T})  =
+    rolling(FILL_FIRST, middle, window_span, filler, data)
 # specialize it
-roll_middle_NaN{T<:Real}(window::Int, data::Vector{T}) =
-    roll_middle(FILL_FIRST, window, (T)NaN, data)
+roll_middle_NaN{T<:Real}(window_span::Int, data::Vector{T}) =
+    roll_middle(FILL_FIRST, window_span, (T)NaN, data)
 # use it
 rolled = roll_middle_NaN(window, data)
 
 
 # Roll a function over weighted windows.
 # define it
-roll_middle{T<:Real}(window_size::Int, weights::Vector{T}, data::Vector{T}) =
-    rolling(middle, window_size, weights, data)
+roll_middle{T<:Real}(weights::Vector{T}, data::Vector{T}) =
+    rolling(middle, weights, data)
 # use it
-rolled_weighted = roll_middle(window_size, weights, data)
+rolled_weighted = roll_middle(weights, data)
 
-# (length(weights) must equal window_size)
 
 ```
 
@@ -86,6 +86,8 @@ roll_middle{T<:Real}(FILL_LAST, window_size::Int, data::Vector{T})  =
     rolling(FILL_LAST, middle, window_size, data)
 roll_middle{T<:Real}(FILL_BOTH, window_size::Int, data::Vector{T})  =
     rolling(FILL_BOTH, middle, window_size, data)
+roll_middle{T<:Real}(FILL_BOTH, window_size::Int, data::Vector{T}, alpha)  =
+    rolling(FILL_BOTH, middle, window_size, data, alpha) @ 0.0 <= alpha <= 1.0
 
 roll_middle{T<:Real}(FILL_FIRST, window_size::Int, filler::T, data::Vector{T})  =
     rolling(FILL_FIRST, middle, window_size, filler, data)
@@ -93,6 +95,8 @@ roll_middle{T<:Real}(FILL_LAST, window_size::Int, filler::T, data::Vector{T})  =
     rolling(FILL_LAST, middle, window_size, filler, data)
 roll_middle{T<:Real}(FILL_BOTH, window_size::Int, filler::T, data::Vector{T})  =
     rolling(FILL_BOTH, middle, window_size, filler, data)
+roll_middle{T<:Real}(FILL_BOTH, window_size::Int, filler::T, data::Vector{T}, alpha)  =
+    rolling(FILL_BOTH, middle, window_size, filler, data, alpha) # 0.0 <= alpha <= 1.0
 
 roll_middle{T<:Real}(TAPER_FIRST, window_size::Int, tapered_size::Int, data::Vector{T})  =
     rolling(TAPER_FIRST, middle, window_size, tapered_size, data)
@@ -100,6 +104,8 @@ roll_middle{T<:Real}(TAPER_LAST, window_size::Int, tapered_size::Int, data::Vect
     rolling(TAPER_LAST, middle, window_size, tapered_size, data)
 roll_middle{T<:Real}(TAPER_BOTH, window_size::Int, tapered_size::Int, data::Vector{T})  =
     rolling(TAPER_BOTH, middle, window_size, tapered_size, data)
+roll_middle{T<:Real}(TAPER_BOTH, window_size::Int, tapered_size::Int, data::Vector{T}, alpha)  =
+    rolling(TAPER_BOTH, middle, window_size, tapered_size, data, alpha) @ 0.0 <= alpha <= 1.0
 
 
 data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ];
