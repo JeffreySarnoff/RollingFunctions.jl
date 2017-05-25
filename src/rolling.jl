@@ -5,7 +5,7 @@ This rolls by applying fn to successive data sub-spans.  It does not fill.
 
 `length(result) == length(data) - span + 1`
 """
-function rolling{T}(fn::Function, span::Int, data::Vector{T})
+function rolling(fn::Function, span::S, data::Vector{T}) where T<:Number where S<:Signed
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -21,26 +21,41 @@ function rolling{T}(fn::Function, span::Int, data::Vector{T})
 end
 
 """
-rolling(fn, span, weights, data)
+rolling(fn, weights, data)
 
 This rolls by applying fn to successively weighted data sub-spans.  It does not fill.
 
 `length(result) == length(data) - span + 1`
 """
-function rolling{T}(fn::Function, span::Int, weights::Vector{T}, data::Vector{T})
+function rolling{T}(fn::Function, weights::Vector{T}, data::Vector{T}) where T<:Number
     n_in  = length(data)
+    span  = length(weights)
     (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
     (length(weights) == span)   || throw(weights_error(length(weights), span))
 
     n_out = n_in - span + 1
-    res = zeros(T, n_out)
+    result = zeros(T, n_out)
 
     span = span - 1     
     for i in 1:n_out
-        @inbounds res[i] = fn(data[i:i+span] .* weights)
+        @inbounds result[i] = fn(data[i:i+span] .* weights)
     end
-    
-    return res
+
+    return result
+end
+
+
+function rolling(fn::Function, weights::Vector{R}, data::Vector{N}) where N<:Number where R<:Real
+    T = promote_type(R, N)
+    if T == R
+        dat = map(T, data)
+        wei = view(weights)
+    else
+        dat = view(data)
+        wei = map(T, weights)
+    end
+
+    return rolling(fn, wei, dat)
 end
 
 
@@ -146,23 +161,23 @@ end
 """
 rolling_fill_both(fn, span, data)
 
-This rolls by averaging rolling_fill_first and rolling_fill_last.
+This rolls by averaging (default) or by alpha*rolling_fill_first and (1-alpha)rolling_fill_last.
 
 `length(result) == length(data)`
 """
-function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T})
-    return 0.5*rolling_fill_first(fn, span, data) + 0.5*rolling_fill_last(fn, span, data)
+function rolling_fill_both{T}(fn::Function, span::Int, data::Vector{T}, alpha::Float64=0.5)
+    return alpha*rolling_fill_first(fn, span, data) + (1.0-alpha)*rolling_fill_last(fn, span, data)
 end
 
 """
 rolling_fill_both(fn, span, filler, data)
 
-This rolls by averaging rolling_fill_first and rolling_fill_last.  It uses filler for extremals' span-1 entries.
+This rolls by averaging (default) or by alpha*rolling_fill_first and (1-alpha)rolling_fill_last.
 
 `length(result) == length(data)`
 """
-function rolling_fill_both{T}(fn::Function, span::Int, filler::T, data::Vector{T})
-    return (0.5 * rolling_fill_first(fn, span, filler, data)) + (0.5 * rolling_fill_last(fn, span, filler, data))
+function rolling_fill_both{T}(fn::Function, span::Int, filler::T, data::Vector{T}, alpha::Float64=9.5)
+    return (alpha * rolling_fill_first(fn, span, filler, data)) + ((1.0-alpha) * rolling_fill_last(fn, span, filler, data))
 end
 
 
@@ -218,15 +233,15 @@ function rolling_taper_last{T}(fn::Function, span::Int, tapered_span::Int, data:
 end
 
 """
-rolling_taper_both(fn, span, tapered_span, data)
+rolling_taper_both(fn, span, tapered_span, data, [alpha])
 
-This rolls by averaging rolling_taper_first and rolling_taper_last.
+This rolls by averaging (default) or by alpha*rolling_taper_first and (1-alpha)rolling_taper_last.
 
 `length(result) == length(data)`
 """
-function rolling_taper_both{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T})
+function rolling_taper_both{T}(fn::Function, span::Int, tapered_span::Int, data::Vector{T}, alpha::Float64=0.5)
     tapered_span = max(2, tapered_span)
-    return 0.5*rolling_taper_first(fn, span, tapered_span, data) + 0.5*rolling_taper_last(fn, span, tapered_span, data)
+    return alpha*rolling_taper_first(fn, span, tapered_span, data) + (1.0-alpha)*rolling_taper_last(fn, span, tapered_span, data)
 end
 
 
