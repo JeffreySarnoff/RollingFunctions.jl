@@ -6,10 +6,6 @@
 
 -----
 
-**This README and the currently released source text is in flux -- Pkg.add() works.**
-
-*see ./stable/src/ for a copy of the source text for the current release.*
-
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
 
 -----
