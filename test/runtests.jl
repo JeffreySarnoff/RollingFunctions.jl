@@ -21,4 +21,4 @@ data = [ 1.0, 3.0, 5.0, 7.0, 11.0, 15.0 ]
 weights = [1/8, 2/8, 5/8]
 
 @test rolling(middle, 3, data) == [ 3.0,  5.0,  8.0,  11.0 ]
-@test rolling(middle, 3, weights, data)  == [ 1.625, 2.375, 3.75, 5.125 ]
+@test rolling(middle, weights, data)  == [ 1.625, 2.375, 3.75, 5.125 ]
