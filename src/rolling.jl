@@ -39,21 +39,6 @@ function rolling(fn::Function, weights::Vector{T}, data::Vector{T}) where T<:Num
 end
 
 
-function rolling(fn::Function, weights::Vector{R}, data::Vector{N}) where N<:Real where R<:Real
-    T = promote_type(R, N)
-    if T == R
-        dat = map(T, data)
-        wei = view(weights)
-    else
-        dat = view(data)
-        wei = map(T, weights)
-    end
-
-    return rolling(fn, wei, dat)
-end
-
-
-
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::Vector{T}) =
     rolling_fill_first(fn, span, data)
 rolling{T}(::Type{FILL_LAST}, fn::Function, span::Int, data::Vector{T}) =
