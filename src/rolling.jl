@@ -39,7 +39,7 @@ function rolling(fn::Function, weights::Vector{T}, data::Vector{T}) where T<:Num
 end
 
 
-function rolling(fn::Function, weights::Vector{R}, data::Vector{N}) where N<:Number where R<:Real
+function rolling(fn::Function, weights::Vector{R}, data::Vector{N}) where N<:Real where R<:Real
     T = promote_type(R, N)
     if T == R
         dat = map(T, data)
