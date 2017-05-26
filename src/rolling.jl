@@ -1,7 +1,8 @@
 """
 rolling(fn, span, data)
+rolling(fn, weights, data)
 
-This rolls by applying fn to successive data sub-spans.  It does not fill.
+This rolls by applying fn to successive data sub-spans.
 
 `length(result) == length(data) - span + 1`
 """
@@ -20,14 +21,7 @@ function rolling(fn::Function, span::S, data::Vector{T}) where T<:Number where S
     return res
 end
 
-"""
-rolling(fn, weights, data)
-
-This rolls by applying fn to successively weighted data sub-spans.  It does not fill.
-
-`length(result) == length(data) - span + 1`
-"""
-function rolling{T}(fn::Function, weights::Vector{T}, data::Vector{T}) where T<:Number
+function rolling(fn::Function, weights::Vector{T}, data::Vector{T}) where T<:Number
     n_in  = length(data)
     span  = length(weights)
     (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
