@@ -6,7 +6,7 @@ This rolls by applying fn to successive data sub-spans.
 
 `length(result) == length(data) - span + 1`
 """
-function rolling(fn::Function, span::S, data::Vector{T}) where T<:Number where S<:Signed
+function rolling(fn::Function, span::S, data::Vector{T}) where S<:Signed where T<:Number
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -26,16 +26,16 @@ function rolling(fn::Function, span::S, data::AbstractArray{T,N}) where S<:Signe
     (span > 1 && n_rows_in >= span) || throw(span_error(n_rows_in, span))
 
     n_rows_out = n_rows_in - span + 1
-    res = zeros(Array{T, N}(n_rows_out, n_cols))
+    result = zeros(Array{T, N}(n_rows_out, n_cols))
 
     span = span - 1
     for colidx in 1:n_cols    
         for i in 1:n_rows_out
-            @inbounds res[i, colidx] = fn(view(data, i:i+span, colidx))
+            @inbounds result[i, colidx] = fn(view(data, i:i+span, colidx))
          end         
      end
            
-     return res
+     return result
 end
 
 
@@ -55,6 +55,24 @@ function rolling(fn::Function, weights::Vector{T}, data::Vector{T}) where T<:Num
     end
 
     return result
+end
+
+function rolling(fn::Function, weights::Vector{T}, data::AbstractArray{T,N}) where T<:Number where N
+    n_rows_in, n_cols  = size(data)
+    span = length(weights)
+    (span > 1 && n_rows_in >= span) || throw(span_error(n_rows_in, span))
+
+    n_rows_out = n_rows_in - span + 1
+    result = zeros(Array{T, N}(n_rows_out, n_cols))
+
+    span = span - 1
+    for colidx in 1:n_cols    
+        for i in 1:n_rows_out
+            @inbounds result[i, colidx] = fn(view(data, i:i+span, colidx) .* weights)
+         end         
+     end
+           
+     return result
 end
 
 
