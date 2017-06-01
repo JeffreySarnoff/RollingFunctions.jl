@@ -26,7 +26,7 @@ function rolling(fn::Function, span::S, data::AbstractArray{T,N}) where S<:Signe
     (span > 1 && n_rows_in >= span) || throw(span_error(n_rows_in, span))
 
     n_rows_out = n_rows_in - span + 1
-    res = zeros(Array{T, 2}(n_rows_out, n_cols))
+    res = zeros(Array{T, N}(n_rows_out, n_cols))
 
     span = span - 1
     for colidx in 1:n_cols    
