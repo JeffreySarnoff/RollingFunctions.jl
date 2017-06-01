@@ -31,7 +31,7 @@ function rolling(fn::Function, span::S, data::AbstractArray{T,N}) where S<:Signe
     span = span - 1
     for colidx in 1:n_cols    
         for i in 1:n_rows_out
-            @inbounds res[i, colidx] = fn(view(data, i:i+span, colidx))[end]
+            @inbounds res[i, colidx] = fn(view(data, i:i+span, colidx))
          end         
      end
            
