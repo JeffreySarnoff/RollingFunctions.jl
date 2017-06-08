@@ -11,14 +11,14 @@ function rolling(fn::Function, span::S, data::V) where S<:Signed where V<:Abstra
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
     n_out = n_in - span + 1
-    res = zeros(T, n_out)
+    result = zeros(T, n_out)
 
     span = span - 1     
     for i in 1:n_out
-        @inbounds res[i] = fn(view(data, i:i+span))
+        @inbounds result[i] = fn(view(data, i:i+span))
     end
     
-    return res
+    return result
 end
 
 function rolling(fn::Function, span::S, data::A) where S<:Signed where A<:AbstractArray{T,N} where T<:Number where N
@@ -74,6 +74,43 @@ function rolling(fn::Function, weights::V, data::A) where A<:AbstractArray{T,N} 
            
      return result
 end
+
+
+
+function rolling(fn::Function, span::S, times::D, data::V) where S<:Signed where D<:AbstractVector{T} where T<:TimeType where V<:AbstractVector{N} where N<:Number
+    n_in  = length(data)
+    (span > 1 && n_in >= span) || throw(span_error(n_in, span))
+
+    n_out = n_in - span + 1
+    result = zeros(T, n_out)
+
+    span = span - 1
+    for i in 1:n_out
+        idxspan = i:i+span
+        @inbounds result[i] = fn(view(times, idxspan), view(data, idxspan))
+    end
+    
+    return result
+end
+
+function rolling(fn::Function, weights::V, times::D, data::V) where S<:Signed where D<:AbstractVector{T} where T<:TimeType where V<:AbstractVector{N} where N<:Number
+    n_in  = length(data)
+    span  = length(weights)
+    (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
+    (length(weights) == span)   || throw(weights_error(length(weights), span))
+
+    n_out = n_in - span + 1
+    result = zeros(T, n_out)
+
+    span = span - 1     
+    for i in 1:n_out
+        @inbounds result[i] = fn(data[i:i+span] .* weights)
+    end
+    
+    return result
+end
+
+
 
 
 rolling{T}(::Type{FILL_FIRST}, fn::Function, span::Int, data::V) where V<:AbstractVector{T} where T<:Number =
