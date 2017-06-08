@@ -28,7 +28,7 @@ notifications:
 script:
 #  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia -e 'Pkg.init(); Pkg.clone("https://github.com/JeffreySarnoff/RollingFunctions.jl")'
-  - julia -e 'Pkg.test("SortingNetworks",coverage=true)'
+  - julia -e 'Pkg.test("RollingFunctions",coverage=true)'
 after_success:
   - julia -e 'Pkg.clone("https://github.com/MichaelHatherly/Documenter.jl")'
   - julia -e 'cd(Pkg.dir("RollingFunctions")); include(joinpath("docs", "make.jl"))'
