@@ -6,7 +6,7 @@ This rolls by applying fn to successive data sub-spans.
 
 `length(result) == length(data) - span + 1`
 """
-function rolling(fn::Function, span::S, data::V) where V<:AbstractVector{T} where T<:Number where S<:Signed
+function rolling(fn::Function, span::S, data::V) where S<:Signed where V<:AbstractVector{T} where T<:Number
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
