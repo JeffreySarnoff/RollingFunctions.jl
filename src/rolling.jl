@@ -57,7 +57,7 @@ function rolling(fn::Function, weights::V, data::V) where V<:AbstractVector{T} w
     return result
 end
 
-function rolling(fn::Function, weights::V, data::A) where A<:AbstractArray{T,N} where V<:AbstractVector{T} where T<:NumberT<:Number where N
+function rolling(fn::Function, weights::V, data::A) where A<:AbstractArray{T,N} where V<:AbstractVector{T} where T<:Number where N
     n_rows_in, n_cols  = size(data)
     span = length(weights)
     (span > 1 && n_rows_in >= span) || throw(span_error(n_rows_in, span))
