@@ -8,7 +8,7 @@ export roll_minimum, roll_maximum,
        FILL_FIRST, FILL_LAST, FILL_BOTH,
        TAPER_FIRST, TAPER_LAST, TAPER_BOTH
        
-import Dates:TimeType
+import Base.Dates:TimeType
 using StatsBase
 
 const FILL_FIRST = Val{:FILL_FIRST}
