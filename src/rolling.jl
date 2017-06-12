@@ -93,7 +93,7 @@ function rolling(fn::Function, span::S, times::D, data::V) where S<:Signed where
     return result
 end
 
-function rolling(fn::Function, weights::V, times::D, data::V) where S<:Signed where D<:AbstractVector{T} where T<:TimeType where V<:AbstractVector{N} where N<:Number
+function rolling(fn::Function, weights::V, times::D, data::V) where D<:AbstractVector{T} where T<:TimeType where V<:AbstractVector{N} where N<:Number
     n_in  = length(data)
     span  = length(weights)
     (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
