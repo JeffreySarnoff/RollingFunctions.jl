@@ -178,7 +178,7 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 
 `length(result) == length(data)`
 """
-function rolling_fill_last(fn::Function, span::Int, data::V) where V<:AbstractVector{T} where T<:Number =
+function rolling_fill_last(fn::Function, span::Int, data::V) where V<:AbstractVector{T} where T<:Number
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -198,7 +198,7 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 
 `length(result) == length(data)`
 """
-function rolling_fill_last(fn::Function, span::Int, filler::T, data::V) where V<:AbstractVector{T} where T<:Number =
+function rolling_fill_last(fn::Function, span::Int, filler::T, data::V) where V<:AbstractVector{T} where T<:Number
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
