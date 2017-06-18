@@ -1,3 +1,5 @@
+__precompile__()
+
 module RollingFunctions
 
 export roll_minimum, roll_maximum, 
