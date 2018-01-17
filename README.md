@@ -124,6 +124,10 @@ roll_middle(3, weights, data)        #           [ 1.625, 2.375, 3.75, 5.125 ]
 
 ```
 
+### note
+
+If the window length equals or exceeds the vector length, these routines will return a vector filled entirely with the default fill value.
+
 ### Also Consider
 
  - The mapwindow function from [ImageFiltering](https://github.com/JuliaImages/ImageFiltering.jl)
