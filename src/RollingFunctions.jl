@@ -13,6 +13,16 @@ export roll_minimum, roll_maximum,
 import Base.Dates:TimeType
 using StatsBase
 
+try
+    missing
+catch
+    try
+        using Missings
+    catch
+        throw(ErrorException("To use RollingFunctions with ver0.6, `Pkg.add(\"Missings\")`."))
+    end
+end
+
 const FILL_FIRST = Val{:FILL_FIRST}
 const FILL_LAST  = Val{:FILL_LAST}
 const FILL_BOTH  = Val{:FILL_BOTH}
