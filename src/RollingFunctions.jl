@@ -15,13 +15,20 @@ using StatsBase
 
 try
     missing
+    using Dates
+    import Dates: AbstractType
 catch
     try
         using Missings
+        using Base.Dates
+        import Base.Dates: AbstractType
     catch
         throw(ErrorException("To use RollingFunctions with ver0.6, `Pkg.add(\"Missings\")`."))
     end
 end
+
+const MaybeNum  = Union{Missing, T} where T<:Number
+const MaybeTime = Union{Missing, T} where T<:AbstractTime
 
 const FILL_FIRST = Val{:FILL_FIRST}
 const FILL_LAST  = Val{:FILL_LAST}
