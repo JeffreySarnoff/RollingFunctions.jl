@@ -7,6 +7,24 @@ This rolls by applying fn to successive data sub-spans.
 `length(result) == length(data) - span + 1`
 """
 function rolling(fn::Function, span::S, data::V) where
+                {S<:Signed, N, T<:MaybeNumber{N}, V<:AbstractVector{T}}
+    span <= 1 && return data
+    n_in  = length(data)
+    span >= n_in && return Vector{MaybeAkoNumber{N}}(fill(missing, n_in))
+           
+    n_out = n_in - span + 1
+    result = zeros(T, n_out)
+
+    span = span - 1     
+    for i in 1:n_out
+        @inbounds result[i] = fn(view(data, i:i+span))
+    end
+           
+    return result
+end
+
+
+function rolling(fn::Function, span::S, data::V) where
                 {S<:Signed, T<:MaybeNumber, V<:AbstractVector{T}}
     span <= 1 && return data
     n_in  = length(data)
