@@ -15,6 +15,7 @@ using StatsBase
 
 try
     missing
+    using Missings
     using Dates
     import Dates: AbstractType
 catch
