@@ -9,20 +9,18 @@ export roll_minimum, roll_maximum,
        rolling, 
        FILL_FIRST, FILL_LAST, FILL_BOTH,
        TAPER_FIRST, TAPER_LAST, TAPER_BOTH
-       
-import Base.Dates:TimeType
+
 using StatsBase
 
 try
     missing
-    using Missings
     using Dates
-    import Dates: AbstractType
+    import Dates: AbstractTime
 catch
     try
         using Missings
         using Base.Dates
-        import Base.Dates: AbstractType
+        import Base.Dates: AbstractTime
     catch
         throw(ErrorException("To use RollingFunctions with ver0.6, `Pkg.add(\"Missings\")`."))
     end
