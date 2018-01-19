@@ -155,7 +155,8 @@ rolling(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data::V)
 """
 rolling_fill_first(fn, span, data)
 
-This rolls by applying fn to successive data sub-spans, then fills by carrying the span_th result backward.
+This rolls by applying fn to successive data sub-spans,
+then fills by carrying the span_th result backward.
 
 `length(result) == length(data)`
 """
@@ -175,7 +176,8 @@ end
 """
 rolling_fill_first(fn, span, filler, data)
 
-This rolls by applying fn to successive data sub-spans, then uses filler to fill the first span-1 entries.
+This rolls by applying fn to successive data sub-spans,
+then uses filler to fill the first span-1 entries.
 
 `length(result) == length(data)`
 """
@@ -219,7 +221,8 @@ end
 """
 rolling_fill_last(fn, span, filler, data)
 
-This rolls by applying fn to successive data sub-spans, then uses filler to fill the last span-1 entries.
+This rolls by applying fn to successive data sub-spans,
+then uses filler to fill the last span-1 entries.
 
 `length(result) == length(data)`
 """
@@ -241,7 +244,8 @@ end
 """
 rolling_fill_both(fn, span, data)
 
-This rolls by averaging (default) or by alpha*rolling_fill_first and (1-alpha)rolling_fill_last.
+This rolls by averaging (default) or by
+alpha*rolling_fill_first and (1-alpha)rolling_fill_last.
 
 `length(result) == length(data)`
 """
@@ -253,7 +257,8 @@ end
 """
 rolling_fill_both(fn, span, filler, data)
 
-This rolls by averaging (default) or by alpha*rolling_fill_first and (1-alpha)rolling_fill_last.
+This rolls by averaging (default) or by
+alpha*rolling_fill_first and (1-alpha)rolling_fill_last.
 
 `length(result) == length(data)`
 """
@@ -266,8 +271,9 @@ end
 """
 rolling_taper_first(fn, span, tapered_span, data)
 
-This rolls by applying fn to successive data sub-spans, then fills the first part by tapering
-the window until its span equals tapered_span and finally copies.
+This rolls by applying fn to successive data sub-spans,
+then fills the first part by tapering the window
+until its span equals tapered_span and finally copies.
 
 `length(result) == length(data)`
 """
@@ -291,8 +297,9 @@ end
 """
 rolling_taper_last(fn, span, tapered_span, data)
 
-This rolls by applying fn to successive data sub-spans, then fills the last part by tapering
-the window until its span equals tapered_span and finally copies.
+This rolls by applying fn to successive data sub-spans,
+then fills the last part by tapering the window until
+its span equals tapered_span and finally copies.
 
 `length(result) == length(data)`
 """
@@ -319,7 +326,8 @@ end
 """
 rolling_taper_both(fn, span, tapered_span, data, [alpha])
 
-This rolls by averaging (default) or by alpha*rolling_taper_first and (1-alpha)rolling_taper_last.
+This rolls by averaging (default) or by
+alpha*rolling_taper_first and (1-alpha)rolling_taper_last.
 
 `length(result) == length(data)`
 """
