@@ -8,7 +8,7 @@ This rolls by applying fn to successive data sub-spans.
 """
 function rolling(fn::Function, span::S, data::V) where
                 {S<:Signed, T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
     
@@ -25,7 +25,7 @@ end
 
 function rolling(fn::Function, span::S, data::A) where
                 {S<:Signed, N, T<:MaybeNumber, A<:AbstractMatrix{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_rows_in, n_cols = size(data)
     if span >= n_rows_in 
         return Matrix{MaybeNumber}(reshape(fill(missing, n_rows_in*n_cols), n_rows_in, n_cols))
@@ -86,7 +86,7 @@ end
 
 function rolling(fn::Function, span::S, times::D, data::V) where
                 {S<:Signed, N, T<:MaybeTime, D<:AbstractVector{T}, V<:AbstractVector{N}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
@@ -161,7 +161,7 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 """
 function rolling_fill_first(fn::Function, span::Int, data::V) where
                            {T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
@@ -181,7 +181,7 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 """
 function rolling_fill_first(fn::Function, span::Int, filler::T, data::V) where
                            {T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
@@ -202,7 +202,7 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 """
 function rolling_fill_last(fn::Function, span::Int, data::V) where
                           {T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
@@ -224,7 +224,7 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 """
 function rolling_fill_last(fn::Function, span::Int, filler::T, data::V) where
                           {T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
@@ -272,7 +272,7 @@ the window until its span equals tapered_span and finally copies.
 """
 function rolling_taper_first(fn::Function, span::Int, tapered_span::Int, data::V) where
                             {T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
@@ -297,7 +297,7 @@ the window until its span equals tapered_span and finally copies.
 """
 function rolling_taper_last(fn::Function, span::Int, tapered_span::Int, data::V) where
                            {T<:MaybeNumber, V<:AbstractVector{T}}
-    span <= one(S) && return data
+    span <= 1 && return data
     n_in  = length(data)
     span >= n_in && return Vector{MaybeNumber}(fill(missing, n_in))
 
