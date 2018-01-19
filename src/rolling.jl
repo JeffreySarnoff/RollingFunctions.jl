@@ -6,7 +6,8 @@ This rolls by applying fn to successive data sub-spans.
 
 `length(result) == length(data) - span + 1`
 """
-function rolling(fn::Function, span::S, data::V) where {S<:Signed, T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling(fn::Function, span::S, data::V) where
+                {S<:Signed, T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -21,7 +22,8 @@ function rolling(fn::Function, span::S, data::V) where {S<:Signed, T<:MaybeNumbe
     return result
 end
 
-function rolling(fn::Function, span::S, data::A) where {S<:Signed, N, T<:MaybeNumber, A<:AbstractArray{T,N}}
+function rolling(fn::Function, span::S, data::A) where
+                {S<:Signed, N, T<:MaybeNumber, A<:AbstractArray{T,N}}
     n_rows_in, n_cols  = size(data)
     (span > 1 && n_rows_in >= span) || throw(span_error(n_rows_in, span))
 
@@ -38,9 +40,8 @@ function rolling(fn::Function, span::S, data::A) where {S<:Signed, N, T<:MaybeNu
      return result
 end
 
-
-
-function rolling(fn::Function, weights::V, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling(fn::Function, weights::V, data::V) where
+                {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     span  = length(weights)
     (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
@@ -57,7 +58,8 @@ function rolling(fn::Function, weights::V, data::V) where {T<:MaybeNumber, V<:Ab
     return result
 end
 
-function rolling(fn::Function, weights::V, data::A) where {N, T<:MaybeNumber, A<:AbstractArray{T,N}}
+function rolling(fn::Function, weights::V, data::A) where
+                {N, T<:MaybeNumber, A<:AbstractArray{T,N}}
     n_rows_in, n_cols  = size(data)
     span = length(weights)
     (span > 1 && n_rows_in >= span) || throw(span_error(n_rows_in, span))
@@ -77,7 +79,8 @@ end
 
 
 
-function rolling(fn::Function, span::S, times::D, data::V) where {S<:Signed, N, T<:MaybeTime, D<:AbstractVector{T}, V<:AbstractVector{N}}
+function rolling(fn::Function, span::S, times::D, data::V) where
+                {S<:Signed, N, T<:MaybeTime, D<:AbstractVector{T}, V<:AbstractVector{N}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -93,7 +96,8 @@ function rolling(fn::Function, span::S, times::D, data::V) where {S<:Signed, N, 
     return result
 end
 
-function rolling(fn::Function, weights::V, times::D, data::V) where {N<:MaybeNumber, T<:MaybeTime, D<:AbstractVector{T}, V<:AbstractVector{N}}
+function rolling(fn::Function, weights::V, times::D, data::V) where
+                {N<:MaybeNumber, T<:MaybeTime, D<:AbstractVector{T}, V<:AbstractVector{N}}
     n_in  = length(data)
     span  = length(weights)
     (span > 1 && n_in >= span)  || throw(span_error(n_in, span))
@@ -113,25 +117,34 @@ end
 
 
 
-rolling(::Type{FILL_FIRST}, fn::Function, span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{FILL_FIRST}, fn::Function, span::Int, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_fill_first(fn, span, data)
-rolling(::Type{FILL_LAST}, fn::Function, span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{FILL_LAST}, fn::Function, span::Int, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_fill_last(fn, span, data)
-rolling(::Type{FILL_BOTH}, fn::Function, span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{FILL_BOTH}, fn::Function, span::Int, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_fill_both(fn, span, data)
 
-rolling(::Type{FILL_FIRST}, fn::Function, span::Int, filler::T, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{FILL_FIRST}, fn::Function, span::Int, filler::T, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_fill_first(fn, span, filler, data)
-rolling(::Type{FILL_LAST}, fn::Function, span::Int, filler::T, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{FILL_LAST}, fn::Function, span::Int, filler::T, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_fill_last(fn, span, filler, data)
-rolling(::Type{FILL_BOTH}, fn::Function, span::Int, filler::T, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{FILL_BOTH}, fn::Function, span::Int, filler::T, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_fill_both(fn, span, filler, data)
 
-rolling(::Type{TAPER_FIRST}, fn::Function, span::Int, tapered_span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{TAPER_FIRST}, fn::Function, span::Int, tapered_span::Int, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_taper_first(fn, span,  max(2, tapered_span), data)
-rolling(::Type{TAPER_LAST}, fn::Function, span::Int, tapered_span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{TAPER_LAST}, fn::Function, span::Int, tapered_span::Int, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_taper_last(fn, span,  max(2, tapered_span), data)
-rolling(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}} =
+rolling(::Type{TAPER_BOTH}, fn::Function, span::Int, tapered_span::Int, data::V) where
+       {T<:MaybeNumber, V<:AbstractVector{T}} =
     rolling_taper_both(fn, span,  max(2, tapered_span), data)
 
 """
@@ -141,7 +154,8 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 
 `length(result) == length(data)`
 """
-function rolling_fill_first(fn::Function, span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_fill_first(fn::Function, span::Int, data::V) where
+                           {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -159,7 +173,8 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 
 `length(result) == length(data)`
 """
-function rolling_fill_first(fn::Function, span::Int, filler::T, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_fill_first(fn::Function, span::Int, filler::T, data::V) where
+                           {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -178,7 +193,8 @@ This rolls by applying fn to successive data sub-spans, then fills by carrying t
 
 `length(result) == length(data)`
 """
-function rolling_fill_last(fn::Function, span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_fill_last(fn::Function, span::Int, data::V) where
+                          {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -198,7 +214,8 @@ This rolls by applying fn to successive data sub-spans, then uses filler to fill
 
 `length(result) == length(data)`
 """
-function rolling_fill_last(fn::Function, span::Int, filler::T, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_fill_last(fn::Function, span::Int, filler::T, data::V) where
+                          {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
 
@@ -218,7 +235,8 @@ This rolls by averaging (default) or by alpha*rolling_fill_first and (1-alpha)ro
 
 `length(result) == length(data)`
 """
-function rolling_fill_both(fn::Function, span::Int, data::V, alpha::Float64=0.5) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_fill_both(fn::Function, span::Int, data::V, alpha::Float64=0.5) where
+                          {T<:MaybeNumber, V<:AbstractVector{T}}
     return alpha*rolling_fill_first(fn, span, data) + (1.0-alpha)*rolling_fill_last(fn, span, data)
 end
 
@@ -229,7 +247,8 @@ This rolls by averaging (default) or by alpha*rolling_fill_first and (1-alpha)ro
 
 `length(result) == length(data)`
 """
-function rolling_fill_both(fn::Function, span::Int, filler::T, data::V, alpha::Float64=9.5) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_fill_both(fn::Function, span::Int, filler::T, data::V, alpha::Float64=9.5) where
+                          {T<:MaybeNumber, V<:AbstractVector{T}}
     return (alpha * rolling_fill_first(fn, span, filler, data)) + ((1.0-alpha) * rolling_fill_last(fn, span, filler, data))
 end
 
@@ -242,7 +261,8 @@ the window until its span equals tapered_span and finally copies.
 
 `length(result) == length(data)`
 """
-function rolling_taper_first(fn::Function, span::Int, tapered_span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_taper_first(fn::Function, span::Int, tapered_span::Int, data::V) where
+                            {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
     (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
@@ -266,7 +286,8 @@ the window until its span equals tapered_span and finally copies.
 
 `length(result) == length(data)`
 """
-function rolling_taper_last(fn::Function, span::Int, tapered_span::Int, data::V) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_taper_last(fn::Function, span::Int, tapered_span::Int, data::V) where
+                           {T<:MaybeNumber, V<:AbstractVector{T}}
     n_in  = length(data)
     (span > 1 && n_in >= span) || throw(span_error(n_in, span))
     (span > tapered_span) || throw(taperedspan_error(span, tapered_span))
@@ -292,7 +313,8 @@ This rolls by averaging (default) or by alpha*rolling_taper_first and (1-alpha)r
 
 `length(result) == length(data)`
 """
-function rolling_taper_both(fn::Function, span::Int, tapered_span::Int, data::V, alpha::Float64=0.5) where {T<:MaybeNumber, V<:AbstractVector{T}}
+function rolling_taper_both(fn::Function, span::Int, tapered_span::Int, data::V, alpha::Float64=0.5) where
+                           {T<:MaybeNumber, V<:AbstractVector{T}}
     tapered_span = max(2, tapered_span)
     return alpha*rolling_taper_first(fn, span, tapered_span, data) + (1.0-alpha)*rolling_taper_last(fn, span, tapered_span, data)
 end
