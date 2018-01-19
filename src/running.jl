@@ -4,7 +4,8 @@ for (F,R) in [(:minimum, :roll_minimum), (:maximum, :roll_maximum),
               (:sum, :roll_sum), (:prod, :roll_prod), (:norm, :roll_norm)]
     @eval begin
         $R(span::Int, data::AbstractVector{T}) where T = rolling($F, span, data)
-        $R(span::Int, weights::Vector{T}, data::AbstractVector{T}) where T = rolling($F, span, weights, data)
+        $R(span::Int, weights::Vector{T}, data::AbstractVector{T}) where T =
+            rolling($F, span, weights, data)
         $R(::Type{FILL_FIRST}, span::Int, data::AbstractVector{T}) where T =
             rolling(FILL_FIRST, $F, span, data)
         $R(::Type{FILL_LAST},  span::Int, data::AbstractVector{T}) where T =

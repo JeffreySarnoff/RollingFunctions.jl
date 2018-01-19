@@ -9,9 +9,25 @@ export roll_minimum, roll_maximum,
        rolling, 
        FILL_FIRST, FILL_LAST, FILL_BOTH,
        TAPER_FIRST, TAPER_LAST, TAPER_BOTH
-       
-import Base.Dates:TimeType
+
 using StatsBase
+
+try
+    missing
+    using Dates
+    import Dates: AbstractTime
+catch
+    try
+        using Missings
+        using Base.Dates
+        import Base.Dates: AbstractTime
+    catch
+        throw(ErrorException("To use RollingFunctions with ver0.6, `Pkg.add(\"Missings\")`."))
+    end
+end
+
+const MaybeNumber = Union{Missing, T} where T<:Number
+const MaybeTime   = Union{Missing, T} where T<:AbstractTime
 
 const FILL_FIRST = Val{:FILL_FIRST}
 const FILL_LAST  = Val{:FILL_LAST}
