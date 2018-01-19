@@ -196,7 +196,8 @@ end
 """
 rolling_fill_last(fn, span, data)
 
-This rolls by applying fn to successive data sub-spans, then fills by carrying the (end-span)_th result forward.
+This rolls by applying fn to successive data sub-spans,
+then fills by carrying the (end-span)_th result forward.
 
 `length(result) == length(data)`
 """
