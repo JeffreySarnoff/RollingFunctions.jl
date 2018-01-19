@@ -62,7 +62,7 @@ function rolling(fn::Function, weights::V, data::V) where
 end
 
 function rolling(fn::Function, weights::V, data::A) where
-                {N, T<:MaybeNumber, A<:AbstractMatrix{T}}
+                {N, T<:MaybeNumber, V<:AbstractVector{T}, A<:AbstractMatrix{T}}
     n_rows_in, n_cols  = size(data)
     span = length(weights)
 
@@ -82,7 +82,6 @@ function rolling(fn::Function, weights::V, data::A) where
            
      return result
 end
-
 
 
 function rolling(fn::Function, span::S, times::D, data::V) where
@@ -121,8 +120,6 @@ function rolling(fn::Function, weights::V, times::D, data::V) where
     
     return result
 end
-
-
 
 
 rolling(::Type{FILL_FIRST}, fn::Function, span::Int, data::V) where
