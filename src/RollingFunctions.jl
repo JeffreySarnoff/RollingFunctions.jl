@@ -27,8 +27,10 @@ catch
     end
 end
 
-const MaybeNum  = Union{Missing, T} where T<:Number
-const MaybeTime = Union{Missing, T} where T<:AbstractTime
+const MaybeNumber    = Union{Missing, Number}
+const MaybeTime      = Union{Missing, AbstractTime}
+const MaybeAkoNumber = Union{Missing, T} where T<:Number
+const MaybeAkoTime   = Union{Missing, T} where T<:AbstractTime
 
 const FILL_FIRST = Val{:FILL_FIRST}
 const FILL_LAST  = Val{:FILL_LAST}
