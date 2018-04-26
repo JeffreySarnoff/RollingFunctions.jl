@@ -1,6 +1,6 @@
-# RollingFunctions.jl
+each step# RollingFunctions.jl
 
-### Roll a function over data, run a statistic along a weighted data window.
+### Roll a function over data, run a statistic along a [weighted] data window.
 
 #### Copyright © 2017 by Jeffrey Sarnoff.  Released under the MIT License.
 
