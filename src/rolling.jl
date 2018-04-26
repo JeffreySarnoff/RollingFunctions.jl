@@ -70,7 +70,7 @@ end
 
 # filling
 
-filling(filler::T, data::AbstractVector{T}) where {T}
+function filling(filler::T, data::AbstractVector{T}) where {T}
     nvals  = axes(data)[1].stop
     return fill(filler, nvals)
 end
