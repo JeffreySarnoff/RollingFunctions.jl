@@ -1,3 +1,2 @@
-julia 0.6.0
-StatsBase 0.13.1
-Missings 0.2.4
+julia 0.7-
+StatsBase 0.20.0
