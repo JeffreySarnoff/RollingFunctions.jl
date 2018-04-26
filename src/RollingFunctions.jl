@@ -1,6 +1,9 @@
 module RollingFunctions
 
-export rollmin, rollmax, rollmean, rollmedian, rollstd
+export rollmin, rollmax,              # min, max
+       rollmean, rollmedian,          # mean, median
+       rollwmean, rollwmedian         # weighted mean, weighted median
+
 
 import StatsBase
 
