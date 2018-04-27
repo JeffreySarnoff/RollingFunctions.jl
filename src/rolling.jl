@@ -32,7 +32,7 @@ function rolling(fun::Function, data::V, windowspan::Int, weights::F) where
 end
 
 
-function rolling(fun::Function, data::AbstractVector{T}, windowspan::Int, weights::W) where
+rolling(fun::Function, data::AbstractVector{T}, windowspan::Int, weights::W) where
                 {T, N<:Number, W<:AbstractWeights} =
     rolling(fun, data, windowspan, weights.values)
 
