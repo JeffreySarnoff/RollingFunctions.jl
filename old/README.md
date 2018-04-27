@@ -9,7 +9,16 @@
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
 -----
 
+### works with data
+- data that is a simple vector
+- nonsimple data organizations that support CartesianIndexing
+- sequentially retreivable data streams
+
+### works with filters
+- weights that are simple vectors and with StatsBase.AbstractWeights
+
 ### exports
+
 
 #### windowed functions
 ```julia
