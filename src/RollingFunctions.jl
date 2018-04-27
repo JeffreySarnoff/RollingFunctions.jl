@@ -1,7 +1,12 @@
 module RollingFunctions
 
-export rollmin, rollmax,              # min, max
+export rollmin,  rollmax,             # min, max
        rollmean, rollmedian,          # mean, median
+       rollvar,  rollstd,             # variance, standard deviation
+       rollskewness, rollkurtosis     # skewness, kurtosis
+       rollsem,                       # standard error of the mean
+       rollmad,                       # mean absolute deviation
+       rollvariation,                 # coefficient of variation
        rollwmean, rollwmedian         # weighted mean, weighted median
 
 
