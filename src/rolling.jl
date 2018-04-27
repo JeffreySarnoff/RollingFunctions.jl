@@ -33,7 +33,7 @@ end
 
 
 rolling(fun::Function, data::AbstractVector{T}, windowspan::Int, weights::W) where
-                {T, N<:Number, W<:AbstractWeights} =
+                {T, N<:Number, W<:StatsBase.AbstractWeight} =
     rolling(fun, data, windowspan, weights.values)
 
 # number of values to be obtained
