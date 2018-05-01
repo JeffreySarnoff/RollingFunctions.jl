@@ -9,15 +9,17 @@
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)
 -----
 
-### works with data
+### works with unweighted data
 - data that is a simple vector
-- nonsimple data organizations that support CartesianIndexing
-- sequentially retreivable data streams
-- columns from a DataFrame or an IndexedTable
-- columns from a CSV.jl readable file
+- data that is a CartesianIndexed vector
 
-### works with filters
-- weights that are simple vectors and with StatsBase.AbstractWeights
+### works with weights
+- weights given as a simple vector
+- weights given as a kind of StatsBase.AbstractWeights
+
+### examples of
+- use with columns from a DataFrame
+- use with columns from a TimeSeries
 
 ---------
 
