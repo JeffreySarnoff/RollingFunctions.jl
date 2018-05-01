@@ -55,7 +55,18 @@ end
 
 # unweighted windowed function tapering
 
-function tapering(fun::Function, data::AbstractVector{T}; ntocopy::Int=0) where {T}
+function tapering(fun::Function, data::AbstractVector{T}) where {T}
+    nvals  = length(data)
+    result = zeros(T, nvals)
+
+    @inbounds for idx in nvals:-1:1
+        result[idx] = fun( view(data, 1:idx) )
+    end
+
+    return result
+end
+
+function tapering(fun::Function, data::AbstractVector{T}, ntocopy::Int) where {T}
     nvals  = length(data)
     ntocopy = min(nvals, max(0, ntocopy))
 
@@ -72,7 +83,7 @@ function tapering(fun::Function, data::AbstractVector{T}; ntocopy::Int=0) where 
     return result
 end
 
-function tapering(fun::Function, data::AbstractVector{T}; 
+function tapering(fun::Function, data::AbstractVector{T}, 
                   trailing_data::AbstractVector{T}) where {T}
     
     ntrailing = axes(trailing_data)[1].stop
