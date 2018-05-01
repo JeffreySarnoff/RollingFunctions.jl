@@ -10,7 +10,7 @@ export rollmin,  rollmax,             # min, max
        rollwmean, rollwmedian         # weighted mean, weighted median
 
 
-import StatsBase
+using StatsBase
 
 include("rolling.jl")
 include("rollstats.jl")
