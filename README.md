@@ -30,15 +30,22 @@
 With `ndata = length(data)` the result of rolling a function over the data will be a vector of length `ndata - windowsize + 1`.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix `roll` behave this way.
 
 ```julia
-julia> data = collect(1.0:5.0); print(data)
-[1.0, 2.0, 3.0, 4.0, 5.0]
-julia> windowsize = 3
-3
-julia> rollmean(data, windowsize)
-3-element Array{Float64,1}:
- 2.0
- 3.0
- 4.0
+julia> data = collect(1.0f0:5.0f0); print(data)
+Float32[1.0, 2.0, 3.0, 4.0, 5.0]
+julia> windowsize = 3;
+
+julia> result = rollmean(data, windowsize); print(result)
+Float32[2.0, 3.0, 4.0]
+```
+```julia
+julia> weights = normalize([1.0f0, 2.0f0, 4.0f0])
+3-element Array{Float32,1}:
+ 0.21821788
+ 0.43643576
+ 0.8728715 
+ 
+julia> result = rollmean(data, windowsize, weights); print(result)
+Float32[1.23657, 1.74574, 2.25492]
 ```
 
 ## Running a function over data
@@ -46,17 +53,19 @@ julia> rollmean(data, windowsize)
 To obtain the same number of output data values as are given, the initial `windowsize - 1` values output must be generated outside of the rolling behavior.  This is accomplished by tapering the needed values -- using the same function that is rolled on successively smaller window sizes.  All exported functions named with the prefix `run` behave this way.
 
 ```julia
-julia> data = collect(1.0:5.0); print(data)
-[1.0, 2.0, 3.0, 4.0, 5.0]
-julia> windowsize = 3
-3
-julia> runmean(data, windowsize)
-5-element Array{Float64,1}:
- 1.0
- 1.5
- 2.0
- 3.0
- 4.0
+```julia
+julia> data = collect(1.0f0:5.0f0); print(data)
+Float32[1.0, 2.0, 3.0, 4.0, 5.0]
+julia> windowsize = 3;
+
+julia> result = runmean(data, windowsize); print(result)
+Float32[1.0, 1.5, 2.0, 3.0, 4.0]
+```
+```julia
+julia> weights = normalize([1.0f0, 2.0f0, 4.0f0]);
+ 
+julia> result = runmean(data, windowsize, weights); print(result)
+Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 ```
 
 ### works with prewrapped functions
