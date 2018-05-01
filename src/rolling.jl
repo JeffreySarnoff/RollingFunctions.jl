@@ -80,7 +80,6 @@ function tapering(fun::Function, data::AbstractVector{T};
     result = zeros(T, nvals)
 
     result[1:ntrailing] = trailing_data[1:ntrailing]
-    end
     ntrailing += 1
 
     @inbounds for idx in nvals:-1:ntrailing
