@@ -21,9 +21,14 @@ export rolling,
        runmad_normalized,             # mean absolute deviation for normal data
        runvariation,                  # coefficient of variation
                                       # support
-       normalize                      # LinearAlgebra.normalize
+       normalize,                     # LinearAlgebra.normalize
+       AbstractWeights, Weights,      # StatsBase
+       FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
 import LinearAlgebra: normalize
+
+import StatsBase: AbstractWeights, Weights,
+                  FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
 using StatsBase
 
