@@ -10,10 +10,7 @@ function running(fun::Function, data::AbstractVector{T}, windowspan::Int) where 
     
     result[1:ntapers] = tapers(fun, data[1:ntapers])
     ntapers += 1
-    
-    @inbounds for idx in ntapers:nvals
-        result[idx] = fun( view(data, idx:idx+offset) )
-    end
+    result[ntapers:ndata] = rolling(fun, data)
 
     return result
 end
