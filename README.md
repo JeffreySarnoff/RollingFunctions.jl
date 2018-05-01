@@ -50,7 +50,7 @@ Float32[1.23657, 1.74574, 2.25492]
 
 ## Running a function over data
 
-To obtain the same number of output data values as are given, the initial `windowsize - 1` values output must be generated outside of the rolling behavior.  This is accomplished by tapering the needed values -- using the same function that is rolled on successively smaller window sizes.  All exported functions named with the prefix `run` behave this way.
+To obtain the same number of output data values as are given, the initial `windowsize - 1` values output must be generated outside of the rolling behavior.  This is accomplished by tapering the needed values -- using the same function, rolling it over successively smaller window sizes.  All exported functions named with the prefix `run` behave this way.
 
 ```julia
 ```julia
