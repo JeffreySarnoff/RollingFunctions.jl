@@ -17,7 +17,7 @@ end
 function rolling(fun::Function, data::V, windowspan::Int, weights::F) where
                  {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
-    length(weights) != windowspan &&
+    length(weights) < windowspan &&
         throw(WeightsError(length(weights), windowspan))
 
     nvals  = nrolled(length(data), windowspan)
