@@ -6,8 +6,8 @@ export rollmin,  rollmax,             # min, max
        rollskewness, rollkurtosis     # skewness, kurtosis
        rollsem,                       # standard error of the mean
        rollmad,                       # mean absolute deviation
-       rollvariation,                 # coefficient of variation
-       rollwmean, rollwmedian         # weighted mean, weighted median
+       rollvariation                  # coefficient of variation
+
 
 
 using StatsBase
