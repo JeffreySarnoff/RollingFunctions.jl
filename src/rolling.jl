@@ -93,12 +93,11 @@ function tapers(fun::Function, data::V, weights::F) where
     nweights = length(weights)
     
     nweights == nvals || throw(WeightsError(length(weights), nvals))
-    reverse!(weights)
     
     result = zeros(T, nvals)
 
     @inbounds for idx in nvals:-1:1
-        result[idx] = fun( view(data, 1:idx) .* view(weights, 1:idx)  )
+        result[idx] = fun( view(data, 1:idx) .* view(weights, (nvals-idx+1):nweights)  )
     end
 
     return result
