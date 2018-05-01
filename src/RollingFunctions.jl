@@ -1,3 +1,5 @@
+__precompile__()
+
 module RollingFunctions
 
 export rolling,
@@ -17,10 +19,7 @@ export rolling,
        runsem,                        # standard error of the mean
        runmad,                        # mean absolute deviation
        runmad_normalized,             # mean absolute deviation for normal data
-       runvariation,                  # coefficient of variation
-                                      #      support
-       getcolumn                      # Array, DataFrame, TimeSeries.TimeArray
-
+       runvariation                   # coefficient of variation
 
 using StatsBase
 import LinearAlgebra.normalize
@@ -29,6 +28,5 @@ include("rolling.jl")
 include("running.jl")
 include("rollstats.jl")
 include("runstats.jl")
-include("support.jl")
 
 end # RollingFunctions
