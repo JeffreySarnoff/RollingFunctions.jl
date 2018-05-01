@@ -17,12 +17,13 @@
 - weights given as a simple vector
 - weights given as a kind of StatsBase.AbstractWeights
 
-### works with functions
-##### exports prewrapped statistical functions
+### works with prewrapped functions
 - rollmin, rollmax, rollmean, rollmedian
 - rollvar, rollstd, rollsem, rollmad, rollvariation
-##### exports rolling(function, data, windowsize)
-- use with your own functions
+
+### works with your functions
+- rolling(function, data, windowsize)
+- rolling(function, data, windowsize, weights)
 
 ### examples of use
 - with a simple vector
