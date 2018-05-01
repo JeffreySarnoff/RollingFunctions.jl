@@ -4,7 +4,7 @@ getcolumn(x::AbstractVector{T}, colidx::Int) where {T} =
 getcolumn(x::AbstractArray{T,2}, colidx::Int) where {T} =
    1 <= colidx <= 2 ? x[:,colidx] : throw(DomainError("!(1 <= colidx ($colidx) <= 2)"))
 
-function getcolumn(x::AbstractArray{T,3}, colidx::Tuple(Int,Int)) where {T}
+function getcolumn(x::AbstractArray{T,3}, colidx::Tuple{Int,Int}) where {T}
    colidx = minmax(colidx[1], colidx[2])
    if colidx === (1,2)
       x[1,2,:]
