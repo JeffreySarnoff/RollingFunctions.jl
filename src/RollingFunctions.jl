@@ -1,6 +1,7 @@
 module RollingFunctions
 
-export rollmin,  rollmax,             # min, max
+export rolling,
+       rollmin,  rollmax,             # min, max
        rollmean, rollmedian,          # mean, median
        rollvar,  rollstd,             # variance, standard deviation
        rollskewness, rollkurtosis,    # skewness, kurtosis
@@ -8,7 +9,7 @@ export rollmin,  rollmax,             # min, max
        rollmad,                       # mean absolute deviation
        rollmad_normalized,            # mean absolute deviation for normal data
        rollvariation,                 # coefficient of variation
-                                      #      tapering versions
+       running,                       #      tapering versions
        runmin,  runmax,               # min, max
        runmean, runmedian,            # mean, median
        runvar,  runstd,               # variance, standard deviation
