@@ -16,6 +16,10 @@ for (R,F) in ((:runmin, :minimum), (:runmax, :maximum),
               (:runvariation, :variation1))
     @eval begin
         $R(data::AbstractVector{T}, windowspan::Int) where {T} =
-            running($F, data, windowspan)
+            rolling($F, data, windowspan)
+        $R(data::AbstractVector{T}, windowspan::Int, weights::AbstractVector{S}) where {T,S} =
+            rolling($F, data, windowspan, weights)
+        $R(data::AbstractVector{T}, windowspan::Int, weights::AbstractWeights) where {T} =
+            rolling($F, data, windowspan, weights.values)
     end
 end
