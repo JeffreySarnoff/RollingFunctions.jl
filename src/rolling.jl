@@ -92,7 +92,7 @@ function tapers(fun::Function, data::V, weights::F) where
     nvals  = length(data)
     nweights = length(weights)
     
-    nweights >= nvals || throw(WeightsError(length(weights), nvals))
+    nweights == nvals || throw(WeightsError(length(weights), nvals))
     weights = reverse!(weights[(nvals+1-nweights):nweights])
     
     result = zeros(T, nvals)
