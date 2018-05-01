@@ -26,5 +26,6 @@ using StatsBase
 include("rolling.jl")
 include("running.jl")
 include("rollstats.jl")
+include("runstats.jl")
 
 end # RollingFunctions
