@@ -5,7 +5,6 @@ function running(fun::Function, data::AbstractVector{T}, windowspan::Int) where 
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
     
-    offset = windowspan - 1
     result = zeros(T, ndata)
     
     result[1:ntapers] = tapers(fun, data[1:ntapers])
