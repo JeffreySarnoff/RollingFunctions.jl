@@ -19,10 +19,10 @@
 
 ### works with functions
 - exports prewrapped statistical functions
--- rollmin, rollmax, rollmean, rollmedian
--- rollvar, rollstd, rollsem, rollmad, rollvariation
+> rollmin, rollmax, rollmean, rollmedian
+> rollvar, rollstd, rollsem, rollmad, rollvariation
 - exports rolling(function, data, windowsize)
--- use with your own functions
+> use with your own functions
 
 ### examples of use
 - with a simple vector
