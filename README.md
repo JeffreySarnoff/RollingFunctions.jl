@@ -68,13 +68,16 @@ julia> result = runmean(data, windowsize, weights); print(result)
 Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 ```
 
-### offers prewrapped functions
+### rolling stats
 - rollmin, rollmax, rollmean, rollmedian
 - rollvar, rollstd, rollsem, rollmad, rollmad_normalized
 - rollskewness, rollkurtosis, rollvariation
+
+### running stats
 - runmin, runmax, runmean, runmedian
 - runvar, runstd, runsem, runmad, runmad_normalized
 - runskewness, runkurtosis, runvariation
+Some of these use a limit value for running over vec of length 1.
 
 ### works with your functions
 - rolling(function, data, windowsize)
