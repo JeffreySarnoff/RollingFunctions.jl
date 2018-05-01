@@ -5,7 +5,7 @@ for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
               (:rollsem, :sem), (:rollmad, :mad),
               (:rollvariation, :variation))
     @eval begin
-        function $R(data::AbstractVector{T}, windowspan::Int) where {T} =
+        $R(data::AbstractVector{T}, windowspan::Int) where {T} =
             rolling($F, data, windowspan)
     end
 end
