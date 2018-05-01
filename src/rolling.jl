@@ -97,7 +97,8 @@ function tapers(fun::Function, data::V, weights::F) where
     result = zeros(T, nvals)
 
     @inbounds for idx in nvals:-1:1
-        result[idx] = fun( view(data, 1:idx) .* view(weights, (nvals-idx+1):nweights)  )
+        wts = normalize(view(weights, (nweights-idx+1):nweights))
+        result[idx] = fun( view(data, 1:idx) .* wts  )
     end
 
     return result
