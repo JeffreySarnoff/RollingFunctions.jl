@@ -17,14 +17,6 @@
 - weights given as a simple vector
 - weights given as a kind of StatsBase.AbstractWeights
 
-### works with prewrapped functions
-- rollmin, rollmax, rollmean, rollmedian
-- rollvar, rollstd, rollsem, rollmad, rollvariation
-
-### works with your functions
-- rolling(function, data, windowsize)
-- rolling(function, data, windowsize, weights)
-
 ### examples of use
 - with a simple vector
 - with a DataFrame column
@@ -69,44 +61,15 @@ julia> runmean(data, windowsize)
  4.0
 ```
 
-## Tapering
+### works with prewrapped functions
+- rollmin, rollmax, rollmean, rollmedian
+- rollvar, rollstd, rollsem, rollmad, rollvariation
+- runmin, runmax, runmean, runmedian
+- runvar, runstd, runsem, runmad, runvariation
 
-When rolling a window over a finite data sequence, one may prefer
-to obtain a result that incorporates just as many elements as has
-the source sequence.  The trailing (earliest) values are not fully
-coverable by the window's span.  Tapering is one way to accomodate
-this situation.  A tapered roll starts with zero or more prepared
-values and grows the window from spanning very few to approaching
-the analytic span.  The final tapered value uses a window that is
-reduced in coverage by one element. The penultimate tapered value
-uses a window that is reduced in coverage by two elements, and so.
+### works with your functions
+- rolling(function, data, windowsize)
+- rolling(function, data, windowsize, weights)
+- running(function, data, windowsize)
 
-We support using prepared values to _prime the rolling evaluation_.
-Alternatively, one may just copy over the first few (earliest)
-observations and begin growing the taper from those values.
 
-```julia
-using RollingFunctions, StatsBase
-# and any of these or others as you may select:
-# CSV, DataFrames, IndexedTables, JuliaDB, TimeSeries 
-data = vector_from_datasource( datasource )
-
-rollingfun = geomean
-windowspan = 200
-num2prep   = 15
-
-taperprep  = [median(data[1:idx]) for idx=1:num2prep]
-
-taper = tapering(rollingfun, data[1:windowspan-1], taperprep)
-```
-To copy over the first observations and let them serve as the taperprep
-```julia
-using RollingFunctions, StatsBase
-data = vector_from_datasource( datasource )
-
-rollingfun = geomean
-windowspan = 200
-num2copy   = 15
-
-taper = tapering(rollingfun, data[1:windowspan-1], num2copy)
-```
