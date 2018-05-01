@@ -17,9 +17,18 @@
 - weights given as a simple vector
 - weights given as a kind of StatsBase.AbstractWeights
 
-### examples of
-- use with columns from a DataFrame
-- use with columns from a TimeSeries
+### works with functions
+- exports prewrapped statistical functions
+-- rollmin, rollmax, rollmean, rollmedian
+-- rollvar, rollstd, rollsem, rollmad, rollvariation
+- exports rolling(function, data, windowsize)
+-- use with your own functions
+
+### examples of use
+- with a simple vector
+- with a DataFrame column
+- with a TimeSeries column
+- with your own function
 
 ---------
 
