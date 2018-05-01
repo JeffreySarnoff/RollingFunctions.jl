@@ -25,8 +25,6 @@
 
 ---------
 
-## Rolling
-
 ## Rolling a function over data
 
 With `ndata = length(data)` the result of rolling a function over the data will be a vector of length `ndata - windowsize + 1`.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix `roll` behave this way.
@@ -72,4 +70,6 @@ julia> runmean(data, windowsize)
 - rolling(function, data, windowsize, weights)
 - running(function, data, windowsize)
 
+### also exports
+- LinearAlgebra.normalize
 
