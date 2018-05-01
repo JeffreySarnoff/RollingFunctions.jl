@@ -108,8 +108,6 @@ tapers(fun::Function, data::AbstractVector{T}, weights::W) where
                 {T, N<:Number, W<:AbstractWeights} =
     tapers(fun, data, weights.values)
 
-function rolling(fun::Function, data::V, windowspan::Int, weights::F) where
-                 {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 # filling
 
 function fills(filler::T, data::AbstractVector{T}) where {T}
