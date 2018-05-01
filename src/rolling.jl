@@ -113,3 +113,4 @@ SpanError(seqlength, windowspan) =
 
 WeightsError(nweights, windowspan) =
     ErrorException("\n\twindowspan ($windowspan) != length(weights) ($nweights))).\n" )
+
