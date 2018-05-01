@@ -11,12 +11,12 @@ kurtosis1(x) = length(x) > 1 ? kurtosis(x) : -1.0
 
 for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
               (:rollmean, :mean), (:rollmedian, :median), 
-              (:rollvar, :var1), (:rollstd, :std1),
-              (:rollskewness, :skewness1), (:rollkurtosis, :kurtosis1),
-              (:rollsem, :sem1), 
+              (:rollvar, :var), (:rollstd, :std),
+              (:rollskewness, :skewness), (:rollkurtosis, :kurtosis),
+              (:rollsem, :sem), 
               (:rollmad, :mad_not_normalized),
               (:rollmad_normalized, :mad_normalized),
-              (:rollvariation, :variation1))
+              (:rollvariation, :variation))
     @eval begin
         $R(data::AbstractVector{T}, windowspan::Int) where {T} =
             rolling($F, data, windowspan)
