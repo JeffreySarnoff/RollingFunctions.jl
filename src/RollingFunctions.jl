@@ -19,12 +19,19 @@ export rolling,
        runsem,                        # standard error of the mean
        runmad,                        # mean absolute deviation
        runmad_normalized,             # mean absolute deviation for normal data
-       runvariation                   # coefficient of variation
+       runvariation,                  # coefficient of variation
+                                      # support
+       normalize,                     # LinearAlgebra.normalize
+       AnalyticWeights,               # StatsBase.AbstractWeights 
+       FrequencyWeights,              #
+       ProbabilityWeights,            #
+       AbstractWeights                #
+
+import LinearAlgebra: normalize
+import StatsBase: AbstractWeights, 
+                  AnalyticWeights, FrequencyWeights, ProbabilityWeights
 
 using StatsBase
-import LinearAlgebra.normalize
-export LinearAlgebra.normalize
-
 
 include("rolling.jl")
 include("running.jl")
