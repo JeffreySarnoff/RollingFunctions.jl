@@ -6,6 +6,7 @@ export rollmin,  rollmax,             # min, max
        rollskewness, rollkurtosis,    # skewness, kurtosis
        rollsem,                       # standard error of the mean
        rollmad,                       # mean absolute deviation
+       rollmad_normalized,            # mean absolute deviation for normal data
        rollvariation                  # coefficient of variation
 
 
