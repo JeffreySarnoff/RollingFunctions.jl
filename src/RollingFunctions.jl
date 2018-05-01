@@ -22,6 +22,7 @@ export rolling,
 
 
 using StatsBase
+import LinearAlgebra.normalize
 
 include("rolling.jl")
 include("running.jl")
