@@ -72,4 +72,5 @@ julia> runmean(data, windowsize)
 
 ### also exports
 - LinearAlgebra.normalize
-
+- StatsBase: AbstractWeights, Weights
+- StatsBase: FrequencyWeights, AnalyticWeights, ProbabilityWeights
