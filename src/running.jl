@@ -27,7 +27,7 @@ function running(fun::Function, data::V, windowspan::Int, weights::F) where
     
     result[1:ntapers] = tapers(fun, data[1:ntapers], weights[end-(ntapers-1):end])
     ntapers += 1
-    result[ntapers:ndata] = rolling(fun, data, windowspan)
+    result[ntapers:ndata] = rolling(fun, data, windowspan, weights)
 
     return result
 end
