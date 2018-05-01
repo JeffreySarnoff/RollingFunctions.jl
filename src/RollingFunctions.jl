@@ -14,6 +14,7 @@ export rollmin,  rollmax,             # min, max
 using StatsBase
 
 include("rolling.jl")
+include("running.jl")
 include("rollstats.jl")
 
 end # RollingFunctions
