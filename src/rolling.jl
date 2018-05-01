@@ -36,22 +36,6 @@ rolling(fun::Function, data::AbstractVector{T}, windowspan::Int, weights::W) whe
                 {T, N<:Number, W<:AbstractWeights} =
     rolling(fun, data, windowspan, weights.values)
 
-# number of values to be obtained
-
-function nrolled(seqlength::T, windowspan::T) where {T<:Signed}
-    (0 < windowspan <= seqlength) || throw(SpanError(seqlength,windowspan))
-
-    return seqlength - windowspan + 1
-end
-
-# number of values to be imputed
-
-function nfilled(windowspan::T) where {T<:Signed}
-    windowspan < 1 && throw(SpanError(seqlength,windowspan))
-
-    return windowspan - 1
-end
-
 
 # unweighted windowed function tapering
 
@@ -100,7 +84,32 @@ function tapers(fun::Function, data::AbstractVector{T},
     return result
 end
 
+# weighted windowed function tapering
 
+function tapers(fun::Function, data::V, weights::F) where
+                 {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
+
+    nvals  = length(data)
+    nweights = length(weights)
+    
+    nweights >= nvals || throw(WeightsError(length(weights), nvals))
+    weights = reverse!(weights)
+    
+    result = zeros(T, nvals)
+
+    @inbounds for idx in nvals:-1:1
+        result[idx] = fun( view(data, 1:idx) .* view(weights, 1:idx)  )
+    end
+
+    return result
+end
+
+tapers(fun::Function, data::AbstractVector{T}, weights::W) where
+                {T, N<:Number, W<:AbstractWeights} =
+    tapers(fun, data, weights.values)
+
+function rolling(fun::Function, data::V, windowspan::Int, weights::F) where
+                 {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 # filling
 
 function fills(filler::T, data::AbstractVector{T}) where {T}
@@ -116,6 +125,21 @@ function fills(filler::T1, data::AbstractVector{T2}) where {T1, T2}
     return result
 end
 
+# number of values to be obtained
+
+function nrolled(seqlength::T, windowspan::T) where {T<:Signed}
+    (0 < windowspan <= seqlength) || throw(SpanError(seqlength,windowspan))
+
+    return seqlength - windowspan + 1
+end
+
+# number of values to be imputed
+
+function nfilled(windowspan::T) where {T<:Signed}
+    windowspan < 1 && throw(SpanError(seqlength,windowspan))
+
+    return windowspan - 1
+end
 
 # local exceptions
 
