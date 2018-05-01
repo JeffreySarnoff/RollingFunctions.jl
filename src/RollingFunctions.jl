@@ -7,7 +7,16 @@ export rollmin,  rollmax,             # min, max
        rollsem,                       # standard error of the mean
        rollmad,                       # mean absolute deviation
        rollmad_normalized,            # mean absolute deviation for normal data
-       rollvariation                  # coefficient of variation
+       rollvariation,                 # coefficient of variation
+                                      #      tapering versions
+       runmin,  runmax,               # min, max
+       runmean, runmedian,            # mean, median
+       runvar,  runstd,               # variance, standard deviation
+       runskewness, runkurtosis,      # skewness, kurtosis
+       runsem,                        # standard error of the mean
+       runmad,                        # mean absolute deviation
+       runmad_normalized,             # mean absolute deviation for normal data
+       runvariation                   # coefficient of variation
 
 
 
