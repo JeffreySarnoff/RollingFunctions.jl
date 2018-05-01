@@ -55,7 +55,7 @@ end
 
 # unweighted windowed function tapering
 
-function tapering(fun::Function, data::AbstractVector{T}) where {T}
+function tapers(fun::Function, data::AbstractVector{T}) where {T}
     nvals  = length(data)
     result = zeros(T, nvals)
 
@@ -66,7 +66,7 @@ function tapering(fun::Function, data::AbstractVector{T}) where {T}
     return result
 end
 
-function tapering(fun::Function, data::AbstractVector{T}, ntocopy::Int) where {T}
+function tapers(fun::Function, data::AbstractVector{T}, ntocopy::Int) where {T}
     nvals  = length(data)
     ntocopy = min(nvals, max(0, ntocopy))
 
@@ -83,8 +83,8 @@ function tapering(fun::Function, data::AbstractVector{T}, ntocopy::Int) where {T
     return result
 end
 
-function tapering(fun::Function, data::AbstractVector{T}, 
-                  trailing_data::AbstractVector{T}) where {T}
+function tapers(fun::Function, data::AbstractVector{T}, 
+                trailing_data::AbstractVector{T}) where {T}
     
     ntrailing = axes(trailing_data)[1].stop
     nvals  = length(data) + ntrailing
@@ -103,12 +103,12 @@ end
 
 # filling
 
-function filling(filler::T, data::AbstractVector{T}) where {T}
+function fills(filler::T, data::AbstractVector{T}) where {T}
     nvals  = axes(data)[1].stop
     return fill(filler, nvals)
 end
 
-function filling(filler::T1, data::AbstractVector{T2}) where {T1, T2}
+function fills(filler::T1, data::AbstractVector{T2}) where {T1, T2}
     elemtype = Union{T1,T2}
     nvals  = axes(data)[1].stop
     result = Array{elemtype,1}(undef, nvals)
