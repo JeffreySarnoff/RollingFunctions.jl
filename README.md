@@ -77,6 +77,7 @@ Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 - runmin, runmax, runmean, runmedian
 - runvar, runstd, runsem, runmad, runmad_normalized
 - runskewness, runkurtosis, runvariation
+
 Some of these use a limit value for running over vec of length 1.
 
 ### works with your functions
