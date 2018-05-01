@@ -27,7 +27,7 @@
 
 ## Rolling a function over data
 
-With `ndata = length(data)` the result of rolling a function over the data will be a vector of `ndata - windowsize + 1` elements.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix `roll` behave this way.
+With `ndata = length(data)`, using a window of length `windowsize`, rolling a function results in a vector of `ndata - windowsize + 1` elements.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix `roll` behave this way.
 
 ```julia
 julia> data = collect(1.0f0:5.0f0); print(data)
