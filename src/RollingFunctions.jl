@@ -17,8 +17,9 @@ export rolling,
        runsem,                        # standard error of the mean
        runmad,                        # mean absolute deviation
        runmad_normalized,             # mean absolute deviation for normal data
-       runvariation                   # coefficient of variation
-
+       runvariation,                  # coefficient of variation
+                                      #      support
+       getcolumn                      # Array, DataFrame, TimeSeries.TimeArray
 
 
 using StatsBase
