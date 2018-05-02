@@ -94,3 +94,10 @@ Some of these use a limit value for running over vec of length 1.
 - LinearAlgebra.normalize
 - StatsBase: AbstractWeights, Weights
 - StatsBase: FrequencyWeights, AnalyticWeights, ProbabilityWeights
+
+## Philosophy and Purpose
+
+This package provides an operational tensegrity.  This work, and its upkeep, is offered as an appropriate and reliable scaffold.  It is intentional that one does not find special handling of sorts of possible instreams.  The work here is to be crisp, precise, accurate, and ever simplifying.
+
+Some additional, purpose driven and focused packages are to form the tool-group that realizes a lattical synthesis of higher order rolling and genera-enfolding running.
+Keep 'em small, clear, easily adapted by others for uses anticipated and otherwise.
