@@ -97,7 +97,10 @@ Some of these use a limit value for running over vec of length 1.
 
 ## Philosophy and Purpose
 
-This package provides an operational tensegrity.  This work, and its upkeep, is offered as an appropriate and reliable scaffold.  It is intentional that one does not find special handling of sorts of possible instreams.  The work here is to be crisp, precise, accurate, and ever simplifying.
+This package provides an operational tensegrity.  Within is a way for rolling and for running a functional window over data that is conveyed either as a vectorial sequence or as a means of obtaining that from a matrix or 3D array.  One may use a windows that move over the data.  One may use windows that are position weighted, applying the moving weight sequence to the windows that move over the data.
 
-Some additional, purpose driven and focused packages are to form the tool-group that realizes a lattical synthesis of higher order rolling and genera-enfolding running.
-Keep 'em small, clear, easily adapted by others for uses anticipated and otherwise.
+When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's span.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized using `LinearAlgebra.normalize`, and that is used to provide a foreshortened weighted window to which data attends.
+
+This work, and its upkeep (or its replacement by other's work), is offered as an appropriate and reliable scaffold. The work here is to be crisp, precise, accurate, and ever simplifying.  There is no desire to repletify manners of handling here.
+
+Some additional, small, purpose driven and providentially focused packages provide the meta-synthesis and enfolding dispatches that bring the more to the here.
