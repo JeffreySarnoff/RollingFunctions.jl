@@ -104,3 +104,10 @@ When running with a weighted window, the initial (first, second ..) values are d
 This work, and its upkeep (or its replacement by other's work), is offered as an appropriate and reliable scaffold. The work here is to be crisp, precise, accurate, and ever simplifying.  There is no desire to repletify manners of handling here.
 
 Some additional, small, purpose driven and providentially focused packages provide the meta-synthesis and enfolding dispatches that bring the more to the here.
+
+
+## Also Consider
+
+ - The mapwindow function from [ImageFiltering](https://github.com/JuliaImages/ImageFiltering.jl)
+    supports multidimensional window indexing and different maps.
+    
