@@ -25,7 +25,7 @@ export rolling,
        AbstractWeights, Weights,      # StatsBase
        FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
-using Statistics
+import Statistics: mean, median, std, var
 
 import LinearAlgebra: normalize
 
