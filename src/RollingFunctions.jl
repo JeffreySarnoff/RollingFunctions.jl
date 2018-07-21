@@ -31,6 +31,7 @@ import LinearAlgebra: normalize
 
 import StatsBase: AbstractWeights, Weights,
                   FrequencyWeights, AnalyticWeights, ProbabilityWeights
+using Statistics
 using StatsBase
 
 
