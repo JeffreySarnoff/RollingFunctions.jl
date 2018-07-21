@@ -1,7 +1,6 @@
 mad_not_normalized(x) = mad(x, normalize=false)
 mad_normalized(x) = mad(x, normalize=true)
 
-
 for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
               (:rollmean, :mean), (:rollmedian, :median), 
               (:rollvar, :var), (:rollstd, :std),
@@ -13,9 +12,9 @@ for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
     @eval begin
         $R(data::AbstractVector{T}, windowspan::Int) where {T} =
             rolling($F, data, windowspan)
-        $R(data::AbstractVector{T}, windowspan::Int, weights::AbstractVector{S}) where {T,S} =
-            rolling($F, data, windowspan, weights)
-        $R(data::AbstractVector{T}, windowspan::Int, weights::AbstractWeights) where {T} =
-            rolling($F, data, windowspan, weights.values)
+        $R(data::AbstractVector{T}, windowspan::Int, weighting::AbstractVector{S}) where {T,S} =
+            rolling($F, data, windowspan, weighting)
+        $R(data::AbstractVector{T}, windowspan::Int, weighting::AbstractWeights) where {T} =
+            rolling($F, data, windowspan, weighting.values)
     end
 end
