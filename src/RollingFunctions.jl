@@ -30,7 +30,7 @@ import LinearAlgebra: normalize
 import StatsBase: AbstractWeights, Weights,
                   FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
-using StatsBase
+using Statistics
 
 include("rolling.jl")
 include("running.jl")
