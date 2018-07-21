@@ -19,7 +19,7 @@
 
 ### works with weights
 - weights given as a simple vector
-- weights given as a kind of StatsBase.AbstractWeights
+- weights given as a kind of Statistics.AbstractWeights
 
 ### examples of use
 - with a simple vector
