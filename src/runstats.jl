@@ -17,9 +17,9 @@ for (R,F) in ((:runmin, :minimum), (:runmax, :maximum),
     @eval begin
         $R(data::AbstractVector{T}, windowspan::Int) where {T} =
             running($F, data, windowspan)
-        $R(data::AbstractVector{T}, windowspan::Int, weights::AbstractVector{S}) where {T,S} =
-            running($F, data, windowspan, weights)
-        $R(data::AbstractVector{T}, windowspan::Int, weights::AbstractWeights) where {T} =
-            running($F, data, windowspan, weights.values)
+        $R(data::AbstractVector{T}, windowspan::Int, weighting::AbstractVector{S}) where {T,S} =
+            running($F, data, windowspan, weighting)
+        $R(data::AbstractVector{T}, windowspan::Int, weighting::AbstractWeights) where {T} =
+            running($F, data, windowspan, weighting.values)
     end
 end
