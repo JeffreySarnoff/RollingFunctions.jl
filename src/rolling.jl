@@ -14,27 +14,27 @@ end
 
 # weighted windowed function application
 
-function rolling(fun::Function, data::V, windowspan::Int, weights::F) where
+function rolling(fun::Function, data::V, windowspan::Int, weighting::F) where
                  {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
-    length(weights) != windowspan &&
-        throw(WeightsError(length(weights), windowspan))
+    length(weighting) != windowspan &&
+        throw(WeightsError(length(weighting), windowspan))
 
     nvals  = nrolled(length(data), windowspan)
     offset = windowspan - 1
     result = zeros(T, nvals)
 
     @inbounds for idx in eachindex(result)
-        result[idx] = fun( view(data, idx:idx+offset) .* weights )
+        result[idx] = fun( view(data, idx:idx+offset) .* weighting )
     end
 
     return result
 end
 
 
-rolling(fun::Function, data::AbstractVector{T}, windowspan::Int, weights::W) where
+rolling(fun::Function, data::AbstractVector{T}, windowspan::Int, weighting::W) where
                 {T, N<:Number, W<:AbstractWeights} =
-    rolling(fun, data, windowspan, weights.values)
+    rolling(fun, data, windowspan, weighting.values)
 
 
 # unweighted windowed function tapering
@@ -86,27 +86,27 @@ end
 
 # weighted windowed function tapering
 
-function tapers(fun::Function, data::V, weights::F) where
+function tapers(fun::Function, data::V, weighting::F) where
                  {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
     nvals  = length(data)
-    nweights = length(weights)
+    nweighting = length(weighting)
     
-    nweights == nvals || throw(WeightsError(length(weights), nvals))
+    nweighting == nvals || throw(WeightsError(length(weighting), nvals))
     
     result = zeros(T, nvals)
 
     @inbounds for idx in nvals:-1:1
-        wts = normalize(view(weights, (nweights-idx+1):nweights))
+        wts = normalize(view(weighting, (nweighting-idx+1):nweighting))
         result[idx] = fun( view(data, 1:idx) .* wts  )
     end
 
     return result
 end
 
-tapers(fun::Function, data::AbstractVector{T}, weights::W) where
+tapers(fun::Function, data::AbstractVector{T}, weighting::W) where
                 {T, N<:Number, W<:AbstractWeights} =
-    tapers(fun, data, weights.values)
+    tapers(fun, data, weighting.values)
 
 # filling
 
@@ -144,6 +144,6 @@ end
 SpanError(seqlength, windowspan) =
     ErrorException("\n\tBad window span ($windowspan) for length $seqlength.\n" )
 
-WeightsError(nweights, windowspan) =
-    ErrorException("\n\twindowspan ($windowspan) != length(weights) ($nweights))).\n" )
+WeightsError(nweighting, windowspan) =
+    ErrorException("\n\twindowspan ($windowspan) != length(weighting) ($nweighting))).\n" )
 
