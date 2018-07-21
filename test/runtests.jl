@@ -1,4 +1,4 @@
-using StatsBase, RollingFunctions
+using Statistics, StatsBase, RollingFunctions
 using Test
 
 datavec = collect(1.0f0:5.0f0)
