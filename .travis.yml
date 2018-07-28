@@ -5,6 +5,13 @@ os:
   - osx
 julia:
   - 0.7
+  - latest
+matrix:
+  allow_failures:
+- julia_version: latest
+# Work around a Travis bug
+git:
+  depth: 999999
 notifications:
   email: false
 #script: # the default script is equivalent to the following
