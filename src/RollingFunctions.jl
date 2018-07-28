@@ -27,8 +27,11 @@ export rolling,
 
 using LinearAlgebra: normalize
 
-using Statistics
-using StatsBase
+using Statistics: mean, median, std, var
+using StatsBase:  kurtosis, mad, sem, skewness, variation,
+                  AbstractWeights, Weights,
+                  FrequencyWeights, AnalyticWeights, ProbabilityWeights
+                 
 
 
 include("rolling.jl")
