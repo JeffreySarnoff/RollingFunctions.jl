@@ -25,12 +25,8 @@ export rolling,
        AbstractWeights, Weights,      # StatsBase
        FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
-import Statistics: mean, median, std, var
+using LinearAlgebra: normalize
 
-import LinearAlgebra: normalize
-
-import StatsBase: AbstractWeights, Weights,
-                  FrequencyWeights, AnalyticWeights, ProbabilityWeights
 using Statistics
 using StatsBase
 
