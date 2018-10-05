@@ -1,5 +1,6 @@
 using RollingFunctions
 using Statistics
+using StatsBase
 using LinearAlgebra
 using Test
 
