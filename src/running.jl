@@ -5,7 +5,7 @@ function running(fun::Function, data::AbstractVector{T}, windowspan::Int) where 
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
     
-    result = zeros(T, ndata)
+    result = zeros(float(T), ndata)
     
     result[1:ntapers] = tapers(fun, data[1:ntapers])
     ntapers += 1
@@ -23,7 +23,7 @@ function running(fun::Function, data::V, windowspan::Int, weighting::F) where
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
     
-    result = zeros(T, ndata)
+    result = zeros(float(T), ndata)
     
     result[1:ntapers] = tapers(fun, data[1:ntapers], weighting[end-(ntapers-1):end])
     ntapers += 1
