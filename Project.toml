@@ -20,3 +20,4 @@ test = ["Test"]
 
 [compat]
 Julia = ">= v1.0"
+StatsBase = ">= v0.25.0"
