@@ -1,7 +1,6 @@
 using RollingFunctions
 using Statistics
 using LinearAlgebra
-using StatsBase
 using Test
 
 datavec = collect(1.0f0:5.0f0)
