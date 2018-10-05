@@ -88,6 +88,7 @@ Some of these use a limit value for running over vec of length 1.
 - `rolling(function, data, windowsize)`
 - `rolling(function, data, windowsize, weights)`
 - `running(function, data, windowsize)`
+- `running(function, data, windowsize, weights)`
 
 ### also exports
 - LinearAlgebra.normalize
