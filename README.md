@@ -97,7 +97,7 @@ Some of these use a limit value for running over vec of length 1.
 
 ## Philosophy and Purpose
 
-This package provides an operational tensegrity.  Within is a way for rolling and for running a functional window over data that is conveyed either as a vectorial sequence or as a means of obtaining that from a matrix or 3D array.  One may use a windows that move over the data.  One may use windows that are position weighted, applying the moving weight sequence to the windows that move over the data.
+This package provides a way for rolling and for running a functional window over data.  Data is conveyed either as a vector or as a means of obtaining a vector from a matrix or 3D array or other data structure (e.g. dataframes, timeseries).  Windows move over the data.  One may use unweighted windows or windows that are position weighted.  Weighted windows apply the weight sequence to the window as it moves over the data.
 
 When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's span.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.
 
