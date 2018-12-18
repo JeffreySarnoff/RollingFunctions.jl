@@ -34,6 +34,7 @@ using StatsBase:  kurtosis, mad, sem, skewness, variation,
 
 include("rolling.jl")
 include("running.jl")
+include("support.jl")
 include("rollstats.jl")
 include("runstats.jl")
 
