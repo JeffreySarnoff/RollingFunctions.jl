@@ -1,12 +1,12 @@
 # unweighted windowed function application
 
-function rolling(fun::Function, data::AbstractVector{T}, windowspan::Int) where {T}
-    nvals  = nrolled(length(data), windowspan)
+function rolling(fun2::Function, data1::AbstractVector{T}, data1::AbstractVector{T}, windowspan::Int) where {T}
+    nvals  = nrolled(min(length(data1),length(data2)), windowspan)
     offset = windowspan - 1
     result = zeros(float(T), nvals)
 
     @inbounds for idx in eachindex(result)
-        result[idx] = fun( view(data, idx:idx+offset) )
+        result[idx] = fun2( view(data1, idx:idx+offset), view(data2, idx:idx+offset) )
     end
 
     return result
@@ -14,18 +14,18 @@ end
 
 # weighted windowed function application
 
-function rolling(fun::Function, data::V, windowspan::Int, weighting::F) where
+function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
                  {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
     length(weighting) != windowspan &&
         throw(WeightsError(length(weighting), windowspan))
 
-    nvals  = nrolled(length(data), windowspan)
+    nvals  = nrolled(min(length(data1), length(data2)), windowspan)
     offset = windowspan - 1
     result = zeros(float(T), nvals)
 
     @inbounds for idx in eachindex(result)
-        result[idx] = fun( view(data, idx:idx+offset) .* weighting )
+        result[idx] = fun2( view(data1, idx:idx+offset) .* weighting,  view(data2, idx:idx+offset) .* weighting )
     end
 
     return result
