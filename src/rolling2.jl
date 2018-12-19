@@ -39,7 +39,7 @@ rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, wind
 
 # unweighted windowed function tapering
 
-function tapers(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
+function tapers2(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
     nvals  = min(length(data1), length(data2))
     result = zeros(float(T), nvals) 
 
