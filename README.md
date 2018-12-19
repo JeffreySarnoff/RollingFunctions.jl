@@ -95,6 +95,9 @@ Some of these use a limit value for running over vec of length 1.
 - `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
 - `running(function, data1, data2, windowsize)`
 - `running(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
+Many statistical functions of two (vector) variables are not well defined for vectors of length 1. To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
+- `running(function, data1, data2, windowsize, firstresult)`
+- `running(function, data1, data2, windowsize, weights, firstresult)`  (weights apply to both data vectors)
 
 ### exports correlation and covariance for two data vectors
 - `rollcor(data1, data2, windowsize)`
