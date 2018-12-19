@@ -22,3 +22,10 @@ obtained = rolling(geomean, datavec, 3)
 expected = [1.0f0, 0.8944271f0, 0.7930564f0, 1.2588986f0, 1.7085882f0]
 obtained = running(geomean, datavec, 3, weighting)
 @test Float32(eps(Float64)) > abs(sum(expected .- obtained))
+
+data1=[1,2,3,4,5,6,7];data2=[1,4,6,16,25,36,49];
+
+expected = [15.0, 20.75, 26.5]
+obtained = rolling(cov, data1, data2, 3)
+@test Float32(eps(Float64)) > abs(sum(expected .- obtained))
+
