@@ -13,19 +13,24 @@ function rolling(fun::Function, data::AbstractVector{T}, windowspan::Int) where 
 end
 
 # weighted windowed function application
-
 function rolling(fun::Function, data::V, windowspan::Int, weighting::F) where
-                 {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
+                    {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
     length(weighting) != windowspan &&
-        throw(WeightsError(length(weighting), windowspan))
+       throw(WeightsError(length(weighting), windowspan))
 
-    nvals  = nrolled(length(data), windowspan)
+    nvals  = RollingFunctions.nrolled(length(data), windowspan)
     offset = windowspan - 1
     result = zeros(float(T), nvals)
+    curwin = zeros(float(T), windowspan)
+    v = view(weighting,1:length(weighting))
 
     @inbounds for idx in eachindex(result)
-        result[idx] = fun( view(data, idx:idx+offset) .* weighting )
+       for i=1:offset
+           j = i + idx - 1
+           curwin[i] = data[j] * v[i]
+       end
+       result[idx] = fun( curwin )
     end
 
     return result
@@ -92,7 +97,7 @@ function tapers(fun::Function, data::V, weighting::F) where
     nvals  = length(data)
     nweighting = length(weighting)
     
-    nweighting == nvals || throw(WeightsError(length(weighting), nvals))
+    nweighting == nvals || throw(WeightsError(nweighting, nvals))
     
     result = zeros(float(T), nvals)
 
