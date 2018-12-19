@@ -28,7 +28,7 @@ export rolling,
 
 using LinearAlgebra: normalize
 
-using Statistics: mean, median, std, var
+using Statistics: mean, median, std, var, cor, cov
 using StatsBase:  kurtosis, mad, sem, skewness, variation,
                   AbstractWeights, Weights,
                   FrequencyWeights, AnalyticWeights, ProbabilityWeights
