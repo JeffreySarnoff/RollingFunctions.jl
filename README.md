@@ -90,6 +90,22 @@ Some of these use a limit value for running over vec of length 1.
 - `running(function, data, windowsize)`
 - `running(function, data, windowsize, weights)`
 
+### works with two data vectors
+- `rolling(function, data1, data2, windowsize)`
+- `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
+- `running(function, data1, data2, windowsize)`
+- `running(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
+
+### exports correlation and covariance for two data vectors
+- `rollcor(data1, data2, windowsize)`
+- `rollcor(data1, data2, windowsize, weights)`
+- `rollcov(data1, data2, windowsize)`
+- `rollcov(data1, data2, windowsize, weights)`
+- `runcor(data1, data2, windowsize)`
+- `runcor(data1, data2, windowsize, weights)`
+- `runcov(data1, data2, windowsize)`
+- `runcov(data1, data2, windowsize, weights)`
+
 ### also exports
 - LinearAlgebra.normalize
 - StatsBase: AbstractWeights, Weights
