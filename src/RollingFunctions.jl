@@ -18,6 +18,9 @@ export rolling,
        runmad,                        # mean absolute deviation
        runmad_normalized,             # mean absolute deviation for normal data
        runvariation,                  # coefficient of variation
+                                      # with two data vectors
+       rollcor, rollcov,
+       runcor, runcov,
                                       # support
        normalize,                     # LinearAlgebra.normalize
        AbstractWeights, Weights,      # StatsBase
