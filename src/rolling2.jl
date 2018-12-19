@@ -13,7 +13,7 @@ function rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
 end
 
 # weighted windowed function application
-
+#=
 function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
                  {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
@@ -30,6 +30,64 @@ function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting:
 
     return result
 end
+=#
+
+# weighted windowed function application
+function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
+                    {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
+
+    length(weighting) != windowspan &&
+       throw(WeightsError(length(weighting), windowspan))
+
+    nvals  = nrolled(min(length(data1), length(data2)), windowspan)
+    offset = windowspan - 1
+    result = zeros(float(T), nvals)
+    curwin1 = zeros(float(T), windowspan)
+    curwin2 = zeros(float(T), windowspan)
+    v = view(weighting,1:length(weighting))
+
+    @inbounds for idx in eachindex(result)
+       for i=1:offset
+           j = i + idx - 1
+           curwin1[i] = data1[j] * v[i]
+           curwin2[i] = data2[j] * v[i]
+       end
+       result[idx] = fun( curwin1, curwin2 )
+    end
+
+    return result
+end
+
+
+# weighted windowed function application
+function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting1::F, weighting2::F) where
+                    {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
+
+    length(weighting1) != windowspan &&
+       throw(WeightsError(length(weighting1), windowspan))
+    length(weighting2) != windowspan &&
+       throw(WeightsError(length(weighting2), windowspan))
+
+    nvals  = nrolled(min(length(data1), length(data2)), windowspan)
+    offset = windowspan - 1
+    result = zeros(float(T), nvals)
+    curwin1 = zeros(float(T), windowspan)
+    curwin2 = zeros(float(T), windowspan)
+    v1 = view(weighting1,1:windowspan)
+    v2 = view(weighting2,1:windowspan)
+
+    @inbounds for idx in eachindex(result)
+       for i=1:offset
+           j = i + idx - 1
+           curwin1[i] = data1[j] * v1[i]
+           curwin2[i] = data2[j] * v2[i]
+       end
+       result[idx] = fun( curwin1, curwin2 )
+    end
+
+    return result
+end
+
 
 
 rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, weighting::W) where
