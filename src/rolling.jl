@@ -19,7 +19,7 @@ function rolling(fun::Function, data::V, windowspan::Int, weighting::F) where
     length(weighting) != windowspan &&
        throw(WeightsError(length(weighting), windowspan))
 
-    nvals  = RollingFunctions.nrolled(length(data), windowspan)
+    nvals  = nrolled(length(data), windowspan)
     offset = windowspan - 1
     result = zeros(float(T), nvals)
     curwin = zeros(float(T), windowspan)
