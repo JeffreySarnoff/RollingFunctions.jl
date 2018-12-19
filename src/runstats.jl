@@ -23,3 +23,14 @@ for (R,F) in ((:runmin, :minimum), (:runmax, :maximum),
             running($F, data, windowspan, weighting.values)
     end
 end
+
+for (R,F) in ((:runcor, :cor), (:runcov, :cov))
+    @eval begin
+        $R(data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int) where {T} =
+            running($F, data1, data2, windowspan)
+        $R(data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, weighting::AbstractVector{S}) where {T,S} =
+            running($F, data1, data2, windowspan, weighting)
+        $R(data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, weighting::AbstractWeights) where {T} =
+            running($F, data1, data2, windowspan, weighting.values)
+    end
+end
