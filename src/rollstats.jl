@@ -19,7 +19,7 @@ for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
     end
 end
 
-for (R,F,V) in ((:rollcor, :cor), (:rollcov, :cov))
+for (R,F) in ((:rollcor, :cor), (:rollcov, :cov))
     @eval begin
         $R(data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int) where {T} =
             rolling($F, data1, data2, windowspan)
