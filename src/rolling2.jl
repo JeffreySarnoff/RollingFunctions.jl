@@ -82,7 +82,7 @@ function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting1
            curwin1[i] = data1[j] * v1[i]
            curwin2[i] = data2[j] * v2[i]
        end
-       result[idx] = fun( curwin1, curwin2 )
+       result[idx] = fun2( curwin1, curwin2 )
     end
 
     return result
