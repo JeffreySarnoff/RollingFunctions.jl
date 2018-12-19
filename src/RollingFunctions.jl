@@ -37,5 +37,7 @@ include("running.jl")
 include("support.jl")
 include("rollstats.jl")
 include("runstats.jl")
+include("rolling2.jl")
+include("running2.jl")
 
 end # RollingFunctions
