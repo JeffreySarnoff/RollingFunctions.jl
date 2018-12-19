@@ -18,7 +18,7 @@ function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
     return result
 end
 
-function running(fun21::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, first::A) where {T,A}
+function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, first::A) where {T,A}
     ndata   = min(length(data1), length(data2))
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
