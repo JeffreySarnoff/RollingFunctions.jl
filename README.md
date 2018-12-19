@@ -95,8 +95,11 @@ Some of these use a limit value for running over vec of length 1.
 ### works with two data vectors
 - `rolling(function, data1, data2, windowsize)`
 - `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
+- `rolling(function, data1, data2, windowsize, weights1, weights2)`
+
 - `running(function, data1, data2, windowsize)`
 - `running(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
+- `running(function, data1, data2, windowsize, weights1, weights2)`
 
 Many statistical functions of two (vector) variables are not well defined for vectors of length 1. To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
 
