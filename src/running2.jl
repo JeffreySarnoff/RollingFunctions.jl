@@ -17,7 +17,7 @@ function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
     
     return result
 end
-
+#=
 function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, first::T) where {T}
     ndata   = min(length(data1), length(data2))
     nvals   = nrolled(ndata, windowspan)
@@ -33,7 +33,7 @@ function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
     
     return result
 end
-
+=#
 # weighted windowed function application that tapers
 
 function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
