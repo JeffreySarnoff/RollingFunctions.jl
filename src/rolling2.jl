@@ -47,7 +47,7 @@ function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting:
     v = view(weighting,1:length(weighting))
 
     @inbounds for idx in eachindex(result)
-       for i=1:offset
+       for i=1:windowspan
            j = i + idx - 1
            curwin1[i] = data1[j] * v[i]
            curwin2[i] = data2[j] * v[i]
