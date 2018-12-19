@@ -76,11 +76,13 @@ Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 - `rollmin`, `rollmax`, `rollmean`, `rollmedian`
 - `rollvar`, `rollstd`, `rollsem`, `rollmad`, `rollmad_normalized`
 - `rollskewness`, `rollkurtosis`, `rollvariation`
+- `rollcor`, `rollcov` (over two data vectors)
 
 ### running stats
 - `runmin`, `runmax`, `runmean`, `runmedian`
 - `runvar`, `runstd`, `runsem`, `runmad`, `runmad_normalized`
 - `runskewness`, `runkurtosis`, `runvariation`
+- `runcor`, `runcov` (over two data vectors)
 
 Some of these use a limit value for running over vec of length 1.
 
@@ -95,19 +97,11 @@ Some of these use a limit value for running over vec of length 1.
 - `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
 - `running(function, data1, data2, windowsize)`
 - `running(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
+
 Many statistical functions of two (vector) variables are not well defined for vectors of length 1. To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
+
 - `running(function, data1, data2, windowsize, firstresult)`
 - `running(function, data1, data2, windowsize, weights, firstresult)`  (weights apply to both data vectors)
-
-### exports correlation and covariance for two data vectors
-- `rollcor(data1, data2, windowsize)`
-- `rollcor(data1, data2, windowsize, weights)`
-- `rollcov(data1, data2, windowsize)`
-- `rollcov(data1, data2, windowsize, weights)`
-- `runcor(data1, data2, windowsize)`
-- `runcor(data1, data2, windowsize, weights)`
-- `runcov(data1, data2, windowsize)`
-- `runcov(data1, data2, windowsize, weights)`
 
 ### also exports
 - LinearAlgebra.normalize
