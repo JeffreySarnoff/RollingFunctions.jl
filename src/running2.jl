@@ -17,8 +17,8 @@ function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
     
     return result
 end
-#=
-function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, first::T) where {T}
+
+function running(fun21::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, first::A) where {T,A}
     ndata   = min(length(data1), length(data2))
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
@@ -29,11 +29,11 @@ function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
     ntapers += 1
     result[ntapers:ndata] = rolling(fun2, data1, data2, windowspan)
 
-    result[1] = first
-    
+    result[1] = T(first)
+        
     return result
 end
-=#
+
 # weighted windowed function application that tapers
 
 function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
@@ -55,8 +55,8 @@ function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting:
     return result
 end
 
-function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F, first::T) where
-                 {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
+function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F, first::A) where
+                 {T, A, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
     ndata   = min(length(data1), length(data2))
     nvals   = nrolled(ndata, windowspan)
@@ -68,7 +68,7 @@ function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting:
     ntapers += 1
     result[ntapers:ndata] = rolling(fun2, data1, data2, windowspan, weighting)
 
-    result[1] = first
+    result[1] = T(first)
     
     return result
 end
@@ -77,6 +77,6 @@ running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, wind
                 {T, N<:Number, W<:AbstractWeights} =
     running(fun2, data1, data2, windowspan, weighting.values)
 
-running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, weighting::W, first::T) where
-                {T, N<:Number, W<:AbstractWeights} =
+running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, weighting::W, first::A) where
+                {T,A, N<:Number, W<:AbstractWeights} =
     running(fun2, data1, data2, windowspan, weighting.values, first)
