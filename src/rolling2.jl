@@ -1,6 +1,6 @@
 # unweighted windowed function application
 
-function rolling(fun2::Function, data1::AbstractVector{T}, data1::AbstractVector{T}, windowspan::Int) where {T}
+function rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int) where {T}
     nvals  = nrolled(min(length(data1),length(data2)), windowspan)
     offset = windowspan - 1
     result = zeros(float(T), nvals)
