@@ -1,37 +1,37 @@
 # unweighted windowed function application that tapers
 
-function running(fun::Function, data::AbstractVector{T}, windowspan::Int) where {T}
-    ndata   = length(data)
+function running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int) where {T}
+    ndata   = min(length(data1), length(data2))
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
     
     result = zeros(float(T), ndata)
     
-    result[1:ntapers] = tapers(fun, data[1:ntapers])
+    result[1:ntapers] = tapers(fun2, data1[1:ntapers], data2[1:ntapers])
     ntapers += 1
-    result[ntapers:ndata] = rolling(fun, data, windowspan)
+    result[ntapers:ndata] = rolling(fun2, data1, data2, windowspan)
 
     return result
 end
 
 # weighted windowed function application that tapers
 
-function running(fun::Function, data::V, windowspan::Int, weighting::F) where
+function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
                  {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
 
-    ndata   = length(data)
+    ndata   = min(length(data1), length(data2))
     nvals   = nrolled(ndata, windowspan)
     ntapers = ndata - nvals
     
     result = zeros(float(T), ndata)
     
-    result[1:ntapers] = tapers(fun, data[1:ntapers], weighting[end-(ntapers-1):end])
+    result[1:ntapers] = tapers(fun2, data1[1:ntapers], data2[1:ntapers], weighting[end-(ntapers-1):end])
     ntapers += 1
-    result[ntapers:ndata] = rolling(fun, data, windowspan, weighting)
+    result[ntapers:ndata] = rolling(fun2, data1, data2, windowspan, weighting)
 
     return result
 end
 
-running(fun::Function, data::AbstractVector{T}, windowspan::Int, weighting::W) where
+running(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, windowspan::Int, weighting::W) where
                 {T, N<:Number, W<:AbstractWeights} =
-running(fun, data, windowspan, weighting.values)
+running(fun2, data1, data2, windowspan, weighting.values)
