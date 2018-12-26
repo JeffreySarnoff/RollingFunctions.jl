@@ -166,7 +166,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     tapers2(fun2::Function, data1::V, data2::V, weighting::W) where
-                    {T, V<:AbstractVector{$T1} W<:AbstractWeights} =
+                    {T, V<:AbstractVector{$T1}, W<:AbstractWeights} =
         tapers2(fun2, data1, data2, weighting.values)
     end
     end
