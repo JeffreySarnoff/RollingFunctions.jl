@@ -15,11 +15,11 @@ for T1 in (:T, :(Union{Missing,T}))
                   (:runmad_normalized, :mad_normalized),
                   (:runvariation, :variation1))
         @eval begin
-            $R(data::V, windowspan::Int) where {T, AbstractVector{$T1}} =
+            $R(data::V, windowspan::Int) where {T, V<:AbstractVector{$T1}} =
                 running($F, data, windowspan)
-            $R(data::V, windowspan::Int, weighting::AbstractVector{S}) where {T, AbstractVector{$T1}, S} =
+            $R(data::V, windowspan::Int, weighting::AbstractVector{S}) where {T, V<:AbstractVector{$T1}, S} =
                 running($F, data, windowspan, weighting)
-            $R(data::V, windowspan::Int, weighting::AbstractWeights) where {T, AbstractVector{$T1}} =
+            $R(data::V, windowspan::Int, weighting::AbstractWeights) where {T, V<:AbstractVector{$T1}} =
                 running($F, data, windowspan, weighting.values)
         end
     end
@@ -28,11 +28,11 @@ end
 for T1 in (:T, :(Union{Missing,T}))
     for (R,F,V) in ((:runcor, :cor, 1), (:runcov, :cov, 0))
         @eval begin
-            $R(data1::V, data2::V, windowspan::Int) where {T, AbstractVector{$T1}} =
+            $R(data1::V, data2::V, windowspan::Int) where {T, V<:AbstractVector{$T1}} =
                 running($F, data1, data2, windowspan, $V)
-            $R(data1::V, data2::V, windowspan::Int, weighting::AbstractVector{S}) where {T, AbstractVector{$T1}, S} =
+            $R(data1::V, data2::V, windowspan::Int, weighting::AbstractVector{S}) where {T, V<:AbstractVector{$T1}, S} =
                 running($F, data1, data2, windowspan, weighting, $V)
-            $R(data1::V, data2::V, windowspan::Int, weighting::AbstractWeights) where {T, AbstractVector{$T1}} =
+            $R(data1::V, data2::V, windowspan::Int, weighting::AbstractWeights) where {T, V<:AbstractVector{$T1}} =
                 running($F, data1, data2, windowspan, weighting.values, $V)
         end
     end
