@@ -1,7 +1,7 @@
 mad_not_normalized(x) = mad(x, normalize=false)
 mad_normalized(x) = mad(x, normalize=true)
 
-for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(T)})))
+for T1 in (:T, :(Union{Missing,T}))
   @eval begin
     
     for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
