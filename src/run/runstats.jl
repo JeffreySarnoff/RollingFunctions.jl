@@ -6,8 +6,6 @@ skewness1(x) = length(x) > 1 ? skewness(x) : 1.0
 kurtosis1(x) = length(x) > 1 ? kurtosis(x) : -1.0
 
 for T1 in (:T, :(Union{Missing,T}))
-  @eval begin
-    
     for (R,F) in ((:runmin, :minimum), (:runmax, :maximum),
                   (:runmean, :mean), (:runmedian, :median), 
                   (:runvar, :var1), (:runstd, :std1),
@@ -25,7 +23,9 @@ for T1 in (:T, :(Union{Missing,T}))
                 running($F, data, windowspan, weighting.values)
         end
     end
+end
 
+for T1 in (:T, :(Union{Missing,T}))
     for (R,F,V) in ((:runcor, :cor, 1), (:runcov, :cov, 0))
         @eval begin
             $R(data1::V, data2::V, windowspan::Int) where {T, AbstractVector{$T1}} =
@@ -36,6 +36,4 @@ for T1 in (:T, :(Union{Missing,T}))
                 running($F, data1, data2, windowspan, weighting.values, $V)
         end
     end
-
-  end
 end
