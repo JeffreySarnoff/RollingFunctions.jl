@@ -1,9 +1,7 @@
 mad_not_normalized(x) = mad(x, normalize=false)
 mad_normalized(x) = mad(x, normalize=true)
 
-for T1 in (:T, :(Union{Missing,T}))
-  @eval begin
-    
+for T1 in (:T, :(Union{Missing,T}))    
     for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
                   (:rollmean, :mean), (:rollmedian, :median), 
                   (:rollvar, :var), (:rollstd, :std),
@@ -21,7 +19,9 @@ for T1 in (:T, :(Union{Missing,T}))
                 rolling($F, data, windowspan, weighting.values)
         end
     end
+end
 
+for T1 in (:T, :(Union{Missing,T}))
     for (R,F) in ((:rollcor, :cor), (:rollcov, :cov))
         @eval begin
             $R(data1::V, data2::V, windowspan::Int) where {T, V<:AbstractVector{$T1}} =
@@ -32,6 +32,4 @@ for T1 in (:T, :(Union{Missing,T}))
                 rolling($F, data1, data2, windowspan, weighting.values)
         end
     end
-
-  end
 end
