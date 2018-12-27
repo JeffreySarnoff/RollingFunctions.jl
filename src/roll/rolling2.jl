@@ -171,3 +171,18 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
   end
 end
+
+rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{U}, windowspan::Int) where
+   {T, U<:Union{Missing,T}} = rolling(fun2, (U).(data1), data2, windowspan)
+rolling(fun2::Function, data1::AbstractVector{U}, data2::AbstractVector{T}, windowspan::Int) where
+   {T, U<:Union{Missing,T}} = rolling(fun2, data1, (U).(data2), windowspan)
+
+rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{U}, windowspan::Int, weighting::W) where
+   {T, U<:Union{Missing,T}, N<:Number, W<:Vector{N}} = rolling(fun2, (U).(data1), data2, windowspan, weighting)
+rolling(fun2::Function, data1::AbstractVector{U}, data2::AbstractVector{T}, windowspan::Int, weighting::W) where
+   {T, U<:Union{Missing,T}, N<:Number, W<:Vector{N}} = rolling(fun2, data1, (U).(data2), windowspan, weighting)
+
+rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{U}, windowspan::Int, weighting::W) where
+   {T, U<:Union{Missing,T}, W<:AbstractWeights} = rolling(fun2, (U).(data1), data2, windowspan, weighting)
+rolling(fun2::Function, data1::AbstractVector{U}, data2::AbstractVector{T}, windowspan::Int, weighting::W) where
+   {T, U<:Union{Missing,T}, W<:AbstractWeights} = rolling(fun2, data1, (U).(data2), windowspan, weighting)
