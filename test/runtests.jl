@@ -41,3 +41,8 @@ obtained = runcov(data1, data2, 5)
 data = [1.0, 2.0, missing, 4.0, 5.0]
 expected = [3.0, missing, missing, 9.0]
 @test all(rolling(sum, data, 2) .=== expected)
+
+a = [1,2,missing,4,5,6]; b=[1,2,3,4,5,6];
+expected = [0.5, missing, missing, 0.5, 0.5]
+@test all(rolling(cov, a, b, 2) .=== expected)
+@test all(rolling(cov, b, a, 2) .=== expected)
