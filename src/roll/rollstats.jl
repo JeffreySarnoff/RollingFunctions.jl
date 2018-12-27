@@ -11,11 +11,11 @@ for T1 in (:T, :(Union{Missing,T}))
                   (:rollmad_normalized, :mad_normalized),
                   (:rollvariation, :variation))
         @eval begin
-            $R(data::V, windowspan::Int) where {T<:Number, V<:AbstractVector{$T1}} =
+            $R(data::V, windowspan::Int) where {T, V<:AbstractVector{$T1}} =
                 rolling($F, data, windowspan)
-            $R(data::V, windowspan::Int, weighting::AbstractVector{S}) where {T<:Number, V<:AbstractVector{$T1}, S} =
+            $R(data::V, windowspan::Int, weighting::AbstractVector{S}) where {T, V<:AbstractVector{$T1}, S} =
                 rolling($F, data, windowspan, weighting)
-            $R(data::V, windowspan::Int, weighting::AbstractWeights) where {T<:Number, V<:AbstractVector{$T1}} =
+            $R(data::V, windowspan::Int, weighting::AbstractWeights) where {T, V<:AbstractVector{$T1}} =
                 rolling($F, data, windowspan, weighting.values)
         end
     end
