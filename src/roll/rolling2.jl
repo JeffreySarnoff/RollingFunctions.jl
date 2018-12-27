@@ -176,10 +176,11 @@ end
 rolling(fun2::Function, data1::Vector{T}, data2::Vector{U}, windowspan::Int) where
   {T, U<:Union{Missing,T}, VT<:Vector{T}, VU<:Vector{U}} =
   rolling(fun2, (U).(data1), data2, windowspan)
+#=
 rolling(fun2::Function, data1::Vector{U}, data2::Vector{T}, windowspan::Int) where
   {T, U<:Union{Missing,T}, VT<:Vector{T}, VU<:Vector{U}} =
   rolling(fun2, data1, (U).(data2), windowspan)
-
+=#
 rolling(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
   {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} =
   rolling(fun2, (VU)(data1), data2, windowspan, weighting)
