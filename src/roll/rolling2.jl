@@ -172,6 +172,13 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
   end
 end
 
+
+rolling(fun2::Function, data1::Vector{T}, data2::Vector{U}, windowspan::Int) where
+   {T, U<:Union{Missing,T}} = rolling(fun2, (U).(data1), data2, windowspan)
+rolling(fun2::Function, data1::Vector{U}, data2::Vector{T}, windowspan::Int) where
+   {T, U<:Union{Missing,T}} = rolling(fun2, data1, (U).(data2), windowspan)
+
+#=
 rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{U}, windowspan::Int) where
    {T, U<:Union{Missing,T}} = rolling(fun2, (U).(data1), data2, windowspan)
 rolling(fun2::Function, data1::AbstractVector{U}, data2::AbstractVector{T}, windowspan::Int) where
@@ -186,3 +193,4 @@ rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{U}, wind
    {T, U<:Union{Missing,T}, W<:AbstractWeights} = rolling(fun2, (U).(data1), data2, windowspan, weighting)
 rolling(fun2::Function, data1::AbstractVector{U}, data2::AbstractVector{T}, windowspan::Int, weighting::W) where
    {T, U<:Union{Missing,T}, W<:AbstractWeights} = rolling(fun2, data1, (U).(data2), windowspan, weighting)
+=#
