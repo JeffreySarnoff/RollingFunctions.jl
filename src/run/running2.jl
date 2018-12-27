@@ -3,7 +3,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
         
     # unweighted windowed function application that tapers
 
-    function running(fun2::Function, data1::V, data2::V, windowspan::Int) where {T, V<:AbstractVector{$T1}}
+    function running(fun2::Function, data1::V, data2::V, windowspan::Int) where {T<:Number, V<:AbstractVector{$T1}}
         ndata   = min(length(data1), length(data2))
         nvals   = nrolled(ndata, windowspan)
         ntapers = ndata - nvals
@@ -21,7 +21,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
         return result
     end
 
-    function running(fun2::Function, data1::V, data2::V, windowspan::Int, first::A) where {A, T, V<:AbstractVector{$T1}}
+    function running(fun2::Function, data1::V, data2::V, windowspan::Int, first::A) where {A, T<:Number, V<:AbstractVector{$T1}}
         ndata   = min(length(data1), length(data2))
         nvals   = nrolled(ndata, windowspan)
         ntapers = ndata - nvals
@@ -40,7 +40,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     # weighted windowed function application that tapers
 
     function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
-                     {T, N<:Number, V<:AbstractVector{$T1}, F<:Vector{N}}
+                     {T<:Number, N<:Number, V<:AbstractVector{$T1}, F<:Vector{N}}
         ndata   = min(length(data1), length(data2))
         nvals   = nrolled(ndata, windowspan)
         ntapers = ndata - nvals
@@ -59,7 +59,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     function running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F, first::A) where
-                     {A, T, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
+                     {A, T<:Number, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
 
         ndata   = min(length(data1), length(data2))
         nvals   = nrolled(ndata, windowspan)
@@ -77,11 +77,11 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::W) where
-                    {T, V<:AbstractVector{$T1}, N<:Number, W<:AbstractWeights} =
+                    {T<:Number, V<:AbstractVector{$T1}, N<:Number, W<:AbstractWeights} =
         running(fun2, data1, data2, windowspan, weighting.values)
 
     running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::W, first::A) where
-                    {T, V<:AbstractVector{$T1}, A, N<:Number, W<:AbstractWeights} =
+                    {Tv, V<:AbstractVector{$T1}, A, N<:Number, W<:AbstractWeights} =
         running(fun2, data1, data2, windowspan, weighting.values, first)
 
   end
@@ -90,22 +90,22 @@ end
 
       
 running(fun2::Function, data1::VT, data2::VU, windowspan::Int) where
-  {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
+  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
   running(fun2, (VU)(data1), data2, windowspan)
 running(fun2::Function, data1::VU, data2::VT, windowspan::Int) where
-  {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
+  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
   running(fun2, data1, (VU)(data2), windowspan)
 
 running(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
-  {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} =
+  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} =
   running(fun2, (VU)(data1), data2, windowspan, weighting)
 running(fun2::Function, data1::VU, data2::VT, windowspan::Int, weighting::W) where
-  {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} = 
+  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} = 
   running(fun2, data1, (VU)(data2), windowspan, weighting)
 
 running(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
-  {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} =
+  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} =
   running(fun2, (VU)(data1), data2, windowspan, weighting)
 running(fun2::Function, data1::VU, data2::VT, windowspan::Int, weighting::W) where
-  {T, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} = 
+  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} = 
   running(fun2, data1, (VU)(data2), windowspan, weighting)
