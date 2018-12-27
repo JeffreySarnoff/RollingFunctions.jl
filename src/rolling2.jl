@@ -12,11 +12,6 @@ function rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector
     return result
 end
 
-rolling(fun2::Function, data1::AbstractVector{T}, data2::AbstractVector{U}, windowspan::Int) where
-   {T, U<:Union{Missing,T}} = rolling(fun2, (U).(data1), data2, windowspan)
-rolling(fun2::Function, data1::AbstractVector{U}, data2::AbstractVector{T}, windowspan::Int) where
-   {T, U<:Union{Missing,T}} = rolling(fun2, data1, (U).(data2), windowspan)
-
 # weighted windowed function application
 #=
 function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
