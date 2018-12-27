@@ -154,14 +154,14 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
   end
 end
 
-#=
+
 rolling(fun2::Function, data1::VT, data2::VU, windowspan::Int) where
   {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
-  rolling(fun2, (VU)(data1), data2, windowspan)
+  rolling(fun2, (U).(data1), data2, windowspan)
 rolling(fun2::Function, data1::VU, data2::VT, windowspan::Int) where
   {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
-  rolling(fun2, data1, (VU)(data2), windowspan)
-
+  rolling(fun2, data1, (U).(data2), windowspan)
+#=
 rolling(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
   {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} =
   rolling(fun2, (VU)(data1), data2, windowspan, weighting)
