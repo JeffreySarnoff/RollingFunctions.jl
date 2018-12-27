@@ -95,7 +95,7 @@ running(fun2::Function, data1::VT, data2::VU, windowspan::Int) where
 running(fun2::Function, data1::VU, data2::VT, windowspan::Int) where
   {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
   running(fun2, data1, (VU)(data2), windowspan)
-
+#=
 running(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
   {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} =
   running(fun2, (VU)(data1), data2, windowspan, weighting)
@@ -109,4 +109,4 @@ running(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) whe
 running(fun2::Function, data1::VU, data2::VT, windowspan::Int, weighting::W) where
   {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} = 
   running(fun2, data1, (VU)(data2), windowspan, weighting)
-
+=#
