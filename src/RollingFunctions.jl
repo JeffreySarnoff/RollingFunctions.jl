@@ -32,15 +32,13 @@ using Statistics: mean, median, std, var, cor, cov
 using StatsBase:  kurtosis, mad, sem, skewness, variation,
                   AbstractWeights, Weights,
                   FrequencyWeights, AnalyticWeights, ProbabilityWeights
-                 
-
-
-include("rolling.jl")
-include("running.jl")
+       
+include("roll/rolling.jl")
+include("run/running.jl")
 include("support.jl")
-include("rollstats.jl")
-include("runstats.jl")
-include("rolling2.jl")
-include("running2.jl")
+include("roll/rollstats.jl")
+include("run/runstats.jl")
+include("roll/rolling2.jl")
+include("run/running2.jl")
 
 end # RollingFunctions
