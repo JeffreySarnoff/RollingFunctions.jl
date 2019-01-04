@@ -20,12 +20,8 @@ export rolling,
        runvariation,                  # coefficient of variation
                                       # with two data vectors
        rollcor, rollcov,
-       runcor, runcov,
-                                      # support
-       normalize,                     # LinearAlgebra.normalize
-       AbstractWeights, Weights,      # StatsBase
-       FrequencyWeights, AnalyticWeights, ProbabilityWeights
-
+       runcor, runcov
+ 
 using LinearAlgebra: normalize
 
 using Statistics: mean, median, std, var, cor, cov
