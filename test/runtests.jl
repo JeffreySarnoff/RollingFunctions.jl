@@ -37,7 +37,3 @@ obtained = rollcor(data1, data2, 4, weighting)
 expected = [0.0, 1.5, 2.5, 7.833333333333333, 15.0, 20.75, 26.5]
 obtained = runcov(data1, data2, 5)
 @test eps(Float32) > abs(sum(expected .- obtained))
-
-data = [1.0, 2.0, missing, 4.0, 5.0]
-expected = [3.0, missing, missing, 9.0]
-@test all(rolling(sum, data, 2) .=== expected)
