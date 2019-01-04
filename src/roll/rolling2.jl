@@ -3,7 +3,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
     # unweighted windowed function application
 
-    function rolling(fun2::Function, data1::V, data2::V, windowspan::Int) where {T<:Number, V<:AbstractVector{$T1}}
+    function rolling(fun2::Function, data1::V, data2::V, windowspan::Int) where {T, V<:AbstractVector{$T1}}
         nvals  = nrolled(min(length(data1),length(data2)), windowspan)
         offset = windowspan - 1
         result = zeros($T2, nvals)
@@ -16,9 +16,28 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     # weighted windowed function application
-    
+    #=
     function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
-                        {T<:Number, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
+                     {T, N<:Number, V<:AbstractVector{T}, F<:Vector{N}}
+
+        length(weighting) != windowspan &&
+            throw(WeightsError(length(weighting), windowspan))
+
+        nvals  = nrolled(min(length(data1), length(data2)), windowspan)
+        offset = windowspan - 1
+        result = zeros(float(T), nvals)
+
+        @inbounds for idx in eachindex(result)
+            result[idx] = fun2( view(data1, idx:idx+offset) .* weighting,  view(data2, idx:idx+offset) .* weighting )
+        end
+
+        return result
+    end
+    =#
+
+    # weighted windowed function application
+    function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::F) where
+                        {T, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
 
         length(weighting) != windowspan &&
            throw(WeightsError(length(weighting), windowspan))
@@ -44,9 +63,8 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
 
     # weighted windowed function application
-    
     function rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting1::F, weighting2::F) where
-                        {T<:Number, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
+                        {T, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
 
         length(weighting1) != windowspan &&
            throw(WeightsError(length(weighting1), windowspan))
@@ -76,13 +94,13 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
 
     rolling(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::W) where
-                    {T<:Number, V<:AbstractVector{$T1}, W<:AbstractWeights} =
+                    {T, V<:AbstractVector{$T1}, W<:AbstractWeights} =
         rolling(fun2, data1, data2, windowspan, weighting.values)
 
 
     # unweighted windowed function tapering
 
-    function tapers2(fun2::Function, data1::V, data2::V) where {T<:Number, V<:AbstractVector{$T1}}
+    function tapers2(fun2::Function, data1::V, data2::V) where {T, V<:AbstractVector{$T1}}
         nvals  = min(length(data1), length(data2))
         result = zeros($T2, nvals) 
 
@@ -93,7 +111,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
         return result
     end
 
-    function tapers2(fun2::Function, data1::V, data2::V, ntocopy::Int) where {T<:Number, V<:AbstractVector{$T1}}
+    function tapers2(fun2::Function, data1::V, data2::V, ntocopy::Int) where {T, V<:AbstractVector{$T1}}
         nvals  = min(length(data1), length(data2))
         ntocopy = min(nvals, max(0, ntocopy))
 
@@ -111,7 +129,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     function tapers2(fun2::Function,  data1::V, data2::V, trailing_data::V) where
-            {T<:Number, V<:AbstractVector{$T1}}
+            {T, V<:AbstractVector{$T1}}
 
         ntrailing = axes(trailing_data)[1].stop
         nvals  = min(length(data1), length(data2)) + ntrailing
@@ -130,7 +148,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     # weighted windowed function tapering
 
     function tapers2(fun2::Function, data1::V, data2::V, weighting::F) where
-                     {T<:Number, N<:Number, V<:AbstractVector{$T1}, F<:Vector{N}}
+                     {T, N<:Number, V<:AbstractVector{$T1}, F<:Vector{N}}
 
         nvals  = min(length(data1), length(data2))
         nweighting = length(weighting)
@@ -148,32 +166,8 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     tapers2(fun2::Function, data1::V, data2::V, weighting::W) where
-                    {T<:Number, V<:AbstractVector{$T1}, W<:AbstractWeights} =
-        tapers2(fun2, data1, data2, weighting<:Number.values)
+                    {T, V<:AbstractVector{$T1}, W<:AbstractWeights} =
+        tapers2(fun2, data1, data2, weighting.values)
 
   end
 end
-
-#=
-rolling(fun2::Function, data1::VT, data2::VU, windowspan::Int) where
-  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
-  rolling(fun2, data1, (U).(data2), windowspan)
-
-rolling(fun2::Function, data1::VU, data2::VT, windowspan::Int) where
-  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}} =
-  rolling(fun2, data1, (U).(data2), windowspan)
-
-rolling(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
-  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} =
-  rolling(fun2, (VU)(data1), data2, windowspan, weighting)
-rolling(fun2::Function, data1::VU, data2::VT, windowspan::Int, weighting::W) where
-  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, N<:Number, W<:Vector{N}} = 
-  rolling(fun2, data1, (VU)(data2), windowspan, weighting)
-
-rolling(fun2::Function, data1::VT, data2::VU, windowspan::Int, weighting::W) where
-  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} =
-  rolling(fun2, (VU)(data1), data2, windowspan, weighting)
-rolling(fun2::Function, data1::VU, data2::VT, windowspan::Int, weighting::W) where
-  {T<:Number, U<:Union{Missing,T}, VT<:AbstractVector{T}, VU<:AbstractVector{U}, W<:AbstractWeights} = 
-  rolling(fun2, data1, (VU)(data2), windowspan, weighting)
-=#
