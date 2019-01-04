@@ -58,6 +58,7 @@ Float32[1.23657, 1.74574, 2.25492]
 To obtain the same number of output data values as are given, the initial `windowsize - 1` values output must be generated outside of the rolling behavior.  This is accomplished by tapering the needed values -- using the same function, rolling it over successively smaller window sizes.  All exported functions named with the prefix __`run`__ behave this way.
 
 ```julia
+julia> using RollingFunctions
 julia> data = collect(1.0f0:5.0f0); print(data)
 Float32[1.0, 2.0, 3.0, 4.0, 5.0]
 julia> windowsize = 3;
@@ -67,6 +68,9 @@ Float32[1.0, 1.5, 2.0, 3.0, 4.0]
 ```
 
 ```julia
+julia> using RollingFunctions
+julia> using LinearAlgebra: normalized
+
 julia> weights = normalize([1.0f0, 2.0f0, 4.0f0]);
  
 julia> result = runmean(data, windowsize, weights); print(result)
@@ -106,11 +110,6 @@ Many statistical functions of two (vector) variables are not well defined for ve
 
 - `running(function, data1, data2, windowsize, firstresult)`
 - `running(function, data1, data2, windowsize, weights, firstresult)`  (weights apply to both data vectors)
-
-### also exports
-- LinearAlgebra.normalize
-- StatsBase: AbstractWeights, Weights
-- StatsBase: FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
 ## Philosophy and Purpose
 
