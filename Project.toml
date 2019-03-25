@@ -5,7 +5,7 @@ uuid = "b0e4dd01-7b14-53d8-9b45-175a3e362653"
 repo = "https://github.com/JeffreySarnoff/RollingFunctions.jl.git"
 author = "Jeffrey Sarnoff"
 license = "MIT"
-version = "v0.7.0"
+version = "v0.6.1"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
