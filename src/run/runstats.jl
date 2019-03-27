@@ -25,34 +25,21 @@ for T1 in (:T, :(Union{Missing,T}))
     end
 end
 
-#=
-for T1 in (:T, :(Union{Missing,T}))
-    for (R,F,V) in ((:runcor, :cor, 1), (:runcov, :cov, 0))
-        @eval begin
-            $R(data1::V, data2::V, windowspan::Int) where {T, V<:AbstractVector{$T1}} =
-                running($F, data1, data2, windowspan, $V)
-            $R(data1::V, data2::V, windowspan::Int, weighting::AbstractVector{S}) where {T, V<:AbstractVector{$T1}, S} =
-                running($F, data1, data2, windowspan, weighting, $V)
-            $R(data1::V, data2::V, windowspan::Int, weighting::AbstractWeights) where {T, V<:AbstractVector{$T1}} =
-                running($F, data1, data2, windowspan, weighting.values, $V)
-        end
-    end
-end
-=#
 
-for (R,F,V) in ((:runcor, :cor, 1), (:runcov, :cov, 0))
-    @eval begin
-        $R(data1::V1, data2::V2, windowspan::Int) where
-           {T, V1<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}, 
-               V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
-            running($F, data1, data2, windowspan, $V)
-        $R(data1::V1, data2::V2, windowspan::Int, weighting::AbstractVector{S}) where 
-           {T, V1<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}, 
-               V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}, S} =
-            running($F, data1, data2, windowspan, weighting, $V)
-        $R(data1::V1, data2::V2, windowspan::Int, weighting::AbstractWeights) where
-           {T, V1<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}, 
-               V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
-            running($F, data1, data2, windowspan, weighting.values, $V)
-    end
-end
+
+runcor(data1::V1, data2::V2, windowspan::Int) where {T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
+                                                         V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
+    running(cor, data1, data2, windowspan, 1)
+
+runcov(data1::V1, data2::V2, windowspan::Int) where {T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
+                                                         V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
+    running(cov, data1, data2, windowspan, 0)
+
+runcor(data1::V1, data2::V2, windowspan::Int, weighting::AbstractVector{S}) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
+                                                                                         V2<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}} =
+    running(cor, data1, data2, windowspan, weighting, 1)
+
+runcov(data1::V1, data2::V2, windowspan::Int, weighting::AbstractVector{S}) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
+                                                                                         V2<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}} =
+    running(cov, data1, data2, windowspan, weighting, 0)
+
