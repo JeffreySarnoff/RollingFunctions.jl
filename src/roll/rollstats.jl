@@ -38,10 +38,14 @@ rollcov(data1::V1, data2::V2, windowspan::Int, weighting::AbstractVector{S}) whe
                                                                                           V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
     rolling(cov, data1, data2, windowspan, weighting)
 
+#=
+repeatedly calls itself
+
 rollcor(data1::V1, data2::V2, windowspan::Int, weighting::AbstractWeights) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
-                                                                                         V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
+                                                                                        V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
     rolling(cor, data1, data2, windowspan, weighting.values)
 
 rollcov(data1::V1, data2::V2, windowspan::Int, weighting::AbstractWeights) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
                                                                                         V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
     rolling(cov, data1, data2, windowspan, weighting.values)
+=#
