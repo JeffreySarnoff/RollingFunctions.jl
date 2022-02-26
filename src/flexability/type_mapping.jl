@@ -9,22 +9,41 @@
 ```
     datalength = 2^10
     windowsize = 2^8
+    idxs = 2windowsize:3windowsize
+
+    mean(windowed_data) = sum(windowed_data) / length(windowed_data)
+
+    breadth(windowed_data) = maximum(windowed_data) - minimum(windowed_data)
+    leveled_mean(windowed_data) =
+      breadth(windowed_data) / mean(windowed_data)
+
+    floatfunc(windowed_data)::AbstractFloat = leveled_mean(windowed_data)
+    intfunc(windowed_data)::Integer = ceil(Int, floatfunc(windowed_data))
 
     intseq = rand(1:100, datalength)
-    floatseq = float.(ints)
+    floatseq = float.(intseq)
 
-    intsummaryfunc(xs::Vector{Int}, idxbgn, idxend) =
-        ceil(Int, minimum(xs[idxbgn:idxend]))
+    intsummaryfunc(xs::Vector{Int}, idxs::AbstractRange) =
+        intfunc(xs[idxs])
 
-    intsummaryfunc(xs::Vector{Float64}, idxbgn, idxend) =
-        ceil(Int, minimum(xs[idxbgn:idxend]))
+    intsummaryfunc(xs::Vector{Float64}, idxs::AbstractRange) =
+        intfunc(xs[idxs])
 
-    floatsummaryfunc(xs::Vector{Int}, idxbgn, idxend) =
-        mean(xs[idxbgn:idxdend])
+    floatsummaryfunc(xs::Vector{Int},  idxs::AbstractRange) =
+        floatfunc(xs[idxs])
 
-    floatsummaryfunc(xs::Vector{Float64}, idxbgn, idxend) =
-        mean(xs[idxbgn:idxdend])
-
+    floatsummaryfunc(xs::Vector{Float64}, idxs::AbstractRange) =
+        floatfunc(xs[idxs])
 ```
 
+```
+julia> a = intsummaryfunc(intseq, idxs); isa(a, Integer)
+true
+julia> a = intsummaryfunc(floatseq, idxs); isa(a, Integer)
+true
+julia> a = floatsummaryfunc(intseq, idxs); isa(a, AbstractFloat)
+true
+julia> a = floatsummaryfunc(floatseq, idxs); isa(a, AbstractFloat)
+true
+```
 =#
