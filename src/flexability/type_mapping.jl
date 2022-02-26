@@ -37,7 +37,23 @@
 ```
 
 ```
-julia> a = intsummaryfunc(intseq, idxs); isa(a, Integer)
+julia> const return_type = Core.Compiler.return_type
+return_type (generic function with 5 methods)
+```
+```
+wrap_types(args::Vararg{<:Type, N}) where {N} = Tuple{ args... }
+wrap_types(args::Vararg{<:Any, N})  where {N} = Tuple{ typeof.(args)... }
+
+returntype(f, args...) = return_type(f, wrap_types(args))
+
+```
+julia> returntype(f, args...) = return_type(f, Tuple{typeof.(args)...})
+julia> returntype(f, args::Vararg{N}) = return_type(f, Tuple{typeof.(args)...})
+julia> typeof( intsummaryfunc(intseq, idxs) )
+Int64
+
+
+julia> return_type(intsummaryfunc, Tuple{Vector{Int}, StepRange}) <: Integer
 true
 julia> a = intsummaryfunc(floatseq, idxs); isa(a, Integer)
 true
