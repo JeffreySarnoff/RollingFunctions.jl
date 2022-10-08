@@ -7,7 +7,7 @@ Windows are specified by length 𝓁, kind 𝓀, behavior 𝒷 and displacement 
 
 - The length is the number of sequential data elements spanned by the window.
 - The kind is either 'whole' (complete windows only) or 'part' (the first or last window[s] may be partial, with <  𝓁 data elements).
-- The behaviour is 'pad_first', 'pad_last', 'pad_none', and applies only when the kind is 'part'
+- The behaviour is 'pad_first', 'pad_last', 'pad_none', and applies only when the kind is 'part'. Padding is done with `missing`.
 - The displacement is an offset from the actual start or end of the data. This is a signed integer, (+) offsets from the start, (-) from the end.
 
 
