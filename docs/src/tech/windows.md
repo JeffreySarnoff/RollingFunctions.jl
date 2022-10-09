@@ -73,6 +73,15 @@ mayfill(w::Window) = allowspartials(w) && (w.fill_first ⊻ w.fill_last)
 # >> it is an error to select either `fill` and select any `trim`
 ```
 
+```
+mutable struct WeightedWindow{Pad,F,T} <: AbstractWindow
+    window::Window{Pad}          # struct annotated above
+    weightfun::F                 # a function that yields the weights
+    weighting::Vector{T}         # the weights collected
+end
+
+# >> weightings are checked to ensure they sum to 1
+
 ----
 
 ```
