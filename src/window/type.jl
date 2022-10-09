@@ -1,3 +1,7 @@
+export BasicWindow, TaperedWindow, PaddedWindow               # FlatWindows, no nested information
+export OffsetWindow, WeightedWindow, OffsetWeightedWindow     # Wrap Capabilities about FlatWindows
+export FlatWindow, NestedWindow, WeightsWindow, OffsetsWindow # Unions of above, simplifies method making
+
 using Base: @kwdef
 
 abstract type AbstractWindow end
@@ -51,19 +55,6 @@ end
     weights::Vector{T}             # the weights collected
 end
 
-#=
-     The weights are to be normalized. 
-     When weights are not known to be normalized,
-     that they sum to 1 very nearly if not exactly 
-     will be ensured internally.
-
-     prevfloat(1.0, k) <= sum_of_weights <= 1.0 
-     where k is expected to be in 0:8.
-     (Float64: 0.9999999999999991 <= sum_of_weights <= 1.0)
-     (Float32: 0.9999995f0 <= sum_of_weights <= 1.0f0)
-=#
-
-
 @kwdef mutable struct OffsetWeightedWindow{W<:FlatWindow,T} <: AbstractWindow
     window::W
                                    # >> setting both is supported <<
@@ -76,6 +67,18 @@ end
 const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
 const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
 const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
+
+#=
+     The weights are to be normalized. 
+     When weights are not known to be normalized,
+     that they sum to 1 very nearly if not exactly 
+     will be ensured internally.
+
+     prevfloat(1.0, k) <= sum_of_weights <= 1.0 
+     where k is expected to be in 0:8.
+     (Float64: 0.9999999999999991 <= sum_of_weights <= 1.0)
+     (Float32: 0.9999995f0 <= sum_of_weights <= 1.0f0)
+=#
 
 BasicWindow(length::Int) = BasicWindow(; length)
 BasicWindow(length::Int, tilespan::Int) = BasicWindow(; length, tilespan)
