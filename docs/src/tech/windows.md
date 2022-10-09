@@ -51,10 +51,12 @@ end
 # is indexing to be offset
 notoffset(w::Window) = iszero(w.offset_first) && iszero(w.offset_final)
 isoffset(w::Window) = !notoffset(w)
+# >> specifying both a leading offset and a trailing offset is supported
 
 # is there to be padding
 notpadded(w::Window) = iszero(w.pad_first) && iszero(w.pad_final)
 ispadded(w::Window) = !notpadded(w)
+# >> it is an error to specify both a leading padding and a trailing padding
 
 # are only complete window spans to be allowed
 onlywhole(w::Window) = w.onlywhole
@@ -63,10 +65,11 @@ allowpartial(w::Window) = !onlywhole(w)
 # is dropping incomplete results expected
 isdropping(w::Window) = (w.drop_first ⊻ w.drop_final)
 notdropping(w::Window) = !isdropping(w)
-
+# >> it is an error to select both `drop_first` and `drop_final`
+  
 # is trimmed windowing to be allowed
 maytrim(w::Window) = allowspartials(w) && (w.trim_first ⊻ w.trim_last)
-  # it is an error to select both `trim_first` and `trim_final`
+# >> it is an error to select both `trim_first` and `trim_final`
 
 # is the information processed in direct (lower index to higher index) order
 isdirect(w::Window) = w.direct
