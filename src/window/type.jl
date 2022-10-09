@@ -45,7 +45,7 @@ const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
     offset_final::Int=0            # finish at index (length - offset_final)
 end
 
-@kwdef mutable struct WeightedWindow{W<:FlatWindow,T} <: AbstractWindow
+@kwdef mutable struct WeightedWindow{T, W<:FlatWindow} <: AbstractWindow
     window::W                      # struct annotated above
  
     weights::Vector{T}             # the weights collected
@@ -90,11 +90,6 @@ function PaddedWindow(length::Int, tilespan::Int=1; pad_first=true, pad_final=fa
     PaddedWindow(; length, tilespan, pad_first, pad_final, padding, direct)
 end
 
-function WeightedWindow(window::W, weights::Vector{T}) where {T, W<:FlatWindow}
-    window.length == length(weights) || throw(ArgumentError("length of window ($(window.length)) must match length of weights ($(length(weights))"))
-    WeightedWindow(; window, weights)
-end
-
 winlength(@nospecialize(w::FlatWindow)) = w.length
 winlength(@nospecialize(w::NestedWindow)) = w.window.length
 
@@ -124,7 +119,9 @@ padding(@nospecialize(w::WeightedWindow{PaddedWindow})) = padding(w.window)
 padding(@nospecialize(w::OffsetWindow{PaddedWindow})) = padding(w.window)
 padding(@nospecialize(w::OffsetWeightedWindow{PaddedWindow})) = padding(w.window)
 
-weighting(@nospecialize(w::WeightsWindow)) = w.weighting
+weights(@nospecialize(w::WeightsWindow)) = w.weights
+weights(@nospecialize(w::OffsetWeightedWindow)) = w.weights
+
 offsets(@nospecialize(w::OffsetsWindow)) = (w.offset_first, w.offset_final)
 
 # the weight function is optional
