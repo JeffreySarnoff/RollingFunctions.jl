@@ -65,7 +65,6 @@ end
     weights::Vector{T}             # the weights collected
 end
 
-
 #=
      The weights are to be normalized. 
      When weights are not known to be normalized,
@@ -81,7 +80,6 @@ end
 const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
 const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
 const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
-
 
 #=
      Constructors
@@ -191,7 +189,6 @@ expectswholes(w::FlatWindow) = tapered(x) || padded(w)
 admitsparts(w::FlatWindow) = !expectswholes(w)
 expectswholes(w::NestedWindow) = expectswholes(w.window)
 admitsparts(w::NestedWindow) = !expectswholes(w)
-
 
 #=
 
