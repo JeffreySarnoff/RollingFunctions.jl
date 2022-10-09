@@ -37,9 +37,6 @@ end
 end
 
 const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
-const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
-const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
-const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
 
 @kwdef mutable struct OffsetWindow{W<:FlatWindow} <: AbstractWindow
     window::W
@@ -64,6 +61,10 @@ end
     
     weights::Vector{T}             # the weights collected
 end
+
+const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
+const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
+const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
 
 BasicWindow(length::Int) = BasicWindow(; length)
 BasicWindow(length::Int, tilespan::Int) = BasicWindow(; length, tilespan)
