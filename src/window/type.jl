@@ -2,6 +2,9 @@ using Base: @kwdef
 
 abstract type AbstractWindow end
 
+abstract type StepWindow <: AbstractWindow
+abstract type TileWindow <: AbstractWindow
+
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const length::Int              # span of contiguous elements
     
