@@ -76,24 +76,24 @@ direct(@nospecialize(w::FlatWindow)) = w.direct
 direct(@nospecialize(w::NestedWindow)) = w.window.direct
 
 drops(@nospecialize(w::BasicWindow)) = (w.drop_first, w.drop_final)
-drops(@nospecialize(w::WeightedWindow{BasicWindow}) = drops(w.window)
-drops(@nospecialize(w::OffsetWindow{BasicWindow}) = drops(w.window)
-drops(@nospecialize(w::OffsetWeightedWindow{BasicWindow}) = drops(w.window)
+drops(@nospecialize(w::WeightedWindow{BasicWindow})) = drops(w.window)
+drops(@nospecialize(w::OffsetWindow{BasicWindow})) = drops(w.window)
+drops(@nospecialize(w::OffsetWeightedWindow{BasicWindow})) = drops(w.window)
 
 trims(@nospecialize(w::TrimmedWindow)) = (w.trim_first, w.trim_final)
-trims(@nospecialize(w::WeightedWindow{TrimmedWindow}) = trims(w.window)
-trims(@nospecialize(w::OffsetWindow{TrimmedWindow}) = trims(w.window)
-trims(@nospecialize(w::OffsetWeightedWindow{TrimmedWindow}) = trims(w.window)
+trims(@nospecialize(w::WeightedWindow{TrimmedWindow})) = trims(w.window)
+trims(@nospecialize(w::OffsetWindow{TrimmedWindow})) = trims(w.window)
+trims(@nospecialize(w::OffsetWeightedWindow{TrimmedWindow})) = trims(w.window)
 
 pads(@nospecialize(w::PaddededWindow)) = (w.pad_first, w.pad_final)
-pads(@nospecialize(w::WeightedWindow{PaddedWindow}) = pads(w.window)
-pads(@nospecialize(w::OffsetWindow{PaddedWindow}) = pads(w.window)
-pads(@nospecialize(w::OffsetWeightedWindow{PaddedWindow}) = pads(w.window)
+pads(@nospecialize(w::WeightedWindow{PaddedWindow})) = pads(w.window)
+pads(@nospecialize(w::OffsetWindow{PaddedWindow})) = pads(w.window)
+pads(@nospecialize(w::OffsetWeightedWindow{PaddedWindow})) = pads(w.window)
 
 padding(@nospecialize(w::PaddededWindow)) = w.padding
-padding(@nospecialize(w::WeightedWindow{PaddedWindow}) = padding(w.window)
-padding(@nospecialize(w::OffsetWindow{PaddedWindow}) = padding(w.window)
-padding(@nospecialize(w::OffsetWeightedWindow{PaddedWindow}) = padding(w.window)
+padding(@nospecialize(w::WeightedWindow{PaddedWindow})) = padding(w.window)
+padding(@nospecialize(w::OffsetWindow{PaddedWindow})) = padding(w.window)
+padding(@nospecialize(w::OffsetWeightedWindow{PaddedWindow})) = padding(w.window)
 
 weighting(@nospecialize(w::WeightsWindow)) = w.weighting
 offsets(@nospecialize(w::OffsetsWindow)) = (w.offset_first, w.offset_final)
