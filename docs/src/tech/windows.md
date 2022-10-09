@@ -1,9 +1,10 @@
 ## Window Representations
 
 Multiple structs are used internally to model the constructive details and applicative rules for a Window over client data.
+All inherit from AbstractWindowing
 
 ```
-@kwdef mutable struct BasicWindow
+@kwdef mutable struct BasicWindow <: AbstractWindowing
     const length::Int              # span of contiguous elements
     
     const onlywhole::Bool=true     # prohibit partial windows
@@ -24,7 +25,7 @@ end
 =#
 ```
 ```
-@kwdef struct Window{T}
+@kwdef struct Window{T} <: AbstractWindowing
     const length::Int              # span of contiguous elements
     
     offset_first::Int=0            # start  at index offset_first + 1
@@ -48,22 +49,26 @@ end
 end
 
 # is indexing to be offset
-notoffset(w::SimpleWindow) = iszero(w.offset_first) && iszero(w.offset_final)
-isoffset(w::SimpleWindow) = !notoffset(w)
+notoffset(w::Window) = iszero(w.offset_first) && iszero(w.offset_final)
+isoffset(w::Window) = !notoffset(w)
 
 # is there to be padding
-notpadded(w::SimpleWindow) = iszero(w.pad_first) && iszero(w.pad_final)
-ispadded(w::SimpleWindow) = !notpadded(w)
+notpadded(w::Window) = iszero(w.pad_first) && iszero(w.pad_final)
+ispadded(w::Window) = !notpadded(w)
 
 # are only complete window spans to be allowed
-onlywhole(w::SimpleWindow) = w.onlywhole
-allowpartial(w::SimpleWindow) = !onlywhole(w)
+onlywhole(w::Window) = w.onlywhole
+allowpartial(w::Window) = !onlywhole(w)
+
+# is dropping incomplete results expected
+isdropping(w::Window) = (w.drop_first ⊻ w.drop_final)
+notdropping(w::Window) = !isdropping(w)
 
 # is trimmed windowing to be allowed
-maytrim(w::SimpleWindow) = allowspartials(w) && (w.trim_first ⊻ w.trim_last)
-  # _It is an error to select both `trim_first` and `trim_final`_
+maytrim(w::Window) = allowspartials(w) && (w.trim_first ⊻ w.trim_last)
+  # it is an error to select both `trim_first` and `trim_final`
 
 # is the information processed in direct (lower index to higher index) order
-isdirect(w::SimpleWindow) = w.direct
+isdirect(w::Window) = w.direct
 ```
 
