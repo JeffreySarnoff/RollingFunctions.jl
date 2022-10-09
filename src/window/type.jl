@@ -44,7 +44,7 @@ end
 end
 
 
-@kwdef mutable struct WeightedWindow{W<:AbstractWindow,F,T} <: AbstractWindow
+@kwdef mutable struct WeightedWindow{W<:AbstractWindow,T} <: AbstractWindow
     window::W                      # struct annotated above
  
     weighting::Vector{T}           # the weights collected
@@ -52,7 +52,7 @@ end
 
 # >> weightings are checked to ensure they sum to 1
 
-@kwdef mutable struct OffsetWeightedWindow{W<:AbstractWindow} <: AbstractWindow
+@kwdef mutable struct OffsetWeightedWindow{W<:AbstractWindow,T} <: AbstractWindow
     window::W
                                    # >> setting both is supported <<
     offset_first::Int=0            # start  at index (offset_first + 1)
