@@ -2,11 +2,9 @@ using Base: @kwdef
 
 abstract type AbstractWindow end
 
-abstract type StepWindow <: AbstractWindow end
-abstract type TileWindow <: AbstractWindow end
-
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const length::Int              # span of contiguous elements
+    const tilespan::Int=1          # span for tile (1 is untiled)
     
                                    # >> it is an error to select both <<
     const drop_first::Bool=true    # omit results at start¹, if needed²
@@ -17,9 +15,10 @@ end
 
 @kwdef mutable struct TrimmedWindow <: AbstractWindow
     const length::Int              # span of contiguous elements
+    const tilespan::Int=1          # span for tile (1 is untiled)
     
                                    # >> it is an error to select both <<
-    const trim_first::Bool=false   # use partial windowing over first elements, if needed
+    const trim_first::Bool=true    # use partial windowing over first elements, if needed
     const trim_final::Bool=false   # use partial windowing over final elements, if needed
 
     const direct::Bool=true        # process from low indices to high
@@ -27,16 +26,17 @@ end
 
 @kwdef mutable struct PaddedWindow{T} <: AbstractWindow
     const length::Int              # span of contiguous elements
+    const tilespan::Int=1          # span for tile (1 is untiled)
     
                                    # >> it is an error to select both <<
-    const pad_first::Bool=false    # use partial windowing over first elements, if needed
+    const pad_first::Bool=true     # use partial windowing over first elements, if needed
     const pad_final::Bool=false    # use partial windowing over final elements, if needed
     const padding::T=missing       # the value with which to pad
 
     const direct::Bool=true        # process from low indices to high
 end
 
-@kwdef mutable struct OffsetWindow{W} <: AbstractWindow
+@kwdef mutable struct OffsetWindow{W<:AbstractWindow} <: AbstractWindow
     window::W
                                    # >> setting both is supported <<
     offset_first::Int=0            # start  at index (offset_first + 1)
@@ -44,37 +44,59 @@ end
 end
 
 
-
-
-
-@kwdef mutable struct Window{T} <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    
-    offset_first::Int=0            # start  at index offset_first + 1
-    offset_final::Int=0            # finish at index length - offset_final + 1
-
-    pad_first::Int=0               # pad with this many paddings at start
-    pad_final::Int=0               # pad with this many padding at end
-    const padding::T=nothing       # use this as the value with which to pad
-
-    const direct::Bool=true        # process from low indices to high
-
-    const onlywhole::Bool=true     # prohibit partial windows
-    const drop_first::Bool=true    # omit results at start¹, if needed²
-    const drop_final::Bool=false   # omit results at finish¹, if needed²
-
-    const trim_first::Bool=false   # use partial windowing over first elements, if needed
-    const trim_final::Bool=false   # use partial windowing over final elements, if needed
-    
-    const fill_first::Bool=true    # a simpler, often faster alternative to trim
-    const fill_final::Bool=false   # a simpler, often faster alternative to trim
+@kwdef mutable struct WeightedWindow{W<:AbstractWindow,F,T} <: AbstractWindow
+    window::W                      # struct annotated above
+ 
+    weighting::Vector{T}           # the weights collected
 end
 
-@kwdef mutable struct WeightedWindow{Pad,F,T} <: AbstractWindow
-    window::Window{Pad}          # struct annotated above
-    weightfun::F=nothing         # a function that yields the weights
-    weighting::Vector{T}         # the weights collected
+# >> weightings are checked to ensure they sum to 1
+
+@kwdef mutable struct OffsetWeightedWindow{W<:AbstractWindow} <: AbstractWindow
+    window::W
+                                   # >> setting both is supported <<
+    offset_first::Int=0            # start  at index (offset_first + 1)
+    offset_final::Int=0            # finish at index (length - offset_final)
+    
+    weighting::Vector{T}           # the weights collected
 end
+
+const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
+const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
+const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
+const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
+
+winlength(@nospecialize(w::FlatWindow)) = w.length
+tilesize(@nospecialize(w::FlatWindow)) = w.tilesize
+
+winlength(@nospecialize(w::NestedWindow)) = w.window.length
+tilesize(@nospecialize(w::NestedWindow)) = w.window.tilesize
+
+direct(@nospecialize(w::FlatWindow)) = w.direct
+direct(@nospecialize(w::NestedWindow)) = w.window.direct
+
+drops(@nospecialize(w::BasicWindow)) = (w.drop_first, w.drop_final)
+drops(@nospecialize(w::WeightedWindow{BasicWindow}) = drops(w.window)
+drops(@nospecialize(w::OffsetWindow{BasicWindow}) = drops(w.window)
+drops(@nospecialize(w::OffsetWeightedWindow{BasicWindow}) = drops(w.window)
+
+trims(@nospecialize(w::TrimmedWindow)) = (w.trim_first, w.trim_final)
+trims(@nospecialize(w::WeightedWindow{TrimmedWindow}) = trims(w.window)
+trims(@nospecialize(w::OffsetWindow{TrimmedWindow}) = trims(w.window)
+trims(@nospecialize(w::OffsetWeightedWindow{TrimmedWindow}) = trims(w.window)
+
+pads(@nospecialize(w::PaddededWindow)) = (w.pad_first, w.pad_final)
+pads(@nospecialize(w::WeightedWindow{PaddedWindow}) = pads(w.window)
+pads(@nospecialize(w::OffsetWindow{PaddedWindow}) = pads(w.window)
+pads(@nospecialize(w::OffsetWeightedWindow{PaddedWindow}) = pads(w.window)
+
+padding(@nospecialize(w::PaddededWindow)) = w.padding
+padding(@nospecialize(w::WeightedWindow{PaddedWindow}) = padding(w.window)
+padding(@nospecialize(w::OffsetWindow{PaddedWindow}) = padding(w.window)
+padding(@nospecialize(w::OffsetWeightedWindow{PaddedWindow}) = padding(w.window)
+
+weighting(@nospecialize(w::WeightsWindow)) = w.weighting
+offsets(@nospecialize(w::OffsetsWindow)) = (w.offset_first, w.offset_final)
 
 # the weight function is optional
 # if you specify a weight function, the `weighting` will be autogenerated
