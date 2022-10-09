@@ -5,35 +5,35 @@ abstract type AbstractWindow end
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const length::Int              # span of contiguous elements
     const tilespan::Int=1          # span for tile (1 is untiled)
-    
-                                   # >> it is an error to select both <<
-    const drop_first::Bool=true    # omit results at start¹, if needed²
-    const drop_final::Bool=false   # omit results at finish¹, if needed²
 
     const direct::Bool=true        # process from low indices to high
+    
+    const drop_first::Bool=true    # omit results at start¹, if needed²
+    const drop_final::Bool=false   # omit results at finish¹, if needed²
+                                   # >> it is an error to select both <<
 end
 
 @kwdef mutable struct TaperedWindow <: AbstractWindow
     const length::Int              # span of contiguous elements
     const tilespan::Int=1          # span for tile (1 is untiled)
-    
-                                   # >> it is an error to select both <<
-    const taper_first::Bool=true   # use partial windowing over first elements, if needed
-    const taper_final::Bool=false  # use partial windowing over final elements, if needed
 
     const direct::Bool=true        # process from low indices to high
+    
+    const taper_first::Bool=true   # use partial windowing over first elements, if needed
+    const taper_final::Bool=false  # use partial windowing over final elements, if needed
+                                   # >> it is an error to select both <<
 end
 
 @kwdef mutable struct PaddedWindow{T} <: AbstractWindow
     const length::Int              # span of contiguous elements
     const tilespan::Int=1          # span for tile (1 is untiled)
-    
-                                   # >> it is an error to select both <<
-    const pad_first::Bool=true     # use partial windowing over first elements, if needed
-    const pad_final::Bool=false    # use partial windowing over final elements, if needed
-    const padding::T=missing       # the value with which to pad
 
     const direct::Bool=true        # process from low indices to high
+    
+    const padding::T=missing       # the value with which to pad
+    const pad_first::Bool=true     # use partial windowing over first elements, if needed
+    const pad_final::Bool=false    # use partial windowing over final elements, if needed
+                                   # >> it is an error to select both <<
 end
 
 const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
@@ -51,7 +51,18 @@ end
     weights::Vector{T}             # the weights collected
 end
 
-# >> weightings are checked to ensure they sum to 1
+#=
+     The weights are to be normalized. 
+     When weights are not known to be normalized,
+     that they sum to 1 very nearly if not exactly 
+     will be ensured internally.
+
+     prevfloat(1.0, k) <= sum_of_weights <= 1.0 
+     where k is expected to be in 0:8.
+     (Float64: 0.9999999999999991 <= sum_of_weights <= 1.0)
+     (Float32: 0.9999995f0 <= sum_of_weights <= 1.0f0)
+=#
+
 
 @kwdef mutable struct OffsetWeightedWindow{W<:FlatWindow,T} <: AbstractWindow
     window::W
