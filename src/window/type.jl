@@ -18,8 +18,8 @@ end
     const tilespan::Int=1          # span for tile (1 is untiled)
     
                                    # >> it is an error to select both <<
-    const trim_first::Bool=true    # use partial windowing over first elements, if needed
-    const trim_final::Bool=false   # use partial windowing over final elements, if needed
+    const taper_first::Bool=true   # use partial windowing over first elements, if needed
+    const taper_final::Bool=false  # use partial windowing over final elements, if needed
 
     const direct::Bool=true        # process from low indices to high
 end
@@ -76,10 +76,10 @@ end
 
 TaperedWindow(length::Int) = TaperedWindow(; length)
 TaperedWindow(length::Int, tilespan::Int) = TaperedWindow(; length, tilespan)
-function TaperedWindow(length::Int, tilespan::Int=1; trim_first=true, trim_final=false, direct=true)
-    if trim_first trim_final = false end
-    if trim_final trim_first = false end
-    TaperedWindow(; length, tilespan, trim_first, trim_final, direct)
+function TaperedWindow(length::Int, tilespan::Int=1; taper_first=true, taper_final=false, direct=true)
+    if taper_first taper_final = false end
+    if taper_final taper_first = false end
+    TaperedWindow(; length, tilespan, taper_first, taper_final, direct)
 end
 
 PaddedWindow(length::Int) = PaddedWindow(; length)
@@ -99,10 +99,10 @@ tilesize(@nospecialize(w::NestedWindow)) = w.window.tilesize
 isdirect(@nospecialize(w::FlatWindow)) = w.direct
 isdirect(@nospecialize(w::NestedWindow)) = w.window.direct
 
-trims(@nospecialize(w::TaperedWindow)) = (w.trim_first, w.trim_final)
-trims(@nospecialize(w::WeightedWindow{TaperedWindow})) = trims(w.window)
-trims(@nospecialize(w::OffsetWindow{TaperedWindow})) = trims(w.window)
-trims(@nospecialize(w::OffsetWeightedWindow{TaperedWindow})) = trims(w.window)
+tapers(@nospecialize(w::TaperedWindow)) = (w.taper_first, w.taper_final)
+tapers(@nospecialize(w::WeightedWindow{TaperedWindow})) = tapers(w.window)
+tapers(@nospecialize(w::OffsetWindow{TaperedWindow})) = tapers(w.window)
+tapers(@nospecialize(w::OffsetWeightedWindow{TaperedWindow})) = tapers(w.window)
 
 drops(@nospecialize(w::BasicWindow)) = (w.drop_first, w.drop_final)
 drops(@nospecialize(w::WeightedWindow{BasicWindow})) = drops(w.window)
@@ -151,15 +151,15 @@ isdropping(w::Window) = (w.drop_first ⊻ w.drop_final)
 notdropping(w::Window) = !isdropping(w)
 # >> it is an error to select both `drop_first` and `drop_final`
   
-# is trimmed windowing to be allowed
-maytrim(w::Window) = allowspartials(w) && (w.trim_first ⊻ w.trim_last)
-# >> it is an error to select both `trim_first` and `trim_final`
-# >> it is an error to select either `trim` and select any `fill`
+# is tapermed windowing to be allowed
+maytaper(w::Window) = allowspartials(w) && (w.taper_first ⊻ w.taper_last)
+# >> it is an error to select both `taper_first` and `taper_final`
+# >> it is an error to select either `taper` and select any `fill`
 
 # is filled windowing to be allowed
 mayfill(w::Window) = allowspartials(w) && (w.fill_first ⊻ w.fill_last)
 # >> it is an error to select both `fill_first` and `fill_final`
-# >> it is an error to select either `fill` and select any `trim`
+# >> it is an error to select either `fill` and select any `taper`
 =#
 
 #=
