@@ -43,7 +43,6 @@ end
     offset_final::Int=0            # finish at index (length - offset_final)
 end
 
-
 @kwdef mutable struct WeightedWindow{W<:AbstractWindow,T} <: AbstractWindow
     window::W                      # struct annotated above
  
@@ -75,18 +74,20 @@ tilesize(@nospecialize(w::NestedWindow)) = w.window.tilesize
 direct(@nospecialize(w::FlatWindow)) = w.direct
 direct(@nospecialize(w::NestedWindow)) = w.window.direct
 
-drops(@nospecialize(w::BasicWindow)) = (w.drop_first, w.drop_final)
 
-drops(@nospecialize(w::WeightedWindow{BasicWindow})) = drops(w.window)
 
-drops(@nospecialize(w::OffsetWindow{BasicWindow})) = drops(w.window)
 
-drops(@nospecialize(w::OffsetWeightedWindow{BasicWindow})) = drops(w.window)
+
 
 trims(@nospecialize(w::TaperedWindow)) = (w.trim_first, w.trim_final)
 trims(@nospecialize(w::WeightedWindow{TaperedWindow})) = trims(w.window)
 trims(@nospecialize(w::OffsetWindow{TaperedWindow})) = trims(w.window)
 trims(@nospecialize(w::OffsetWeightedWindow{TaperedWindow})) = trims(w.window)
+
+drops(@nospecialize(w::BasicWindow)) = (w.drop_first, w.drop_final)
+drops(@nospecialize(w::WeightedWindow{BasicWindow})) = drops(w.window)
+drops(@nospecialize(w::OffsetWindow{BasicWindow})) = drops(w.window)
+drops(@nospecialize(w::OffsetWeightedWindow{BasicWindow})) = drops(w.window)
 
 pads(@nospecialize(w::PaddedWindow)) = (w.pad_first, w.pad_final)
 pads(@nospecialize(w::WeightedWindow{PaddedWindow})) = pads(w.window)
