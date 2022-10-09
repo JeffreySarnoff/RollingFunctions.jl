@@ -78,6 +78,7 @@ mayfill(w::Window) = allowspartials(w) && (w.fill_first ⊻ w.fill_last)
 ```
     ¹ "at start"  is from the lowest  indices where `direct == true`
                   is from the highest indices where `direct == false`
+
       "at finish" is from the highest indices where `direct == true`
                   is from the lowest  indices where `direct == false`
 
