@@ -3,9 +3,9 @@ keywords = ["rolling", "running", "windowed", "timeseries"]
 name = "RollingFunctions"
 uuid = "b0e4dd01-7b14-53d8-9b45-175a3e362653"
 repo = "https://github.com/JeffreySarnoff/RollingFunctions.jl.git"
-author = "Jeffrey Sarnoff"
+authors = ["Jeffrey Sarnoff and other contributors"]
 license = "MIT"
-version = "v0.6.2"
+version = "v1.0.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -19,4 +19,5 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 test = ["Test"]
 
 [compat]
-StatsBase = ">= v0.27.0"
+StatsBase = ">= v0.33"
+julia = "1.7.2"

@@ -27,6 +27,11 @@ makedocs(
             "roll" => "api/roll.md",
             "run" => "api/run.md",
         ],
+        "Technical Reference" => Any[
+            "window structs" => "tech/windows.md",
+            "window sorts" => "tech/windowsorts.md",
+            "function arity" => "tech/arity.md",
+        ],
         "References" => "references.md",
     ]
 )
