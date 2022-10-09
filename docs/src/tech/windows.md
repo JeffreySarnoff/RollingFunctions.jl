@@ -18,7 +18,7 @@ end
                   is from the highest indices where `direct == false`
       "at finish" is from the highest indices where `direct == true`
                   is from the lowest  indices where `direct == false`
-                  
+
     ² "if needed" is true if and only if `onlywhole == true` and
                   `!iszero(rem(data_length, window_length))`
 =#
