@@ -36,58 +36,13 @@ end
     const direct::Bool=true        # process from low indices to high
 end
 
-@kwdef mutable struct OffsetWindow <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    
+@kwdef mutable struct OffsetWindow{W} <: AbstractWindow
+    window::W
                                    # >> setting both is supported <<
     offset_first::Int=0            # start  at index (offset_first + 1)
     offset_final::Int=0            # finish at index (length - offset_final)
-
-    const direct::Bool=true        # process from low indices to high
 end
 
-@kwdef mutable struct OffsetBasicWindow <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    
-                                   # >> setting both is supported <<
-    offset_first::Int=0            # start  at index (offset_first + 1)
-    offset_final::Int=0            # finish at index (length - offset_final)
-    
-                                   # >> it is an error to select both <<
-    const drop_first::Bool=true    # omit results at start¹, if needed²
-    const drop_final::Bool=false   # omit results at finish¹, if needed²
-
-    const direct::Bool=true        # process from low indices to high
-end
-
-@kwdef mutable struct OffsetTrimmedWindow <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    
-                                   # >> setting both is supported <<
-    offset_first::Int=0            # start  at index (offset_first + 1)
-    offset_final::Int=0            # finish at index (length - offset_final)
-
-                                   # >> it is an error to select both <<
-    const trim_first::Bool=false   # use partial windowing over first elements, if needed
-    const trim_final::Bool=false   # use partial windowing over final elements, if needed
-
-    const direct::Bool=true        # process from low indices to high
-end
-
-@kwdef mutable struct OffsetPaddedWindow{T} <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    
-                                   # >> setting both is supported <<
-    offset_first::Int=0            # start  at index (offset_first + 1)
-    offset_final::Int=0            # finish at index (length - offset_final)
-
-                                   # >> it is an error to select both <<
-    const pad_first::Bool=false    # use partial windowing over first elements, if needed
-    const pad_final::Bool=false    # use partial windowing over final elements, if needed
-    const padding::T=missing       # the value with which to pad
-
-    const direct::Bool=true        # process from low indices to high
-end
 
 
 
