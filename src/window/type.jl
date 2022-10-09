@@ -78,7 +78,7 @@ end
 
 PaddedWindow(length::Int) = PaddedWindow(; length)
 PaddeddWindow(length::Int, tilespan::Int) = PaddedWindow(; length, tilespan)
-function PaddedWindow(length::Int, tilespan::Int=1; padd_first=true, pad_final=false, padding::T=missing, direct=true) where {T}
+function PaddedWindow(length::Int, tilespan::Int=1; pad_first=true, pad_final=false, padding::T=missing, direct=true) where {T}
     if pad_first pad_final = false end
     if pad_final pad_first = false end
     PaddedWindow(; length, tilespan, pad_first, pad_final, padding, direct)
