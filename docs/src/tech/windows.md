@@ -15,16 +15,6 @@ abstract type AbstractWindow end
     const drop_first::Bool=true    # omit results at start¹, if needed²
     const drop_final::Bool=false   # omit results at finish¹, if needed²
 end
-
-#=
-    ¹ "at start"  is from the lowest  indices where `direct == true`
-                  is from the highest indices where `direct == false`
-      "at finish" is from the highest indices where `direct == true`
-                  is from the lowest  indices where `direct == false`
-
-    ² "if needed" is true if and only if `onlywhole == true` and
-                  `!iszero(rem(data_length, window_length))`
-=#
 ```
 ```
 @kwdef mutable struct Window{T} <: AbstractWindow
@@ -40,8 +30,8 @@ end
     const direct::Bool=true        # process from low indices to high
 
     const onlywhole::Bool=true     # prohibit partial windows
-    const drop_first::Bool=true    # omit results at start, if needed
-    const drop_final::Bool=false   # omit results at finish, if needed
+    const drop_first::Bool=true    # omit results at start¹, if needed²
+    const drop_final::Bool=false   # omit results at finish¹, if needed²
 
     const trim_first::Bool=false   # use partial windowing over first elements, if needed
     const trim_final::Bool=false   # use partial windowing over final elements, if needed
@@ -83,3 +73,13 @@ mayfill(w::Window) = allowspartials(w) && (w.fill_first ⊻ w.fill_last)
 # >> it is an error to select either `fill` and select any `trim`
 ```
 
+----
+
+    ¹ "at start"  is from the lowest  indices where `direct == true`
+                  is from the highest indices where `direct == false`
+      "at finish" is from the highest indices where `direct == true`
+                  is from the lowest  indices where `direct == false`
+
+    ² "if needed" is true if and only if `onlywhole == true` and
+                  `!iszero(rem(data_length, window_length))`
+----
