@@ -30,6 +30,7 @@ makedocs(
         "Technical Reference" => Any[
             "window structs" => "tech/windows.md",
             "window sorts" => "tech/windowsorts.md",
+            "windowing math" => "tech/windowmath.md",
             "function arity" => "tech/arity.md",
         ],
         "References" => "references.md",
