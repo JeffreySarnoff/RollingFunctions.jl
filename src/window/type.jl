@@ -74,11 +74,6 @@ tilesize(@nospecialize(w::NestedWindow)) = w.window.tilesize
 direct(@nospecialize(w::FlatWindow)) = w.direct
 direct(@nospecialize(w::NestedWindow)) = w.window.direct
 
-
-
-
-
-
 trims(@nospecialize(w::TaperedWindow)) = (w.trim_first, w.trim_final)
 trims(@nospecialize(w::WeightedWindow{TaperedWindow})) = trims(w.window)
 trims(@nospecialize(w::OffsetWindow{TaperedWindow})) = trims(w.window)
