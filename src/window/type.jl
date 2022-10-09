@@ -36,28 +36,33 @@ end
     const direct::Bool=true        # process from low indices to high
 end
 
-@kwdef mutable struct OffsetWindow{W<:AbstractWindow} <: AbstractWindow
+const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
+const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
+const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
+const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
+
+@kwdef mutable struct OffsetWindow{W<:FlatWindow} <: AbstractWindow
     window::W
                                    # >> setting both is supported <<
     offset_first::Int=0            # start  at index (offset_first + 1)
     offset_final::Int=0            # finish at index (length - offset_final)
 end
 
-@kwdef mutable struct WeightedWindow{W<:AbstractWindow,T} <: AbstractWindow
+@kwdef mutable struct WeightedWindow{W<:FlatWindow,T} <: AbstractWindow
     window::W                      # struct annotated above
  
-    weights::Vector{T}           # the weights collected
+    weights::Vector{T}             # the weights collected
 end
 
 # >> weightings are checked to ensure they sum to 1
 
-@kwdef mutable struct OffsetWeightedWindow{W<:AbstractWindow,T} <: AbstractWindow
+@kwdef mutable struct OffsetWeightedWindow{W<:FlatWindow,T} <: AbstractWindow
     window::W
                                    # >> setting both is supported <<
     offset_first::Int=0            # start  at index (offset_first + 1)
     offset_final::Int=0            # finish at index (length - offset_final)
     
-    weights::Vector{T}           # the weights collected
+    weights::Vector{T}             # the weights collected
 end
 
 BasicWindow(length::Int) = BasicWindow(; length)
@@ -77,24 +82,17 @@ function TaperedWindow(length::Int, tilespan::Int=1; trim_first=true, trim_final
 end
 
 PaddedWindow(length::Int) = PaddedWindow(; length)
-PaddeddWindow(length::Int, tilespan::Int) = PaddedWindow(; length, tilespan)
+PaddedWindow(length::Int, tilespan::Int) = PaddedWindow(; length, tilespan)
 function PaddedWindow(length::Int, tilespan::Int=1; pad_first=true, pad_final=false, padding::T=missing, direct=true) where {T}
     if pad_first pad_final = false end
     if pad_final pad_first = false end
     PaddedWindow(; length, tilespan, pad_first, pad_final, padding, direct)
 end
 
-const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
-const NestedWindow = Union{OffsetWindow, WeightedWindow, OffsetWeightedWindow}
-const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
-const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
-
-function WeightedWindow(@nospecialize(window::W), weights::Vector{T}) where {T, W<:FlatWindow}
+function WeightedWindow(window::W, weights::Vector{T}) where {T, W<:FlatWindow}
     window.length == length(weights) || throw(ArgumentError("length of window ($(window.length)) must match length of weights ($(length(weights))"))
     WeightedWindow(; window, weights)
 end
-
-    
 
 winlength(@nospecialize(w::FlatWindow)) = w.length
 winlength(@nospecialize(w::NestedWindow)) = w.window.length
