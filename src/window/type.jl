@@ -1,3 +1,4 @@
+export AbstractWindow
 export BasicWindow, TaperedWindow, PaddedWindow               # FlatWindows, no nested information
 export OffsetWindow, WeightedWindow, OffsetWeightedWindow     # Wrap Capabilities about FlatWindows
 export FlatWindow, NestedWindow, WeightsWindow, OffsetsWindow # Unions of above, simplifies method making
@@ -103,6 +104,9 @@ function PaddedWindow(length::Int, tilespan::Int=1; pad_first=true, pad_final=fa
     if pad_final pad_first = false end
     PaddedWindow(; length, tilespan, pad_first, pad_final, padding, direct)
 end
+
+        #    (→ DO NOT provide explicit constructors for any of the NestedWindow types. ←)
+        #    (  otherwise, the stack may overflow ... no other information at this time  )
 
 winlength(@nospecialize(w::FlatWindow)) = w.length
 winlength(@nospecialize(w::NestedWindow)) = w.window.length
