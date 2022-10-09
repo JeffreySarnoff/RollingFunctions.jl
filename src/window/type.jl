@@ -67,17 +67,20 @@ const WeightsWindow = Union{WeightedWindow, OffsetWeightedWindow}
 const OffsetsWindow = Union{OffsetWindow, OffsetWeightedWindow}
 
 winlength(@nospecialize(w::FlatWindow)) = w.length
-tilesize(@nospecialize(w::FlatWindow)) = w.tilesize
-
 winlength(@nospecialize(w::NestedWindow)) = w.window.length
+
+tilesize(@nospecialize(w::FlatWindow)) = w.tilesize
 tilesize(@nospecialize(w::NestedWindow)) = w.window.tilesize
 
 direct(@nospecialize(w::FlatWindow)) = w.direct
 direct(@nospecialize(w::NestedWindow)) = w.window.direct
 
 drops(@nospecialize(w::BasicWindow)) = (w.drop_first, w.drop_final)
+
 drops(@nospecialize(w::WeightedWindow{BasicWindow})) = drops(w.window)
+
 drops(@nospecialize(w::OffsetWindow{BasicWindow})) = drops(w.window)
+
 drops(@nospecialize(w::OffsetWeightedWindow{BasicWindow})) = drops(w.window)
 
 trims(@nospecialize(w::TaperedWindow)) = (w.trim_first, w.trim_final)
