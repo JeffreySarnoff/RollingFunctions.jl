@@ -20,23 +20,22 @@ Multiple structs are used internally to model the constructive details and appli
 end
 
 # is indexing to be offset
-`notoffset(w::SimpleWindow) = iszero(w.offset_first) && iszero(w.offset_final)`
-`isoffset(w::SimpleWindow) = !notoffset(w)`
+notoffset(w::SimpleWindow) = iszero(w.offset_first) && iszero(w.offset_final)
+`isoffset(w::SimpleWindow) = !notoffset(w)
 
 # is there to be padding
-`notpadded(w::SimpleWindow) = iszero(w.pad_first) && iszero(w.pad_final)`
-`ispadded(w::SimpleWindow) = !notpadded(w)
+notpadded(w::SimpleWindow) = iszero(w.pad_first) && iszero(w.pad_final)
+ispadded(w::SimpleWindow) = !notpadded(w)
 
 # are only complete window spans to be allowed
-`onlywhole(w::SimpleWindow) = w.onlywhole`
-`allowpartial(w::SimpleWindow) = !onlywhole(w)`
+onlywhole(w::SimpleWindow) = w.onlywhole
+allowpartial(w::SimpleWindow) = !onlywhole(w)
 
 # is trimmed windowing to be allowed
-`maytrim(w::SimpleWindow) = allowspartials(w) && (w.trim_first ⊻ w.trim_last)`
-- It is an error to select both `trim_first` and `trim_final`.
+maytrim(w::SimpleWindow) = allowspartials(w) && (w.trim_first ⊻ w.trim_last)
+  # _It is an error to select both `trim_first` and `trim_final`_
 
 # is the information processed in direct (lower index to higher index) order
-`isdirect(w::SimpleWindow) = w.direct`
-
+isdirect(w::SimpleWindow) = w.direct
 ```
 
