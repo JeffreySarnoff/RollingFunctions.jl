@@ -5,6 +5,10 @@ function normalize_weights(weights::Sequence)
     iszero(nweights) && throw(ArgumentError("cannot normalize an empty sequence"))
     T = eltype(weights)
   
-    simplesum = foldl(+, weights, init=zero(T))
+    simplesum = zero(T)
+    @tturbo for i in eachindex(weights)
+        @inbounds simplesum += weights[i]
+    end    
+    
     
 end
