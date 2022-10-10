@@ -23,6 +23,7 @@ runned_sum_direct_wlen4 =
 n_runned_direct = length(runned_sum_direct_wlen4) #  8
 
 
+# i <- (1, 2, 3, 4, 5)
 tuple4s_from1 = map(i->Tuple(data[i:i+windowlength-1]), 1:last_from_1)
 5-element Vector{NTuple{4, Int64}}:
  (6, 24, 54, 96)
@@ -31,11 +32,8 @@ tuple4s_from1 = map(i->Tuple(data[i:i+windowlength-1]), 1:last_from_1)
  (96, 150, 216, 294)
  (150, 216, 294, 384)
 
-
-
-tuple4s_fromN = map(i->Tuple(data[i:i+windowlength-1]), 
-
- tuple4s_fromN = map(i->Tuple(data[i-last_from_N:i]), last_from_N+1:N)
+# i <- (4, 5, 6, 7, 8)
+tuple4s_fromN = map(i->Tuple(data[i-last_from_N:i]), last_from_N+1:N)
 5-element Vector{NTuple{4, Int64}}:
  (6, 24, 54, 96)
  (24, 54, 96, 150)
