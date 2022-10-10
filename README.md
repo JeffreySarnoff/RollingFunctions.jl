@@ -117,9 +117,12 @@ This package provides a way for rolling and for running a functional window over
 
 When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's span.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.
 
-This work, and its upkeep (or its replacement by other's work), is offered as an appropriate and reliable scaffold. The work here is to be crisp, precise, accurate, and ever simplifying.  There is no desire to repletify manners of handling here.
+This software exists to simpilfy some of what you create and to faciliate some of the work you do. 
 
-Some additional, small, purpose driven and providentially focused packages provide the meta-synthesis and enfolding dispatches that bring the more to the here.
+Some who use it insightfully share the best of that. Others write words that smile. 
+
+All of this is expressed through the design of RollingFunctions.
+
 
 
 ## Also Consider
