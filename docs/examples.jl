@@ -14,13 +14,13 @@ rolled_sum_direct_wlen4 =
     Tuple(map(Int, 
           rolling(sum, data, windowlength)))
 # (180, 324, 516, 756, 1044)
-n_rolled_direct = length(rolled_sum_direct_wlen) #  5
+n_rolled_direct = length(rolled_sum_direct_wlen4) #  5
 
 runned_sum_direct_wlen4 =
     Tuple(map(Int, 
           running(sum, data, windowlength)))
 # (6, 30, 84, 180, 324, 516, 756, 1044)
-n_runned_direct = length(runned_sum_direct_wlen) #  8
+n_runned_direct = length(runned_sum_direct_wlen4) #  8
 
 
 tuple4s_from1 = map(i->Tuple(data[i:i+windowlength-1]), 1:last_from_1)
