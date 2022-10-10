@@ -7,6 +7,19 @@ using Base: @kwdef
 
 abstract type AbstractWindow end
 
+#=
+      footnotes used within some struct field comments
+
+    ¹ "at start"  is from the lowest  indices where `direct == true`
+                  is from the highest indices where `direct == false`
+
+      "at finish" is from the highest indices where `direct == true`
+                  is from the lowest  indices where `direct == false`
+
+    ² "if needed" is true if and only if `onlywhole == true` and
+                  `!iszero(rem(data_length, window_length))`
+=#
+
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const length::Int              # span of contiguous elements
     const tilespan::Int=1          # span for tile (1 is untiled)
@@ -189,16 +202,3 @@ expectswholes(w::FlatWindow) = tapered(x) || padded(w)
 admitsparts(w::FlatWindow) = !expectswholes(w)
 expectswholes(w::NestedWindow) = expectswholes(w.window)
 admitsparts(w::NestedWindow) = !expectswholes(w)
-
-#=
-
-    ¹ "at start"  is from the lowest  indices where `direct == true`
-                  is from the highest indices where `direct == false`
-
-      "at finish" is from the highest indices where `direct == true`
-                  is from the lowest  indices where `direct == false`
-
-    ² "if needed" is true if and only if `onlywhole == true` and
-                  `!iszero(rem(data_length, window_length))`
-=#
-
