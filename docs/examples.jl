@@ -99,3 +99,14 @@ avg4tuples = map(x -> convert(Int, x // 4), sum4tuples)
 # (45, 81, 129, 189)
 
 
+# -------------------------------------------------------------------
+
+into_int(x::Number) = isinteger(x) ? convert(Int, x) : ArgumentError("$(x) is not integral")
+into_int(xs::Vararg{<:Number}) = map(into_int, xs)
+
+function tuplize(data. fn=runmean, windowlen=4)
+    ntuple(i -> into_int( fn(data, windowlen)), length(data) )
+ end
+
+runmean_wlen7 = ntuple(i->convert(Int, runmean(data,windowlength)[i]), 7)
+# (6, 15, 28, 45, 81, 129, 189)
