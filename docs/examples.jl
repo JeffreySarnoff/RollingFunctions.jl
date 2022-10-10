@@ -40,3 +40,9 @@ tuple4s_fromN = map(i->Tuple(data[i-last_from_N:i]), last_from_N+1:N)
  (54, 96, 150, 216)
  (96, 150, 216, 294)
  (150, 216, 294, 384)
+
+sum4tuples = Tuple( map(sum, tuples4_fromN) )
+# (180, 324, 516, 756, 1044)
+
+avg4tuples = map(x -> convert(Int, x // 4), sum4tuples)
+# (45, 81, 129, 189, 261)
