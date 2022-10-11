@@ -1,3 +1,12 @@
+struct FlatWindow
+end
+    
+struct BasicWindow
+end
+
+const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
+
+
 """
     specify_window(..)
 
@@ -7,14 +16,7 @@ Specify a `sliding window`.
 - Qualify behaviour, prefer some actions to others.
 - Resolve the available as the possible.
 """
-function specify_window(attributes, behaviors, houseplanting)
+function specify_window (attributes, behaviors, houseplanting)
   
 end
 
-struct FlatWindow
-end
-    
-struct BasicWindow
-end
-
-const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
