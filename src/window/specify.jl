@@ -1,3 +1,28 @@
+#=
+
+We have a `Basic` window type.  
+
+struct BasicWindow
+  - design elements::window_span
+  - sequential data::approach_to_data
+end
+
+Building on the BasicWindow
+- provide direction: insist 
+
+that nothing rests one the airship surface.
+Atlon the analysis
+that ease-in, ease-out
+
+Clients provide the windowlength and the data over which it moves.
+
+re are three foundational window types.
+- BasicWindow
+- TaperedWindow
+- PaddedWindow
+
+each using structs as singletons
+=#
 struct FlatWindow
 end
     
