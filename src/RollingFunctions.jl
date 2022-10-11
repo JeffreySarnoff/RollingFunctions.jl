@@ -1,5 +1,7 @@
 module RollingFunctions
 
+using Base: @kwdef
+
 export rolling,
        rollmin,  rollmax,             # min, max
        rollmean, rollmedian,          # mean, median
