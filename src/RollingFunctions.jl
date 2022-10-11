@@ -32,8 +32,6 @@ using StatsBase:  kurtosis, mad, sem, skewness, variation,
 using KahanSummation: sum_kbn
 using AccurateArithmetic: sum_oro
 
-using KahanSummation: sum_kbn
-
 const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
        
 include("roll/rolling.jl")
@@ -45,6 +43,8 @@ include("roll/rolling2.jl")
 include("run/running2.jl")
 
 include("window/type.jl")
+include("window/specify.jl")
+include("window/normalize_weights.jl")
 
 end # RollingFunctions
 
