@@ -1,5 +1,5 @@
 export AbstractWindow, FlatWindow, NestWindow,                  # shared local root, applicable supertype
-         
+
     BasicWindow,
     TruncateWindow,
     PadWindow,
