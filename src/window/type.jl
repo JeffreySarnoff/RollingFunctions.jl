@@ -11,16 +11,8 @@ These fields exist for every type of Window.
                     3 (1/3 tile per indexable position, 1 step also has a 2 skip [over 2 indexible positions])
                     4 (1/4 tile per indexable position, 1 step also has a 3 skip [over 3 indexible positions])
 
-
-with a skip  within 
-                    the extent to which a tile covers a span,
-                    the attention to detail as the _step_ count of a  `StepRange`
-                    a tile length of zero, the default, disallows activity
-                    a tile of length one, the default, rengages activity
-                    a tile of length greater than one allows a second level of abstraction, redaction
-                    
-    direction       +1 is foward by default
-                    -1 is to process the data sequence as if it were reversed
+    direction       +1 is foward, by default (from low indices to high indices)
+                    -1 is backward (from high indices to low indices)
 =#
 
 @kwdef mutable struct BasicWindow <: AbstractWindow
