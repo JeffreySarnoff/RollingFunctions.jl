@@ -6,7 +6,13 @@ These fields exist for every type of Window.
                     applying this Window would examine this many adjacent element at each summarization;
                     each aggregative application is taken over a segment of window_span data elements.
 
-    tiled_width     1 by default
+    tiles_scope     1 by default (one tile per indexable position, step with no skip)
+                    2 (1/2 tile per indexable position, 1 step also has a 1 skip [over 1 indexible position])
+                    3 (1/3 tile per indexable position, 1 step also has a 2 skip [over 2 indexible positions])
+                    4 (1/4 tile per indexable position, 1 step also has a 3 skip [over 3 indexible positions])
+
+
+with a skip  within 
                     the extent to which a tile covers a span,
                     the attention to detail as the _step_ count of a  `StepRange`
                     a tile length of zero, the default, disallows activity
@@ -44,7 +50,8 @@ export AbstractWindow,
 
     PadWindow,
 
-    WindowType = Union{BasicWindow, TruncatedWindow, TaperedWindnow}
+    WindowType = Union{BasicWindow, ForgetfulWindow, TaperingWindnow, PaddingWindow, OffsetWindow}
+    WeightedWindowType = Union{BasicWindow, ForgetfulWindow, TaperingWindnow, PaddingWindow, OffsetWindow}
 
     TruncateWindow, 
     PadWindow,
