@@ -21,8 +21,15 @@ abstract type AbstractWindow end
 =#
 
 @kwdef mutable struct BasicWindow <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    const tilespan::Int=1          # span for tile (1 is untiled)
+    const window_span::Int         # span of contiguous elements
+    const tile_length::Int=1       # span for tile (1 is untiled)
+
+    const direct::Bool=true        # process from low indices to high
+end
+
+@kwdef mutable struct WholeWindow <: AbstractWindow
+    const window_span::Int         # span of contiguous elements
+    const tile_length::Int=1       # span for tile (1 is untiled)
 
     const direct::Bool=true        # process from low indices to high
     
@@ -32,8 +39,8 @@ abstract type AbstractWindow end
 end
 
 @kwdef mutable struct TaperedWindow <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    const tilespan::Int=1          # span for tile (1 is untiled)
+    const window_span::Int         # span of contiguous elements
+    const tile_length::Int=1       # span for tile (1 is untiled)
 
     const direct::Bool=true        # process from low indices to high
     
@@ -43,8 +50,8 @@ end
 end
 
 @kwdef mutable struct PaddedWindow{T} <: AbstractWindow
-    const length::Int              # span of contiguous elements
-    const tilespan::Int=1          # span for tile (1 is untiled)
+    const window_span::Int         # span of contiguous elements
+    const tile_length::Int=1       # span for tile (1 is untiled)
 
     const direct::Bool=true        # process from low indices to high
     
@@ -54,7 +61,7 @@ end
                                    # >> it is an error to select both <<
 end
 
-const FlatWindow = Union{BasicWindow, TaperedWindow, PaddedWindow}
+const FlatWindow = Union{BasicWindow, DirectWindow, TaperedWindow, PaddedWindow}
 
 @kwdef mutable struct OffsetWindow{W<:FlatWindow} <: AbstractWindow
     window::W
