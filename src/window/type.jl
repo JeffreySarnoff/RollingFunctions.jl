@@ -1,7 +1,39 @@
-export AbstractWindow, FlatWindow, NestWindow,                  # shared local root, applicable supertype
+#=
 
-    BasicWindow,
-    TruncateWindow,
+These fields exist for every type of Window.
+
+    window_span     applying this Window would examine this many adjacent element at each summarization;
+                    each aggregative application is taken over a segment of window_span data elements.
+
+    tile_length     every advancing of a Window follows each summarization
+                    
+    direction
+
+@kwdef mutable struct BasicWindow <: AbstractWindow
+    const window_span::Int         # span of contiguous elements
+    const tile_length::Int=1       # span for tile (1 is untiled)
+
+    const direct::Bool=true        # process from low indices to high
+end
+
+export AbstractWindow, 
+    FlatWindow, 
+        PlainWindow,
+        ForgetfulWindow,
+        TaperingWindow,
+        PaddingWindow,
+    NestWindow,                  # shared local root, applicable supertype
+        OffsetWindow,
+        WeightWindow,
+    WrapWindow,
+        WeightedOffsetWindow,
+
+       FlatWindow,
+       BasicWindow,
+    ForgetfulWindow,
+    TaperingWindow,
+    PaddingWindow,
+
     PadWindow,
 
     WindowType = Union{BasicWindow, TruncatedWindow, TaperedWindnow}
