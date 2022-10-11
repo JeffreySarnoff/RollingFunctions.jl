@@ -18,6 +18,7 @@ Clients provide the windowlength and the data over which it moves.
 
 re are three foundational window types.
 - BasicWindow
+- TrimmedWindow
 - TaperedWindow
 - PaddedWindow
 
