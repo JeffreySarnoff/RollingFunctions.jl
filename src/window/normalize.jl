@@ -1,4 +1,5 @@
 using KahanSummation: sum_kbn
+using AccurateSummation: sum_oro
 
 const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
 
