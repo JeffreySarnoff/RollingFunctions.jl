@@ -1,24 +1,11 @@
-export AbstractWindow
-export BasicWindow, TaperedWindow, PaddedWindow               # FlatWindows, no nested information
-export OffsetWindow, WeightedWindow, OffsetWeightedWindow     # Wrap Capabilities about FlatWindows
-export FlatWindow, NestedWindow, WeightsWindow, OffsetsWindow # Unions of above, simplifies method making
+export AbstractWindow, FlatWindow, NestWindow, 
+       OffsetWindow, WeightedWindow, WeightedOffsetWindow,
 
-using Base: @kwdef
+       BasicWindow, TrimmedWindow, TaperedWindow, PaddedWindow,   # these are FlatWindows, all fields at the surface
+       OffsetWindow, WeightedWindow, OffsetWeightedWindow,        # these are NestWindows, one field is a FlatWindow
+                                                                  #     others hold attributes, specifications
 
 abstract type AbstractWindow end
-
-#=
-      footnotes used within some struct field comments
-
-    ¹ "at start"  is from the lowest  indices where `direct == true`
-                  is from the highest indices where `direct == false`
-
-      "at finish" is from the highest indices where `direct == true`
-                  is from the lowest  indices where `direct == false`
-
-    ² "if needed" is true if and only if `onlywhole == true` and
-                  `!iszero(rem(data_length, window_length))`
-=#
 
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const window_span::Int         # span of contiguous elements
@@ -27,7 +14,7 @@ abstract type AbstractWindow end
     const direct::Bool=true        # process from low indices to high
 end
 
-@kwdef mutable struct WholeWindow <: AbstractWindow
+@kwdef mutable struct TrimmedWindow <: AbstractWindow
     const window_span::Int         # span of contiguous elements
     const tile_length::Int=1       # span for tile (1 is untiled)
 
@@ -62,6 +49,20 @@ end
 end
 
 const FlatWindow = Union{BasicWindow, DirectWindow, TaperedWindow, PaddedWindow}
+
+#=
+      footnotes used within some struct field comments
+
+    ¹ "at start"  is from the lowest  indices where `direct == true`
+                  is from the highest indices where `direct == false`
+
+      "at finish" is from the highest indices where `direct == true`
+                  is from the lowest  indices where `direct == false`
+
+    ² "if needed" is true if and only if `onlywhole == true` and
+                  `!iszero(rem(data_length, window_length))`
+=#
+
 
 @kwdef mutable struct OffsetWindow{W<:FlatWindow} <: AbstractWindow
     window::W
