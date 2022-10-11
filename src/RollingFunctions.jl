@@ -28,6 +28,9 @@ using Statistics: mean, median, std, var, cor, cov
 using StatsBase:  kurtosis, mad, sem, skewness, variation,
                   AbstractWeights, Weights,
                   FrequencyWeights, AnalyticWeights, ProbabilityWeights
+
+using KahanSummation: sum_kbn
+using AccurateArithmetic: sum_oro
        
 include("roll/rolling.jl")
 include("run/running.jl")
