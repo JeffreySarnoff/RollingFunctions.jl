@@ -1,8 +1,21 @@
-export AbstractWindow, FlatWindow, NestWindow, 
-       OffsetWindow, WeightedWindow, WeightedOffsetWindow,
+export AbstractWindow, FlatWindow, NestWindow,                  # shared local root, applicable supertype
+         
+    BasicWindow,
+    TruncateWindow,
+    PadWindow,
+
+    WindowType = Union{BasicWindow, TruncatedWindow, TaperedWindnow}
+
+    TruncateWindow, 
+    PadWindow,
+    TaperWindow, 
+    
+    PosWindow, OffsetWindow,
+    WeightedWindow
+    WeightedOffsetWindow,
 
        BasicWindow, TrimmedWindow, TaperedWindow, PaddedWindow,   # these are FlatWindows, all fields at the surface
-       OffsetWindow, WeightedWindow, OffsetWeightedWindow,        # these are NestWindows, one field is a FlatWindow
+       OffsetWindow, WeightedWindow, WeightedWindow,        # these are NestWindows, one field is a FlatWindow
                                                                   #     others hold attributes, specifications
 
 abstract type AbstractWindow end
