@@ -2,12 +2,20 @@
 
 These fields exist for every type of Window.
 
-    window_span     applying this Window would examine this many adjacent element at each summarization;
+    window_span     no default value
+                    applying this Window would examine this many adjacent element at each summarization;
                     each aggregative application is taken over a segment of window_span data elements.
 
-    tile_length     every advancing of a Window follows each summarization
+    tiled_width     1 by default
+                    the extent to which a tile covers a span,
+                    the attention to detail as the _step_ count of a  `StepRange`
+                    a tile length of zero, the default, disallows activity
+                    a tile of length one, the default, rengages activity
+                    a tile of length greater than one allows a second level of abstraction, redaction
                     
-    direction
+    direction       +1 is foward by default
+                    -1 is to process the data sequence as if it were reversed
+=#
 
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const window_span::Int         # span of contiguous elements
