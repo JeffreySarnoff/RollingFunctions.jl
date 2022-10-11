@@ -1,6 +1,6 @@
 const BaseWindows = (:Basic, :Trim, :Taper, :Pad)
-const NestedWindows = (:Office, :Nest, :Offset)
-
+const NestedWindows = (:NestBasic, :NestTrim, :NestTaper, :NestPad)
+const OffsetWindows = (
 """
     specify_window(..)
 
@@ -13,4 +13,9 @@ Specify a `sliding window`.
 function specify_window (attributes, behaviors, houseplanting)
   
 end
-
+    
+"""
+     Basic /let him basx
+"""
+    
+    
