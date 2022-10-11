@@ -34,7 +34,3 @@ function normalize_weights(weights::Sequence)
     normalized
 end
 
-        
-            
-    
-end
