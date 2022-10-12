@@ -2,8 +2,9 @@
 abstract type AbstractWindow end
 
 struct SimpleWindow <: AbstractWindow
-    extent::Int                         #  span, step count, distance relative the to contextual external "length" (indices stepped)
-    orientation::Symbol                 #
+    extent::Int                         #  span, count of contiguous tiles comprising the window 
+                                        #
+    orientation::Symbol                 #  chiral parity (e.g. {Positive, Negative}, {Calm, Anxious})
 
 abstract type AbstractOrientation end
 abstract type AbstractParity    <: AbstractOrientation end
