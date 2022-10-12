@@ -1,3 +1,6 @@
+
+abstract type AbstractWindow end
+
 #=
 
 These fields exist for every type of Window.
@@ -22,42 +25,6 @@ These fields exist for every type of Window.
     const direct::Bool=true        # process from low indices to high
 end
 
-export AbstractWindow, 
-    FlatWindow, 
-        PlainWindow,
-        ForgetfulWindow,
-        TaperingWindow,
-        PaddingWindow,
-    NestWindow,                  # shared local root, applicable supertype
-        OffsetWindow,
-        WeightWindow,
-    WrapWindow,
-        WeightedOffsetWindow,
-
-       FlatWindow,
-       BasicWindow,
-    ForgetfulWindow,
-    TaperingWindow,
-    PaddingWindow,
-
-    PadWindow,
-
-    WindowType = Union{BasicWindow, ForgetfulWindow, TaperingWindnow, PaddingWindow, OffsetWindow}
-    WeightedWindowType = Union{BasicWindow, ForgetfulWindow, TaperingWindnow, PaddingWindow, OffsetWindow}
-
-    TruncateWindow, 
-    PadWindow,
-    TaperWindow, 
-    
-    PosWindow, OffsetWindow,
-    WeightedWindow
-    WeightedOffsetWindow,
-
-       BasicWindow, TrimmedWindow, TaperedWindow, PaddedWindow,   # these are FlatWindows, all fields at the surface
-       OffsetWindow, WeightedWindow, WeightedWindow,        # these are NestWindows, one field is a FlatWindow
-                                                                  #     others hold attributes, specifications
-
-abstract type AbstractWindow end
 
 @kwdef mutable struct BasicWindow <: AbstractWindow
     const window_span::Int         # span of contiguous elements
@@ -184,6 +151,45 @@ end
 
         #    (→ DO NOT provide explicit constructors for any of the NestedWindow types. ←)
         #    (  otherwise, the stack may overflow ... no other information at this time  )
+
+#=
+export AbstractWindow, 
+    FlatWindow, 
+        PlainWindow,
+        ForgetfulWindow,
+        TaperingWindow,
+        PaddingWindow,
+    NestWindow,                  # shared local root, applicable supertype
+        OffsetWindow,
+        WeightWindow,
+    WrapWindow,
+        WeightedOffsetWindow,
+
+       FlatWindow,
+       BasicWindow,
+    ForgetfulWindow,
+    TaperingWindow,
+    PaddingWindow,
+
+    PadWindow,
+
+    WindowType = Union{BasicWindow, ForgetfulWindow, TaperingWindnow, PaddingWindow, OffsetWindow}
+    WeightedWindowType = Union{BasicWindow, ForgetfulWindow, TaperingWindnow, PaddingWindow, OffsetWindow}
+
+    TruncateWindow, 
+    PadWindow,
+    TaperWindow, 
+    
+    PosWindow, OffsetWindow,
+    WeightedWindow
+    WeightedOffsetWindow,
+
+       BasicWindow, TrimmedWindow, TaperedWindow, PaddedWindow,   # these are FlatWindows, all fields at the surface
+       OffsetWindow, WeightedWindow, WeightedWindow,        # these are NestWindows, one field is a FlatWindow
+                                                                  #     others hold attributes, specifications
+=#
+
+
 
 #=
      obtaining attributes
