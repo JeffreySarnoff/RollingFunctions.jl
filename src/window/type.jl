@@ -5,13 +5,15 @@ abstract type AbstractOrientation end
 abstract type AbstractParity    <: AbstractOrientation end
 abstract type AbstractChirality <: AbstractOrientation end
 
+
 abstract type AbstractCharge end
 
 struct Charge{ORIENTATION, MAGNITUDE} <: AbstractCharge
-    orientation::ORIENTATION
-    magnitude::MAGNITUDE
+    orientation::ORIENTATION                                #  tetradic directedness, realized directedness
+    magnitude::MAGNITUDE                                    #  intensity, physical intensity, unsigned by definition
 end
 
+struct
 
 struct Positive{T} <: AbstractParity 
     ideation::T
