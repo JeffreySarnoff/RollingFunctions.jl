@@ -1,6 +1,10 @@
 
 abstract type AbstractWindow end
 
+struct SimpleWindow <: AbstractWindow
+    extent::Int                         #  span, step count, distance relative the to contextual external "length" (indices stepped)
+    orientation::Symbol                 #
+
 abstract type AbstractOrientation end
 abstract type AbstractParity    <: AbstractOrientation end
 abstract type AbstractChirality <: AbstractOrientation end
