@@ -9,10 +9,18 @@ abstract type AbstractChirality <: AbstractOrientation end
 abstract type AbstractCharge end
 
 struct Charge{ORIENTATION, MAGNITUDE} <: AbstractCharge
-    orientation::ORIENTATION                                #  tetradic directedness, realized directedness
-    magnitude::MAGNITUDE                                    #  intensity, physical intensity, unsigned by definition
+    orientation::ORIENTATION                                #  directedness as a chiral parity
+    magnitude::MAGNITUDE                                    #  intensity as a valuation field
 end
 
+struct SimpleWindow{DIRECTION, SPAN} <: AbstractWindow
+    charge::Charge{DIRECTION, SPAN}                         #  Forward Directed : traversal proceeds from low to high indices.
+                                                            #  Reverse Directed : traversal proceeds from high to low indices.
+                                                            #
+                                                            #  Span : unsigned qantification of contiguous positions / elements / place-holders
+    NonNegative positions
+    is (hi to lo indices)
+    
 struct
 
 struct Positive{T} <: AbstractParity 
