@@ -1,5 +1,23 @@
 #=
+
+    kinds of behavior and specific affinities
+       - pairings and interplay that are    allowed expressions of together
+       - pairings and interplay that are disallowed expressions of together
+
 =#
+
+const F = Bfalse
+const T = true
+
+allow(a::A) where {A} = T
+allow(b::B) where {B} = T
+
+allow(a::A) where{A} = T
+allow(a::A, b::B) where{A,B} = T
+allow(a::A, b::B, c::C) where{A,B,C} = T
+allow(a::A, b::B, c::C, d::D) where{A,B,C,D} = true
+
+#
 
 abstract type Specific end
 abstract type FocalBoundry <: Specific end
