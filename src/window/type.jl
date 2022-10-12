@@ -1,13 +1,45 @@
 
 abstract type AbstractWindow end
 
+abstract type AbstractOrientation end
+abstract type AbstractParity    <: AbstractOrientation end
+abstract type AbstractChirality <: AbstractOrientation end
+
+abstract type AbstractCharge end
+
+struct Charge{ORIENTATION, MAGNITUDE} <: AbstractCharge
+    orientation::ORIENTATION
+    magnitude::MAGNITUDE
+end
+
+
+struct Positive{T} <: AbstractParity 
+    ideation::T
+end
+
+struct Negative{T} <: AbstractParity 
+    ideation::T
+end
+
+struct Parity{T} <: AbstractParity
+    chirality::T
+    
 #=
+
 
 These fields exist for every type of Window.
 
     window_span     no default value
                     applying this Window would examine this many adjacent element at each summarization;
                     each aggregative application is taken over a segment of window_span data elements.
+
+    direction_within_window
+
+    direction_outside_window
+    direction_inside_window
+    direction_outside_window
+
+    window_outside_direction
 
     tiles_scope     1 by default (one tile per indexable position, step with no skip)
                     2 (1/2 tile per indexable position, 1 step also has a 1 skip [over 1 indexible position])
