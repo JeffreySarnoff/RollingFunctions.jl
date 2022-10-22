@@ -46,7 +46,7 @@ pad_upto_start::Bool
 # with any Behavior there may be *at most one* Offset
 # with any Offset   there may be *at most one* Padding
 
-const Boundries  = ( :Start , :Finish )
+const Boundries  = ( :Start , :Center, :Finish )
 const Behaviors  = ( :Skip, :Trim, :Taper )
 const Affinities = ( :Offset, :Pad )
 
