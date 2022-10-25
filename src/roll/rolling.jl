@@ -41,7 +41,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
 
     rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int, weighting::W) where
-                    {T, N<:Number, W<:AbstractWeights} =
+                    {T, W<:AbstractWeights} =
         rolling(fun, data, windowspan, weighting.values)
 
 
