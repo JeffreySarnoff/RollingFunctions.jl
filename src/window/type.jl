@@ -1,6 +1,6 @@
 
 abstract type AbstractWindow end
-
+#=
 struct SimpleWindow <: AbstractWindow
     extent::Int                         #  span, count of contiguous tiles comprising the window 
                                         #
@@ -316,3 +316,5 @@ expectswholes(w::FlatWindow) = tapered(x) || padded(w)
 admitsparts(w::FlatWindow) = !expectswholes(w)
 expectswholes(w::NestedWindow) = expectswholes(w.window)
 admitsparts(w::NestedWindow) = !expectswholes(w)
+
+=#
