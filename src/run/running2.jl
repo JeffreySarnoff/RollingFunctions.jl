@@ -77,11 +77,11 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
     end
 
     running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::W) where
-                    {T, V<:AbstractVector{$T1}, N<:Number, W<:AbstractWeights} =
+                    {T, V<:AbstractVector{$T1}, W<:AbstractWeights} =
         running(fun2, data1, data2, windowspan, weighting.values)
 
     running(fun2::Function, data1::V, data2::V, windowspan::Int, weighting::W, first::A) where
-                    {T, V<:AbstractVector{$T1}, A, N<:Number, W<:AbstractWeights} =
+                    {T, V<:AbstractVector{$T1}, A, W<:AbstractWeights} =
         running(fun2, data1, data2, windowspan, weighting.values, first)
 
   end
