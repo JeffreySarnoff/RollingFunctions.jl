@@ -34,6 +34,8 @@ using StatsBase:  kurtosis, mad, sem, skewness, variation,
 using KahanSummation: sum_kbn
 using AccurateArithmetic: sum_oro
 
+using LoopVectorization
+
 const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
        
 include("roll/rolling.jl")
