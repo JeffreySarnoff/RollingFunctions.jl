@@ -5,7 +5,7 @@
        - pairings and interplay that are disallowed expressions of together
 
 =#
-
+#=
 const F = Bfalse
 const T = true
 
@@ -66,5 +66,4 @@ Specify a `sliding window`.
 function specify_window (attributes, behaviors, houseplanting)
   
 end
-
-    
+=#    
