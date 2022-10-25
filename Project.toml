@@ -23,7 +23,7 @@ test = ["Test"]
 
 [compat]
 KahanSummation = ">= 0.3.1"
-Statistics = "1.9"
+Statistics = "1.7"
 StatsBase = ">= 0.33"
 LoopVectorization = ">= 0.12.125"
 AccurateArithmetic = ">= 0.3.8"
