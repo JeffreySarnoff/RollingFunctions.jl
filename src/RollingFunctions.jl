@@ -44,8 +44,6 @@ include("run/runstats.jl")
 include("roll/rolling2.jl")
 include("run/running2.jl")
 
-include("window/type.jl")
-include("window/specify.jl")
 include("window/normalize_weights.jl")
 
 end # RollingFunctions
