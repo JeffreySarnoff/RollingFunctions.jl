@@ -1,13 +1,16 @@
-# fill with n == product(dims(data)) copies of the filler
+# filling
 
-function filling(filler::T1, data::AbstractArray{T2}) where {T1,T2}
-    elemtype = Union{T1, T2}
-    allaxes = axes(data)
-    naxes   = length(allaxes)
-    alldims = map(x->x.stop, allaxes)
-    result = Array{elemtype, naxes}(undef, alldims)
-    result .= filler
-    result
+function fills(filler::T, data::AbstractVector{T}) where {T}
+    nvals  = axes(data)[1].stop
+    return fill(filler, nvals)
+end
+
+function fills(filler::T1, data::AbstractVector{T2}) where {T1, T2}
+    elemtype = Union{T1,T2}
+    nvals  = axes(data)[1].stop
+    result = Array{elemtype,1}(undef, nvals)
+    result[:] = filler
+    return result
 end
 
 # number of values to be obtained
