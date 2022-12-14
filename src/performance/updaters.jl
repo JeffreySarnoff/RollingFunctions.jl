@@ -1,7 +1,7 @@
 #=
     These methods are specific to the work being applied over windowed data.
 
-    The intent is to provide more performance without loosing capability.
+    The intent is to provide more performance while keeping capability.
 =#
 
 const ViewOf(::Type{T}) where T =
