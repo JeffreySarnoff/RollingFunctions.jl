@@ -13,7 +13,7 @@ type-promotion resolves (is uniquely given) `promote_type(Float32, Int32}.
 
 =#
 
-function rolling(fn::Function, data<:AA, windowspan::Integer) where 
+function rolling(fn::Function, data::AA, windowspan::Integer) where 
                 {T, AA<:AbstractArray{T<::Union{T,Number,Missing}}}
     true
 end
