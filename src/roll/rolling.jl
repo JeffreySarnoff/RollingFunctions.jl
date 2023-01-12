@@ -1,15 +1,29 @@
-for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(T)})))
+#=
+
+A data stream is an item sequence.
+An nD stream provides an item sequence where each item is of n elements. 
+In a 1D stream, 1 item is of 1 element, the terms are effectively synonyms.
+In a 2D stream, 1 item is of `size(stream)[2]` elements, the column count.
+
+We support elements of any [shared] Numeric type, and provide for elements that
+are of a Union{T, Numeric} where {T}. Usually, `T` is `Missing`. Otherwise,
+`T` may be a second numeric type (e.g. Union{Float32, Int32}) or a singleton type
+(e.g. `struct Sentinel end` `an_element_type = Union{Float64, Sentinel}` )
+
+=#
+
+for (T1, T2) in ((:T, :(Union{Missing,T})), (:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(T)})))
   @eval begin  
 
     # unweighted windowed function application
 
-    function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int) where {T}
+    function rolling_dropping(fun::Function, data::AbstractVector{$T1}, windowspan::Int) where {T}
         nvals  = nrolled(length(data), windowspan)
         offset = windowspan - 1
         result = zeros($T2, nvals)
 
         @inbounds for idx in eachindex(result)
-            result[idx] = fun( view(data, idx:idx+offset) )
+            result[idx] = fun( data[idx:idx+offset] )
         end
 
         return result
@@ -17,22 +31,23 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
     # unweighted windowed function application with optional padding
 
-    function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int,
-                     padding=missing; padfirst::Bool=false, padlast::Bool=false) where {T}      
+    function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int;
+                     padding=missing, padfirst::Bool=false, padlast::Bool=false) where {T}      
         if !padfirst && !padlast
-            return rolling(fun, data, windowspan)
+            return rolling_dropping(fun, viewall(data), windowspan)
         end
       
         n = length(data)
         nvals  = nrolled(n, windowspan)
         offset = windowspan - 1
       
-        result = zeros($T2, n)
+        result = zeros(Union{$T2, typeof(padding)}, n)
+
         if padfirst
-            result[1:offset] = padding
+            result[1:offset] .= padding
             idxs = windowspan:n
         else # padlast
-            result[n-offset:n] = padding
+            result[n-offset:n] .= padding
             idxs = 1:n-windowspan
         end
         
