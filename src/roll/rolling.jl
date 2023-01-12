@@ -6,9 +6,10 @@ In a 1D stream, 1 item is of 1 element, the terms are effectively synonyms.
 In a 2D stream, 1 item is of `size(stream)[2]` elements, the column count.
 
 We support elements of any [shared] Numeric type, and provide for elements that
-are of a Union{T, Numeric} where {T}. Usually, `T` is `Missing`. Otherwise,
-`T` may be a second numeric type (e.g. Union{Float32, Int32}) or a singleton type
-(e.g. `struct Sentinel end` `an_element_type = Union{Float64, Sentinel}` )
+are of a Union{T, Numeric} where {T}. Usually, `T` is `Missing`.
+`T` may be a second numeric type (e.g. Union{Float32, Int32}), where their
+type-promotion resolves (is uniquely given) `promote_type(Float32, Int32}.
+`T` could be a singleton type `struct Sentinal end`. Or use `T` as you need.
 
 =#
 
