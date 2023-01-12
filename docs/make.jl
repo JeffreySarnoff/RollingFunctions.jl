@@ -1,7 +1,8 @@
 using Documenter
+using RollingFunctions
 
 makedocs(
-    # modules = [RollingFunctions], (requires use of @doc in source comments)
+    modules = [RollingFunctions],
     sitename = "RollingFunctions",
     authors = "Jeffrey A. Sarnoff and other contributors",
     source="src",
