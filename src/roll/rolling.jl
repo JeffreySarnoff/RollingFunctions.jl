@@ -15,6 +15,34 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
         return result
     end
 
+    # unweighted windowed function application with optional padding
+
+    function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int,
+                     padding=missing; padfirst::Bool=false, padlast::Bool=false) where {T}      
+        if !padfirst && !padlast
+            return rolling(fun, data, windowspan)
+        end
+      
+        n = length(data)
+        nvals  = nrolled(n, windowspan)
+        offset = windowspan - 1
+      
+        result = zeros($T2, n)
+        if padfirst
+            result[1:offset] = padding
+            idxs = windowspan:n
+        else # padlast
+            result[n-offset:n] = padding
+            idxs = 1:n-windowspan
+        end
+        
+        @inbounds for idx in idxs
+            result[idx] = fun( view(data, idx:idx+offset) )
+        end
+
+        return result
+    end
+    
     # weighted windowed function application
     function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int, weighting::F) where
                         {T, N<:Number, F<:Vector{N}}
