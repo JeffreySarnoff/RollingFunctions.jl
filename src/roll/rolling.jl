@@ -1,5 +1,60 @@
 #=
 
+    rolls with unit step
+      - data[window_span:1:end] 
+      - applys window_fn to most current history 
+         -- window_fn( data[currentindex - window_span: current_index] )
+
+    slides over the data advancing one index at a time
+=#
+#=
+
+    datavec = collect(1:1:32); 
+
+    window_span = 27; window_fn = mean;
+    nvalues = length(datavec); unresolved = window_span - 1;
+    window_covered_values = nvalues - unresolved;
+
+    results = Vector{eltype(datavec)}(undef, window_covered_values);
+    ilow, ihigh = 1, window_span
+
+    for idx in eachindex(results)
+        results[idx] = window_fn(datavec[ilow:ihigh])
+        ilow += 1
+        ihigh += 1
+    end
+
+=#
+
+function basic_rolling(data::D, window_span::Int, window_fn::Function) where {N, T, D<:AbstractArray{T,N}}
+    # there are 1 or more columns, each holds `n` values
+    nvalues = nrows(data)
+    # only completed window_span coverings are resolvable 
+    # the first (window_span - 1) values are unresolved wrt window_fn
+    unresolved = window_span - 1
+    # with the next value, a full window_span is obtained
+    # only then is the first window_covered_value determined
+    # with each next value (with successive indices), an updated
+    # full window_span obtains, covering another window_fn value
+    window_covered_values = nvalues - unresolved
+    
+    results = Vector{eltype(datavec)}(undef, window_covered_values)
+  
+    ilow, ihigh = 1, window_span
+
+    for idx in eachindex(results)
+        results[idx] = window_fn(datavec[ilow:ihigh])
+        ilow += 1
+        ihigh += 1
+    end
+  
+    results
+end
+
+
+
+#=
+
 A data stream is an item sequence.
 An nD stream provides an item sequence where each item is of n elements. 
 In a 1D stream, 1 item is of 1 element, the terms are effectively synonyms.
@@ -12,6 +67,25 @@ type-promotion resolves (is uniquely given) `promote_type(Float32, Int32}.
 `T` could be a singleton type `struct Sentinal end`. Or use `T` as you need.
 
 =#
+
+
+
+
+
+# number of values to be obtained
+
+function nrolled(seqlength::T, windowspan::T) where {T<:Signed}
+    
+    (0 < windowspan <= seqlength) || throw(SpanError(seqlength,windowspan))
+
+    return seqlength - windowspan + 1
+end
+
+
+
+
+
+
 
 function rolling(fn::Function, data::AA, windowspan::Integer) where 
                 {T, AA<:AbstractArray{T<::Union{T,Number,Missing}}}
