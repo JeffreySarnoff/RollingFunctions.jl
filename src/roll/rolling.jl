@@ -28,12 +28,14 @@
 
 =#
 
-function basic_rolling(data::D, window_span::Int, window_fn::Function) where {N, T, D<:AbstractArray{T,N}}
+function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T, D<:AbstractVector{T}}
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
+    
     # only completed window_span coverings are resolvable 
     # the first (window_span - 1) values are unresolved wrt window_fn
     unresolved = window_span - 1
+    
     # with the next value, a full window_span is obtained
     # only then is the first window_covered_value determined
     # with each next value (with successive indices), an updated
@@ -44,8 +46,36 @@ function basic_rolling(data::D, window_span::Int, window_fn::Function) where {N,
   
     ilow, ihigh = 1, window_span
 
-    for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         results[idx] = window_fn(datavec[ilow:ihigh])
+        ilow += 1
+        ihigh += 1
+    end
+  
+    results
+end
+
+function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,D<:AbstractMatrix{T}}
+    # there are 1 or more columns, each holds `n` values
+    nvalues = nrows(data)
+    
+    # only completed window_span coverings are resolvable 
+    # the first (window_span - 1) values are unresolved wrt window_fn
+    unresolved = window_span - 1
+    
+    # with the next value, a full window_span is obtained
+    # only then is the first window_covered_value determined
+    # with each next value (with successive indices), an updated
+    # full window_span obtains, covering another window_fn value
+    window_covered_values = nvalues - unresolved
+    
+    results = Matrix{eltype(data)}(undef, window_covered_values, ncols(data))
+  
+    ilow, ihigh = 1, window_span
+
+    @inbounds for idx in eachindex(eachrow(results))
+        # println((idx=idx, data=typeof(data[ilow:ihigh,:])))
+        results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
         ilow += 1
         ihigh += 1
     end
