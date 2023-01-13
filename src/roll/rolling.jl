@@ -1,4 +1,5 @@
-#=
+"""
+    basic_rolling
 
     rolls with unit step
       - data[window_span:1:end] 
@@ -6,7 +7,8 @@
          -- window_fn( data[currentindex - window_span: current_index] )
 
     slides over the data advancing one index at a time
-=#
+""" basic_rolling
+
 #=
 
     datavec = collect(1:1:32); 
