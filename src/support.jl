@@ -1,11 +1,15 @@
 #=
 - nrows
 - ncols
+
 - rts (returned types)
 - nrts (length(rts))
+
 - isview
 - asview
 - viewall
+
+- commontype
 =#
 
 """
@@ -47,6 +51,13 @@ ncols(x) = isempty(size(x)) ? 1 : size(x)[2]
 
 @inline viewall(data::Tuple{Vararg{T,N}}) where {T,N} = viewall(convert(Vector{T}, data))
 Base.convert(::Type{Vector{T}}, tup::Tuple{Vararg{T,N}}) where {T,N} = [ tup... ]
+
+# from within a Union
+union_types(x::Union) = (x.a, union_types(x.b)...)
+union_types(x::Type) = (x,)
+union_common(x::Union) = setdiff(union_types(T),(Missing,Nothing))
+commontype(x::Union) = union_common(x)[1]
+commontype(::Type{T}) = T
 
 # filling
 
