@@ -11,17 +11,17 @@
 
 #=
 
-    datavec = collect(1:1:32); 
+    data = collect(1:1:32); 
 
     window_span = 27; window_fn = mean;
-    nvalues = length(datavec); unresolved = window_span - 1;
+    nvalues = length(data); unresolved = window_span - 1;
     window_covered_values = nvalues - unresolved;
 
-    results = Vector{eltype(datavec)}(undef, window_covered_values);
+    results = Vector{eltype(data)}(undef, window_covered_values);
     ilow, ihigh = 1, window_span
 
     for idx in eachindex(results)
-        results[idx] = window_fn(datavec[ilow:ihigh])
+        results[idx] = window_fn(data[ilow:ihigh])
         ilow += 1
         ihigh += 1
     end
@@ -42,12 +42,12 @@ function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,
     # full window_span obtains, covering another window_fn value
     window_covered_values = nvalues - unresolved
     
-    results = Vector{eltype(datavec)}(undef, window_covered_values)
+    results = Vector{eltype(data)}(undef, window_covered_values)
   
     ilow, ihigh = 1, window_span
 
     @inbounds for idx in eachindex(results)
-        results[idx] = window_fn(datavec[ilow:ihigh])
+        results[idx] = window_fn(data[ilow:ihigh])
         ilow += 1
         ihigh += 1
     end
