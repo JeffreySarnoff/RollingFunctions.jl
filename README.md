@@ -9,6 +9,7 @@
 
 
 [![Build Status](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl.svg?branch=main)](https://travis-ci.org/JeffreySarnoff/RollingFunctions.jl)&nbsp;&nbsp;&nbsp;[![Stable Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
+[![Dev Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
 [![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/DoubleFloats)](https://pkgs.genieframework.com?packages=DoubleFloats&startdate=2015-12-30&enddate=2040-12-31)
 
 -----
