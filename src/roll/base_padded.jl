@@ -53,8 +53,8 @@ function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,
 end
 
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
-                        padfirst::Bool=false, padlast::Bool=false, padding = missing) where {T, D<:AbstractVector{T}}
-    !padfirst && !padlast && return basic_rolling(data, window_span, window_fn)
+                        pad = nothing) where {T, D<:AbstractVector{T}}
+    isnothing(pad) && return basic_rolling(data, window_span, window_fn)
 
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
@@ -73,15 +73,9 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
 
-    if padfirst
-        padding_idxs = 1:padding_span                                                                                                                             windows_idxs = window_span:nvalues
-        windows_idxs = padding_span+1:nvalues
-        ilow, ihigh = padding_span+1, padding_span+windowspan
-    else
-        padding_idxs = nvalues-padding_span+1:nvalues
-        windows_idxs = 1:nvalues-padding_span
-        ilow, ihigh = 1, window_span
-    end
+    padding_idxs = 1:padding_span                                                                                                                             windows_idxs = window_span:nvalues
+    windows_idxs = padding_span+1:nvalues
+    ilow, ihigh = padding_span+1, padding_span+windowspan
 
     results[padding_idxs] .= padding
 
@@ -95,8 +89,8 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
 end  
 
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
-                        padfirst::Bool=false, padlast::Bool=false, padding = missing) where {T, D<:AbstractMatrix{T}}
-    !padfirst && !padlast && return basic_rolling(data, window_span, window_fn)
+                        pad=nothing) where {T, D<:AbstractMatrix{T}}
+    isnothing(pad) && return basic_rolling(data, window_span, window_fn)
 
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
@@ -111,27 +105,20 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     # with each next value (with successive indices), an updated
     # full window_span obtains, covering another window_fn value
     window_covered_values = nvalues - padding_span
-    nwindows = div(window_covered_values, window_span)
 
-    results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data)...)
+    results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
 
-    if padfirst
-        padding_idxs = 1:padding_span
-        windows_idxs = window_span:nvalues
-        ilow, ihigh = padding_span+1, nvalues
-    else
-        padding_idxs = nvalues-padding_span+1:nvalues
-        windows_idxs = 1:nvalues-padding_span
-        ilow, ihigh = 1, nvalues-padding_span
-    end
+    padding_idxs = 1:padding_span
+    windows_idxs = window_span:nvalues
+    ilow, ihigh = padding_span+1, min(nvalues, padding_span+window_span)
 
     results[padding_idxs, :] .= padding
 
-    @inbounds for idx in windows_idxs
-        results[idx, :] .= map(window_fn, data[idx, :])
-        ilow += 1
-        ihigh += 1
+    #  map(window_fn,eachcol(m[1:window_span,:]))
+    # for padfirst
+    for i in 0:nrows(m)-window_span
+         results[window_span+i,:] = map(window_fn, eachcol(m[1+i:window_span+i,:]))
     end
-
+   
     results
 end   
