@@ -37,16 +37,17 @@ using AccurateArithmetic: sum_oro
 using LoopVectorization
 
 const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
-       
+
+include("support/utils.jl")
+include("support/normalize_weights.jl")
+
+include("roll/base_padded.jl")
 include("roll/rolling.jl")
 include("run/running.jl")
-include("support.jl")
 include("roll/rollstats.jl")
 include("run/runstats.jl")
 include("roll/rolling2.jl")
 include("run/running2.jl")
-
-include("window/normalize_weights.jl")
 
 end # RollingFunctions
 
