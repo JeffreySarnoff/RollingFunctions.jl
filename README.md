@@ -2,7 +2,7 @@
 
 ### Roll a function over data, run a statistic along a [weighted] data window.
 
-#### Copyright © 2017-2022 by Jeffrey Sarnoff.  Released under the MIT License.
+#### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
 
 -----
 
