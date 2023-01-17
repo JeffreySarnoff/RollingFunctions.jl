@@ -32,7 +32,7 @@
 
 ## Rolling a function over data
 
-With `ndata = length(data)`, using a window of length `windowsize`, rolling a function results in a vector of `ndata - windowsize + 1` elements.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix __`roll`__ behave this way **unless** the keyword `pad` is given with the value to use for padding (e.g. `missing`).  Using `pad` will fill the initial `windowsize - 1` values with that padding value; the result will match the length of the data.
+With `ndata = length(data)`, using a window of length `windowsize`, rolling a function results in a vector of `ndata - windowsize + 1` elements.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix __`roll`__ behave this way **unless** the keyword `padding` is given with the value to use for padding (e.g. `missing`).  Using `padding` will fill the initial `windowsize - 1` values with that padding value; the result will match the length of the data.
 
 ```julia
 julia> data = collect(1.0f0:5.0f0); print(data)
@@ -42,7 +42,7 @@ julia> windowsize = 3;
 julia> result = rollmean(data, windowsize); print(result)
 Float32[2.0, 3.0, 4.0]
 
-julia> result = rollmean(data, windowsize; pad=missing); print(result)
+julia> result = rollmean(data, windowsize; padding=missing); print(result)
 Union{Missing, Float32}[missing, missing, 2.0, 3.0, 4.0]
 ```
 
@@ -56,7 +56,7 @@ julia> weights = normalize([1.0f0, 2.0f0, 4.0f0])
 julia> result = rollmean(data, windowsize, weights); print(result)
 Float32[1.23657, 1.74574, 2.25492]
 
-julia> result = rollmean(data, windowsize, weights; pad=missing); print(result)
+julia> result = rollmean(data, windowsize, weights; padding=missing); print(result)
 Union{Missing,Float32}[missing, missing, 1.23657, 1.74574, 2.25492]
 ```
 
