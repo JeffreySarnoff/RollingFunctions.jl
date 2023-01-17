@@ -1,13 +1,8 @@
-using Documenter
+using Documenter # , ArbNumerics
 
 makedocs(
-    # modules = [RollingFunctions], (requires use of @doc in source comments)
-    sitename = "RollingFunctions",
-    authors = "Jeffrey A. Sarnoff and other contributors",
-    source="src",
-    clean=false,
-    strict=!("strict=false" in ARGS),
-    doctest=("doctest=only" in ARGS) ? :only : true,
+    sitename = "RollingFunctions.jl",
+    authors = "Jeffrey Sarnoff and other contributors",
     format=Documenter.HTML(
         # Use clean URLs, unless built as a "local" build
         prettyurls=!("local" in ARGS),
@@ -37,14 +32,7 @@ makedocs(
     ]
 )
 
-#=
-Deploy docs to Github pages.
-=#
-Documenter.deploydocs(
-    branch = "gh-pages",
-    target = "build",
-    deps = nothing,
-    make = nothing,
+deploydocs(
     repo = "github.com/JeffreySarnoff/RollingFunctions.jl.git",
+    target = "build"
 )
-
