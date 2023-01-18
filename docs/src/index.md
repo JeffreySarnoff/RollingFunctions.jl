@@ -77,7 +77,7 @@ julia> rolled
  14
  ```
 
-### That's great. I code upside-down; my padded result must pad at the end.
+### I code upside-down; my padded result must pad at the end.
 
 ```
 rolled = rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟), padlast=true);
@@ -90,3 +90,6 @@ true)
   0
   0
 ```
+
+*note* this is not the same as `reverse(rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟))`.
+
