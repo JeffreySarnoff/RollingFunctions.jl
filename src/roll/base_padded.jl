@@ -77,12 +77,6 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     # the first (window_span - 1) values are unresolved wrt window_fn
     # this is the padding_span
     padding_span = window_span - 1
-
-    # with the next value, a full window_span is obtained
-    # only then is the first window_covered_value determined
-    # with each next value (with successive indices), an updated
-    # full window_span obtains, covering another window_fn value
-    window_covered_values = nvalues - padding_span
   
     results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
 
@@ -112,25 +106,20 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     # the first (window_span - 1) values are unresolved wrt window_fn
     # this is the padding_span
     padding_span = window_span - 1
-
-    # with the next value, a full window_span is obtained
-    # only then is the first window_covered_value determined
-    # with each next value (with successive indices), an updated
-    # full window_span obtains, covering another window_fn value
-    window_covered_values = nvalues - padding_span
-
+  
     results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
 
+  
     padding_idxs = 1:padding_span
     windows_idxs = window_span:nvalues
-    ilow, ihigh = padding_span+1, min(nvalues, padding_span+window_span)
-
+    ilow, ihigh = 1, window_span
+  
     results[padding_idxs, :] .= padding
 
-    #  map(window_fn,eachcol(m[1:window_span,:]))
-    # for padfirst
-    for i in 0:nrows(m)-window_span
-         results[window_span+i,:] = map(window_fn, eachcol(m[1+i:window_span+i,:]))
+    @inbounds for idx in window_span:nvalues
+        results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh, :]))
+        ilow += 1
+        ihigh += 1
     end
    
     results
