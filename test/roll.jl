@@ -74,3 +74,5 @@ result = rolling(floatmat, window_span, window_fn; padding = 0.0, padlast=true)
 expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
+
+
