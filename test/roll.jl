@@ -56,12 +56,12 @@ expected = [missing missing; missing missing; missing missing; missing missing; 
 # pad last
 
 result = rolling(intvec, window_span, window_fn; padding = 0, padlast=true)
-expected = [missing, missing, missing, missing, missing, missing, 28, 35, 42, 49]
+expected = [28, 35, 42, 49, 0, 0, 0, 0, 0, 0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = rolling(floatvec, window_span, window_fn; padding = 0.0, padlast=true)
-expected = [28.0, 35.0, 42.0, 49.0]
+expected = [28.0, 35.0, 42.0, 49.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
