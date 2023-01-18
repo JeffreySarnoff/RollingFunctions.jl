@@ -135,8 +135,7 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
 
-    padding_idxs = 1:padding_span
-    windows_idxs = window_span:nvalues
+    padding_idxs = nvalues-padding_span:nvalues
     ilow, ihigh = 1, window_span
 
     results[padding_idxs] .= padding
@@ -162,8 +161,7 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
 
-    padding_idxs = 1:padding_span
-    windows_idxs = window_span:nvalues
+    padding_idxs = nvalues-padding_span:nvalues
     ilow, ihigh = 1, window_span
 
     results[padding_idxs, :] .= padding
