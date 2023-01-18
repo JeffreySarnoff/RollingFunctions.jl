@@ -31,3 +31,24 @@ There can be no fourth value as the third value used the fins entries in 𝒟.
 julia> sum(𝒟[1:3]), sum(𝒟[2:4]), sum(𝒟[3:5])
 (6, 9, 12)
 ```
+
+If the span of each subsequence increases to 4..
+```
+𝒲 = 4
+rolled = rolling(𝒟, 𝒲, 𝒮);
+
+rolled
+2-element Vector{Int64}:
+ 10
+ 14
+```
+Generally, with data that has r rows using a window_span of w results in r - w + 1 rows of values.
+
+
+### Would you prefer to get back a result with the same number of rows as your data?
+
+#### Welcome to the wonderful world of padding
+
+
+```
+
