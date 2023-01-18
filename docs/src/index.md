@@ -77,7 +77,7 @@ julia> rolled
  14
  ```
 
-### That's great. I code in a mirror, my padded result must pad at the end.
+### That's great. I code upside-down; my padded result must pad at the end.
 
 ```
 rolled = rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟), padlast=true);
