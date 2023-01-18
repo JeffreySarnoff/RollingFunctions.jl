@@ -76,12 +76,10 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     # this is the padding_span
     padding_span = window_span - 1
   
-    results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
-
     padding_idxs = 1:padding_span
-    windows_idxs = window_span:nvalues
     ilow, ihigh = 1, window_span
 
+    results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
     results[padding_idxs] .= padding
 
     @inbounds for idx in window_span:nvalues
@@ -103,13 +101,10 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     # this is the padding_span
     padding_span = window_span - 1
   
-    results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
-
-  
     padding_idxs = 1:padding_span
-    windows_idxs = window_span:nvalues
     ilow, ihigh = 1, window_span
-  
+
+    results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))  
     results[padding_idxs, :] .= padding
 
     @inbounds for idx in window_span:nvalues
@@ -133,11 +128,10 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     # this is the padding_span
     padding_span = window_span - 1
 
-    results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
-
     padding_idxs = nvalues-padding_span:nvalues
     ilow, ihigh = 1, window_span
 
+    results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
     results[padding_idxs] .= padding
 
     @inbounds for idx in 1:nvalues-padding_span
@@ -159,11 +153,10 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     # this is the padding_span
     padding_span = window_span - 1
 
-    results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
-
     padding_idxs = nvalues-padding_span:nvalues
     ilow, ihigh = 1, window_span
 
+    results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
     results[padding_idxs, :] .= padding
 
      @inbounds for idx in 1:nvalues-padding_span
