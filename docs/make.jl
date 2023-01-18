@@ -1,4 +1,4 @@
-using Documenter, RollingFunctions
+using Documenter, DocumenterTools, RollingFunctions
 
 makedocs(
     modules = [RollingFunctions],
