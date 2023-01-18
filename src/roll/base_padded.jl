@@ -2,10 +2,10 @@ function rolling(data::D, window_span::Int, window_fn::F;
                  padding=nothing, padfirst=true, padlast=false) where {T, D<:AbstractArray{T}, F<:Function}
     if  isnothing(padding)
         basic_rolling(data, window_span, window_fn)
-    elseif padfirst
-        padded_rolling(data, window_span, window_fn; padding)
-    else
+    elseif padlast
         last_padded_rolling(data, window_span, window_fn; padding)
+    else
+        padded_rolling(data, window_span, window_fn; padding)
     end
 end    
     
