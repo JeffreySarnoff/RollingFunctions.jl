@@ -68,8 +68,6 @@ end
 
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
-    isnothing(padding) && return basic_rolling(data, window_span, window_fn)
-
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
 
@@ -97,8 +95,6 @@ end
 
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding=nothing) where {T, D<:AbstractMatrix{T}}
-    isnothing(padding) && return basic_rolling(data, window_span, window_fn)
-
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
 
@@ -129,8 +125,6 @@ end
     
 function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
-    isnothing(padding) && return basic_rolling(data, window_span, window_fn)
-
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
 
@@ -167,8 +161,6 @@ end
 
 function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding=nothing) where {T, D<:AbstractMatrix{T}}
-    isnothing(padding) && return basic_rolling(data, window_span, window_fn)
-
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
 
