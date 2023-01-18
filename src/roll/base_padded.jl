@@ -88,7 +88,7 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     padding_idxs = 1:padding_span
     windows_idxs = window_span:nvalues
-    ilow, ihigh = 1:padding_span
+    ilow, ihigh = 1, window_span
 
     results[padding_idxs] .= padding
 
