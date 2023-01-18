@@ -90,7 +90,7 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     padding_idxs = 1:padding_span
     windows_idxs = window_span:nvalues
     windows_idxs = padding_span+1:nvalues
-    ilow, ihigh = padding_span+1, padding_span+windowspan
+    ilow, ihigh = padding_span+1, padding_span+window_span
 
     results[padding_idxs] .= padding
 
@@ -165,7 +165,7 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     windows_idxs = window_span:nvalues
     value_idxs   = 1:nvalues-window_span
 
-    ilow, ihigh = padding_span+1, padding_span+windowspan
+    ilow, ihigh = padding_span+1, padding_span+window_span
 
     results[padding_idxs] .= padding
 
@@ -202,7 +202,7 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     windows_idxs = window_span:nvalues
     value_idxs   = 1:nvalues-window_span
 
-    ilow, ihigh = padding_span+1, padding_span+windowspan
+    ilow, ihigh = padding_span+1, padding_span+window_span
 
     results[padding_idxs, :] .= padding
 
