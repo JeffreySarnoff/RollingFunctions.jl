@@ -3,7 +3,7 @@ using Documenter, DocumenterTools, RollingFunctions
 makedocs(
     modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
-    authors = "Jeffrey Sarnoff and other contributors",
+    authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>", "other contributors"]
     format=Documenter.HTML(
         canonical = "https://jeffreysarnoff.github.io/RollingFunctions.jl/stable/"
         # Use clean URLs, unless built as a "local" build
@@ -11,7 +11,7 @@ makedocs(
         highlights=["yaml"],
         ansicolor=true,
     ),
-    pages=[
+    pages = Any[
         "Home" => "index.md",
         "Overview" => "overview.md",
         "Introduction" => Any[
