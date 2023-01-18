@@ -91,5 +91,5 @@ true)
   0
 ```
 
-*note* this is not the same as `reverse(rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟))`.
+**note** this is not the same as `reverse(rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟))`.
 
