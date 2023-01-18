@@ -76,3 +76,17 @@ julia> rolled
  10
  14
  ```
+
+### That's great. I code in a mirror, my padded result must pad at the end.
+
+```
+rolled = rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟), padlast=true);
+julia> rolled
+true)
+5-element Vector{Int64}:
+ 10
+ 14
+  0
+  0
+  0
+```
