@@ -30,8 +30,8 @@ function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:Abs
 
     @inbounds for idx in eachindex(results)
         results[idx] = window_fn(data[ilow:ihigh])
-        ilow += 1
-        ihigh += 1
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -57,8 +57,8 @@ function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,
 
     @inbounds for idx in eachindex(eachrow(results))
         results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
-        ilow += 1
-        ihigh += 1
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -86,8 +86,8 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     @inbounds for idx in window_span:nvalues
         results[idx] = window_fn(data[ilow:ihigh])
-        ilow += 1
-        ihigh += 1
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -114,8 +114,8 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     @inbounds for idx in window_span:nvalues
         results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh, :]))
-        ilow += 1
-        ihigh += 1
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
    
     results
@@ -152,8 +152,8 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     @inbounds for idx in value_idxs
         results[idx] = window_fn(data[ilow:ihigh])
-        ilow += 1
-        ihigh += 1
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -187,8 +187,8 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
 
      @inbounds for idx in value_idxs
         results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh,:]))
-        ilow += 1
-        ihigh += 1
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
    
     results
