@@ -31,6 +31,7 @@ makedocs(
             "function arity" => "tech/arity.md",
         ],
         "References" => "references.md",
+        "Thanks" => "thanks.md",
     ]
 )
 
