@@ -52,6 +52,8 @@ function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,
     results
 end
 
+# pad the dropped indicies with a given padding value
+
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
     isnothing(padding) && return basic_rolling(data, window_span, window_fn)
@@ -147,14 +149,15 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
 
-    padding_idxs = 1:padding_span
+    padding_idxs = nvalues-padding_span:nvalues
     windows_idxs = window_span:nvalues
-    windows_idxs = padding_span+1:nvalues
+    value_idxs   = 1:nvalues-window_span
+
     ilow, ihigh = padding_span+1, padding_span+windowspan
 
     results[padding_idxs] .= padding
 
-    @inbounds for idx in windows_idxs
+    @inbounds for idx in value_idxs
         results[idx] = window_fn(data[ilow:ihigh])
         ilow += 1
         ihigh += 1
@@ -183,16 +186,18 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
 
     results = Matrix{Union{typeof(padding), eltype(data)}}(undef, size(data))
 
-    padding_idxs = 1:padding_span
+    padding_idxs = nvalues-padding_span:nvalues
     windows_idxs = window_span:nvalues
-    ilow, ihigh = padding_span+1, min(nvalues, padding_span+window_span)
+    value_idxs   = 1:nvalues-window_span
+
+    ilow, ihigh = padding_span+1, padding_span+windowspan
 
     results[padding_idxs, :] .= padding
 
-    #  map(window_fn,eachcol(m[1:window_span,:]))
-    # for padfirst
-    for i in 0:nrows(m)-window_span
-         results[window_span+i,:] = map(window_fn, eachcol(m[1+i:window_span+i,:]))
+     @inbounds for idx in value_idxs
+        results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh,:]))
+        ilow += 1
+        ihigh += 1
     end
    
     results
