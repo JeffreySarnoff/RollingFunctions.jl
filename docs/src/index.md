@@ -19,8 +19,7 @@ julia> rolled
   6
   9
  12
-```
-```
+
 #=
 The first  windowed value is the 𝒮 (`sum`) of the first  𝒲 (`3`) values in 𝒟.
 The second windowed value is the 𝒮 (`sum`) of the second 𝒲 (`3`) values in 𝒟.
