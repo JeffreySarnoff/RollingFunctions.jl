@@ -42,12 +42,14 @@ include("support/utils.jl")
 include("support/normalize_weights.jl")
 
 include("roll/base_padded.jl")
+#=
 include("roll/rolling.jl")
 include("run/running.jl")
 include("roll/rollstats.jl")
 include("run/runstats.jl")
 include("roll/rolling2.jl")
 include("run/running2.jl")
+=#
 
 end # RollingFunctions
 
