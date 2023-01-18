@@ -15,10 +15,11 @@ makedocs(
         "Home" => "index.md",
         "Overview" => "overview.md",
         "Introduction" => Any[
-            "Windowed Data"=>"intro/windoweddata.md",
-            "Running over Windows"=>"intro/running.md",
-            "Rolling over Windows"=>"intro/rolling.md",
-            "Stepping over Data"=>"intro/stepping.md",
+            "Rolling over Data (basics)" => "intro/rolling.md",
+            "Rolling over Data (padding)" => "intro/padding.md",
+           # "Windowed Data"=>"intro/windoweddata.md",
+           # "Running over Windows"=>"intro/running.md",
+           # "Stepping over Data"=>"intro/stepping.md",
         ],
         "API" => Any[
             "roll" => "api/roll.md",
