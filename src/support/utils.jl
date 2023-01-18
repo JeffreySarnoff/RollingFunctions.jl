@@ -2,6 +2,8 @@
 - nrows
 - ncols
 
+- isNothing
+
 - rts (returned types)
 - nrts (length(rts))
 
@@ -31,6 +33,11 @@ nrows(x) = isempty(size(x)) ? 1 : size(x)[1]
 ncols(x::AbstractVector) = 1
 ncols(x::AbstractArray) = size(x)[2]
 ncols(x) = isempty(size(x)) ? 1 : size(x)[2]
+
+# isNothing
+
+isNothing(x) = false
+isNothing(::Type{Nothing}) = true
 
 # returned types (rough) and tally(returned types)
 # more specific when `typs` are provided
