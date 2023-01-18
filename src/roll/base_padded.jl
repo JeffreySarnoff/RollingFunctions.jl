@@ -1,3 +1,15 @@
+function rolling(data::D, window_span::Int, window_fn::F;
+                 padding=nothing, padfirst=true, padlast=false) where {T, D<:AbstractArray{T}, F<:Function}
+    if  isnothing(padding)
+        basic_rolling(data, window_span, window_fn)
+    elseif padfirst
+        padded_rolling(data, window_span, window_fn; padding)
+    else
+        last_padded_rolling(data, window_span, window_fn; padding)
+    end
+end    
+    
+
 function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:AbstractVector{T}, F<:Function}
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(data)
