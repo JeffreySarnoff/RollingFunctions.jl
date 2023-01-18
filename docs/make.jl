@@ -1,9 +1,11 @@
-using Documenter # , ArbNumerics
+using Documenter, RollingFunctions
 
 makedocs(
+    modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
     authors = "Jeffrey Sarnoff and other contributors",
     format=Documenter.HTML(
+        canonical = "https://jeffreysarnoff.github.io/RollingFunctions.jl/stable/"
         # Use clean URLs, unless built as a "local" build
         prettyurls=!("local" in ARGS),
         highlights=["yaml"],
@@ -34,5 +36,7 @@ makedocs(
 
 deploydocs(
     repo = "github.com/JeffreySarnoff/RollingFunctions.jl.git",
-    target = "build"
+    target = "build",
+    deps = nothing,
+    make = nothing,
 )
