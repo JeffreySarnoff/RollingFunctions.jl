@@ -41,8 +41,8 @@ const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTupl
 include("support/utils.jl")
 include("support/normalize_weights.jl")
 
-include("roll/base_padded.jl")
-include("roll/base_padded_matrix.jl")
+# support for data vectors and data matrices of indpendent columns
+include("roll/base_padded.jl")  
 
 
 #=
