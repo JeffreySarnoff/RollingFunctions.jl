@@ -4,7 +4,7 @@ You have n data vectors of equal length (rowcount 𝓇)
 `𝒟₁ .. 𝒟ᵢ ..  𝒟ₙ`  collected as an 𝓇 x 𝓃 matrix ℳ
 you want to apply the same function (sum) 
 to subsequences of each column using a window_span of 3
-
+```
 ```
 using RollingFunctions
 
