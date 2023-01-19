@@ -17,8 +17,10 @@ makedocs(
         "Introduction" => Any[
             "Rolling over Data (basics)" => "intro/rolling.md",
             "Rolling over Data (padding)" => "intro/padding.md",
-            "Rolling over multicolums (basics)" => "intro/matrix_rolling.md",
-            "Rolling over multicolumns (padding)" => "intro/matrix_padding.md",
+            "Rolling over Data Matricies (basics)" => "intro/matrix_rolling.md",
+            "Rolling over Data Matrices (padding)" => "intro/matrix_padding.md",
+            "Rolling over multicolumn data (basics)" => "intro/multicolumn_rolling.md",
+            "Rolling over multicolumn data (padding)" => "intro/multicolumn_padding.md",
            # "Windowed Data"=>"intro/windoweddata.md",
            # "Running over Windows"=>"intro/running.md",
            # "Stepping over Data"=>"intro/stepping.md",
