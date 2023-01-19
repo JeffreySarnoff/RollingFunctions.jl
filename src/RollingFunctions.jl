@@ -42,6 +42,9 @@ include("support/utils.jl")
 include("support/normalize_weights.jl")
 
 include("roll/base_padded.jl")
+include("roll/base_padded_matrix.jl")
+
+
 #=
 include("roll/rolling.jl")
 include("run/running.jl")
