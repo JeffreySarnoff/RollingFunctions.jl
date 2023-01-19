@@ -5,7 +5,7 @@ You may pad the result with the padding value of your choice
 padding is a keyword argument
 - if you assign e.g. padding = missing, the result will be padded
 - you may pad using any defined value and all types except Nothing
-- `(missing, 0, nothing, NaN, '∅', AbstractString)` all work
+- example pads `(missing, 0, nothing, NaN, '∅', AbstractString)`
 
 ```
 rolled = rolling(𝒟, 𝒲, 𝒮; padding = missing);
