@@ -1,4 +1,4 @@
-### Rolling over Windowed Data - with padding
+### Rolling over Windowed Data Matrix - with padding
 
 You may pad the result with the padding value of your choice
 
