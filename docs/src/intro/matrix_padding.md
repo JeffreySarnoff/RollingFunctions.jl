@@ -28,7 +28,7 @@ using RollingFunctions
 𝒮 = sum
 𝒲 = 3
 
-rolled = rolling(ℳ, 𝒲, 𝒮; padding = zero(eltype(ℳ)))
+rolled = rolling(𝒮, ℳ, 𝒲; padding = zero(eltype(ℳ)))
 #=
 6×3 Matrix{Int64}:
   0   0  0
@@ -42,7 +42,7 @@ rolled = rolling(ℳ, 𝒲, 𝒮; padding = zero(eltype(ℳ)))
 
 ### Give me the real values first, pad to the end.
 ```
-rolled = rolling(ℳ, 𝒲, 𝒮; padding = missing, padlast=true)
+rolled = rolling(𝒮, ℳ, 𝒲; padding = missing, padlast=true)
 #=
 6×3 Matrix{Union{Missing, Int64}}:
   6         15         6
@@ -53,6 +53,6 @@ rolled = rolling(ℳ, 𝒲, 𝒮; padding = missing, padlast=true)
    missing    missing   missing
 =#
 ```
-**technical aside:** this is not the same as reverse(rolling(𝒟, 𝒲, 𝒮; padding = missing).
+**technical aside:** this is not the same as reverse(rolling(𝒮, 𝒟, 𝒲; padding = missing).
 
 
