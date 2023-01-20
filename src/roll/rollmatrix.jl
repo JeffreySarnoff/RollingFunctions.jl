@@ -1,3 +1,11 @@
+#=
+     basic_rolling(::Matrix, window_span, window_fn)
+
+     padded_rolling(::Matrix, window_span, window_fn; padding, padfirst, padlast)
+
+     last_padded_rolling(::Matrix, window_span, window_fn; padding, padfirst, padlast)
+=#
+
 function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,D<:AbstractMatrix{T}}
     ᵛʷdata = asview(data)
     # there are 1 or more columns, each holds `n` values
