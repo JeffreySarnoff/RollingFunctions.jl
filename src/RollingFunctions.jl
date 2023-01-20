@@ -45,6 +45,7 @@ include("support/normalize_weights.jl")
 include("roll/roll.jl")
 include("roll/rollvectors.jl")
 include("roll/rollmatrix.jl")
+include("roll/rollvectors_weighted.jl")
 
 
 #=
