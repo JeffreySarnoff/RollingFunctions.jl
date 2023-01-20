@@ -46,6 +46,7 @@ include("roll/roll.jl")
 include("roll/rollvectors.jl")
 include("roll/rollmatrix.jl")
 include("roll/rollvectors_weighted.jl")
+include("roll/rollvectors_tapering.jl")
 
 
 #=
