@@ -28,7 +28,7 @@ nrows, ncolumns = size(ℳ)
 𝒮 = sum
 𝒲 = 3
 
-rolled = rolling(ℳ, 𝒲, 𝒮)
+rolled = rolling(𝒮, ℳ, 𝒲)
 #=
 julia> rolled
 4×3 Matrix{Int64}:
