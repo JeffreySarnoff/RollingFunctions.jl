@@ -121,12 +121,40 @@ end
 
 # pad first
 
-
-
-function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
+function padded_rolling(data1::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
-    # there are 1 or more columns, each holds `n` values
-    nvalues = length(data)
+    ᵛʷdata1 = asview(data1)
+    nvalues  = nrolled(length(ᵛʷdata1), windowspan)
+    rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
+
+    # only completed window_span coverings are resolvable
+    # the first (window_span - 1) values are unresolved wrt window_fn
+    # this is the padding_span
+    padding_span = window_span - 1
+  
+    padding_idxs = 1:padding_span
+    ilow, ihigh = 1, window_span
+
+    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
+    results[padding_idxs] .= padding
+
+    @inbounds for idx in window_span:nvalues
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end  
+
+# pad last
+
+
+function last_padded_rolling(data1::D, window_span::Int, window_fn::Function;
+                        padding = nothing) where {T, D<:AbstractVector{T}}
+    ᵛʷdata1 = asview(data1)
+    nvalues  = nrolled(length(ᵛʷdata1), windowspan)
+    rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -136,11 +164,11 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     padding_idxs = nvalues-padding_span:nvalues
     ilow, ihigh = 1, window_span
 
-    results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
+    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
     results[padding_idxs] .= padding
 
     @inbounds for idx in 1:nvalues-padding_span
-        results[idx] = window_fn(data[ilow:ihigh])
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
