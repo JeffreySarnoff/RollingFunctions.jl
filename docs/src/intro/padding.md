@@ -8,7 +8,7 @@ padding is a keyword argument
 - example pads `(missing, 0, nothing, NaN, '∅', AbstractString)`
 
 ```
-rolled = rolling(𝒟, 𝒲, 𝒮; padding = missing);
+rolled = rolling(𝒮, 𝒟, 𝒲; padding = missing);
 
 julia> rolled
 5-element Vector{Union{Missing, Int64}}:
@@ -18,7 +18,7 @@ julia> rolled
  10
  14
  
-rolled = rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟));
+rolled = rolling(𝒮, 𝒟, 𝒲; padding = zero(eltype(𝒟));
 julia> rolled
 5-element Vector{Int64}:
   0
@@ -30,7 +30,7 @@ julia> rolled
 
 ### Give me the real values first, pad to the end.
 ```
-rolled = rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟), padlast=true);
+rolled = rolling(𝒮, 𝒟, 𝒲; padding = zero(eltype(𝒟), padlast=true);
 
 julia> rolled
 5-element Vector{Int64}:
