@@ -38,6 +38,7 @@ using LoopVectorization
 
 const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
 
+include("support/exceptions.jl")
 include("support/utils.jl")
 include("support/normalize_weights.jl")
 
