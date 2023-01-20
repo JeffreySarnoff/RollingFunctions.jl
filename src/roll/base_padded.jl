@@ -11,8 +11,7 @@ end
     
 
 function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:AbstractVector{T}, F<:Function}
-    # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(data)
+    nvalues = length(D)
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -69,7 +68,7 @@ end
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
     # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(data)
+    nvalues = length(data)
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -121,7 +120,7 @@ end
 function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
     # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(data)
+    nvalues = length(data)
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
