@@ -4,4 +4,5 @@ There have been many who contributed.  These few have done more than most, some 
 |------|----|
 | _Eliot Saba_ | @staticfloat |
 | _Bogumił Kamiński_ | @bkamins |
-| _Josh Day_ | @joshday |
+| _Kevin Patel_ | @kevindirect |
+
