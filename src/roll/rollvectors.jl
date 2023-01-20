@@ -1,5 +1,4 @@
-
-function basic_rolling(data1::AbstractVector{T1}, window_span::Int, window_fn::F) where {T1}
+ function basic_rolling(data1::AbstractVector{T1}, window_span::Int, window_fn::F) where {T1}
     ᵛʷdata1 = asview(data1)
     nvalues  = nrolled(length(ᵛʷdata1), windowspan)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
@@ -118,5 +117,35 @@ function basic_rolling(data1::AbstractVector{T1}, data2::AbstractVector{T2}, dat
 
     results
 end
+
+
+# pad first
+
+
+
+function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
+                        padding = nothing) where {T, D<:AbstractVector{T}}
+    # there are 1 or more columns, each holds `n` values
+    nvalues = length(data)
+
+    # only completed window_span coverings are resolvable
+    # the first (window_span - 1) values are unresolved wrt window_fn
+    # this is the padding_span
+    padding_span = window_span - 1
+
+    padding_idxs = nvalues-padding_span:nvalues
+    ilow, ihigh = 1, window_span
+
+    results = Vector{Union{typeof(padding), eltype(data)}}(undef, nvalues)
+    results[padding_idxs] .= padding
+
+    @inbounds for idx in 1:nvalues-padding_span
+        results[idx] = window_fn(data[ilow:ihigh])
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end 
 
 
