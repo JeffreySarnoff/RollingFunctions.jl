@@ -41,6 +41,7 @@ const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTupl
 include("support/exceptions.jl")
 include("support/utils.jl")
 include("support/normalize_weights.jl")
+include("support/tapers.jl")
 
 include("roll/roll.jl")
 include("roll/rollvectors.jl")
