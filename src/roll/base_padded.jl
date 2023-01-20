@@ -11,7 +11,7 @@ end
     
 
 function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:AbstractVector{T}, F<:Function}
-    nvalues = length(D)
+    nvalues = length(data)
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
