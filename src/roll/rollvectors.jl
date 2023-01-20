@@ -1,13 +1,13 @@
 #=
 
-   basic_rolling(data1, window_span, window_fn) ..
-   basic_rolling(data1, data2, data3, data4, window_span, window_fn)
+   basic_rolling(window_fn, data1, window_span) ..
+   basic_rolling(window_fn, data1, data2, data3, data4, window_span)
 
-   padded_rolling(data1, window_span, window_fn; padding, padfirst, padlast) ..
-   padded_rolling(data1, data2, data3, data4, window_span, window_fn; padding, padfirst, padlast)
+   padded_rolling(window_fn, data1, window_span; padding, padfirst, padlast) ..
+   padded_rolling(window_fn, data1, data2, data3, data4, window_span; padding, padfirst, padlast)
 
-   last_padded_rolling(data1, window_span, window_fn; padding, padfirst, padlast) ..
-   last_padded_rolling(data1, data2, data3, data4, window_span, window_fn; padding, padfirst, padlast)
+   last_padded_rolling(window_fn, data1, window_span; padding, padfirst, padlast) ..
+   last_padded_rolling(window_fn,data1, data2, data3, data4, window_span; padding, padfirst, padlast)
 
 =#
 
