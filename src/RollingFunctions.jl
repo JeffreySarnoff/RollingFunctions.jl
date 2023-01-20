@@ -43,14 +43,7 @@ include("support/normalize_weights.jl")
 
 include("roll/roll.jl")
 include("roll/rollvectors.jl")
-
-include("roll/base_padded.jl")  
-
-# support for data vectors and 
-# data matrices of independent columns
-include("roll/base_padded.jl")  
-# support for data matrices of dependent columns
-include("roll/multicolumn_base_padded.jl")
+include("roll/rollmatrix.jl")
 
 
 #=
