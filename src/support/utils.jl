@@ -7,6 +7,9 @@
 - rts (returned types)
 - nrts (length(rts))
 
+- FixTwo
+- FixThree
+
 - isview
 - asview
 - viewall
@@ -47,6 +50,54 @@ isNothing(::Type{Nothing}) = true
 
 @inline nrts(fn) = max(1, length(rts(fn).parameters))
 @inline nrts(fn, typs) = max(1, length(rts(fn,typs).parameters))
+
+# FixTwo
+
+"""
+    FixTwo(f, x, y, z)
+
+A type representing a partially-applied version of the three-argument function
+`f`, with the first argument fixed to the value "x" and the second argument
+fixed to the value "y". In other words,
+`FixTwo(f, x, y)` behaves similarly to `z->f(x, y, z)`.
+
+klamp(lo, hi, x) = clamp(x, lo, hi)
+klamp(lo, hi) = FixTwo(klamp, lo, hi)
+klamp1to4 = klamp(1.0,4.0)
+klamp1to4(0.0)
+
+See also [`Fix1`](@ref Base.Fix1).
+"""
+struct FixTwo{F,T} <: Function
+    f::F
+    x::T
+    y::T
+
+    FixTwo(f::F, x, y) where {F} = new{F, Base._stable_typeof(x)}(f, x, y)
+    FixTwo(f::Type{F}, x, y) where {F} = new{Type{F},Base._stable_typeof(x)}(f, x, y)
+end
+
+(f::FixTwo)(z) = f.f(f.x, f.y, z)
+
+"""
+    FixThree(f, x, y, z, w)
+
+A type representing a partially-applied version of the three-argument function
+`f`, with the first argument fixed to the value "x" and the second argument
+fixed to the value "y". In other words,
+`FixThree(f, x, y, z)` behaves similarly to `w->f(x, y, z, w)`.
+""""
+struct FixThree{F,T} <: Function
+    f::F
+    x::T
+    y::T
+    z::T
+
+    FixThree(f::F, x, y, z) where {F} = new{F, Base._stable_typeof(x)}(f, x, y, z)
+    FixThree(f::Type{F}, x, y, z) where {F} = new{Type{F},Base._stable_typeof(x)}(f, x, y, z)
+end
+
+(f::FixThree)(w) = f.f(f.x, f.y, f.z, w)
 
 # views
 
