@@ -11,8 +11,9 @@ end
     
 
 function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:AbstractVector{T}, F<:Function}
-    nvalues = length(data)
-    rettype  = rts(window_fn, (typeof(data),))
+    ᵛʷdata = asview(data1)
+    nvalues = length(ᵛʷdata)
+    rettype  = rts(window_fn, (typeof(ᵛʷdata),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -29,7 +30,7 @@ function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:Abs
     ilow, ihigh = 1, window_span
 
     @inbounds for idx in eachindex(results)
-        results[idx] = window_fn(data[ilow:ihigh])
+        @views results[idx] = window_fn(ᵛʷdata[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -38,10 +39,10 @@ function basic_rolling(data::D, window_span::Int, window_fn::F) where {T, D<:Abs
 end
 
 function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,D<:AbstractMatrix{T}}
-    # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(data)
-    rettype  = rts(window_fn, (typeof(data[:,1]),))
-
+    ᵛʷdata = asview(data)
+    # there are 1 or more columns, each holds `nvalues` values
+    nvalues = nrows(ᵛʷdata)
+    rettype  = rts(window_fn, (typeof(ᵛʷdata[:,1]),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -58,7 +59,7 @@ function basic_rolling(data::D, window_span::Int, window_fn::Function) where {T,
     ilow, ihigh = 1, window_span
 
     @inbounds for idx in eachindex(eachrow(results))
-        results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
+        @views results[idx, :] .= map(window_fn, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -70,10 +71,9 @@ end
 
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding = nothing) where {T, D<:AbstractVector{T}}
-    # there are 1 or more columns, each holds `n` values
-    nvalues = length(data)
-    rettype  = rts(window_fn, (typeof(data),))
-
+    ᵛʷdata = asview(data)
+    nvalues = length(ᵛʷdata)
+    rettype  = rts(window_fn, (typeof(ᵛʷdata),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -87,7 +87,7 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     results[padding_idxs] .= padding
 
     @inbounds for idx in window_span:nvalues
-        results[idx] = window_fn(data[ilow:ihigh])
+        @views results[idx] = window_fn(ᵛʷdata[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -97,9 +97,10 @@ end
 
 function padded_rolling(data::D, window_span::Int, window_fn::Function;
                         padding=nothing) where {T, D<:AbstractMatrix{T}}
-    # there are 1 or more columns, each holds `n` values
+    ᵛʷdata = asview(data)
+    # there are 1 or more columns, each holds `nvalues` values
     nvalues = nrows(data)
-    rettype  = rts(window_fn, (typeof(data[:,1]),))
+    rettype  = rts(window_fn, (typeof(ᵛʷdata[:,1]),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -113,7 +114,7 @@ function padded_rolling(data::D, window_span::Int, window_fn::Function;
     results[padding_idxs, :] .= padding
 
     @inbounds for idx in window_span:nvalues
-        results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh, :]))
+        @views results[idx, :] = map(window_fn, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -125,9 +126,9 @@ end
     
 function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
                              padding = nothing) where {T, D<:AbstractVector{T}}
-    # there are 1 or more columns, each holds `n` values
+    ᵛʷdata = asview(data)
     nvalues = length(data)
-    rettype  = rts(window_fn, (typeof(data),))
+    rettype  = rts(window_fn, (typeof(ᵛʷdata),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -141,7 +142,7 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     results[padding_idxs] .= padding
 
     @inbounds for idx in 1:nvalues-padding_span
-        results[idx] = window_fn(data[ilow:ihigh])
+        @views results[idx] = window_fn(ᵛʷdata[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -151,9 +152,10 @@ end
 
 function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
                              padding=nothing) where {T, D<:AbstractMatrix{T}}
-    # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(data)
-    rettype  = rts(window_fn, (typeof(data[:,1]),))
+    ᵛʷdata = asview(data)
+    # there are 1 or more columns, each holds `nvalues` values
+    nvalues = nrows(ᵛʷdata)
+    rettype  = rts(window_fn, (typeof(ᵛʷdata[:,1]),))
 
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -167,7 +169,7 @@ function last_padded_rolling(data::D, window_span::Int, window_fn::Function;
     results[padding_idxs, :] .= padding
 
      @inbounds for idx in 1:nvalues-padding_span
-        results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh,:]))
+        @slice results[idx, :] = map(window_fn, eachcol(ᵛʷdata[ilow:ihigh,:]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
