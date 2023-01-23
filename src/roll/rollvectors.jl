@@ -13,7 +13,7 @@
 
 function basic_rolling(window_fn::F, data1::AbstractVector{T1}, window_span::Int) where {T1}
     ᵛʷdata1 = asview(data1)
-    nvalues  = nrolled(length(ᵛʷdata1), windowspan)
+    nvalues  = nrolled(length(ᵛʷdata1), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
 
     # only completed window_span coverings are resolvable
@@ -42,7 +42,7 @@ end
 function basic_rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int) where {T1,T2}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2)))
 
     # only completed window_span coverings are resolvable
@@ -73,7 +73,7 @@ function basic_rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractV
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2), typeof(ᵛʷdata3)))
 
     # only completed window_span coverings are resolvable
@@ -105,7 +105,7 @@ function basic_rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractV
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
     ᵛʷdata4 = asview(data4)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2), typeof(ᵛʷdata3), typeof(ᵛʷdata4)))
 
     # only completed window_span coverings are resolvable
@@ -137,7 +137,7 @@ end
 function padded_rolling(window_fn::F, data1::AbstractVector{T1},
                         window_span::Int; padding=Nothing, padfirst=true, padlast=false) where {T1}
     ᵛʷdata1 = asview(data1)
-    nvalues  = nrolled(length(ᵛʷdata1), windowspan)
+    nvalues  = nrolled(length(ᵛʷdata1), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
  
     # only completed window_span coverings are resolvable
@@ -164,7 +164,7 @@ function padded_rolling(window_fn::F, data1::AbstractVector{T1}, data2::Abstract
                         window_span::Int; padding=Nothing, padfirst=true, padlast=false) where {T1,T2}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2)))
 
     # only completed window_span coverings are resolvable
@@ -192,7 +192,7 @@ function padded_rolling(window_fn::F, data1::AbstractVector{T1}, data2::Abstract
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2), typeof(ᵛʷdata3)))
 
     # only completed window_span coverings are resolvable
@@ -221,7 +221,7 @@ function padded_rolling(window_fn::F, data1::AbstractVector{T1}, data2::Abstract
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
     ᵛʷdata4 = asview(data4)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2), typeof(ᵛʷdata3), typeof(ᵛʷdata4)))
 
     # only completed window_span coverings are resolvable
@@ -249,7 +249,7 @@ end
 function last_padded_rolling(window_fn::F, data1::AbstractVector{T1},
                              window_span::Int; padding=Nothing, padfirst=true, padlast=false) where {T1}
     ᵛʷdata1 = asview(data1)
-    nvalues  = nrolled(length(ᵛʷdata1), windowspan)
+    nvalues  = nrolled(length(ᵛʷdata1), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
  
     # only completed window_span coverings are resolvable
@@ -276,7 +276,7 @@ function last_padded_rolling(window_fn::F, data1::AbstractVector{T1}, data2::Abs
                              window_span::Int; padding=Nothing, padfirst=true, padlast=false) where {T1,T2}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2)))
 
     # only completed window_span coverings are resolvable
@@ -304,7 +304,7 @@ function last_padded_rolling(window_fn::F, data1::AbstractVector{T1}, data2::Abs
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2), typeof(ᵛʷdata3)))
 
     # only completed window_span coverings are resolvable
@@ -333,7 +333,7 @@ function last_padded_rolling(window_fn::F, data1::AbstractVector{T1}, data2::Abs
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
     ᵛʷdata4 = asview(data4)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4)), windowspan)
+    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4)), window_span)
     rettype  = rts(window_fn, (typeof(ᵛʷdata1), typeof(ᵛʷdata2), typeof(ᵛʷdata3), typeof(ᵛʷdata4)))
 
     # only completed window_span coverings are resolvable
