@@ -72,9 +72,9 @@ function rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
     if  isNothing(padding)
         basic_rolling(window_fn, data1, data2, window_span, weights)
     elseif !padlast
-        padded_rolling(window_fn, data1, data2, window_span, window_fn; padding)
+        padded_rolling(window_fn, data1, data2, window_span, weights; padding)
     else
-        last_padded_rolling(window_fn, data1, data2, window_span, window_fn; padding)
+        last_padded_rolling(window_fn, data1, data2, window_span, weights; padding)
     end
 end
 
