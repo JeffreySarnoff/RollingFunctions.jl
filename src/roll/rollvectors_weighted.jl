@@ -11,7 +11,7 @@
 
 =#
 
-
+#=
 function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, 
                        window_span::Int, weights::AbstractVector{TW}) where {T1, TW}
     typ = promote_type(T1,TW)
@@ -149,7 +149,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T1}, dat
        
     last_padded_rolling(window_fn, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, window_span, window_fn, ᵛʷweights; padding, padfirst, padlast)
 end
-
+=#
 
 # implementions
 
