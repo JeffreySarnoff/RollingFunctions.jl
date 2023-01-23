@@ -3,7 +3,7 @@
 
     function tapers(fun::Function, data::AbstractVector{T}) where {T}
         nvals  = length(data)
-        result = zeros($T2, nvals) 
+        result = zeros(T, nvals) 
 
         @inbounds for idx in nvals:-1:1
             result[idx] = fun( view(data, 1:idx) )
@@ -16,7 +16,7 @@
         nvals  = length(data)
         ntocopy = min(nvals, max(0, ntocopy))
 
-        result = zeros($T2, nvals)
+        result = zeros(T, nvals)
         if ntocopy > 0
            result[1:ntocopy] = data[1:ntocopy]
         end
@@ -34,7 +34,7 @@
 
         ntrailing = axes(trailing_data)[1].stop
         nvals  = length(data) + ntrailing
-        result = zeros($T2, nvals)
+        result = zeros(T, nvals)
 
         result[1:ntrailing] = trailing_data[1:ntrailing]
         ntrailing += 1
@@ -56,7 +56,7 @@
 
         nweighting == nvals || throw(WeightsError(nweighting, nvals))
 
-        result = zeros($T2, nvals)
+        result = zeros(T, nvals)
 
         @inbounds for idx in nvals:-1:1
             wts = normalize(view(weighting, (nweighting-idx+1):nweighting))
