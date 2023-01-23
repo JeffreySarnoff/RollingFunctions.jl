@@ -15,8 +15,11 @@
 
 function basic_rolling(window_fn::Function, ᵛʷdata1::AbstractVector{T}, 
          window_span::Int, ᵛʷweights::AbstractVector{T}) where {T}
-
-    nvalues  = nrolled(length(ᵛʷdata1), window_span)
+    ᵛʷdata1 = asview(data1)
+    ᵛʷweights = asview(weights)
+   
+    n = length(ᵛʷdata1)
+    nvalues  = nrolled(n, window_span)
     rettype  = rts(*, (eltype(ᵛʷdata1), eltype(ᵛʷweights)))
     rettype  = rts(window_fn, (rettype,))
     results = Vector{rettype}(undef, nvalues)
