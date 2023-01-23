@@ -69,6 +69,3 @@
     tapers(fun::Function, data::AbstractVector{T}, weighting::W) where
                     {T,W<:AbstractWeights} =
         tapers(fun, data, weighting.values)
-
-  end
-end
