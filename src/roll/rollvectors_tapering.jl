@@ -1,7 +1,7 @@
 
     # unweighted windowed function tapering
 
-    function tapers(fun::Function, data::AbstractVector{$T1}) where {T}
+    function tapers(fun::Function, data::AbstractVector{T}) where {T}
         nvals  = length(data)
         result = zeros($T2, nvals) 
 
@@ -12,7 +12,7 @@
         return result
     end
 
-    function tapers(fun::Function, data::AbstractVector{$T1}, ntocopy::Int) where {T}
+    function tapers(fun::Function, data::AbstractVector{T}, ntocopy::Int) where {T}
         nvals  = length(data)
         ntocopy = min(nvals, max(0, ntocopy))
 
@@ -29,7 +29,7 @@
         return result
     end
 
-    function tapers(fun::Function, data::AbstractVector{$T1}, 
+    function tapers(fun::Function, data::AbstractVector{T}, 
                     trailing_data::AbstractVector{$T1}) where {T}
 
         ntrailing = axes(trailing_data)[1].stop
@@ -48,7 +48,7 @@
 
     # weighted windowed function tapering
 
-    function tapers(fun::Function, data::AbstractVector{$T1}, weighting::F) where
+    function tapers(fun::Function, data::AbstractVector{T}, weighting::F) where
                      {T, N<:Number, F<:Vector{N}}
 
         nvals  = length(data)
@@ -66,7 +66,7 @@
         return result
     end
 
-    tapers(fun::Function, data::AbstractVector{$T1}, weighting::W) where
+    tapers(fun::Function, data::AbstractVector{T}, weighting::W) where
                     {T,W<:AbstractWeights} =
         tapers(fun, data, weighting.values)
 
