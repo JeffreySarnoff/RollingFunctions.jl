@@ -4,7 +4,7 @@ using StatsBase
 using LinearAlgebra
 using Test
 
-include("roll.jl")
+include("rollvectors.jl")
 
 #=
 datavec = collect(1.0f0:5.0f0)
