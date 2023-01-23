@@ -1,12 +1,12 @@
 #=
-     basic_rolling(window_fn::F, window_fn, ::Matrix, window_span)
+     basic_rolling(window_fn::Function, ::Matrix, window_span)
 
-     padded_rolling(window_fn::F, window_fn, ::Matrix, window_span; padding, padfirst, padlast)
+     padded_rolling(window_fn::Function, ::Matrix, window_span; padding, padfirst, padlast)
 
-     last_padded_rolling(window_fn::F, window_fn, ::Matrix, window_span; padding, padfirst, padlast)
+     last_padded_rolling(window_fn::Function, ::Matrix, window_span; padding, padfirst, padlast)
 =#
 
-function basic_rolling(window_fn::F, data::AbstractMatrix{T}, window_span::Int, window_fn::Function) where {T}
+function basic_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span::Int) where {T}
     ᵛʷdata = asview(data)
     # there are 1 or more columns, each holds `n` values
     nvalues = nrows(ᵛʷdata)
@@ -37,7 +37,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padded_rolling(window_fn::F, data::AbstractMatrix{T}, window_span::Int;
+function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span::Int;
     padding=nothing, padfirst=true, padlast=false) where {T}
     ᵛʷdata = asview(data)
     # there are 1 or more columns, each holds `n` values
@@ -66,7 +66,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function last_padded_rolling(window_fn::F, data::AbstractMatrix{T}, window_span::Int;
+function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span::Int;
      padding=nothing, padfirst=true, padlast=false) where {T}
     ᵛʷdata = asview(data)
     # there are 1 or more columns, each holds `n` values
