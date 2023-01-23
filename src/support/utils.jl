@@ -86,7 +86,7 @@ A type representing a partially-applied version of the three-argument function
 `f`, with the first argument fixed to the value "x" and the second argument
 fixed to the value "y". In other words,
 `FixThree(f, x, y, z)` behaves similarly to `w->f(x, y, z, w)`.
-""""
+"""
 struct FixThree{F,T} <: Function
     f::F
     x::T
