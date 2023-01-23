@@ -56,22 +56,23 @@ end
 # pad the last entries, move windowed data back to the first entries
 
 function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span::Int;
-     padding=nothing, padfirst=true, padlast=false) where {T}
+                             padding=nothing, padfirst=true, padlast=false) where {T}
     ᵛʷdata = asview(data)
-    # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(ᵛʷdata)
-    rettypes  = rts.(Ref(window_fn), map(typeof, ᵛʷdata[1,:]))
+    n = nrows(ᵛʷdata)
+    nvalues  = nrolled(n, window_span) 
+    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
     
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
     # this is the padding_span
-    padding_span = window_span - 1
-    padding_idxs = nvalues-padding_span:nvalues
-   
-    results = Matrix{Union{typeof(padding), rettypes}}(undef, size(ᵛʷdata))  
-    results[padding_idxs, :] .= padding
+    padding_span = window_span - 1  
+    padding_idxs = n-padding_span:n
 
-    @inbounds for idx in 1:nvalues-padding_span
+    results = Matrix{rettype}(undef, size(ᵛʷdata))
+    results[padding_idxs, :] .= padding
+    
+    ilow, ihigh = 1, window_span
+    @inbounds for idx in 1:n-padding_span
         results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh,:]))
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -79,5 +80,4 @@ function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, windo
    
     results
 end   
-
 
