@@ -8,24 +8,13 @@
 
 function basic_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span::Int) where {T}
     ᵛʷdata = asview(data)
+    n = nrows(ᵛʷdata)
+    nvalues  = nrolled(n, window_span) 
     # there are 1 or more columns, each holds `n` values
-    nvalues = nrows(ᵛʷdata)
-    rettypes  = rts.(Ref(window_fn), map(typeof, ᵛʷdata[1,:]))
-
-    # only completed window_span coverings are resolvable
-    # the first (window_span - 1) values are unresolved wrt window_fn
-    unresolved = window_span - 1
-
-    # with the next value, a full window_span is obtained
-    # only then is the first window_covered_value determined
-    # with each next value (with successive indices), an updated
-    # full window_span obtains, covering another window_fn value
-    window_covered_values = nvalues - unresolved
-
-    results = Matrix{rettypes}(undef, window_covered_values, ncols(ᵛʷdata))
+    rettype  = rts(window_fn, (eltype(ᵛʷdata),))
+    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     ilow, ihigh = 1, window_span
-
     @inbounds for idx in eachindex(eachrow(results))
         @views results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
         ilow = ilow + 1
