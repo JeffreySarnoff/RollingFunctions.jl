@@ -30,7 +30,7 @@
     end
 
     function tapers(fun::Function, data::AbstractVector{T}, 
-                    trailing_data::AbstractVector{$T1}) where {T}
+                    trailing_data::AbstractVector{T}) where {T}
 
         ntrailing = axes(trailing_data)[1].stop
         nvals  = length(data) + ntrailing
