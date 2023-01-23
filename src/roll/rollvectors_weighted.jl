@@ -229,7 +229,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results
 end
 
-function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data3::AbstractVector{T4}, data4::AbstractVector{T4},
+function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
                        window_span::Int) where {T1,T2,T3}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
