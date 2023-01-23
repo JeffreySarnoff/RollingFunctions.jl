@@ -150,7 +150,6 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T1}, dat
 end
 
 # implementions
-ementions
 
 function basic_rolling(window_fn::Function, data1::AbstractVector{T}, window_span::Int, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
