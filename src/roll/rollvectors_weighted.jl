@@ -11,26 +11,15 @@
 
 =#
 
-function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, 
-         window_span::Int, weights::AbstractVector{TW}) where {T1,TW}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷweights = asview(weights)
-
-    nvalues  = nrolled(length(ᵛʷdata1), window_span)
-    rettype  = rts(*, (eltype(ᵛʷdata1), eltype(ᵛʷweights)))
-    rettype  = rts(window_fn, (rettype,))
-    results = Vector{rettype}(undef, nvalues)
-
-    ilow, ihigh = 1, window_span
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
+function basic_rolling(window_fn::Function, data1::AbstractVector{T1},
+                       window_span::Int, weights::AbstractVector{TW}) where {T1, TW}
+    typ = promote_type(T1,TW)
+    ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
+    ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
+       
+    basic_rolling(window_fn, ᵛʷdata1, window_span, ᵛʷweights)
 end
-    
+
 function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
                        window_span::Int, weights::AbstractVector{TW}) where {T1,T2, TW}
     typ = promote_type(T1,T2,TW)
@@ -162,27 +151,20 @@ end
 
 # implementions
 
-function basic_rolling(window_fn::Function, data1::AbstractVector{T}, window_span::Int, weights::AbstractVector{T}) where {T}
+
+function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, 
+         window_span::Int, weights::AbstractVector{TW}) where {T1,TW}
     ᵛʷdata1 = asview(data1)
+    ᵛʷweights = asview(weights)
+
     nvalues  = nrolled(length(ᵛʷdata1), window_span)
-    rettype  = rts(window_fn, (typeof(ᵛʷdata1),))
-
-    # only completed window_span coverings are resolvable
-    # the first (window_span - 1) values are unresolved wrt window_fn
-    unresolved = window_span - 1
-
-    # with the next value, a full window_span is obtained
-    # only then is the first window_covered_value determined
-    # with each next value (with successive indices), an updated
-    # full window_span obtains, covering another window_fn value
-    window_covered_values = nvalues - unresolved
-
-    results = Vector{rettype}(undef, window_covered_values)
+    rettype  = rts(*, (eltype(ᵛʷdata1), eltype(ᵛʷweights)))
+    rettype  = rts(window_fn, (rettype,))
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-
     @inbounds for idx in eachindex(results)
-        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* weights[ilow])
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -190,6 +172,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, window_spa
     results
 end
 
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, window_span::Int, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
