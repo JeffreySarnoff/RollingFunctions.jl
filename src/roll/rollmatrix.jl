@@ -61,18 +61,12 @@ function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_spa
     results[padding_idxs, :] .= padding
 
     ilow, ihigh = 1, window_span
-    @inbounds for idx in eachindex(eachrow(results))
+    @inbounds for idx in 1:nvalues-padding_span 
         @views results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
-     
-    @inbounds for idx in window_span:nvalues
-        @views results[idx, :] = map(window_fn, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-   
+    
     results
 end
 
