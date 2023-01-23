@@ -151,11 +151,8 @@ end
 
 # implementions
 
-
-function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, 
-         window_span::Int, weights::AbstractVector{TW}) where {T1,TW}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷweights = asview(weights)
+function basic_rolling(window_fn::Function, ᵛʷdata1::AbstractVector{T}, 
+         window_span::Int, ᵛʷweights::AbstractVector{T}) where {T}
 
     nvalues  = nrolled(length(ᵛʷdata1), window_span)
     rettype  = rts(*, (eltype(ᵛʷdata1), eltype(ᵛʷweights)))
