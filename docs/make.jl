@@ -5,7 +5,7 @@ makedocs(
     sitename = "RollingFunctions.jl",
     authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>", "other contributors"]
     format=Documenter.HTML(
-        canonical = "https://jeffreysarnoff.github.io/RollingFunctions.jl/stable/"
+        canonical = "https://jeffreysarnoff.github.io/RollingFunctions.jl/stable/",
         # Use clean URLs, unless built as a "local" build
         prettyurls=!("local" in ARGS),
         highlights=["yaml"],
