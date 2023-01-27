@@ -25,10 +25,10 @@ using RollingFunctions
 
 nrows, ncolumns = size(ℳ)
 
-𝒮 = sum
+ℱ = sum
 𝒲 = 3
 
-rolled = rolling(𝒮, ℳ, 𝒲)
+rolled = rolling(ℱ, ℳ, 𝒲)
 #=
 julia> rolled
 4×3 Matrix{Int64}:

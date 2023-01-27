@@ -7,10 +7,10 @@ The function to be applied over subsequences of 𝒟 is sum.
 using RollingFunctions
 
 𝒟 = [1, 2, 3, 4, 5]
-𝒮 = sum
+ℱ = sum
 𝒲 = 3
 
-rolled = rolling(𝒮, 𝒟, 𝒲)
+rolled = rolling(ℱ, 𝒟, 𝒲)
 julia> rolled
 3-element Vector{Int64}:
   6
@@ -18,9 +18,9 @@ julia> rolled
  12
 
 #=
-The first  windowed value is the 𝒮 (`sum`) of the first  𝒲 (`3`) values in 𝒟.
-The second windowed value is the 𝒮 (`sum`) of the second 𝒲 (`3`) values in 𝒟.
-The third  windowed value is the 𝒮 (`sum`) of the third  𝒲 (`3`) values in 𝒟.
+The first  windowed value is the ℱ (`sum`) of the first  𝒲 (`3`) values in 𝒟.
+The second windowed value is the ℱ (`sum`) of the second 𝒲 (`3`) values in 𝒟.
+The third  windowed value is the ℱ (`sum`) of the third  𝒲 (`3`) values in 𝒟.
 
 There can be no fourth value as the third value used the fins entries in 𝒟.
 =#
@@ -30,7 +30,7 @@ julia> sum(𝒟[1:3]), sum(𝒟[2:4]), sum(𝒟[3:5])
 If the span of each subsequence increases to 4..
 
 𝒲 = 4
-rolled = rolling(𝒮, 𝒟, 𝒲);
+rolled = rolling(ℱ, 𝒟, 𝒲);
 
 rolled
 2-element Vector{Int64}:

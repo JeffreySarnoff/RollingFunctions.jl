@@ -12,10 +12,10 @@ using RollingFunctions
 𝒟₁ = [1, 2, 3, 4, 5, 6]
 𝒟₂ = [6, 5, 4, 3, 2, 1]
 
-𝒮 = cor
+ℱ = cor
 𝒲 = 3
 
-rolled = rolling(𝒮, ℳ, 𝒲)
+rolled = rolling(ℱ, ℳ, 𝒲)
 #=
 julia> rolled
 4-element Vector{Float64}:
