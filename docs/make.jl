@@ -3,10 +3,9 @@ using Documenter, DocumenterTools, RollingFunctions
 makedocs(
     modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
-    authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>", "other contributors"]
+    authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>", "other contributors"],
     format=Documenter.HTML(
         canonical = "https://jeffreysarnoff.github.io/RollingFunctions.jl/stable/",
-        # Use clean URLs, unless built as a "local" build
         prettyurls=!("local" in ARGS),
         highlights=["yaml"],
         ansicolor=true,
