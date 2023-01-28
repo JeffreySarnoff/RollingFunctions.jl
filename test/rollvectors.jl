@@ -25,7 +25,8 @@ D₂ = [5, 4, 3, 2, 1]
 M = hcat(D₁, D₂)
 F = sum
 W = 3
-expected = [  6 9 12
-             12 9 6 ]
+expected = [  6 12
+              9  9
+             12  6 ]
 @test rolling(F, M, W) == expected
 
