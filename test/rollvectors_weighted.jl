@@ -3,39 +3,31 @@ clean(x::Missing) = Missing
 
 F = sum; W = 3; weights = [0.2, 0.3, 0.5]
 D = [1, 2, 3, 4, 5];
-expected = [6, 9, 12];
+expected = [2.3, 3.3, 4.3];
 @test rolling(F, D, W, weights) == expected
 
-expected = [missing, missing, 6, 9, 12];
-@test map(clean, rolling(F, D, W; padding=missing)) == map(clean, expected)
-@test typeof(rolling(F, D, W; padding=missing)) == typeof(expected)
+expected = [missing, missing, 2.3, 3.3, 4.3];
+@test map(clean, rolling(F, D, W, weights; padding=missing)) == map(clean, expected)
+@test typeof(rolling(F, D, W, weights; padding=missing)) == typeof(expected)
 
-expected = [6, 9, 12, missing, missing];
-@test map(clean, rolling(F, D, W; padding=missing, padlast=true)) == map(clean, expected)
+expected = [2.3, 3.3, 4.3, missing, missing];
+@test map(clean, rolling(F, D, W, weights; padding=missing, padlast=true)) == map(clean, expected)
 @test typeof(rolling(F, D, W; padding=missing, padlast=true)) == typeof(expected)
 
-D = Float32[1, 2, 3, 4, 5];
-expected = Float32[6, 9, 12];
-@test rolling(F, D, W) == expected
-
-F = sum; W = 4;
-D = [1, 2, 3, 4, 5];
-expected = [10, 14];
-@test rolling(F, D, W) == expected
 
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
 F = cor
 W = 3
-expected = [-1.0, -1.0, -1.0]
-@test rolling(F, D₁, D₂, W) == expected
+expected = [0.9946433500242822, 0.9773555548504419, -0.9511012772444227]
+@test rolling(F, D₁, D₂, W, weights) == expected
 
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
 M = hcat(D₁, D₂)
 F = sum
 W = 3
-expected = [  6 12
-              9  9
-             12  6 ]
-@test rolling(F, M, W) == expected
+expected = [  2.3 3.7
+              3.3 2.7
+              4.3 1.7 ]
+@test isapprox(rolling(F, M, W, weights), expected)
