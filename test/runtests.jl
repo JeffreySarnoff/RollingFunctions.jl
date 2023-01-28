@@ -5,6 +5,7 @@ using LinearAlgebra
 using Test
 
 include("rollvectors.jl")
+include("rollvectors_weighted.jl")
 
 #=
 datavec = collect(1.0f0:5.0f0)
