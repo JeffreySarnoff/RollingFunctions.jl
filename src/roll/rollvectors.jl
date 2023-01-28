@@ -43,31 +43,13 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 
     ilow, ihigh = 1, window_span
     @inbounds for idx in eachindex(results)
-        @views results[idx] = window_fn.(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
     results
 end
-
-function basic_rolling2(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int) where {T1,T2}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    nvalues  = nrolled(min(length(ᵛʷdata1),length(ᵛʷdata2)), window_span)
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}))
-    results = Vector{rettype}(undef, nvalues)
-
-    ilow, ihigh = 1, window_span
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = map(window_fn, (ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
 
 function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, 
                        window_span::Int) where {T1,T2,T3}
@@ -100,7 +82,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 
     ilow, ihigh = 1, window_span
     @inbounds for idx in eachindex(results)
-        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
