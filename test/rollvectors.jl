@@ -17,7 +17,7 @@ D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
 F = cor
 W = 3
-expected = [-1.0, -1.0, -1.0, -1.0]
+expected = [-1.0, -1.0, -1.0]
 @test rolling(F, D₁, D₂, W) == expected
 
 D₁ = [1, 2, 3, 4, 5]
