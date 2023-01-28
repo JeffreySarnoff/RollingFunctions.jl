@@ -83,6 +83,7 @@ function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, windo
     results
 end   
 
+# weighted
 
 function basic_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span::Int, weights::AbstractVector{T}) where {T}
     ᵛʷdata = asview(data)
@@ -94,7 +95,7 @@ function basic_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span
 
     ilow, ihigh = 1, window_span
     @inbounds for idx in eachindex(eachrow(results))
-        @views results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
+        @views results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :] .* weights))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -123,7 +124,7 @@ function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_spa
 
     ilow, ihigh = 1, window_span
     @inbounds for idx in window_span:n 
-        @views results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :]))
+        @views results[idx, :] .= map(window_fn, eachcol(data[ilow:ihigh, :] .* weights))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -151,7 +152,7 @@ function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, windo
     
     ilow, ihigh = 1, window_span
     @inbounds for idx in 1:n-padding_span
-        results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh,:]))
+        results[idx, :] = map(window_fn, eachcol(data[ilow:ihigh,:] .* weights))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
