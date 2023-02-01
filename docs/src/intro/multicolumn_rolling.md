@@ -15,14 +15,12 @@ using RollingFunctions
 ℱ = cor
 𝒲 = 3
 
-rolled = rolling(ℱ, ℳ, 𝒲)
+rolled = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲)
 #=
-julia> rolled
 4-element Vector{Float64}:
   -1.0
   -1.0
   -1.0
   -1.0
 =#
-
 ```

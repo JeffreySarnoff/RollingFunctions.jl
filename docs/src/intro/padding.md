@@ -8,37 +8,44 @@ padding is a keyword argument
 - example pads `(missing, 0, nothing, NaN, '∅', AbstractString)`
 
 ```
-rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing);
+using RollingFunctions
 
-julia> rolled
+𝒟 = [1, 2, 3, 4, 5]
+ℱ = sum
+𝒲 = 3
+
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing);
+#=
 5-element Vector{Union{Missing, Int64}}:
    missing
    missing
-   missing
- 10
- 14
+  6
+  9
+ 12
+=#
  
 rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟));
-julia> rolled
+#=
 5-element Vector{Int64}:
   0
   0
-  0
- 10
- 14
+  6
+  9
+ 12
+=#
 ```
 
 ### Give me the real values first, pad to the end.
 ```
-rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟)), padlast=true);
-
-julia> rolled
-5-element Vector{Int64}:
- 10
- 14
-  0
-  0
-  0
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing, padlast=true);
+#=
+5-element Vector{Union{Missing,Int64}}:
+  6
+  9
+ 12
+  missing
+  missing
+=#
 ```
 
 **technical aside:** this is not the same as reverse(rolling(𝒟, 𝒲, ℱ; padding = zero(eltype(𝒟)).
