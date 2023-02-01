@@ -10,18 +10,17 @@ padding is a keyword argument
 ```
 using RollingFunctions
 
-𝒟₁ = [1, 2, 3, 4, 5, 6]
-𝒟₂ = [6, 5, 4, 3, 2, 1]
+𝒟₁ = [1, 2, 3, 4, 5]
+𝒟₂ = [5, 4, 3, 2, 1]
 
 ℱ = cov
 𝒲 = 3
 
 rolled = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = zero(eltype(ℳ)))
 #=
-6 element Vector {Float64}:
+5 element Vector {Float64}:
   0.0
   0.0
- -1.0
  -1.0
  -1.0
  -1.0
@@ -32,8 +31,7 @@ rolled = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = zero(eltype(ℳ)))
 ```
 rolled = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = missing, padlast=true)
 #=
-6 element Vector {Float64}:
- -1.0
+5 element Vector {Float64}:
  -1.0
  -1.0
  -1.0

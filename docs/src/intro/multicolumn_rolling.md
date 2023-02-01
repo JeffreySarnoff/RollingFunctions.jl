@@ -9,16 +9,15 @@ to subsequences over the vectors using a window_span of 3
 ```
 using RollingFunctions
 
-𝒟₁ = [1, 2, 3, 4, 5, 6]
-𝒟₂ = [6, 5, 4, 3, 2, 1]
+𝒟₁ = [1, 2, 3, 4, 5]
+𝒟₂ = [5, 4, 3, 2, 1]
 
 ℱ = cor
 𝒲 = 3
 
 rolled = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲)
 #=
-4-element Vector{Float64}:
-  -1.0
+3-element Vector{Float64}:
   -1.0
   -1.0
   -1.0
