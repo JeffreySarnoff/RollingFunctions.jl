@@ -22,7 +22,7 @@
 - weights given as a simple vector
 - weights given as a kind of StatsBase.AbstractWeights
 
-### examples of use
+### reasonable uses
 - with a simple vector
 - with a DataFrame column
 - with a TimeSeries column
