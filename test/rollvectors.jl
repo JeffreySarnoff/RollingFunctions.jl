@@ -30,6 +30,10 @@ W = 3
 expected = [-1.0, -1.0, -1.0]
 @test rolling(F, D₁, D₂, W) == expected
 
+expected = [missing, missing, -1.0, -1.0, -1.0];
+@test map(clean, rolling(F, D₁, D₂, W; padding=missing)) == map(clean, expected)
+@test typeof(rolling(F, D₁, D₂, W; padding=missing)) == typeof(expected)
+
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
 M = hcat(D₁, D₂)
