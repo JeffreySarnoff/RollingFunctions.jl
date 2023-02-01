@@ -2,11 +2,11 @@
    basic_rolling(window_fn, data1, window_span) ..
    basic_rolling(window_fn, data1, data2, data3, data4, window_span)
 
-   padded_rolling(window_fn, data1, window_span; padding, padlast) ..
-   padded_rolling(window_fn, data1, data2, data3, data4, window_span; padding, padlast)
+   padded_rolling(window_fn, data1, window_span; padding) ..
+   padded_rolling(window_fn, data1, data2, data3, data4, window_span; padding)
 
-   last_padded_rolling(window_fn, data1, window_span; padding, padlast) ..
-   last_padded_rolling(window_fn,data1, data2, data3, data4, window_span; padding, padlast)
+   last_padded_rolling(window_fn, data1, window_span; padding) ..
+   last_padded_rolling(window_fn,data1, data2, data3, data4, window_span; padding)
 =#
 
 function basic_rolling(window_fn::Function, data1::AbstractVector{T}, window_span::Int, weights::AbstractVector{T}) where {T}
