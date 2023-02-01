@@ -42,7 +42,7 @@ function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_spa
     padding_span = window_span - 1  
     padding_idxs = 1:padding_span
 
-    results = Matrix{Union{typeof(padding), rettypes}}(undef, size(ᵛʷdata))  
+    results = Matrix{Union{typeof(padding), rettype}}(undef, size(ᵛʷdata))  
     results[padding_idxs, :] .= padding
 
     ilow, ihigh = 1, window_span
@@ -119,7 +119,7 @@ function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_spa
     padding_span = window_span - 1  
     padding_idxs = 1:padding_span
 
-    results = Matrix{Union{typeof(padding), rettypes}}(undef, size(ᵛʷdata))  
+    results = Matrix{Union{typeof(padding), rettype}}(undef, size(ᵛʷdata))  
     results[padding_idxs, :] .= padding
 
     ilow, ihigh = 1, window_span
