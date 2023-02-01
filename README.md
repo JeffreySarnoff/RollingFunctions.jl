@@ -82,7 +82,7 @@ Float32[1.0, 1.5, 2.0, 3.0, 4.0]
 
 ```julia
 julia> using RollingFunctions
-julia> using LinearAlgebra: normalized
+julia> using LinearAlgebra: normalize
 
 julia> weights = normalize([1.0f0, 2.0f0, 4.0f0]);
  
