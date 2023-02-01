@@ -158,7 +158,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     padding_idxs = nvalues-padding_span:nvalues
    
     rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}))
-    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
+    results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
@@ -186,7 +186,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     padding_idxs = nvalues-padding_span:nvalues
    
     rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}, Vector{eltype(ᵛʷdata4)}))
-    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
+    results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
@@ -239,7 +239,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     padding_idxs = n-padding_span-1:n
  
     rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}))
-    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
+    results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
@@ -266,7 +266,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     padding_idxs = n-padding_span-1:n
    
     rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}))
-    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
+    results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
@@ -294,7 +294,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     padding_idxs = n-padding_span-1:n
    
     rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}, Vector{eltype(ᵛʷdata4)}))
-    results = Vector{Union{typeof(padding), rettype}}(undef, nvalues)
+    results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
