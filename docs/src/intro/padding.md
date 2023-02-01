@@ -30,7 +30,7 @@ julia> rolled
 
 ### Give me the real values first, pad to the end.
 ```
-rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟), padlast=true);
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟)), padlast=true);
 
 julia> rolled
 5-element Vector{Int64}:
