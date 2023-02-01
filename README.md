@@ -22,11 +22,11 @@
 - weights given as a simple vector
 - weights given as a kind of StatsBase.AbstractWeights
 
-### works with functions (1-arg, .., 4-args)
+### applies functions (1-arg, .., 4-args)
 - applied over unweighted or weighted data
 
 ### works with data matrices
-- unary arg function applied to each column
+- same 1-arg function applied to each column
 
 ### reasonable uses
 - with a simple vector
