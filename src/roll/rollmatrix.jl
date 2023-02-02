@@ -13,7 +13,7 @@ function basic_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, window_span) 
     # there are 1 or more columns, each holds `n` values
-    rettype  = rts(window_fn, (eltype(ᵛʷdata),))
+    rettype  = rts(window_fn, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     ilow, ihigh = 1, window_span
@@ -33,7 +33,7 @@ function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_spa
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, window_span) 
-    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
+    rettype  = Union{typeof(padding), rts(window_fn, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
     
     # only completed window_span coverings are resolvable
@@ -62,7 +62,7 @@ function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, windo
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, window_span) 
-    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
+    rettype  = Union{typeof(padding), rts(window_fn, (T,))}
     
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
@@ -90,7 +90,7 @@ function basic_rolling(window_fn::Function, data::AbstractMatrix{T}, window_span
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, window_span) 
     # there are 1 or more columns, each holds `n` values
-    rettype  = rts(window_fn, (eltype(ᵛʷdata),))
+    rettype  = rts(window_fn, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     ilow, ihigh = 1, window_span
@@ -110,7 +110,7 @@ function padded_rolling(window_fn::Function, data::AbstractMatrix{T}, window_spa
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, window_span) 
-    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
+    rettype  = Union{typeof(padding), rts(window_fn, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
     
     # only completed window_span coverings are resolvable
@@ -139,7 +139,7 @@ function last_padded_rolling(window_fn::Function, data::AbstractMatrix{T}, windo
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, window_span) 
-    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
+    rettype  = Union{typeof(padding), rts(window_fn, (T,))}
     
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn

@@ -14,7 +14,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, window_spa
     n = length(ᵛʷdata1)
     nvalues  = nrolled(n, window_span)
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)},))
+    rettype  = rts(window_fn, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
@@ -33,7 +33,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     n = min(length(ᵛʷdata1),length(ᵛʷdata2))
     nvalues  = nrolled(n, window_span)
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
@@ -54,7 +54,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     n = min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3))
     nvalues  = nrolled(n, window_span)
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
@@ -76,7 +76,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     n = min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4))
     nvalues  = nrolled(n, window_span)
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}, Vector{eltype(ᵛʷdata4)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
@@ -103,7 +103,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T},
     padding_span = window_span - 1
     padding_idxs = nvalues-padding_span:nvalues
 
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)},))
+    rettype  = rts(window_fn, (Vector{T},))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -130,7 +130,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     padding_span = window_span - 1
     padding_idxs = nvalues-padding_span:nvalues
 
-    rettype = rts(window_fn, (Vector{eltype(ᵛʷdata1)},))
+    rettype = rts(window_fn, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -157,7 +157,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     padding_span = window_span - 1
     padding_idxs = nvalues-padding_span:nvalues
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -185,7 +185,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     padding_span = window_span - 1
     padding_idxs = nvalues-padding_span:nvalues
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}, Vector{eltype(ᵛʷdata4)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -212,7 +212,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T},
     padding_span = window_span - 1
     padding_idxs = n-padding_span-1:n
 
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)},))
+    rettype  = rts(window_fn, (Vector{T},))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -238,7 +238,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     padding_span = window_span - 1
     padding_idxs = n-padding_span-1:n
  
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -265,7 +265,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     padding_span = window_span - 1
     padding_idxs = n-padding_span-1:n
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
@@ -293,7 +293,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     padding_span = window_span - 1
     padding_idxs = n-padding_span-1:n
    
-    rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)}, Vector{eltype(ᵛʷdata2)}, Vector{eltype(ᵛʷdata3)}, Vector{eltype(ᵛʷdata4)}))
+    rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding), rettype}}(undef, n)
     results[padding_idxs] .= padding
 
