@@ -104,13 +104,7 @@ Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 
 Some of these use a limit value for running over vec of length 1.
 
-### works with your functions
-- `rolling(function, data, windowsize)`
-- `rolling(function, data, windowsize, weights)`
-- `running(function, data, windowsize)`
-- `running(function, data, windowsize, weights)`
-
-### works with 2, 3 or 4 data vectors
+### works with functions over 1, 2, 3 or 4 data vectors
 - `rolling(function, data1, data2, windowsize)`
 - `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
 - `rolling(function, data1, data2, windowsize, weights1, weights2)`
