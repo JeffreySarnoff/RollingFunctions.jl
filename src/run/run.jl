@@ -1,114 +1,94 @@
 function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
-    padding=Nothing, padlast=false) where {T1,F<:Function}
+    padding=Nothing) where {T1,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span)
-    elseif !padlast
-        padded_running(window_fn, data1, window_span; padding)
     else
-        last_padded_running(window_fn, data1, window_span; padding)
+        padded_running(window_fn, data1, window_span; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int;
-    padding=Nothing, padlast=false) where {T1,T2,F<:Function}
+    padding=Nothing) where {T1,T2,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, window_span)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, window_span; padding)
     else
-        last_padded_running(window_fn, data1, data2, window_span; padding)
+        padded_running(window_fn, data1, data2, window_span; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, window_span::Int;
-    padding=Nothing, padlast=false) where {T1,T2,T3,F<:Function}
+    padding=Nothing) where {T1,T2,T3,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, window_span)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, data3, window_span; padding)
     else
-        last_padded_running(window_fn, data1, data2, data3, window_span; padding)
+        padded_running(window_fn, data1, data2, data3, window_span; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Int;
-    padding=Nothing, padlast=false) where {T1,T2,T3,T4,F<:Function}
+    padding=Nothing) where {T1,T2,T3,T4,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
     else
-        last_padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
+        padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractMatrix{T1}, window_span::Int;
-    padding=Nothing, padlast=false) where {T1,F<:Function}
+    padding=Nothing) where {T1,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span)
-    elseif !padlast
-        padded_running(window_fn, data1, window_span; padding)
     else
-        last_padded_running(window_fn, data1, window_span; padding)
+        padded_running(window_fn, data1, window_span; padding)
     end
 end
 
 # weighted
 
 function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,TW,F<:Function}
+    padding=Nothing) where {T1,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span, weights)
-    elseif !padlast
-        padded_running(window_fn, data1, window_span, weights; padding)
     else
-        last_padded_running(window_fn, data1, window_span, weights; padding)
+        padded_running(window_fn, data1, window_span, weights; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,T2,TW,F<:Function}
+    padding=Nothing) where {T1,T2,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, window_span, weights)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, window_span, weights; padding)
     else
-        last_padded_running(window_fn, data1, data2, window_span, weights; padding)
+        padded_running(window_fn, data1, data2, window_span, weights; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,T2,T3,TW,F<:Function}
+    padding=Nothing) where {T1,T2,T3,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, window_span, weights)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, data3, window_span, weights; padding)
     else
-        last_padded_running(window_fn, data1, data2, data3, window_span, weights; padding)
+        padded_running(window_fn, data1, data2, data3, window_span, weights; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,T2,T3,T4,TW,F<:Function}
+    padding=Nothing) where {T1,T2,T3,T4,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span, weights)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, data3, data4, window_span, weights; padding)
     else
-        last_padded_running(window_fn, data1, data2, data3, data4, window_span, weights; padding)
+        padded_running(window_fn, data1, data2, data3, data4, window_span, weights; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractMatrix{T1}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,TW,F<:Function}
+    padding=Nothing) where {T1,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span, weights)
-    elseif !padlast
-        padded_running(window_fn, data1, window_span, weights; padding)
     else
-        last_padded_running(window_fn, data1, window_span, weights; padding)
+        padded_running(window_fn, data1, window_span, weights; padding)
     end
 end
 
@@ -120,38 +100,32 @@ end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int,
     weights1::AbstractVector{TW}, weights2::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,T2,TW,F<:Function}
+    padding=Nothing) where {T1,T2,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, window_span, weights1, weights2)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, window_span, weights1, weights2; padding)
     else
-        last_padded_running(window_fn, data1, data2, window_span, weights1, weights2; padding)
+        padded_running(window_fn, data1, data2, window_span, weights1, weights2; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, window_span::Int,
     weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,T2,T3,TW,F<:Function}
+    padding=Nothing) where {T1,T2,T3,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, window_span, weights1, weights2, weights3)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, data3, window_span, weights1, weights2, weights3; padding)
     else
-        last_padded_running(window_fn, data1, data2, data3, window_span, weights1, weights2, weights3; padding)
+        padded_running(window_fn, data1, data2, data3, window_span, weights1, weights2, weights3; padding)
     end
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Int,
     weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}, weights4::AbstractVector{TW};
-    padding=Nothing, padlast=false) where {T1,T2,T3,T4,TW,F<:Function}
+    padding=Nothing) where {T1,T2,T3,T4,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span, weights1, weights2, weights3, weights4)
-    elseif !padlast
-        padded_running(window_fn, data1, data2, data3, data4, window_span, weights1, weights2, weights3, weights4; padding)
     else
-        last_padded_running(window_fn, data1, data2, data3, data4, window_span, weights1, weights2, weights3, weights4; padding)
+        padded_running(window_fn, data1, data2, data3, data4, window_span, weights1, weights2, weights3, weights4; padding)
     end
 end
 
@@ -570,69 +544,4 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
     end
 
     padded_running(window_fn, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, window_span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
-end
-
-# last_padded running
-
-function last_padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
-    window_span::Int, weights1::AbstractVector{TW}, weights2::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,TW}
-    typ = promote_type(T1, T2, TW)
-    ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
-    ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
-
-    if typ == TW
-        ᵛʷweights1 = asview(weights1)
-        ᵛʷweights2 = asview(weights2)
-    else
-        ᵛʷweights1 = asview(map(typ, weights1))
-        ᵛʷweights2 = asview(map(typ, weights2))
-    end
-
-    last_padded_running(window_fn, ᵛʷdata1, ᵛʷdata2, window_span,  ᵛʷweights1, ᵛʷweights2; padding)
-end
-
-function last_padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    window_span::Int, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,T3,TW}
-    typ = promote_type(T1, T2, T3, TW)
-    ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
-    ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
-    ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
-    
-    if typ == TW
-        ᵛʷweights1 = asview(weights1)
-        ᵛʷweights2 = asview(weights2)
-        ᵛʷweights3 = asview(weights3)
-    else
-        ᵛʷweights1 = asview(map(typ, weights1))
-        ᵛʷweights2 = asview(map(typ, weights2))
-        ᵛʷweights3 = asview(map(typ, weights3))
-    end
-
-    last_padded_running(window_fn, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, window_span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3; padding)
-end
-
-function last_padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
-    window_span::Int, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}, weights4::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,T3,T4,TW}
-    typ = promote_type(T1, T2, T3, T4, TW)
-    ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
-    ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
-    ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
-    ᵛʷdata4 = typ == T3 ? asview(data4) : asview(map(typ, data4))
-
-    if typ == TW
-        ᵛʷweights1 = asview(weights1)
-        ᵛʷweights2 = asview(weights2)
-        ᵛʷweights3 = asview(weights3)
-        ᵛʷweights4 = asview(weights4)
-    else
-        ᵛʷweights1 = asview(map(typ, weights1))
-        ᵛʷweights2 = asview(map(typ, weights2))
-        ᵛʷweights3 = asview(map(typ, weights3))
-        ᵛʷweights3 = asview(map(typ, weights4))
-    end
-
-    last_padded_running(window_fn, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, window_span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
 end
