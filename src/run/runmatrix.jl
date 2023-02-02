@@ -1,11 +1,9 @@
 #=
      basic_running(window_fn::Function, ::Matrix, window_span)
      padded_running(window_fn::Function, ::Matrix, window_span; padding, padlast)
-     last_padded_running(window_fn::Function, ::Matrix, window_span; padding, padlast)
 
      basic_running(window_fn::Function, ::Matrix, window_span, weights)
      padded_running(window_fn::Function, ::Matrix, window_span, weights; padding, padlast)
-     last_padded_running(window_fn::Function, ::Matrix, window_span, weights; padding, padlast)
 =#
 
 function basic_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Int) where {T}
@@ -55,33 +53,6 @@ function padded_running(window_fn::Function, data::AbstractMatrix{T}, window_spa
     results
 end
 
-# pad the last entries, move windowed data back to the first entries
-
-function last_padded_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Int;
-                             padding=nothing) where {T}
-    ᵛʷdata = asview(data)
-    n = nrows(ᵛʷdata)
-    nvalues  = nrolled(n, window_span) 
-    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
-    
-    # only completed window_span coverings are resolvable
-    # the first (window_span - 1) values are unresolved wrt window_fn
-    # this is the padding_span
-    padding_span = window_span - 1  
-    padding_idxs = n-padding_span:n
-
-    results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
-    
-    ilow, ihigh = 1, window_span
-    @inbounds for idx in 1:n-padding_span
-        @views results[idx, :] = map(window_fn, eachcol(ᵛʷdata[ilow:ihigh,:]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-   
-    results
-end   
 
 # weighted
 
@@ -131,32 +102,3 @@ function padded_running(window_fn::Function, data::AbstractMatrix{T}, window_spa
     
     results
 end
-
-# pad the last entries, move windowed data back to the first entries
-
-function last_padded_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Int, weights::AbstractVector{T};
-                             padding=nothing) where {T}
-    ᵛʷdata = asview(data)
-    n = nrows(ᵛʷdata)
-    nvalues  = nrolled(n, window_span) 
-    rettype  = Union{typeof(padding), rts(window_fn, (eltype(ᵛʷdata),))}
-    
-    # only completed window_span coverings are resolvable
-    # the first (window_span - 1) values are unresolved wrt window_fn
-    # this is the padding_span
-    padding_span = window_span - 1  
-    padding_idxs = n-padding_span:n
-
-    results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
-    
-    ilow, ihigh = 1, window_span
-    @inbounds for idx in 1:n-padding_span
-        @views results[idx, :] = map(window_fn, eachcol(ᵛʷdata[ilow:ihigh,:] .* weights))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-   
-    results
-end   
-
