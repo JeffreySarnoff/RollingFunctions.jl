@@ -1,3 +1,9 @@
+
+function fast_normalize(weights::AbstractVector{T}) where {T}
+    recip_sum = one(T)/sum(weights)
+    weights .* recip_sum
+end
+
 function normalize_weights(weights::Sequence)
     nweights = length(weights)
     iszero(nweights) && throw(ArgumentError("cannot normalize an empty sequence"))
