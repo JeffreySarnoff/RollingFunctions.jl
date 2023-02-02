@@ -24,13 +24,13 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, window_spa
     rettype  = rts(window_fn, (Vector{T},))
     results = Vector{rettype}(undef, n)
 
-    @tturbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[window_span:-1:window_span-idx+1])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts)
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in ntapers+1:n
+    @inbounds for idx in ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -52,13 +52,13 @@ function basic_running(window_fn::Function,
     rettype  = rts(window_fn, (Vector{T},))
     results = Vector{rettype}(undef, n)
 
-    @tturbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[1:idx])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts)
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in ntapers+1:n
+    @inbounds for idx in ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -80,13 +80,13 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
-    @tturbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[1:idx])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts), ᵛʷdata3[1:idx] .* wts
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -109,13 +109,13 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
-    @tturbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[1:idx])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts, ᵛʷdata3[1:idx] .* wts, ᵛʷdata4[1:idx] .* wts)
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh .* ᵛʷweights], ᵛʷdata4[ilow:ihigh .* ᵛʷweights])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -142,12 +142,12 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx])
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in npads+ntapers+1:n
+    @inbounds for idx in npads+ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -172,12 +172,12 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in npads+ntapers+1:n
+    @inbounds for idx in npads+ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -203,12 +203,12 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in npads+ntapers+1:n
+    @inbounds for idx in npads+ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -235,12 +235,12 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
     end
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in npads+ntapers+1:n
+    @inbounds for idx in npads+ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -264,7 +264,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, window_spa
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -285,7 +285,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -308,7 +308,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -332,7 +332,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -362,7 +362,7 @@ function padded_running(window_fn::Function, data1::AbstractVector{T},
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in window_span:n
+    @inbounds for idx in window_span:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -390,7 +390,7 @@ function padded_running(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -419,7 +419,7 @@ function padded_running(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -449,7 +449,7 @@ function padded_running(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1

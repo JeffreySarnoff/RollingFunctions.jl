@@ -32,7 +32,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, window_spa
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -53,7 +53,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -76,7 +76,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -100,7 +100,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -130,7 +130,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T},
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in window_span:n
+    @inbounds for idx in window_span:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -158,7 +158,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -187,7 +187,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -217,7 +217,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -246,7 +246,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T},
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -274,7 +274,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -303,7 +303,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -333,7 +333,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -360,7 +360,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -385,7 +385,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -412,7 +412,7 @@ function basic_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in eachindex(results)
+    @inbounds for idx in eachindex(results)
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights4)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -445,7 +445,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -476,7 +476,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -509,7 +509,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues-padding_span
+    @inbounds for idx in 1:nvalues-padding_span
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights4)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -541,7 +541,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -572,7 +572,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -605,7 +605,7 @@ function last_padded_rolling(window_fn::Function, data1::AbstractVector{T}, data
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @tturbo for idx in 1:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights4)
         ilow = ilow + 1
         ihigh = ihigh + 1
