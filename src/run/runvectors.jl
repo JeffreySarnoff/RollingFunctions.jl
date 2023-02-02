@@ -12,13 +12,18 @@
 function basic_running(window_fn::Function, data1::AbstractVector{T}, window_span::Int) where {T}
     ᵛʷdata1 = asview(data1)
     n = length(ᵛʷdata1)
-    nvalues  = nrolled(n, window_span)
-   
+    nvalues = nrolled(n, window_span)
+    ntapers = n - nvalues
+
     rettype  = rts(window_fn, (Vector{eltype(ᵛʷdata1)},))
-    results = Vector{rettype}(undef, nvalues)
+    results = Vector{rettype}(undef, n)
+
+    @inbounds for idx in 1:ntapers
+        @views results[idx] = window_fn(ᵛʷdata1[1:idx])
+    end
 
     ilow, ihigh = 1, window_span
-    @inbounds for idx in eachindex(results)
+    @inbounds for idx in ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -26,6 +31,34 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, window_spa
 
     results
 end
+
+function basic_running(window_fn::Function, data1::AbstractVector{T},
+    window_span::Int; padding::AbstractVector{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷpadding = asview(padding)
+    n = length(ᵛʷdata1)
+    npads = length(padding)
+    nvalues = nrolled(n, window_span)
+    ntapers = n - nvalues - npads
+
+    rettype = rts(window_fn, (Vector{eltype(ᵛʷdata1)},))
+    results = Vector{rettype}(undef, n)
+
+    results[1:npads] .= ᵛʷpadding
+    @inbounds for idx in npads+1:ntapers
+        @views results[idx] = window_fn(ᵛʷdata1[1:idx])
+    end
+
+    ilow, ihigh = 1, window_span
+    @inbounds for idx in ntapers+1:n
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
 
 function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, window_span::Int) where {T}
     ᵛʷdata1 = asview(data1)
