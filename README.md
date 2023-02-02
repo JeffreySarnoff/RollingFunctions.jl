@@ -104,22 +104,22 @@ Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 
 Some of these use a limit value for running over vec of length 1.
 
-### works with your functions
-- `rolling(function, data, windowsize)`
-- `rolling(function, data, windowsize, weights)`
-- `running(function, data, windowsize)`
-- `running(function, data, windowsize, weights)`
-
-### works with two data vectors
+### works with functions over 1, 2, 3 or 4 data vectors
 - `rolling(function, data1, data2, windowsize)`
 - `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
 - `rolling(function, data1, data2, windowsize, weights1, weights2)`
 
-- `running(function, data1, data2, windowsize)`
-- `running(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
-- `running(function, data1, data2, windowsize, weights1, weights2)`
+- `rolling(function, data1, data2, data3, windowsize)`
+- `rolling(function, data1, data2, data3, windowsize, weights)`  (weights apply to all data vectors)
+- `rolling(function, data1, data2, data3, windowsize, weights1, weights2, weights3)`
 
-Many statistical functions of two (vector) variables are not well defined for vectors of length 1. To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
+- `running(function, data1, data2, data3, data4, windowsize)`
+- `running(function, data1, data2, data3, data4, windowsize, weights)`  (weights apply to all data vectors)
+- `running(function, data1, data2, data3, data4, windowsize, weights1, weights2, weights3, weights4)`
+
+!! CHANGE ME !!
+Many statistical functions of two or more vector variables are not well defined for vectors of length 1. 
+To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
 
 - `running(function, data1, data2, windowsize, firstresult)`
 - `running(function, data1, data2, windowsize, weights, firstresult)`  (weights apply to both data vectors)
