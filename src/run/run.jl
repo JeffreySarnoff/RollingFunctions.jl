@@ -382,7 +382,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
         ᵛʷweights1 = asview(map(typ, weights1))
         ᵛʷweights2 = asview(map(typ, weights2))
         ᵛʷweights3 = asview(map(typ, weights3))
-        ᵛʷweights3 = asview(map(typ, weights4))
+        ᵛʷweights4 = asview(map(typ, weights4))
     end
 
     basic_running(window_fn, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, window_span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4)
@@ -447,7 +447,7 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
         ᵛʷweights1 = asview(map(typ, weights1))
         ᵛʷweights2 = asview(map(typ, weights2))
         ᵛʷweights3 = asview(map(typ, weights3))
-        ᵛʷweights3 = asview(map(typ, weights4))
+        ᵛʷweights4 = asview(map(typ, weights4))
     end
 
     padded_running(window_fn, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, window_span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
