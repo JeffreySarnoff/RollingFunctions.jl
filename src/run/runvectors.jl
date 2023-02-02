@@ -115,7 +115,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @turbo for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx])
     end
 
@@ -144,7 +144,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @turbo for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
     end
 
@@ -174,7 +174,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @turbo for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
     end
 
@@ -205,7 +205,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @tturbo for idx in npads+1:npads+ntapers
+    @turbo for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
     end
 
