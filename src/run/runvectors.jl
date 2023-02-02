@@ -45,12 +45,12 @@ function basic_running(window_fn::Function, data1::AbstractVector{T},
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx])
     end
 
     ilow, ihigh = 1, window_span
-    @inbounds for idx in ntapers+1:n
+    @inbounds for idx in npads+ntapers+1:n
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
