@@ -10,8 +10,8 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-rolled = rolling(ℱ, 𝒟, 𝒲)
-julia> rolled
+result = rolling(ℱ, 𝒟, 𝒲)
+julia> result
 3-element Vector{Int64}:
   6
   9
@@ -30,9 +30,9 @@ julia> sum(𝒟[1:3]), sum(𝒟[2:4]), sum(𝒟[3:5])
 If the span of each subsequence increases to 4..
 
 𝒲 = 4
-rolled = rolling(ℱ, 𝒟, 𝒲);
+result = rolling(ℱ, 𝒟, 𝒲);
 
-rolled
+result
 2-element Vector{Int64}:
  10
  14

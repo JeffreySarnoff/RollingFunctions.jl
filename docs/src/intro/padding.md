@@ -14,7 +14,7 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing);
+result = rolling(ℱ, 𝒟, 𝒲; padding = missing);
 #=
 5-element Vector{Union{Missing, Int64}}:
    missing
@@ -24,7 +24,7 @@ rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing);
  12
 =#
  
-rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟));
+result = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟));
 #=
 5-element Vector{Int64}:
   0
@@ -37,7 +37,7 @@ rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟));
 
 ### Give me the real values first, pad to the end.
 ```
-rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing, padlast=true);
+result = rolling(ℱ, 𝒟, 𝒲; padding = missing, padlast=true);
 #=
 5-element Vector{Union{Missing,Int64}}:
   6

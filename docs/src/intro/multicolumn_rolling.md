@@ -15,7 +15,7 @@ using RollingFunctions
 ℱ = cor
 𝒲 = 3
 
-rolled = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲)
+result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲)
 #=
 3-element Vector{Float64}:
   -1.0
