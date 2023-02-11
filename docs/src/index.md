@@ -11,7 +11,7 @@
 You give a summarizing function _Func_, the data _Data_, and a window span _Span_.  
 
 The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(_Data_) - _Span_ + 1`.
-- the result omits `ℛᴼ`, `ℛᴼ = _Span_ - 1` indices into _Data_.
+- the result omits `ℛᴼ`, `ℛᴼ = `_Span_` - 1` indices into _Data_.
 
 ----
 
