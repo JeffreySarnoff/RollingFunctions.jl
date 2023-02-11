@@ -10,7 +10,7 @@ function normalize_weights(weights::Sequence)
     T = eltype(weights)
   
     simplesum = zero(T)
-    @tturbo for i in eachindex(weights)
+    @inbounds for i in eachindex(weights)
         @inbounds simplesum += weights[i]
     end    
     kbnsum = sum_kbn(weights)
