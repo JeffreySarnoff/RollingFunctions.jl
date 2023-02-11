@@ -10,8 +10,8 @@
 
 You give a summarizing function 𝐹𝑢𝑛𝑐, the data 𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
 
-The result ℛ is of length <&nbsp;\>ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
-- the result omits <&nbsp;\>ℛᴼ,  ℛᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
+The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
+- the result omits   𝑅ᴼ,  𝑅ᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
 
 ----
 
@@ -22,32 +22,30 @@ The result ℛ is of length <&nbsp;\>ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎)
 #### Use a single, shared padding value
 
 - rolling(function, data, window_span; padding = missing)
-
 - this will fill the initial result values with the padding value
   - pads these values(result[1], .., result[pad_nindices])
 
 - rolling(function, data, window_span; padding = missing, padlast = true)
-
 - this will fill the final result values with the padding value
   - pads these values(result[n-pad_nindices+1], .., result[n])
 
-#### Pad with a vector of values with length matching the extra indicies ( ℛᴼ)
+#### Pad with a vector of values with length matching the extra indicies (  𝑅ᴼ)
 
 - this fills the extra indices with values obtained bycopying
 
 #### Use an empty vector
 
-- this fills the extra indices with values obtained   by trimming
+- this fills the extra indices with values obtained bytrimming
 
 - trimming evaluates the window function over available data
   - trimmed window spans are less than the specified window_span
 
 #### Use a vector of𝓃 padding values
 
-- where1 <= 𝓃 <  ℛᴼ.
+- where1 <= 𝓃 <   𝑅ᴼ.
 
 - this first pads then trims to assign the extra indices
   - the first𝓃 indices of the result will match this vector
-  - the next ℛᴼ - 𝓃 indices of the result will be trimmed
+  - the next  𝑅ᴼ - 𝓃 indices of the result will be trimmed
   - the remaining indices get the rolled results.
 

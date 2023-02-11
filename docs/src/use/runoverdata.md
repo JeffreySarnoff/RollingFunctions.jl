@@ -9,8 +9,8 @@
 
 You give a summarizing function 𝐹𝑢𝑛𝑐, the data 𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
 
-The result ℛ is of length ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
-- the result omits ℛᴼ, ℛᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
+The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
+- the result omits  𝑅ᴼ,  𝑅ᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
 
 ----
 
@@ -18,7 +18,7 @@ The result ℛ is of length ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆�
 
 ----
 
-#### Use a vector of padding values with length ℛᴼ
+#### Use a vector of padding values with length  𝑅ᴼ
 
 ##### specify a padding vector (default is at the start)
 
@@ -34,7 +34,7 @@ The result ℛ is of length ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆�
 
 #### Use an empty vector 
 
-##### this fills the ℛᴼ indices by trimming
+##### this fills the  𝑅ᴼ indices by trimming
 
 - _here is the way to do that_
   - running(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = eltype( 𝐷𝑎𝑡𝑎)[])
@@ -45,12 +45,12 @@ The result ℛ is of length ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆�
 
 #### Use a vector of𝓃 padding values
 
-- where1 <= 𝓃 <  ℛᴼ.
+- where1 <= 𝓃 <   𝑅ᴼ.
 
 ##### this both pads and trims to assign the initial indices
 
 - the first𝓃 indices of the result will match this vector
-- the next ℛᴼ - 𝓃 indices of the result will be trimmed
+- the next  𝑅ᴼ - 𝓃 indices of the result will be trimmed
 - the remaining indices get the rolled results.
 
 
