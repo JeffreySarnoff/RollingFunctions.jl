@@ -19,13 +19,13 @@ Here are ways to get as many result values as there are data values:
 
 - `rolling(function, data, window_span; padding = missing)`
 - this will fill the initial result values with the padding value
-    - pads these values `(result[1], .., result[pad_nindices])`
+  - pads these values `(result[1], .., result[pad_nindices])`
 
 #### specify padding to be at the end of the result
 
 - `rolling(function, data, window_span; padding = missing, padlast = true)`
 - this will fill the final result values with the padding value
--- pads these values `(result[n-pad_nindices+1], .., result[n])`
+  - pads these values `(result[n-pad_nindices+1], .., result[n])`
 
 ### Use a vector of padding values with length `ℛᴼ`
 
@@ -38,7 +38,7 @@ Here are ways to get as many result values as there are data values:
 #### this fills the `ℛᴼ` indices by `trimming`
 
 - `trimming` evaluates the window function over available data
--- trimmed window spans are less than the specified window_span
+  - trimmed window spans are less than the specified window_span
 
 ### Use a vector of `𝓃` padding values where `1 <= 𝓃 < ℛᴼ`
 
