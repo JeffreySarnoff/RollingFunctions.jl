@@ -101,14 +101,14 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T},
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
     padding_span = window_span - 1
-    padding_idxs = nvalues-padding_span:nvalues
+    padding_idxs = 1:padding_span
 
     rettype = rts(window_fn, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @inbounds for idx in window_span:n
+    @inbounds for idx in inwindow_span:n 
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
