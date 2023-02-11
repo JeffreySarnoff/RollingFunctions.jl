@@ -34,7 +34,7 @@ The result ℛ is of length ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆�
 
 #### Use an empty vector 
 
-##### this fills the ℛᴼ indices bytrimming
+##### this fills the ℛᴼ indices by trimming
 
 - _here is the way to do that_
   - running(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = eltype( 𝐷𝑎𝑡𝑎)[])
