@@ -17,7 +17,7 @@ The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
 
 ----
 
-### Here are ways to get as many results as there are data values:
+#### _ways to get as many results as there are data values_
 
 ----
 
