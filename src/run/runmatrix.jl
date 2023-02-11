@@ -16,7 +16,7 @@ function basic_running(window_fn::Function, data1::AbstractMatrix{T}, window_spa
     rettype = rts(window_fn, (Vector{T},))
     results = Matrix{rettype}(undef, size(data))
 
-    @turbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx])
     end
 

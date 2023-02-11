@@ -24,7 +24,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, window_spa
     rettype  = rts(window_fn, (Vector{T},))
     results = Vector{rettype}(undef, n)
 
-    @turbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[window_span:-1:window_span-idx+1])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts)
     end
@@ -52,7 +52,7 @@ function basic_running(window_fn::Function,
     rettype  = rts(window_fn, (Vector{T},))
     results = Vector{rettype}(undef, n)
 
-    @turbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[1:idx])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts)
     end
@@ -80,7 +80,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
-    @turbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[1:idx])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts), ᵛʷdata3[1:idx] .* wts
     end
@@ -109,7 +109,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
     rettype  = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
-    @turbo for idx in 1:ntapers
+    @inbounds for idx in 1:ntapers
         wts = fast_normalize(ᵛʷweights[1:idx])
         @views results[idx] = window_fn(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts, ᵛʷdata3[1:idx] .* wts, ᵛʷdata4[1:idx] .* wts)
     end
@@ -142,7 +142,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @turbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx])
     end
 
@@ -172,7 +172,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @turbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
     end
 
@@ -203,7 +203,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @turbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
     end
 
@@ -235,7 +235,7 @@ function padded_running(window_fn::Function,
     results = Vector{rettype}(undef, n)
 
     results[1:npads] .= ᵛʷpadding
-    @turbo for idx in npads+1:npads+ntapers
+    @inbounds for idx in npads+1:npads+ntapers
         @views results[idx] = window_fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
     end
 
