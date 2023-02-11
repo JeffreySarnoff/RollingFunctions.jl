@@ -1,7 +1,7 @@
-using Documenter, DocumenterTools, RollingFunctions
+using Documenter, DocumenterTools
 
 makedocs(
-    modules = [RollingFunctions],
+    # modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
     authors = "Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>",
     format=Documenter.HTML(
