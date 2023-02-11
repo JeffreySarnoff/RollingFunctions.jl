@@ -12,7 +12,7 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-result = rolling(𝒟, 𝒲, ℱ; padding = missing);
+result = rolling(ℱ, 𝒟, 𝒲; padding = missing);
 #=
 5-element Vector{Union{Missing, Int64}}:
    missing
@@ -22,7 +22,7 @@ result = rolling(𝒟, 𝒲, ℱ; padding = missing);
  12
 =#
  
-result = rolling(𝒟, 𝒲, ℱ; padding = zero(eltype(𝒟));
+result = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟));
 #=
 5-element Vector{Int64}:
   0
@@ -35,7 +35,7 @@ result = rolling(𝒟, 𝒲, ℱ; padding = zero(eltype(𝒟));
 
 ### Give me the real values first, pad to the end.
 ```
-result = rolling(𝒟, 𝒲, ℱ; padding = missing, padlast=true);
+result = rolling(ℱ, 𝒟, 𝒲; padding = missing, padlast=true);
 #=
 5-element Vector{Union{Missing,Int64}}:
   6
@@ -46,4 +46,4 @@ result = rolling(𝒟, 𝒲, ℱ; padding = missing, padlast=true);
 =#
 ```
 
-**technical aside:** this is not the same as reverse(rolling(𝒟, 𝒲, ℱ; padding = zero(eltype(𝒟)).
+**technical aside:** this is not the same as reverse(rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟)).

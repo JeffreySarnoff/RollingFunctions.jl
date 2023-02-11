@@ -1,6 +1,6 @@
 ## RollingFunctions.jl
 
-- You have a data sequence 𝒟, a Vector `[1, 2, 3, 4, 5]`.
+- You have a data sequence 𝒟, for now it is a Vector `[1, 2, 3, 4, 5]`.
 - The window span 𝒲 of each subsequence is `3`.
 - The function ℱ to be applied over subsequences of 𝒟 is `sum`.
 
@@ -11,7 +11,7 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-rolled = rolling(𝒟, 𝒲, ℱ)
+rolled = rolling(ℱ, 𝒟, 𝒲)
 ```
 ```
 julia> rolled
@@ -63,7 +63,7 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-rolled = rolling(𝒟, 𝒲, ℱ; padding = missing);
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing);
 
 julia> rolled
 5-element Vector{Union{Missing, Int64}}:
@@ -81,11 +81,12 @@ julia> rolled
   0
  10
  14
-```
-```
+ ```
+
 ### Give me the real values first, pad to the end.
 
-rolled = rolling(𝒟, 𝒲, ℱ; padding = zero(eltype(𝒟), padlast=true);
+```
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟), padlast=true);
 julia> rolled
 5-element Vector{Int64}:
  10
