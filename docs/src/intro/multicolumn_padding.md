@@ -14,7 +14,7 @@ using RollingFunctions
 ℱ = cov
 𝒲 = 3
 
-result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = zero(eltype(ℳ)))
+result = rolling(𝒟₁, 𝒟₂, 𝒲, ℱ; padding = zero(eltype(ℳ)))
 #=
 5 element Vector {Float64}:
   0.0
@@ -27,7 +27,7 @@ result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = zero(eltype(ℳ)))
 
 ### Give me the real values first, pad to the end.
 ```
-result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = missing, padlast=true)
+result = rolling(𝒟₁, 𝒟₂, 𝒲, ℱ; padding = missing, padlast=true)
 #=
 5 element Vector {Float64}:
  -1.0

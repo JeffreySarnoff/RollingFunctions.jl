@@ -25,7 +25,7 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-result = rolling(ℱ, ℳ, 𝒲; padding=missing)
+result = rolling(ℳ, 𝒲, ℱ; padding=missing)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
 missing missing missing
@@ -38,7 +38,7 @@ missing missing missing
 
 ### Give me the real values first, pad to the end.
 ```
-result = rolling(𝒮, ℳ, 𝒲; padding = missing, padlast=true)
+result = rolling(ℳ, 𝒲, ℱ; padding = missing, padlast=true)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
   6  12  6

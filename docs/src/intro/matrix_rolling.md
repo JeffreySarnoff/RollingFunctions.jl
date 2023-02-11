@@ -24,7 +24,7 @@ using RollingFunctions
 ℱ = sum
 𝒲 = 3
 
-result = rolling(ℱ, ℳ, 𝒲)
+result = rolling(ℳ, 𝒲, ℱ)
 #=
 3×3 Matrix{Int64}:
   6  12  6
