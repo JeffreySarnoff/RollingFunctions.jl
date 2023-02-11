@@ -1,22 +1,100 @@
-## Overview
+## RollingFunctions.jl
 
-This package gives you the ability to apply a summarizing function to successive equilength subsequences of some larger data sequence.
-You select on a summarizing function ℱ, provide the data 𝒟, and specify a window span 𝒲.  By default, `𝒩 = length(𝒟) - 𝒲 + 1` results are returned.
+- You have a data sequence 𝒟, for now it is a Vector `[1, 2, 3, 4, 5]`.
+- The window span 𝒲 of each subsequence is `3`.
+- The function ℱ to be applied over subsequences of 𝒟 is `sum`.
 
-There are several ways to get as many result values as there are data values:
+```
+using RollingFunctions
 
-> specify a padding value (e.g. `; padding = missing`)
-  - this will fill the initial result values with the padding value
+𝒟 = [1, 2, 3, 4, 5]
+ℱ = sum
+𝒲 = 3
 
-> specify padding to use at the end (e.g. `; padding = missing, padlast = true`)
-  - this will fill the final result values with the padding value
+rolled = rolling(ℱ, 𝒟, 𝒲)
+```
+```
+julia> rolled
+3-element Vector{Int64}:
+  6
+  9
+ 12
 
-> specify a vector of padding values (`; padding = [1.0, 2.0]`)
-  - this will use the padding values in the order given as the first results
-  - when the length of the padding vector is `𝒩`, the result is fully specified
-  - when the length of the padding vector is `< 𝒩`
-     -- `𝒲 - 1 - length(padding)` trimmed values fill in after the padding
+#=
+The first  windowed value is the ℱ (`sum`) of the first  𝒲 (`3`) values in 𝒟.
+The second windowed value is the ℱ (`sum`) of the second 𝒲 (`3`) values in 𝒟.
+The third  windowed value is the ℱ (`sum`) of the third  𝒲 (`3`) values in 𝒟.
 
-> specify an empty, typed vector `eltype == eltype(𝒟)` (; padding = Float64[])
-  - this uses the best trimmed values as padding values
+There can be no fourth value as the third value used the fins entries in 𝒟.
+=#
+
+julia> sum(𝒟[1:3]), sum(𝒟[2:4]), sum(𝒟[3:5])
+(6, 9, 12)
+```
+
+If the span of each subsequence increases to 4..
+```
+𝒲 = 4
+rolled = rolling(𝒟, 𝒲, 𝒮);
+
+rolled
+2-element Vector{Int64}:
+ 10
+ 14
+```
+Generally, with data that has r rows using a window_span of w results in r - w + 1 rows of values.
+
+
+### To get back a result with the same number of rows as your data
+
+#### Welcome to the wonderful world of padding
+
+You may pad the result with the padding value of your choice
+- `padding` is a keyword argument
+- if you assign e.g. `padding = missing`, the result will be padded
+
+`missing, 0.0` are commonly used, however all values save `Nothing` are permitted
+   -- using `nothing` as the padding is allowed; using the type `Nothing` is not
+
+```
+using RollingFunctions
+
+𝒟 = [1, 2, 3, 4, 5]
+ℱ = sum
+𝒲 = 3
+
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = missing);
+
+julia> rolled
+5-element Vector{Union{Missing, Int64}}:
+   missing
+   missing
+   missing
+ 10
+ 14
+ 
+rolled = rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟));
+julia> rolled
+5-element Vector{Int64}:
+  0
+  0
+  0
+ 10
+ 14
+ ```
+
+### Give me the real values first, pad to the end.
+
+```
+rolled = rolling(ℱ, 𝒟, 𝒲; padding = zero(eltype(𝒟), padlast=true);
+julia> rolled
+5-element Vector{Int64}:
+ 10
+ 14
+  0
+  0
+  0
+```
+
+**technical note:** this is not the same as `reverse(rolling(𝒟, 𝒲, 𝒮; padding = zero(eltype(𝒟))`.
 
