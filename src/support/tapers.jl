@@ -1,52 +1,6 @@
 for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(T)})))
   @eval begin  
 
-    # unweighted windowed function application
-
-    function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int) where {T}
-        nvals  = nrolled(length(data), windowspan)
-        offset = windowspan - 1
-        result = zeros($T2, nvals)
-
-        @inbounds for idx in eachindex(result)
-            result[idx] = fun( view(data, idx:idx+offset) )
-        end
-
-        return result
-    end
-
-    # weighted windowed function application
-    function rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int, weighting::F) where
-                        {T, N<:Number, F<:Vector{N}}
-
-        length(weighting) != windowspan &&
-           throw(WeightsError(length(weighting), windowspan))
-
-        nvals  = nrolled(length(data), windowspan)
-        offset = windowspan - 1
-        result = zeros($T2, nvals)
-        curwin = zeros($T2, windowspan)
-        v = view(weighting,1:length(weighting))
-
-        @inbounds for idx in eachindex(result)
-           for i=1:windowspan
-               j = i + idx - 1
-               curwin[i] = data[j] * v[i]
-           end
-           result[idx] = fun( curwin )
-        end
-
-        return result
-    end
-
-
-    rolling(fun::Function, data::AbstractVector{$T1}, windowspan::Int, weighting::W) where
-                    {T, W<:AbstractWeights} =
-        rolling(fun, data, windowspan, weighting.values)
-
-
-    # unweighted windowed function tapering
-
     function tapers(fun::Function, data::AbstractVector{$T1}) where {T}
         nvals  = length(data)
         result = zeros($T2, nvals) 

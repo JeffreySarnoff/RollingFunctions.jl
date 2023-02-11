@@ -4,6 +4,10 @@ using StatsBase
 using LinearAlgebra
 using Test
 
+include("rollvectors.jl")
+include("rollvectors_weighted.jl")
+
+#=
 datavec = collect(1.0f0:5.0f0)
 weighting = normalize([1.0f0, 2.0f0, 4.0f0])
 
@@ -37,3 +41,5 @@ obtained = rollcor(data1, data2, 4, weighting)
 expected = [0.0, 1.5, 2.5, 7.833333333333333, 15.0, 20.75, 26.5]
 obtained = runcov(data1, data2, 5)
 @test eps(Float32) > abs(sum(expected .- obtained))
+=#
+

@@ -1,6 +1,6 @@
 # RollingFunctions.jl
 
-### Roll a function over data, run a statistic along a [weighted] data window.
+### Roll a [weighted] function or run a statistic along windowed data.
 
 #### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
 
@@ -22,7 +22,13 @@
 - weights given as a simple vector
 - weights given as a kind of StatsBase.AbstractWeights
 
-### examples of use
+### applies functions (1-arg, .., 4-args)
+- applied over unweighted or weighted data
+
+### works with data matrices
+- same 1-arg function applied to each column
+
+### reasonable uses
 - with a simple vector
 - with a DataFrame column
 - with a TimeSeries column
@@ -32,7 +38,7 @@
 
 ## Rolling a function over data
 
-With `ndata = length(data)`, using a window of length `windowsize`, rolling a function results in a vector of `ndata - windowsize + 1` elements.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix __`roll`__ behave this way.
+With `ndata = length(data)`, using a window of length `windowsize`, rolling a function results in a vector of `ndata - windowsize + 1` elements.  So there will be obtained `windowsize - 1` fewer values than there are data values. All exported functions named with the prefix __`roll`__ behave this way **unless** the keyword `padding` is given with the value to use for padding (e.g. `missing`).  Using `padding` will fill the initial `windowsize - 1` values with that padding value; the result will match the length of the data.
 
 ```julia
 julia> data = collect(1.0f0:5.0f0); print(data)
@@ -41,6 +47,9 @@ julia> windowsize = 3;
 
 julia> result = rollmean(data, windowsize); print(result)
 Float32[2.0, 3.0, 4.0]
+
+julia> result = rollmean(data, windowsize; padding=missing); print(result)
+Union{Missing, Float32}[missing, missing, 2.0, 3.0, 4.0]
 ```
 
 ```julia
@@ -52,6 +61,9 @@ julia> weights = normalize([1.0f0, 2.0f0, 4.0f0])
  
 julia> result = rollmean(data, windowsize, weights); print(result)
 Float32[1.23657, 1.74574, 2.25492]
+
+julia> result = rollmean(data, windowsize, weights; padding=missing); print(result)
+Union{Missing,Float32}[missing, missing, 1.23657, 1.74574, 2.25492]
 ```
 
 ## Running a function over data
@@ -70,7 +82,7 @@ Float32[1.0, 1.5, 2.0, 3.0, 4.0]
 
 ```julia
 julia> using RollingFunctions
-julia> using LinearAlgebra: normalized
+julia> using LinearAlgebra: normalize
 
 julia> weights = normalize([1.0f0, 2.0f0, 4.0f0]);
  
@@ -92,22 +104,22 @@ Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 
 Some of these use a limit value for running over vec of length 1.
 
-### works with your functions
-- `rolling(function, data, windowsize)`
-- `rolling(function, data, windowsize, weights)`
-- `running(function, data, windowsize)`
-- `running(function, data, windowsize, weights)`
-
-### works with two data vectors
+### works with functions over 1, 2, 3 or 4 data vectors
 - `rolling(function, data1, data2, windowsize)`
 - `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
 - `rolling(function, data1, data2, windowsize, weights1, weights2)`
 
-- `running(function, data1, data2, windowsize)`
-- `running(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
-- `running(function, data1, data2, windowsize, weights1, weights2)`
+- `rolling(function, data1, data2, data3, windowsize)`
+- `rolling(function, data1, data2, data3, windowsize, weights)`  (weights apply to all data vectors)
+- `rolling(function, data1, data2, data3, windowsize, weights1, weights2, weights3)`
 
-Many statistical functions of two (vector) variables are not well defined for vectors of length 1. To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
+- `running(function, data1, data2, data3, data4, windowsize)`
+- `running(function, data1, data2, data3, data4, windowsize, weights)`  (weights apply to all data vectors)
+- `running(function, data1, data2, data3, data4, windowsize, weights1, weights2, weights3, weights4)`
+
+!! CHANGE ME !!
+Many statistical functions of two or more vector variables are not well defined for vectors of length 1. 
+To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
 
 - `running(function, data1, data2, windowsize, firstresult)`
 - `running(function, data1, data2, windowsize, weights, firstresult)`  (weights apply to both data vectors)
