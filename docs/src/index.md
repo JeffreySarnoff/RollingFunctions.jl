@@ -10,8 +10,8 @@
 
 You give a summarizing function 𝐹𝑢𝑛𝑐, the data 𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
 
-The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1`.
-- the result omits `ℛᴼ`, `ℛᴼ = 𝑆𝑝𝑎𝑛 - 1` indices into 𝐷𝑎𝑡𝑎.
+The resultℛ is of lengthℛᴺ, ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
+- the result omitsℛᴼ,ℛᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
 
 ----
 
@@ -21,31 +21,31 @@ The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length( 𝐷𝑎𝑡𝑎) - �
 
 #### Use a single, shared padding value
 
-- `rolling(function, data, window_span; padding = missing)`
+-rolling(function, data, window_span; padding = missing)
 - this will fill the initial result values with the padding value
-  - pads these values `(result[1], .., result[pad_nindices])`
+  - pads these values(result[1], .., result[pad_nindices])
 
-- `rolling(function, data, window_span; padding = missing, padlast = true)`
+-rolling(function, data, window_span; padding = missing, padlast = true)
 - this will fill the final result values with the padding value
-  - pads these values `(result[n-pad_nindices+1], .., result[n])`
+  - pads these values(result[n-pad_nindices+1], .., result[n])
 
-#### Pad with a vector of values with length matching the extra indicies (`ℛᴼ`)
+#### Pad with a vector of values with length matching the extra indicies (ℛᴼ)
 
-- this fills the extra indices with values obtained by `copying`
+- this fills the extra indices with values obtained bycopying
 
 #### Use an empty vector
 
-- this fills the extra indices with values obtained by `trimming`
+- this fills the extra indices with values obtained bytrimming
 
-- `trimming` evaluates the window function over available data
+-trimming evaluates the window function over available data
   - trimmed window spans are less than the specified window_span
 
-#### Use a vector of `𝓃` padding values
+#### Use a vector of𝓃 padding values
 
-- where `1 <= 𝓃 < ℛᴼ`.
+- where1 <= 𝓃 < ℛᴼ.
 
 - this first pads then trims to assign the extra indices
-  - the first `𝓃` indices of the result will match this vector
-  - the next `ℛᴼ - 𝓃` indices of the result will be trimmed
+  - the first𝓃 indices of the result will match this vector
+  - the nextℛᴼ - 𝓃 indices of the result will be trimmed
   - the remaining indices get the rolled results.
 

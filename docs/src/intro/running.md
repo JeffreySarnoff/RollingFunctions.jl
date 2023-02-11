@@ -1,7 +1,7 @@
 You have a data sequence 𝐷𝑎𝑡𝑎, for our initial purposes it is a Vector [1, 2, 3, 4, 5].
 The span of each subsequence is 3.
 The function to be applied over subsequences of 𝐷𝑎𝑡𝑎 is sum.
-```
+
 using RollingFunctions
 
  𝐷𝑎𝑡𝑎 = [1, 2, 3, 4, 5]
@@ -16,9 +16,9 @@ julia> result
  12
 
 #=
-The first  windowed value is the 𝐹𝑢𝑛𝑐 (`sum`) of the first  𝑆𝑝𝑎𝑛 (`3`) values in 𝐷𝑎𝑡𝑎.
-The second windowed value is the 𝐹𝑢𝑛𝑐 (`sum`) of the second 𝑆𝑝𝑎𝑛 (`3`) values in 𝐷𝑎𝑡𝑎.
-The third  windowed value is the 𝐹𝑢𝑛𝑐 (`sum`) of the third  𝑆𝑝𝑎𝑛 (`3`) values in 𝐷𝑎𝑡𝑎.
+The first  windowed value is the 𝐹𝑢𝑛𝑐 (sum) of the first  𝑆𝑝𝑎𝑛 (3) values in 𝐷𝑎𝑡𝑎.
+The second windowed value is the 𝐹𝑢𝑛𝑐 (sum) of the second 𝑆𝑝𝑎𝑛 (3) values in 𝐷𝑎𝑡𝑎.
+The third  windowed value is the 𝐹𝑢𝑛𝑐 (sum) of the third  𝑆𝑝𝑎𝑛 (3) values in 𝐷𝑎𝑡𝑎.
 
 There can be no fourth value as the third value used the fins entries in 𝐷𝑎𝑡𝑎.
 =#
@@ -34,7 +34,7 @@ result
 2-element Vector{Int64}:
  10
  14
-```
+
 Generally, with data that has r rows using a window_span of w results in r - w + 1 rows of values.
 
 

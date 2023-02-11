@@ -1,10 +1,10 @@
-```
+
 You have n data vectors of equal length (rowcount 𝓇)
-` 𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ ..  𝐷𝑎𝑡𝑎ₙ`  collected as an 𝓇 x 𝓃 matrix ℳ
+ 𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ ..  𝐷𝑎𝑡𝑎ₙ  collected as an 𝓇 x 𝓃 matrix ℳ
 you want to apply the same function (sum) 
 to subsequences of each column using a window_span of 3
-```
-```
+
+
 using RollingFunctions
 
  𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
@@ -32,4 +32,4 @@ result = rolling(𝐹𝑢𝑛𝑐, ℳ, 𝑆𝑝𝑎𝑛)
  12   6  6
 =#
 
-```
+
