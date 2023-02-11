@@ -17,6 +17,7 @@ The result    𝑅 is of length   𝑅ᴺ
    - rolling(function, data, window_span)
 
 ----
+----
 
 #### _ways to get as many results as there are data values_
 

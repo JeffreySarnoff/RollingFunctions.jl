@@ -13,6 +13,7 @@ The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length( 𝐷𝑎𝑡𝑎) - 
 - the result omits  𝑅ᴼ,  𝑅ᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
 
 ----
+----
 
 #### _ways to get as many results as there are data values_
 
