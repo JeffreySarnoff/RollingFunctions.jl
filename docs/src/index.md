@@ -81,11 +81,10 @@ julia> rolled
   0
  10
  14
- ```
-
+```
+```
 ### Give me the real values first, pad to the end.
 
-```
 rolled = rolling(𝒟, 𝒲, ℱ; padding = zero(eltype(𝒟), padlast=true);
 julia> rolled
 5-element Vector{Int64}:
