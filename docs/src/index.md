@@ -34,6 +34,8 @@ Here are ways to get as many result values as there are data values:
 -- trimmed window spans are less than the specified window_span
 
 ### Use a vector of `𝓃` padding values where `1 <= 𝓃 < ℛᴼ`
+
+#### this both pads and trims to assign the initial indices
 - the first `𝓃` indices of the result will match this vector
 - the next `ℛᴼ - 𝓃` indices of the result will be trimmed
 - the remaining indices get the rolled results.
