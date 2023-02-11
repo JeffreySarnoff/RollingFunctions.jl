@@ -53,7 +53,7 @@ include("roll/rollvectors.jl")
 include("roll/rollvectors_weighted.jl")
 include("roll/rollmatrix.jl")
 
-#include("support/tapers.jl")
+include("support/tapers.jl")
 include("run/run.jl")
 include("run/runvectors.jl")
 include("run/runvectors_weighted.jl")
