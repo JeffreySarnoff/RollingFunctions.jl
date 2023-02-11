@@ -4,8 +4,8 @@ makedocs(
     # modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
     authors = "Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>",
-    format=Documenter.HTML(
-        # Use clean URLs, unless built as a "local" build
+   format=Documenter.HTML(
+        canonical = "https://jeffreysarnoff.github.io/RollingFunctions.jl/stable/",
         prettyurls=!("local" in ARGS),
         highlights=["yaml"],
         ansicolor=true,
