@@ -3,7 +3,7 @@
 
 #### This package makes it easy to summarize windowed data.
 
-#### Your function is applied to data subsequences, in order.
+#### A function is applied to successive data subsequences.
 
 ~~~~
 
@@ -34,14 +34,19 @@ Here are ways to get as many result values as there are data values:
 
 #### specify the padding vector to be at the end
 
-### Use an empty vector (this way: `...; padding = eltype(𝒟)[]`)
+### Use an empty vector 
 
 #### this fills the `ℛᴼ` indices by `trimming`
+
+- _here is the way to do that_
+  - `running(function, data, window_span; padding = eltype(data)[]`)
 
 - `trimming` evaluates the window function over available data
   - trimmed window spans are less than the specified window_span
 
-### Use a vector of `𝓃` padding values where `1 <= 𝓃 < ℛᴼ`
+### Use a vector of `𝓃` padding values
+
+- where `1 <= 𝓃 < ℛᴼ`.
 
 #### this both pads and trims to assign the initial indices
 
