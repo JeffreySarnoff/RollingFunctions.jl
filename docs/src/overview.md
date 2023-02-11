@@ -1,18 +1,22 @@
 ## Overview
 
 This package gives you the ability to apply a summarizing function to successive equilength subsequences of some larger data sequence.
-Simply put, you decide on a summarizing function ℱ, specify a window 𝒲, and provide the data 𝒟.  The package does what you have asked.
+You select on a summarizing function ℱ, provide the data 𝒟, and specify a window span 𝒲.  By default, `𝒩 = length(𝒟) - 𝒲 + 1` results are returned.
 
-Windows are specified by length 𝓁, kind 𝓀, behavior 𝒷, displacement 𝒹 and weighting 𝓌.
+There are several ways to get as many result values as there are data values:
 
-- The length is the number of sequential data elements spanned by the window.
-- The kind is either 'whole' (complete windows only) or 'part' (the first or last window[s] may be partial, with <  𝓁 data elements).
-- The behavior is 'pad_first', 'pad_last', 'pad_none', and applies only when the kind is 'part'. Padding is done with `missing`.
-- The displacement is an offset from the actual start or end of the data. This is a signed integer, (+) offsets from the start, (-) from the end.
-- The weighting is optional, a sequence of floating point values of length 𝓁 that sum to 1.0.
+> specify a padding value (e.g. `; padding = missing`)
+  - this will fill the initial result values with the padding value
 
+> specify padding to use at the end (e.g. `; padding = missing, padlast = true`)
+  - this will fill the final result values with the padding value
 
+> specify a vector of padding values (`; padding = [1.0, 2.0]`)
+  - this will use the padding values in the order given as the first results
+  - when the length of the padding vector is `𝒩`, the result is fully specified
+  - when the length of the padding vector is `< 𝒩`
+     -- `𝒲 - 1 - length(padding)` trimmed values fill in after the padding
 
-
-
+> specify an empty, typed vector `eltype == eltype(𝒟)` (; padding = Float64[])
+  - this uses the best trimmed values as padding values
 
