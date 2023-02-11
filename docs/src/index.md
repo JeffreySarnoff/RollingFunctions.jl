@@ -8,7 +8,7 @@ By default, `𝒩 = length(𝒟) - 𝒲 + 1` results are returned.
 
 Here are ways to get as many result values as there are data values:
 
-> specify a padding value (e.g. `; padding = missing`)
+#### specify a padding value (e.g. `; padding = missing`)
   - this will fill the initial result values with the padding value
 
 > specify padding to use at the end (e.g. `; padding = missing, padlast = true`)
