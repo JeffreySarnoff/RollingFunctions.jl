@@ -1,4 +1,3 @@
-## Rolling over Windowed Data Matrix - no padding
 ```
 You have n data vectors of equal length (rowcount 𝓇)
 `𝒟₁ .. 𝒟ᵢ ..  𝒟ₙ`  collected as an 𝓇 x 𝓃 matrix ℳ

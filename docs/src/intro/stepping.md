@@ -1,4 +1,1 @@
-## Stepping through Windowed Data
-
-
-abcd
+(Stepping through Windowed Data)

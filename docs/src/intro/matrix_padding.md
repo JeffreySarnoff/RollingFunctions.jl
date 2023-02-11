@@ -1,5 +1,3 @@
-### Rolling over Windowed Data Matrix - with padding
-
 You may pad the result with the padding value of your choice
 
 padding is a keyword argument

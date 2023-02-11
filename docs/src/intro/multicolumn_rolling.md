@@ -1,4 +1,3 @@
-## Rolling over Windowed Data Vectors - no padding
 ```
 You have n data vectors of equal length (rowcount 𝓇)
 `𝒟₁ .. 𝒟ᵢ ..  𝒟ₙ`

@@ -1,5 +1,3 @@
-## Rolling over Windowed Data - no padding
-
 You have a data sequence 𝒟, for our initial purposes it is a Vector [1, 2, 3, 4, 5].
 The span of each subsequence is 3.
 The function to be applied over subsequences of 𝒟 is sum.
