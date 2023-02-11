@@ -7,10 +7,10 @@
 
 ----
 
-You give a summarizing function 𝐹𝑢𝑛𝑐, the data 𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
+You give a summarizing function 𝐹𝑢𝑛𝑐, the data𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
 
-The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
-- the result omits  𝑅ᴼ = 𝑆𝑝𝑎𝑛 - 1 indices that 𝐷𝑎𝑡𝑎 uses.
+The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
+- the result omits  𝑅ᴼ = 𝑆𝑝𝑎𝑛 - 1 indices that𝐷𝑎𝑡𝑎 uses.
 
 ----
 ----
@@ -24,13 +24,13 @@ The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length( 𝐷𝑎𝑡𝑎) - 
 ##### specify a padding vector (default is at the start)
 
 - _here is the way to do that_
-  - running(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>])
+  - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>])
   - running(function, data, window_span; padding = [<values>])
 
 ##### specify the padding vector to be at the end
 
 - _here is the way to do that_
-  - running(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>], padlast = true)
+  - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>], padlast = true)
   - running(function, data, window_span; padding = [<values>], padlast = true)
 
 #### Use an empty vector 
@@ -38,8 +38,8 @@ The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length( 𝐷𝑎𝑡𝑎) - 
 ##### this fills the  𝑅ᴼ indices by trimming
 
 - _here is the way to do that_
-  - running(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = eltype( 𝐷𝑎𝑡𝑎)[])
-  - running(function, data, window_span; padding = eltype( 𝐷𝑎𝑡𝑎)[])
+  - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = eltype(𝐷𝑎𝑡𝑎)[])
+  - running(function, data, window_span; padding = eltype(𝐷𝑎𝑡𝑎)[])
 
 -trimming evaluates the window function over available data
   - trimmed window spans are less than the specified window_span

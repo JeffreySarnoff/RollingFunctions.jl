@@ -8,11 +8,11 @@ padding is a keyword argument
 
 using RollingFunctions
 
- 𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
- 𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
- 𝐷𝑎𝑡𝑎₃ = [1, 2, 3, 2, 1]
+𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
+𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
+𝐷𝑎𝑡𝑎₃ = [1, 2, 3, 2, 1]
 
-ℳ = hcat( 𝐷𝑎𝑡𝑎₁, 𝐷𝑎𝑡𝑎₂, 𝐷𝑎𝑡𝑎₃)
+ℳ = hcat(𝐷𝑎𝑡𝑎₁,𝐷𝑎𝑡𝑎₂,𝐷𝑎𝑡𝑎₃)
 #=
 5×3 Matrix{Int64}:
  1  5  1
@@ -48,6 +48,6 @@ result = rolling(𝐹𝑢𝑛𝑐, ℳ, 𝑆𝑝𝑎𝑛; padding = missing, pad
    missing    missing   missing
 =#
 
-**technical aside:** this is not the same as reverse(rolling(𝒮, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = missing).
+**technical aside:** this is not the same as reverse(rolling(𝒮,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = missing).
 
 
