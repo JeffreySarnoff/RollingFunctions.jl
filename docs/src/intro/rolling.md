@@ -37,5 +37,6 @@ result
  10
  14
 ```
-Generally, with data that has r rows using a window_span of w results in r - w + 1 rows of values.
+Data with `r` rows using a window_span of `w` results in `r - w + 1` values.
+- to obtain `r` values, use padding or tapering
 
