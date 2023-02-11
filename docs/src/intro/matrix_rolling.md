@@ -1,17 +1,17 @@
 ```
 You have n data vectors of equal length (rowcount 𝓇)
-`_Data_₁ .. _Data_ᵢ ..  _Data_ₙ`  collected as an 𝓇 x 𝓃 matrix ℳ
+` 𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ ..  𝐷𝑎𝑡𝑎ₙ`  collected as an 𝓇 x 𝓃 matrix ℳ
 you want to apply the same function (sum) 
 to subsequences of each column using a window_span of 3
 ```
 ```
 using RollingFunctions
 
-_Data_₁ = [1, 2, 3, 4, 5]
-_Data_₂ = [5, 4, 3, 2, 1]
-_Data_₃ = [1, 2, 3, 2, 1]
+ 𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
+ 𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
+ 𝐷𝑎𝑡𝑎₃ = [1, 2, 3, 2, 1]
 
-ℳ = hcat(_Data_₁, _Data_₂, _Data_₃)
+ℳ = hcat( 𝐷𝑎𝑡𝑎₁, 𝐷𝑎𝑡𝑎₂, 𝐷𝑎𝑡𝑎₃)
 #=
 5×3 Matrix{Int64}:
  1  5  1
@@ -21,10 +21,10 @@ _Data_₃ = [1, 2, 3, 2, 1]
  5  1  1
 =#
 
-_Func_ = sum
-_Span_ = 3
+𝐹𝑢𝑛𝑐 = sum
+𝑆𝑝𝑎𝑛 = 3
 
-result = rolling(_Func_, ℳ, _Span_)
+result = rolling(𝐹𝑢𝑛𝑐, ℳ, 𝑆𝑝𝑎𝑛)
 #=
 3×3 Matrix{Int64}:
   6  12  6

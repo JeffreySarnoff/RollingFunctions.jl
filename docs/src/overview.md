@@ -1,16 +1,16 @@
 
-- You have a data sequence _Data_, for now it is a Vector `[1, 2, 3, 4, 5]`.
-- The window span _Span_ of each subsequence is `3`.
-- The function _Func_ to be applied over subsequences of _Data_ is `sum`.
+- You have a data sequence 𝐷𝑎𝑡𝑎, for now it is a Vector `[1, 2, 3, 4, 5]`.
+- The window span 𝑆𝑝𝑎𝑛 of each subsequence is `3`.
+- The function 𝐹𝑢𝑛𝑐 to be applied over subsequences of 𝐷𝑎𝑡𝑎 is `sum`.
 
 ```
 using RollingFunctions
 
-_Data_ = [1, 2, 3, 4, 5]
-_Func_ = sum
-_Span_ = 3
+ 𝐷𝑎𝑡𝑎 = [1, 2, 3, 4, 5]
+𝐹𝑢𝑛𝑐 = sum
+𝑆𝑝𝑎𝑛 = 3
 
-rolled = rolling(_Func_, _Data_, _Span_)
+rolled = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛)
 ```
 ```
 julia> rolled
@@ -20,21 +20,21 @@ julia> rolled
  12
 
 #=
-The first  windowed value is the _Func_ (`sum`) of the first  _Span_ (`3`) values in _Data_.
-The second windowed value is the _Func_ (`sum`) of the second _Span_ (`3`) values in _Data_.
-The third  windowed value is the _Func_ (`sum`) of the third  _Span_ (`3`) values in _Data_.
+The first  windowed value is the 𝐹𝑢𝑛𝑐 (`sum`) of the first  𝑆𝑝𝑎𝑛 (`3`) values in 𝐷𝑎𝑡𝑎.
+The second windowed value is the 𝐹𝑢𝑛𝑐 (`sum`) of the second 𝑆𝑝𝑎𝑛 (`3`) values in 𝐷𝑎𝑡𝑎.
+The third  windowed value is the 𝐹𝑢𝑛𝑐 (`sum`) of the third  𝑆𝑝𝑎𝑛 (`3`) values in 𝐷𝑎𝑡𝑎.
 
-There can be no fourth value as the third value used the fins entries in _Data_.
+There can be no fourth value as the third value used the fins entries in 𝐷𝑎𝑡𝑎.
 =#
 
-julia> sum(_Data_[1:3]), sum(_Data_[2:4]), sum(_Data_[3:5])
+julia> sum( 𝐷𝑎𝑡𝑎[1:3]), sum( 𝐷𝑎𝑡𝑎[2:4]), sum( 𝐷𝑎𝑡𝑎[3:5])
 (6, 9, 12)
 ```
 
 If the span of each subsequence increases to 4..
 ```
-_Span_ = 4
-rolled = rolling(_Data_, _Span_, 𝒮);
+𝑆𝑝𝑎𝑛 = 4
+rolled = rolling( 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛, 𝒮);
 
 rolled
 2-element Vector{Int64}:
@@ -58,11 +58,11 @@ You may pad the result with the padding value of your choice
 ```
 using RollingFunctions
 
-_Data_ = [1, 2, 3, 4, 5]
-_Func_ = sum
-_Span_ = 3
+ 𝐷𝑎𝑡𝑎 = [1, 2, 3, 4, 5]
+𝐹𝑢𝑛𝑐 = sum
+𝑆𝑝𝑎𝑛 = 3
 
-rolled = rolling(_Func_, _Data_, _Span_; padding = missing);
+rolled = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = missing);
 
 julia> rolled
 5-element Vector{Union{Missing, Int64}}:
@@ -72,7 +72,7 @@ julia> rolled
  10
  14
  
-rolled = rolling(_Data_, _Span_, 𝒮; padding = zero(eltype(_Data_));
+rolled = rolling( 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛, 𝒮; padding = zero(eltype( 𝐷𝑎𝑡𝑎));
 julia> rolled
 5-element Vector{Int64}:
   0
@@ -85,7 +85,7 @@ julia> rolled
 ### Give me the real values first, pad to the end.
 
 ```
-rolled = rolling(_Func_, _Data_, _Span_; padding = zero(eltype(_Data_), padlast=true);
+rolled = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = zero(eltype( 𝐷𝑎𝑡𝑎), padlast=true);
 julia> rolled
 5-element Vector{Int64}:
  10
@@ -95,5 +95,5 @@ julia> rolled
   0
 ```
 
-**technical note:** this is not the same as `reverse(rolling(_Data_, _Span_, 𝒮; padding = zero(eltype(_Data_))`.
+**technical note:** this is not the same as `reverse(rolling( 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛, 𝒮; padding = zero(eltype( 𝐷𝑎𝑡𝑎))`.
 

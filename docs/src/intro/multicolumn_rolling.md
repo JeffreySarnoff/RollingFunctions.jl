@@ -1,6 +1,6 @@
 ```
 You have n data vectors of equal length (rowcount 𝓇)
-`_Data_₁ .. _Data_ᵢ ..  _Data_ₙ`
+` 𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ ..  𝐷𝑎𝑡𝑎ₙ`
 you want to apply a function of n arguments
 here, n = 2 and the function is `StatsBase.cor`
 to subsequences over the vectors using a window_span of 3
@@ -8,13 +8,13 @@ to subsequences over the vectors using a window_span of 3
 ```
 using RollingFunctions
 
-_Data_₁ = [1, 2, 3, 4, 5]
-_Data_₂ = [5, 4, 3, 2, 1]
+ 𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
+ 𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
 
-_Func_ = cor
-_Span_ = 3
+𝐹𝑢𝑛𝑐 = cor
+𝑆𝑝𝑎𝑛 = 3
 
-result = rolling(_Func_, _Data_₁, _Data_₂, _Span_)
+result = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎₁, 𝐷𝑎𝑡𝑎₂, 𝑆𝑝𝑎𝑛)
 #=
 3-element Vector{Float64}:
   -1.0
