@@ -1,5 +1,6 @@
 ## RollingFunctions.jl
 
+----
 
 #### This package makes it easy to summarize windowed data.
 
