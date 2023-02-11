@@ -4,22 +4,37 @@ This package gives you the ability to apply a summarizing function to successive
 
 You select on a summarizing function ℱ, provide the data 𝒟, and specify a window span 𝒲.  
 
-By default, `𝒩 = length(𝒟) - 𝒲 + 1` results are returned.
+The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
+- the result omits `ℛᴼ`, `ℛᴼ = 𝒲 - 1` indices into 𝒟.
 
 Here are ways to get as many result values as there are data values:
 
-#### specify a padding value (e.g. `; padding = missing`)
-  - this will fill the initial result values with the padding value
+### Use a single, shared padding value
 
-> specify padding to use at the end (e.g. `; padding = missing, padlast = true`)
-  - this will fill the final result values with the padding value
+#### specify a padding value (default position is at the start)
+- `rolling(function, data, window_span; padding = missing)`
+- this will fill the initial result values with the padding value
+-- pads these values `(result[1], .., result[pad_nindices])`
 
-> specify a vector of padding values (`; padding = [1.0, 2.0]`)
-  - this will use the padding values in the order given as the first results
-  - when the length of the padding vector is `𝒩`, the result is fully specified
-  - when the length of the padding vector is `< 𝒩`
-     -- `𝒲 - 1 - length(padding)` trimmed values fill in after the padding
+#### specify padding to be at the end of the result
+- `rolling(function, data, window_span; padding = missing, padlast = true)`
+- this will fill the final result values with the padding value
+-- pads these values `(result[n-pad_nindices+1], .., result[n])`
 
-> specify an empty, typed vector `eltype == eltype(𝒟)` (; padding = Float64[])
-  - this uses the best trimmed values as padding values
+### Use a vector of padding values with length `ℛᴼ`
+
+#### specify a padding vector (default is at the start)
+
+#### specify the padding vector to be at the end
+
+### Use an empty vector (this way: `...; padding = eltype(𝒟)[]`)
+
+#### this fills the `ℛᴼ` indices by `trimming`
+- `trimming` evaluates the window function over available data
+-- trimmed window spans are less than the specified window_span
+
+### Use a vector of `𝓃` padding values where `1 <= 𝓃 < ℛᴼ`
+- the first `𝓃` indices of the result will match this vector
+- the next `ℛᴼ - 𝓃` indices of the result will be trimmed
+- the remaining indices get the rolled results.
 
