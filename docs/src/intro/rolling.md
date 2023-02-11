@@ -38,5 +38,5 @@ result
  14
 
 Data withr rows using a window_span ofw results inr - w + 1 values.
-- to obtainr values, use padding or tapering
+- to obtain values, use padding or tapering
 
