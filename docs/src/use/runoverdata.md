@@ -7,10 +7,10 @@
 
 ----
 
-You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.  
+You give a summarizing function 𝐅𝐮𝐧𝐜, the data 𝐃𝐚𝐭𝐚, and a window span 𝐒𝐩𝐚𝐧.  
 
-The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
-- the result omits `ℛᴼ`, `ℛᴼ = 𝒲 - 1` indices into 𝒟.
+The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝐃𝐚𝐭𝐚) - 𝐒𝐩𝐚𝐧 + 1`.
+- the result omits `ℛᴼ`, `ℛᴼ = 𝐒𝐩𝐚𝐧 - 1` indices into 𝐃𝐚𝐭𝐚.
 
 ----
 
@@ -23,13 +23,13 @@ The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
 ##### specify a padding vector (default is at the start)
 
 - _here is the way to do that_
-  - `running(ℱ, 𝒟, 𝒲; padding = [<values>]`)
+  - `running(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = [<values>]`)
   - `running(function, data, window_span; padding = [<values>]`)
 
 ##### specify the padding vector to be at the end
 
 - _here is the way to do that_
-  - `running(ℱ, 𝒟, 𝒲; padding = [<values>], padlast = true`)
+  - `running(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = [<values>], padlast = true`)
   - `running(function, data, window_span; padding = [<values>], padlast = true`)
 
 #### Use an empty vector 
@@ -37,8 +37,8 @@ The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
 ##### this fills the `ℛᴼ` indices by `trimming`
 
 - _here is the way to do that_
-  - `running(ℱ, 𝒟, 𝒲; padding = eltype(𝒟)[]`)
-  - `running(function, data, window_span; padding = eltype(𝒟)[]`)
+  - `running(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = eltype(𝐃𝐚𝐭𝐚)[]`)
+  - `running(function, data, window_span; padding = eltype(𝐃𝐚𝐭𝐚)[]`)
 
 - `trimming` evaluates the window function over available data
   - trimmed window spans are less than the specified window_span

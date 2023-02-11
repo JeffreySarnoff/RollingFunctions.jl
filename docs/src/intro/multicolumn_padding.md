@@ -8,13 +8,13 @@ padding is a keyword argument
 ```
 using RollingFunctions
 
-𝒟₁ = [1, 2, 3, 4, 5]
-𝒟₂ = [5, 4, 3, 2, 1]
+𝐃𝐚𝐭𝐚₁ = [1, 2, 3, 4, 5]
+𝐃𝐚𝐭𝐚₂ = [5, 4, 3, 2, 1]
 
-ℱ = cov
-𝒲 = 3
+𝐅𝐮𝐧𝐜 = cov
+𝐒𝐩𝐚𝐧 = 3
 
-result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = zero(eltype(ℳ)))
+result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚₁, 𝐃𝐚𝐭𝐚₂, 𝐒𝐩𝐚𝐧; padding = zero(eltype(ℳ)))
 #=
 5 element Vector {Float64}:
   0.0
@@ -27,7 +27,7 @@ result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = zero(eltype(ℳ)))
 
 ### Give me the real values first, pad to the end.
 ```
-result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = missing, padlast=true)
+result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚₁, 𝐃𝐚𝐭𝐚₂, 𝐒𝐩𝐚𝐧; padding = missing, padlast=true)
 #=
 5 element Vector {Float64}:
  -1.0
@@ -37,6 +37,6 @@ result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = missing, padlast=true)
   missing
 =#
 ```
-**technical aside:** this is not the same as reverse(rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲; padding = missing).
+**technical aside:** this is not the same as reverse(rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚₁, 𝐃𝐚𝐭𝐚₂, 𝐒𝐩𝐚𝐧; padding = missing).
 
 

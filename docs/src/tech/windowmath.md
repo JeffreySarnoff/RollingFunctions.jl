@@ -1,8 +1,8 @@
-𝒟 𝒟ₗₑₙ 𝒲 𝒲ₗₑₙ  𝒯 𝒯ₗₑₙ  𝒫 𝒫ₗₑₙ  𝒪 𝒪⁺ 𝒪⁻
+𝐃𝐚𝐭𝐚 𝐃𝐚𝐭𝐚ₗₑₙ 𝐒𝐩𝐚𝐧 𝐒𝐩𝐚𝐧ₗₑₙ  𝒯 𝒯ₗₑₙ  𝒫 𝒫ₗₑₙ  𝒪 𝒪⁺ 𝒪⁻
 
-𝒟 𝒟ₙ 𝒲 𝒲ₙ  𝒯 𝒯ₙ  𝒫 𝒫ₙ  𝒪 𝒪⁺ 𝒪⁻ ⁺𝒪ₙ ⁻𝒪ₙ
+𝐃𝐚𝐭𝐚 𝐃𝐚𝐭𝐚ₙ 𝐒𝐩𝐚𝐧 𝐒𝐩𝐚𝐧ₙ  𝒯 𝒯ₙ  𝒫 𝒫ₙ  𝒪 𝒪⁺ 𝒪⁻ ⁺𝒪ₙ ⁻𝒪ₙ
 
-We accept a data sequence 𝒟𝒮 of type Vector{T} and of length 𝒟𝒮ₙ (𝒟𝒮[begin:end], length(𝒟𝒮) == 𝒟𝒮ₙ).
+We accept a data sequence 𝐃𝐚𝐭𝐚𝒮 of type Vector{T} and of length 𝐃𝐚𝐭𝐚𝒮ₙ (𝐃𝐚𝐭𝐚𝒮[begin:end], length(𝐃𝐚𝐭𝐚𝒮) == 𝐃𝐚𝐭𝐚𝒮ₙ).
 We are given a window specification that includes its length, the span of any tiling, and more.
 
 Given a data seqeunce of N elements and a window that spans W elements (W <= N),

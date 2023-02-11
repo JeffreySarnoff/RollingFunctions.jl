@@ -8,10 +8,10 @@
 
 ----
 
-You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.  
+You give a summarizing function 𝐅𝐮𝐧𝐜, the data 𝐃𝐚𝐭𝐚, and a window span 𝐒𝐩𝐚𝐧.  
 
-The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
-- the result omits `ℛᴼ`, `ℛᴼ = 𝒲 - 1` indices into 𝒟.
+The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝐃𝐚𝐭𝐚) - 𝐒𝐩𝐚𝐧 + 1`.
+- the result omits `ℛᴼ`, `ℛᴼ = 𝐒𝐩𝐚𝐧 - 1` indices into 𝐃𝐚𝐭𝐚.
 
 ----
 
