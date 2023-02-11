@@ -1,4 +1,3 @@
-## RollingFunctions.jl
 
 - You have a data sequence 𝒟, for now it is a Vector `[1, 2, 3, 4, 5]`.
 - The window span 𝒲 of each subsequence is `3`.

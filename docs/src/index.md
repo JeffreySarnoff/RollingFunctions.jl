@@ -1,9 +1,12 @@
-## Overview
+## RollingFunctions.jl
 
 This package gives you the ability to apply a summarizing function to successive equilength subsequences of some larger data sequence.
-You select on a summarizing function ℱ, provide the data 𝒟, and specify a window span 𝒲.  By default, `𝒩 = length(𝒟) - 𝒲 + 1` results are returned.
 
-There are several ways to get as many result values as there are data values:
+You select on a summarizing function ℱ, provide the data 𝒟, and specify a window span 𝒲.  
+
+By default, `𝒩 = length(𝒟) - 𝒲 + 1` results are returned.
+
+Here are ways to get as many result values as there are data values:
 
 > specify a padding value (e.g. `; padding = missing`)
   - this will fill the initial result values with the padding value
