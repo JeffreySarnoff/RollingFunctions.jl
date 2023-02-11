@@ -19,7 +19,7 @@ Here are ways to get as many result values as there are data values:
 
 - `rolling(function, data, window_span; padding = missing)`
 - this will fill the initial result values with the padding value
--- pads these values `(result[1], .., result[pad_nindices])`
+    - pads these values `(result[1], .., result[pad_nindices])`
 
 #### specify padding to be at the end of the result
 
