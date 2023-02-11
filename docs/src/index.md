@@ -13,45 +13,39 @@ You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.
 The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
 - the result omits `ℛᴼ`, `ℛᴼ = 𝒲 - 1` indices into 𝒟.
 
-There are ways to get a result that matches the data length.
+----
 
-### Use a single, shared padding value
+#### _there are ways for the results match the data in length_
 
-#### specify a padding value (default position is at the start)
+----
+
+#### Use a single, shared padding value
 
 - `rolling(function, data, window_span; padding = missing)`
 - this will fill the initial result values with the padding value
   - pads these values `(result[1], .., result[pad_nindices])`
 
-#### specify padding to be at the end of the result
-
 - `rolling(function, data, window_span; padding = missing, padlast = true)`
 - this will fill the final result values with the padding value
   - pads these values `(result[n-pad_nindices+1], .., result[n])`
 
-### Use a vector of padding values with length `ℛᴼ`
+#### Pad with a vector of values with length matching the extra indicies (`ℛᴼ`)
 
-#### specify a padding vector (default is at the start)
+- this fills the extra indices with values obtained by `copying`
 
-#### specify the padding vector to be at the end
+#### Use an empty vector
 
-### Use an empty vector 
-
-#### this fills the `ℛᴼ` indices by `trimming`
-
-- _here is the way to do that_
-  - `running(function, data, window_span; padding = eltype(data)[]`)
+- this fills the extra indices with values obtained by `trimming`
 
 - `trimming` evaluates the window function over available data
   - trimmed window spans are less than the specified window_span
 
-### Use a vector of `𝓃` padding values
+#### Use a vector of `𝓃` padding values
 
 - where `1 <= 𝓃 < ℛᴼ`.
 
-#### this both pads and trims to assign the initial indices
-
-- the first `𝓃` indices of the result will match this vector
-- the next `ℛᴼ - 𝓃` indices of the result will be trimmed
-- the remaining indices get the rolled results.
+- this first pads then trims to assign the extra indices
+  - the first `𝓃` indices of the result will match this vector
+  - the next `ℛᴼ - 𝓃` indices of the result will be trimmed
+  - the remaining indices get the rolled results.
 
