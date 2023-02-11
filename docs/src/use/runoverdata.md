@@ -19,14 +19,23 @@ Here are ways to get as many result values as there are data values:
 
 #### specify a padding vector (default is at the start)
 
+- _here is the way to do that_
+  - `running(ℱ, 𝒟, 𝒲; padding = [<values>]`)
+  - `running(function, data, window_span; padding = [<values>]`)
+
 #### specify the padding vector to be at the end
+
+- _here is the way to do that_
+  - `running(ℱ, 𝒟, 𝒲; padding = [<values>], padlast = true`)
+  - `running(function, data, window_span; padding = [<values>], padlast = true`)
 
 ### Use an empty vector 
 
 #### this fills the `ℛᴼ` indices by `trimming`
 
 - _here is the way to do that_
-  - `running(function, data, window_span; padding = eltype(data)[]`)
+  - `running(ℱ, 𝒟, 𝒲; padding = eltype(𝒟)[]`)
+  - `running(function, data, window_span; padding = eltype(𝒟)[]`)
 
 - `trimming` evaluates the window function over available data
   - trimmed window spans are less than the specified window_span
