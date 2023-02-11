@@ -8,9 +8,9 @@
 
 You give a summarizing function 𝐹𝑢𝑛𝑐, the data 𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
 
-The result     ℛ is of length    ℛᴺ
+The result &nbsp;  ℛ is of length &nbsp; ℛᴺ
 - ℛᴺ = length( 𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
-- the result omits    ℛᴼ,    ℛᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
+- the result omits &nbsp; ℛᴼ, &nbsp; ℛᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
 
 - _here is the way to do that_
    - rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛)
