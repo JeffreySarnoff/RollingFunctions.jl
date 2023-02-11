@@ -5,7 +5,7 @@
 
 #### A function is applied to successive data subsequences.
 
-~~~~
+----
 
 You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.  
 
