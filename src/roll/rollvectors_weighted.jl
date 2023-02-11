@@ -424,6 +424,34 @@ end
 
 # pad first
 
+function padded_rolling(window_fn::Function, data1::AbstractVector{T},
+    window_span::Int, weights1::AbstractVector{T}; padding=Nothing) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷweights1 = asview(weights1)
+    ᵛʷweights2 = asview(weights2)
+
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+
+    nvalues = nrolled(n, window_span)
+    # only completed window_span coverings are resolvable
+    # the first (window_span - 1) values are unresolved wrt window_fn
+    padding_span = window_span - 1
+    padding_idxs = 1:padding_span
+
+    rettype = rts(window_fn, (Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, window_span
+    @inbounds for idx in 1:nvalues-padding_span
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
 
 function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T},
     window_span::Int, weights1::AbstractVector{T}, weights2::AbstractVector{T}; padding=Nothing) where {T}
@@ -438,7 +466,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
     padding_span = window_span - 1
-    padding_idxs = nvalues-padding_span:nvalues
+    padding_idxs = 1:padding_span
 
     rettype = rts(window_fn, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
@@ -469,7 +497,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
     padding_span = window_span - 1
-    padding_idxs = nvalues-padding_span:nvalues
+    padding_idxs = 1:padding_span
 
     rettype = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
@@ -502,7 +530,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
     # only completed window_span coverings are resolvable
     # the first (window_span - 1) values are unresolved wrt window_fn
     padding_span = window_span - 1
-    padding_idxs = nvalues-padding_span:nvalues
+    padding_idxs = 1:padding_span
 
     rettype = rts(window_fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
