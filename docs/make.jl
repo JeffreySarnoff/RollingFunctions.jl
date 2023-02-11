@@ -1,8 +1,9 @@
-using Documenter # , ArbNumerics
+using Documenter, DocumenterTools
 
 makedocs(
+    # modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
-    authors = "Jeffrey Sarnoff and other contributors",
+    authors = "Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>",
     format=Documenter.HTML(
         # Use clean URLs, unless built as a "local" build
         prettyurls=!("local" in ARGS),
