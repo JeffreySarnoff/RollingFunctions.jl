@@ -17,11 +17,13 @@ The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
 
 ----
 
-Here are ways to get as many result values as there are data values:
+### Here are ways to get as many results as there are data values:
 
-### Use a single, shared padding value
+----
 
-#### specify a padding value (default position is at the start)
+#### Use a single, shared padding value
+
+##### specify a padding value (default position is at the start)
 
 - _here is the way to do that_
   - `rolling(ℱ, 𝒟, 𝒲; padding = <value>)`
@@ -29,7 +31,7 @@ Here are ways to get as many result values as there are data values:
 - this will fill the initial result values with the padding value
   - pads these values `(result[1], .., result[pad_nindices])`
 
-#### specify padding to be at the end of the result
+##### specify padding to be at the end of the result
 
 - _here is the way to do that_
   - `rolling(ℱ, 𝒟, 𝒲; padding = <value>, padlast = true)`
