@@ -3,7 +3,7 @@
 <pre>
 This package gives you the ability to apply a summarizing function
 to successive equilength subsequences of some larger data sequence.
-<pre>
+</pre>
 
 
 You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.  
