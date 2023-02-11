@@ -8,11 +8,11 @@ padding is a keyword argument
 ```
 using RollingFunctions
 
-𝐃𝐚𝐭𝐚 = [1, 2, 3, 4, 5]
-𝐅𝐮𝐧𝐜 = sum
-𝐒𝐩𝐚𝐧 = 3
+_Data_ = [1, 2, 3, 4, 5]
+_Func_ = sum
+_Span_ = 3
 
-result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = missing);
+result = rolling(_Func_, _Data_, _Span_; padding = missing);
 #=
 5-element Vector{Union{Missing, Int64}}:
    missing
@@ -22,7 +22,7 @@ result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding =
  12
 =#
  
-result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = zero(eltype(𝐃𝐚𝐭𝐚));
+result = rolling(_Func_, _Data_, _Span_; padding = zero(eltype(_Data_));
 #=
 5-element Vector{Int64}:
   0
@@ -35,7 +35,7 @@ result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding =
 
 ### Give me the real values first, pad to the end.
 ```
-result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = missing, padlast=true);
+result = rolling(_Func_, _Data_, _Span_; padding = missing, padlast=true);
 #=
 5-element Vector{Union{Missing,Int64}}:
   6
@@ -46,4 +46,4 @@ result = rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding =
 =#
 ```
 
-**technical aside:** this is not the same as reverse(rolling(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧; padding = zero(eltype(𝐃𝐚𝐭𝐚)).
+**technical aside:** this is not the same as reverse(rolling(_Func_, _Data_, _Span_; padding = zero(eltype(_Data_)).

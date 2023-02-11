@@ -1,14 +1,14 @@
-You have a data sequence 𝐃𝐚𝐭𝐚, for our initial purposes it is a Vector [1, 2, 3, 4, 5].
+You have a data sequence _Data_, for our initial purposes it is a Vector [1, 2, 3, 4, 5].
 The span of each subsequence is 3.
-The function to be applied over subsequences of 𝐃𝐚𝐭𝐚 is sum.
+The function to be applied over subsequences of _Data_ is sum.
 ```
 using RollingFunctions
 
-𝐃𝐚𝐭𝐚 = [1, 2, 3, 4, 5]
-𝐅𝐮𝐧𝐜 = sum
-𝐒𝐩𝐚𝐧 = 3
+_Data_ = [1, 2, 3, 4, 5]
+_Func_ = sum
+_Span_ = 3
 
-result = running(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧)
+result = running(_Func_, _Data_, _Span_)
 julia> result
 3-element Vector{Int64}:
   6
@@ -16,19 +16,19 @@ julia> result
  12
 
 #=
-The first  windowed value is the 𝐅𝐮𝐧𝐜 (`sum`) of the first  𝐒𝐩𝐚𝐧 (`3`) values in 𝐃𝐚𝐭𝐚.
-The second windowed value is the 𝐅𝐮𝐧𝐜 (`sum`) of the second 𝐒𝐩𝐚𝐧 (`3`) values in 𝐃𝐚𝐭𝐚.
-The third  windowed value is the 𝐅𝐮𝐧𝐜 (`sum`) of the third  𝐒𝐩𝐚𝐧 (`3`) values in 𝐃𝐚𝐭𝐚.
+The first  windowed value is the _Func_ (`sum`) of the first  _Span_ (`3`) values in _Data_.
+The second windowed value is the _Func_ (`sum`) of the second _Span_ (`3`) values in _Data_.
+The third  windowed value is the _Func_ (`sum`) of the third  _Span_ (`3`) values in _Data_.
 
-There can be no fourth value as the third value used the fins entries in 𝐃𝐚𝐭𝐚.
+There can be no fourth value as the third value used the fins entries in _Data_.
 =#
 
-julia> sum(𝐃𝐚𝐭𝐚[1:3]), sum(𝐃𝐚𝐭𝐚[2:4]), sum(𝐃𝐚𝐭𝐚[3:5])
+julia> sum(_Data_[1:3]), sum(_Data_[2:4]), sum(_Data_[3:5])
 (6, 9, 12)
 If the span of each subsequence increases to 4..
 
-𝐒𝐩𝐚𝐧 = 4
-result = running(𝐅𝐮𝐧𝐜, 𝐃𝐚𝐭𝐚, 𝐒𝐩𝐚𝐧);
+_Span_ = 4
+result = running(_Func_, _Data_, _Span_);
 
 result
 2-element Vector{Int64}:
