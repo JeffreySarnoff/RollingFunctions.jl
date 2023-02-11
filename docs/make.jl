@@ -12,6 +12,10 @@ makedocs(
     ),
     pages = Any[
         "Home" => "index.md",
+        "Use" => Any[
+            "Rolling over windowed data" => "use/rolloverdata.md",
+            "Running over windowed data" => "use/runoverdata.md",
+        ],
         "Overview" => "overview.md",
         "Introduction" => Any[
             "Rolling over Data (basics)" => "intro/rolling.md",
