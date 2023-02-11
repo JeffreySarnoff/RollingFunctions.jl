@@ -108,7 +108,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T},
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, window_span
-    @inbounds for idx in inwindow_span:n 
+    @inbounds for idx in window_span:n 
         @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
