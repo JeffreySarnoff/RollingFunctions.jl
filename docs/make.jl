@@ -41,7 +41,5 @@ makedocs(
 
 deploydocs(
     repo = "github.com/JeffreySarnoff/RollingFunctions.jl.git",
-    target = "build",
-    deps = nothing,
-    make = nothing,
+    target = "build"
 )
