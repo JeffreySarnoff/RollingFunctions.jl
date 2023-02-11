@@ -1,10 +1,11 @@
 ## RollingFunctions.jl
 
-<pre>
-This package gives you the ability to apply a summarizing function
-to successive equilength subsequences of some larger data sequence.
-</pre>
 
+#### This package makes it easy to summarize windowed data.
+
+#### Your function is applied to data subsequences, in order.
+
+~~~~
 
 You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.  
 
