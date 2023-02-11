@@ -35,7 +35,7 @@ The result ℛ is of length ⬫ ℛᴺ,  ℛᴺ = length( 𝐷𝑎𝑡𝑎) - �
 
 #### Use an empty vector
 
-- this fills the extra indices with values obtained  by trimmin
+- this fills the extra indices with values obtained   by trimming
 
 - trimming evaluates the window function over available data
   - trimmed window spans are less than the specified window_span
