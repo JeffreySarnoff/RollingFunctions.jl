@@ -13,7 +13,7 @@ You give a summarizing function ℱ, the data 𝒟, and a window span 𝒲.
 The result `ℛ` is of length `ℛᴺ`, ℛᴺ = length(𝒟) - 𝒲 + 1`.
 - the result omits `ℛᴼ`, `ℛᴼ = 𝒲 - 1` indices into 𝒟.
 
-Here are ways to get as many result values as there are data values:
+There are ways to get a result that matches the data length.
 
 ### Use a single, shared padding value
 
