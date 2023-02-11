@@ -147,14 +147,10 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
 end
 
 function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    window_span::Int, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}; padding=Nothing) where {T}
+    window_span::Int; padding=Nothing) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    ᵛʷweights1 = asview(weights1)
-    ᵛʷweights2 = asview(weights2)
-    ᵛʷweights3 = asview(weights3)
-
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
 
     nvalues = nrolled(n, window_span)
@@ -169,7 +165,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
 
     ilow, ihigh = 1, window_span
     @inbounds for idx in 1:nvalues-padding_span
-        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3)
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -178,16 +174,11 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
 end
 
 function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    window_span::Int, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}, weights4::AbstractVector{T}; padding=Nothing) where {T}
+    window_span::Int; padding=Nothing) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
     ᵛʷdata4 = asview(data4)
-    ᵛʷweights1 = asview(weights1)
-    ᵛʷweights2 = asview(weights2)
-    ᵛʷweights3 = asview(weights3)
-    ᵛʷweights4 = asview(weights4)
-
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3), length(ᵛʷdata4))
 
     nvalues = nrolled(n, window_span)
@@ -202,7 +193,7 @@ function padded_rolling(window_fn::Function, data1::AbstractVector{T}, data2::Ab
 
     ilow, ihigh = 1, window_span
     @inbounds for idx in 1:nvalues-padding_span
-        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights3, ᵛʷdata4[ilow:ihigh] .* ᵛʷweights4)
+        @views results[idx] = window_fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
