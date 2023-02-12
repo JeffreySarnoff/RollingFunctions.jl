@@ -18,7 +18,6 @@ makedocs(
             "Running over windowed data" => "use/runoverdata.md",
             "Running examples (basic)" => "use/running_examples.md",
         ],
-        "Overview" => "overview.md",
         "Introduction" => Any[
             "Rolling over vectors (padding)" => "intro/padding.md",
             "Rolling over matricies (basics)" => "intro/matrix_rolling.md",
