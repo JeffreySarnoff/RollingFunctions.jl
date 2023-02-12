@@ -1,9 +1,9 @@
+
+- You have a data sequence 𝐷𝑎𝑡𝑎, the Vector[1, 2, 3, 4, 5].
+- The window span 𝑆𝑝𝑎𝑛 of each subsequence is 3.
+- The function 𝐹𝑢𝑛𝑐 to be applied over subsequences of 𝐷𝑎𝑡𝑎 is sum.
+
 ```
-
-# You have a data sequence𝐷𝑎𝑡𝑎, now it is a Vector [1, 2, 3, 4, 5].
-# The span of each subsequence is 3.
-# The function to be applied over subsequences of𝐷𝑎𝑡𝑎 is sum.
-
 using RollingFunctions
 
 𝐷𝑎𝑡𝑎 = [1, 2, 3, 4, 5]
