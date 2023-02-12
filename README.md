@@ -4,22 +4,6 @@
 
 #### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
 
------
-
-### todo polishing before next release v0.8
-
-- make `support/utils.jl:rts` work with matrices that have missings
-  - just add a new dispatch signature
-
-- add tests to ensure api coverage
-  - see https://jeffreysarnoff.github.io/RollingFunctions.jl/dev/api/run/
-  - see https://jeffreysarnoff.github.io/RollingFunctions.jl/dev/api/roll/
-
-- review and update this README
-  - defer to the docs
-
-
------
 
 [![Dev Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
 [![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)
