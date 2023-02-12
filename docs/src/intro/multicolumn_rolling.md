@@ -1,10 +1,12 @@
+```
+#=
 
 You have n data vectors of equal length (rowcount 𝓇)
-𝐷𝑎𝑡𝑎₁ ..𝐷𝑎𝑡𝑎ᵢ .. 𝐷𝑎𝑡𝑎ₙ
-you want to apply a function of n arguments
-here, n = 2 and the function isStatsBase.cor
-to subsequences over the vectors using a window_span of 3
+𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ .. 𝐷𝑎𝑡𝑎ₙ
+you apply a function (StatsBase.cor) of n==2 arguments
+to subsequences of span 3 (over successive triple rows)
 
+=#
 
 using RollingFunctions
 
@@ -22,3 +24,4 @@ result = rolling(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎₁,𝐷𝑎𝑡𝑎₂, 𝑆�
   -1.0
 =#
 
+```

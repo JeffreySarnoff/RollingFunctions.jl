@@ -12,7 +12,7 @@ using RollingFunctions
 𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
 𝐷𝑎𝑡𝑎₃ = [1, 2, 3, 2, 1]
 
-ℳ = hcat(𝐷𝑎𝑡𝑎₁,𝐷𝑎𝑡𝑎₂,𝐷𝑎𝑡𝑎₃)
+𝑀 = hcat(𝐷𝑎𝑡𝑎₁,𝐷𝑎𝑡𝑎₂,𝐷𝑎𝑡𝑎₃)
 #=
 5×3 Matrix{Int64}:
  1  5  1
@@ -25,7 +25,7 @@ using RollingFunctions
 𝐹𝑢𝑛𝑐 = sum
 𝑆𝑝𝑎𝑛 = 3
 
-result = rolling(𝐹𝑢𝑛𝑐, ℳ, 𝑆𝑝𝑎𝑛; padding=missing)
+result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛; padding=missing)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
 missing missing missing
@@ -38,7 +38,7 @@ missing missing missing
 
 ### Give me the real values first, pad to the end.
 
-result = rolling(𝐹𝑢𝑛𝑐, ℳ, 𝑆𝑝𝑎𝑛; padding = missing, padlast=true)
+result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛; padding = missing, padlast=true)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
   6  12  6
