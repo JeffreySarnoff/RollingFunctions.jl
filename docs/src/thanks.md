@@ -1,4 +1,4 @@
-There have been many who contributed.  These few have done more than most, some without trying. I am grateful.
+There have been many who contributed.  These few have done more than most, some without trying.  Let me know whom I may have misplaced.
 
 | name | at |
 |------|----|
