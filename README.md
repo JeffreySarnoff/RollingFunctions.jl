@@ -4,6 +4,8 @@
 
 #### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
 
+This describes version 1 of RollingFunctions
+The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
 
 [![Dev Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
 [![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)
