@@ -1,11 +1,17 @@
 # RollingFunctions.jl
 
+> The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
+
+This describes an unreleased work-in-process version of RollingFunctions.
+version RollingFunctions
+
 ### Roll a [weighted] function or run a statistic along windowed data.
 
+This describes version 1 of RollingFunctions
+The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
+
+
 #### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
-
------
-
 
 
 [![Dev Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
@@ -138,11 +144,3 @@ This software exists to simpilfy some of what you create and to faciliate some o
 Some who use it insightfully share the best of that. Others write words that smile. 
 
 All of this is expressed through the design of RollingFunctions.
-
-
-
-## Also Consider
-
- - The mapwindow function from [ImageFiltering](https://github.com/JuliaImages/ImageFiltering.jl)
-    supports multidimensional window indexing and different maps.
-    
