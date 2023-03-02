@@ -1,5 +1,7 @@
 using Documenter, DocumenterTools
 
+pushfirst!(LOAD_PATH, joinpath(@__DIR__, "..")) # add to environment stack
+
 makedocs(
     # modules = [RollingFunctions],
     sitename = "RollingFunctions.jl",
