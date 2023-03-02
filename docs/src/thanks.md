@@ -1,8 +1,12 @@
-There have been many who contributed.  These few have done more than most, some without trying. I am grateful.
+There have been many who contributed.
 
-| name | at |
-|------|----|
-| _Eliot Saba_ | @staticfloat |
-| _Bogumił Kamiński_ | @bkamins |
-| _Kevin Patel_ | @kevindirect |
+These people have done more, some without trying.
+
+|          thanks             |      |
+|:----------------------------|:-------------|
+| _Eliot Saba_                | @staticfloat |
+| _Bogumił Kamiński_          | @bkamins     |
+| _Miguel Raz Guzmán Macedo_  | @miguelraz   |
+| _Tyler Beason_              | @tbeason     |
+| _Kevin Patel_               | @kevindirect |
 

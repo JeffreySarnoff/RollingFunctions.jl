@@ -1,25 +1,27 @@
-## Rolling over Windowed Data Vectors - no padding
 ```
+#=
+
 You have n data vectors of equal length (rowcount 𝓇)
-`𝒟₁ .. 𝒟ᵢ ..  𝒟ₙ`
-you want to apply a function of n arguments
-here, n = 2 and the function is `StatsBase.cor`
-to subsequences over the vectors using a window_span of 3
-```
-```
+𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ .. 𝐷𝑎𝑡𝑎ₙ
+you apply a function (StatsBase.cor) of n==2 arguments
+to subsequences of span 3 (over successive triple rows)
+
+=#
+
 using RollingFunctions
 
-𝒟₁ = [1, 2, 3, 4, 5]
-𝒟₂ = [5, 4, 3, 2, 1]
+𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
+𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
 
-ℱ = cor
-𝒲 = 3
+𝐹𝑢𝑛𝑐 = cor
+𝑆𝑝𝑎𝑛 = 3
 
-result = rolling(ℱ, 𝒟₁, 𝒟₂, 𝒲)
+result = rolling(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎₁,𝐷𝑎𝑡𝑎₂, 𝑆𝑝𝑎𝑛)
 #=
 3-element Vector{Float64}:
   -1.0
   -1.0
   -1.0
 =#
+
 ```

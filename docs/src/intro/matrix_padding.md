@@ -1,20 +1,18 @@
-### Rolling over Windowed Data Matrix - with padding
-
 You may pad the result with the padding value of your choice
 
 padding is a keyword argument
 - if you assign e.g. padding = missing, the result will be padded
 - you may pad using any defined value and all types except Nothing
-- example pads `(missing, 0, nothing, NaN, '∅', AbstractString)`
+- example pads(missing, 0, nothing, NaN, '∅', AbstractString)
 
-```
+
 using RollingFunctions
 
-𝒟₁ = [1, 2, 3, 4, 5]
-𝒟₂ = [5, 4, 3, 2, 1]
-𝒟₃ = [1, 2, 3, 2, 1]
+𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5]
+𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1]
+𝐷𝑎𝑡𝑎₃ = [1, 2, 3, 2, 1]
 
-ℳ = hcat(𝒟₁, 𝒟₂, 𝒟₃)
+𝑀 = hcat(𝐷𝑎𝑡𝑎₁,𝐷𝑎𝑡𝑎₂,𝐷𝑎𝑡𝑎₃)
 #=
 5×3 Matrix{Int64}:
  1  5  1
@@ -24,10 +22,10 @@ using RollingFunctions
  5  1  1
 =#
 
-ℱ = sum
-𝒲 = 3
+𝐹𝑢𝑛𝑐 = sum
+𝑆𝑝𝑎𝑛 = 3
 
-result = rolling(ℱ, ℳ, 𝒲; padding=missing)
+result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛; padding=missing)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
 missing missing missing
@@ -36,11 +34,11 @@ missing missing missing
   9   9  7
  12   6  6
 =#
-```
+
 
 ### Give me the real values first, pad to the end.
-```
-result = rolling(𝒮, ℳ, 𝒲; padding = missing, padlast=true)
+
+result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛; padding = missing, padlast=true)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
   6  12  6
@@ -49,7 +47,7 @@ result = rolling(𝒮, ℳ, 𝒲; padding = missing, padlast=true)
    missing    missing   missing
    missing    missing   missing
 =#
-```
-**technical aside:** this is not the same as reverse(rolling(𝒮, 𝒟, 𝒲; padding = missing).
+
+**technical aside:** this is not the same as reverse(rolling(𝒮,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = missing).
 
 

@@ -1,3 +1,0 @@
-Function Arities
-
-abcd
