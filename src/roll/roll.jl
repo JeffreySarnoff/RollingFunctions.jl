@@ -20,7 +20,7 @@ function rolling(window_fn::F, window_span::Int, data1::AbstractVector{T1}, data
     end
 end
 
-function rolling(window_fn::F, window_span::Int, AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
+function rolling(window_fn::F, window_span::Int, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
     padding=Nothing, padlast=false) where {T1,T2,T3,F<:Function}
     if isNothing(padding)
         basic_rolling(window_fn, data1, data2, data3, window_span)
