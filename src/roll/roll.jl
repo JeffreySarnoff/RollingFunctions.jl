@@ -4,7 +4,7 @@ function rolling(window_fn::F, window_span::Span,
                  weights::WeightVecs=Unweighted) where {F<:Function}
     if isunweighted(weights)
         if isnopadding(padding)
-            rollbasic(window_fn, window_span, data)
+            roll_basic(window_fn, window_span, data)
         elseif !padlast
             roll_padded(window_fn, window_span, data; padding)
         else
