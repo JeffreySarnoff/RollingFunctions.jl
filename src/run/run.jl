@@ -1,5 +1,5 @@
 function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
-    padding=Nothing) where {T1,F<:Function}
+    padding=nopadding) where {T1,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span)
     else
@@ -8,7 +8,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int;
-    padding=Nothing) where {T1,T2,F<:Function}
+    padding=nopadding) where {T1,T2,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, window_span)
     else
@@ -17,7 +17,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, window_span::Int;
-    padding=Nothing) where {T1,T2,T3,F<:Function}
+    padding=nopadding) where {T1,T2,T3,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, window_span)
     else
@@ -27,7 +27,7 @@ end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Int;
-    padding=Nothing) where {T1,T2,T3,T4,F<:Function}
+    padding=nopadding) where {T1,T2,T3,T4,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span)
     else
@@ -36,7 +36,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
 end
 
 function running(window_fn::F, data1::AbstractMatrix{T1}, window_span::Int;
-    padding=Nothing) where {T1,F<:Function}
+    padding=nopadding) where {T1,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span)
     else
@@ -47,7 +47,7 @@ end
 # weighted
 
 function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing) where {T1,TW,F<:Function}
+    padding=nopadding) where {T1,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span, weights)
     else
@@ -56,7 +56,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int, weig
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,TW,F<:Function}
+    padding=nopadding) where {T1,T2,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, window_span, weights)
     else
@@ -65,7 +65,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
 end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,T3,TW,F<:Function}
+    padding=nopadding) where {T1,T2,T3,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, window_span, weights)
     else
@@ -75,7 +75,7 @@ end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,T3,T4,TW,F<:Function}
+    padding=nopadding) where {T1,T2,T3,T4,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span, weights)
     else
@@ -84,7 +84,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
 end
 
 function running(window_fn::F, data1::AbstractMatrix{T1}, window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing) where {T1,TW,F<:Function}
+    padding=nopadding) where {T1,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, window_span, weights)
     else
@@ -100,7 +100,7 @@ end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int,
     weights1::AbstractVector{TW}, weights2::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,TW,F<:Function}
+    padding=nopadding) where {T1,T2,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, window_span, weights1, weights2)
     else
@@ -110,7 +110,7 @@ end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, window_span::Int,
     weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,T3,TW,F<:Function}
+    padding=nopadding) where {T1,T2,T3,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, window_span, weights1, weights2, weights3)
     else
@@ -121,7 +121,7 @@ end
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Int,
     weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}, weights4::AbstractVector{TW};
-    padding=Nothing) where {T1,T2,T3,T4,TW,F<:Function}
+    padding=nopadding) where {T1,T2,T3,T4,TW,F<:Function}
     if isNothing(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span, weights1, weights2, weights3, weights4)
     else
@@ -317,7 +317,7 @@ end
 
 function padded_running(window_fn::Function, data1::AbstractMatrix{T1},
     window_span::Int, weights::AbstractVector{TW};
-    padding=Nothing) where {T1,TW}
+    padding=nopadding) where {T1,TW}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
