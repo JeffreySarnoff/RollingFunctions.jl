@@ -14,4 +14,4 @@ const Unweighted = Weights(Real[])
 isweighted(x) = x !==  Unweighted
 isunweighted(x) = x === Unweighted
 
-const AbstractVectors = Union{AbstractVector, Tuple{Vararg{AbstractVector}}}
+const AbstractVects = Union{AbstractVector, Tuple{Vararg{AbstractVector}}}
