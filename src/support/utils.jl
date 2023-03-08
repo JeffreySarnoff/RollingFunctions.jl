@@ -151,11 +151,3 @@ function nfilled(windowspan::T) where {T<:Signed}
     return windowspan - 1
 end
 
-# !! used with deprecated signatures !!
-# local exceptions
-
-SpanError(seqlength, windowspan) =
-    ErrorException("\n\tBad window span ($windowspan) for length $seqlength.\n" )
-
-WeightsError(nweighting, windowspan) =
-    ErrorException("\n\twindowspan ($windowspan) != length(weighting) ($nweighting))).\n" )
