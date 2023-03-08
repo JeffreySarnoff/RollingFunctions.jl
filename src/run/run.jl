@@ -42,8 +42,8 @@ end
 
 function running(window_fn::F, window_span::Span,
                  data1::AbstractVector{T1}, 
-                 weights::AbstractVector{TW};
-                 padding=nopadding) where {T1,TW,F<:Function}
+                 weights::AbstractWeights;
+                 padding=nopadding) where {T1,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, window_span, data1, weights)
     else
@@ -53,8 +53,8 @@ end
 
 function running(window_fn::F, window_span::Span,
                  data1::AbstractVector{T1}, data2::AbstractVector{T2},
-                 weights::AbstractVector{TW};
-                 padding=nopadding) where {T1,T2,TW,F<:Function}
+                 weights::AbstractWeights;
+                 padding=nopadding) where {T1,T2,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, window_span, data1, data2, weights)
     else
@@ -63,8 +63,8 @@ function running(window_fn::F, window_span::Span,
 end
 
 function running(window_fn::F, window_span::Span,
-                 data1::AbstractVector{T1}, data2::AbstractVector{T2}, data...,                weights::AbstractVector{TW};
-                 padding=nopadding) where {T1,T2,TW,F<:Function}
+                 data1::AbstractVector{T1}, data2::AbstractVector{T2}, data...,                weights::AbstractWeights;
+                 padding=nopadding) where {T1,T2,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, window_span, data1, data2, data, weights)
     else
@@ -74,8 +74,8 @@ end
 
 function running(window_fn::F, window_span::Span, 
                  data1::AbstractMatrix{T1}, 
-                 weights::AbstractVector{TW};
-                 padding=nopadding) where {T1,TW,F<:Function}
+                 weights::AbstractWeights;
+                 padding=nopadding) where {T1,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, window_span, data1, weights)
     else
@@ -91,8 +91,8 @@ end
 
 function running(window_fn::F, window_span::Span,
                 data1::AbstractVector{T1}, data2::AbstractVector{T2},
-                weights1::AbstractVector{TW}, weights2::AbstractVector{TW};
-                padding=nopadding) where {T1,T2,TW,F<:Function}
+                weights1::AbstractWeights, weights2::AbstractWeights;
+                padding=nopadding) where {T1,T2,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, window_span, data1, data2, weights1, weights2)
     else
@@ -102,8 +102,8 @@ end
 
 function running(window_fn::F, window_span::Span,
                  data1::AbstractVector{T1}, data2::AbstractVector{T2}, data...,
-    weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights...;
-    padding=nopadding) where {T1,T2,T3,TW,F<:Function}
+    weights1::AbstractWeights, weights2::AbstractWeights, weights...;
+    padding=nopadding) where {T1,T2,T3,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, data1, data2, data3, window_span, weights1, weights2, weights3)
     else
@@ -113,8 +113,8 @@ end
 
 function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     window_span::Span,
-    weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}, weights4::AbstractVector{TW};
-    padding=nopadding) where {T1,T2,T3,T4,TW,F<:Function}
+    weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights, weights4::AbstractWeights;
+    padding=nopadding) where {T1,T2,T3,T4,F<:Function}
     if isnopadding(padding)
         basic_running(window_fn, data1, data2, data3, data4, window_span, weights1, weights2, weights3, weights4)
     else
@@ -210,7 +210,7 @@ end
 =#
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1},
-    window_span::Span, weights::AbstractVector{TW}) where {T1,TW}
+    window_span::Span, weights::AbstractWeights) where {T1,}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
@@ -219,7 +219,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1},
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
-    window_span::Span, weights::AbstractVector{TW}) where {T1,T2,TW}
+    window_span::Span, weights::AbstractWeights) where {T1,T2,}
     typ = promote_type(T1, T2, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -229,7 +229,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    window_span::Span, weights::AbstractVector{TW}) where {T1,T2,T3,TW}
+    window_span::Span, weights::AbstractWeights) where {T1,T2,T3,}
     typ = promote_type(T1, T2, T3, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -240,7 +240,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
-    window_span::Span, weights::AbstractVector{TW}) where {T1,T2,T3,T4,TW}
+    window_span::Span, weights::AbstractWeights) where {T1,T2,T3,T4,}
     typ = promote_type(T1, T2, T3, T4, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -252,7 +252,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 end
 
 function basic_running(window_fn::Function, data1::Matrix{T1},
-    window_span::Span, weights::AbstractVector{TW}) where {T1,TW}
+    window_span::Span, weights::AbstractWeights) where {T1,}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
@@ -263,8 +263,8 @@ end
 # padded running
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1},
-    window_span::Span, weights::AbstractVector{TW};
-    padding::AbstractVector) where {T1,TW}
+    window_span::Span, weights::AbstractWeights;
+    padding::AbstractVector) where {T1,}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
@@ -273,8 +273,8 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1},
 end
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
-    window_span::Span, weights::AbstractVector{TW};
-    padding::AbstractVector) where {T1,T2,TW}
+    window_span::Span, weights::AbstractWeights;
+    padding::AbstractVector) where {T1,T2,}
     typ = promote_type(T1, T2, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -284,8 +284,8 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
 end
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    window_span::Span, weights::AbstractVector{TW};
-    padding::AbstractVector) where {T1,T2,T3,TW}
+    window_span::Span, weights::AbstractWeights;
+    padding::AbstractVector) where {T1,T2,T3,}
     typ = promote_type(T1, T2, T3, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -296,8 +296,8 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
 end
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
-    window_span::Span, weights::AbstractVector{TW};
-    padding::AbstractVector) where {T1,T2,T3,T4,TW}
+    window_span::Span, weights::AbstractWeights;
+    padding::AbstractVector) where {T1,T2,T3,T4,}
     typ = promote_type(T1, T2, T3, T4, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -309,8 +309,8 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
 end
 
 function padded_running(window_fn::Function, data1::AbstractMatrix{T1},
-    window_span::Span, weights::AbstractVector{TW};
-    padding=nopadding) where {T1,TW}
+    window_span::Span, weights::AbstractWeights;
+    padding=nopadding) where {T1,}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
@@ -323,7 +323,7 @@ end
 #
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
-    window_span::Span, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}) where {T1,T2,TW}
+    window_span::Span, weights1::AbstractWeights, weights2::AbstractWeights) where {T1,T2,}
     typ = promote_type(T1, T2, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -339,7 +339,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    window_span::Span, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}) where {T1,T2,T3,TW}
+    window_span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights) where {T1,T2,T3,}
     typ = promote_type(T1, T2, T3, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -359,7 +359,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::Ab
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
-    window_span::Span, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}) where {T1,T2,T3,T4,TW}
+    window_span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights) where {T1,T2,T3,T4,}
     typ = promote_type(T1, T2, T3, T4, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -384,8 +384,8 @@ end
 # padded running
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
-    window_span::Span, weights1::AbstractVector{TW}, weights2::AbstractVector{TW};
-    padding::AbstractVector) where {T1,T2,TW}
+    window_span::Span, weights1::AbstractWeights, weights2::AbstractWeights;
+    padding::AbstractVector) where {T1,T2,}
     typ = promote_type(T1, T2, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -402,8 +402,8 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
 end
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    window_span::Span, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW};
-    padding::AbstractVector) where {T1,T2,T3,TW}
+    window_span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights;
+    padding::AbstractVector) where {T1,T2,T3,}
     typ = promote_type(T1, T2, T3, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
@@ -423,8 +423,8 @@ function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::A
 end
 
 function padded_running(window_fn::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
-    window_span::Span, weights1::AbstractVector{TW}, weights2::AbstractVector{TW}, weights3::AbstractVector{TW}, weights4::AbstractVector{TW};
-    padding::AbstractVector) where {T1,T2,T3,T4,TW}
+    window_span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights, weights4::AbstractWeights;
+    padding::AbstractVector) where {T1,T2,T3,T4,}
     typ = promote_type(T1, T2, T3, T4, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
