@@ -30,16 +30,16 @@ D₂ = [5, 4, 3, 2, 1];
 F = cor;
 W = 3;
 expected = [-1.0, -1.0, -1.0];
-@test rolling(F, W, D₁, D₂,) == expected
+@test rolling(F, W, D₁, D₂) == expected
 
 expected = [missing, missing, -1.0, -1.0, -1.0];
-@test map(clean, rolling(F, W, D₁, D₂,; padding=missing)) == map(clean, expected)
-@test typeof(rolling(F, W, D₁, D₂,; padding=missing)) == typeof(expected)
+@test map(clean, rolling(F, W, D₁, D₂; padding=missing)) == map(clean, expected)
+@test typeof(rolling(F, W, D₁, D₂; padding=missing)) == typeof(expected)
 
 
 expected = [-1.0, -1.0, -1.0, missing, missing];
-@test map(clean, rolling(F, W, D₁, D₂,; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, W, D₁, D₂,; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, W, D₁, D₂; padding=missing, padlast=true)) == map(clean, expected)
+@test typeof(rolling(F, W, D₁, D₂; padding=missing, padlast=true)) == typeof(expected)
 
 D₁ = [1, 2, 3, 4, 5];
 D₂ = [5, 4, 3, 2, 1];
