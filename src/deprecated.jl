@@ -1,4 +1,4 @@
-function rolling(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
+function rolling(window_fn::F, data1::AbstractVector{T1}, window_span::Span;
     padding=nopadding, padlast=false) where {T1,F<:Function}
     
     Base.depwarn(
@@ -16,7 +16,7 @@ function rolling(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
     end
 end
 
-function rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int;
+function rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Span;
     padding=nopadding, padlast=false) where {T1,T2,F<:Function}
     
     Base.depwarn(
@@ -34,7 +34,7 @@ function rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
     end
 end
 
-function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
+function running(window_fn::F, data1::AbstractVector{T1}, window_span::Span;
     padding=nopadding) where {T1,F<:Function}
     
     Base.depwarn(
@@ -51,7 +51,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, window_span::Int;
     end
 end
 
-function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Int;
+function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, window_span::Span;
     padding=nopadding) where {T1,T2,F<:Function}
     
     Base.depwarn(

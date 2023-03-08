@@ -6,7 +6,7 @@
    padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
 =#
 
-function basic_running(window_fn::Function, data1::AbstractVector{T}, window_span::Int) where {T}
+function basic_running(window_fn::Function, data1::AbstractVector{T}, window_span::Span) where {T}
     ᵛʷdata1 = asview(data1)
     n = length(ᵛʷdata1)
     nvalues = nrolled(n, window_span)
@@ -31,7 +31,7 @@ end
 
 function basic_running(window_fn::Function, 
     data1::AbstractVector{T}, data2::AbstractVector{T}, 
-    window_span::Int) where {T}
+    window_span::Span) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
@@ -56,7 +56,7 @@ function basic_running(window_fn::Function,
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, 
-                       window_span::Int) where {T}
+                       window_span::Span) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -77,7 +77,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-                       window_span::Int) where {T}
+                       window_span::Span) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -103,7 +103,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T},
-    window_span::Int; padding::AbstractVector) where {T}
+    window_span::Span; padding::AbstractVector) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷpadding = asview(padding)
     n = length(ᵛʷdata1)
@@ -133,7 +133,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷpadding = asview(padding)
@@ -162,7 +162,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -192,7 +192,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -228,7 +228,7 @@ end
 
 function last_padded_running(window_fn::Function,
     data1::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷpadding = asview(padding)
     n = length(ᵛʷdata1)
@@ -258,7 +258,7 @@ end
 
 function last_padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷpadding = asview(padding)
@@ -288,7 +288,7 @@ end
 
 function last_padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -319,7 +319,7 @@ end
 
 function last_padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    window_span::Int; padding::AbstractVector{T}) where {T}
+    window_span::Span; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)

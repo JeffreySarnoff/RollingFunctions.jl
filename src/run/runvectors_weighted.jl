@@ -14,7 +14,7 @@
    padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
 =#
 
-function basic_running(window_fn::Function, data1::AbstractVector{T}, window_span::Int, weights::AbstractVector{T}) where {T}
+function basic_running(window_fn::Function, data1::AbstractVector{T}, window_span::Span, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweights = asview(weights)
     n = length(ᵛʷdata1)
@@ -41,7 +41,7 @@ end
 
 function basic_running(window_fn::Function, 
     data1::AbstractVector{T}, data2::AbstractVector{T}, 
-    window_span::Int, weights::AbstractVector{T}) where {T}
+    window_span::Span, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights = asview(weights)
@@ -68,7 +68,7 @@ function basic_running(window_fn::Function,
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, 
-                       window_span::Int, weights::AbstractVector{T}) where {T}
+                       window_span::Span, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -96,7 +96,7 @@ function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::Abs
 end
 
 function basic_running(window_fn::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-                       window_span::Int, weights::AbstractVector{T}) where {T}
+                       window_span::Span, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -129,7 +129,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T},
-    window_span::Int, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
+    window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweights = asview(weights)
     ᵛʷpadding = asview(padding)
@@ -158,7 +158,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T},
-    window_span::Int, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
+    window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights = asview(weights)
@@ -188,7 +188,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    window_span::Int, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
+    window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -219,7 +219,7 @@ end
 
 function padded_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    window_span::Int, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
+    window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
