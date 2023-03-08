@@ -67,3 +67,12 @@ function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
         padded_running(window_fn, data1, data2, window_span; padding)
     end
 end
+
+# !! used with deprecated signatures !!
+# local exceptions
+
+SpanError(seqlength, windowspan) =
+    ErrorException("\n\tBad window span ($windowspan) for length $seqlength.\n" )
+
+WeightsError(nweighting, windowspan) =
+    ErrorException("\n\twindowspan ($windowspan) != length(weighting) ($nweighting))).\n" )
