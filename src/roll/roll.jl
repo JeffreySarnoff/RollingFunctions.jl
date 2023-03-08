@@ -4,27 +4,27 @@ function rolling(window_fn::F, window_span::Span,
                  weights::WeightVecs=Unweighted) where {F<:Function}
     if isunweighted(weights)
         if isnopadding(padding)
-            rolling_basic(window_fn, window_span, data)
+            rollbasic(window_fn, window_span, data)
         elseif !padlast
-            rolling_padded(window_fn, window_span, data; padding)
+            roll_padded(window_fn, window_span, data; padding)
         else
-            rolling_paddedlast(window_fn, window_span, data; padding)
+            roll_paddedlast(window_fn, window_span, data; padding)
         end
     elseif typeof(weights) <: AbstractWeights # single weighted
         if isnopadding(padding)
-            rolling_basic_weights(window_fn, window_span, data; weights)
+            roll_basic_weights(window_fn, window_span, data; weights)
         elseif !padlast
-            rolling_padded_weights(window_fn, window_span, data; padding, weights)
+            roll_padded_weights(window_fn, window_span, data; padding, weights)
         else
-            rolling_paddedlast_weights(window_fn, window_span, data; padding, weights)
+            roll_paddedlast_weights(window_fn, window_span, data; padding, weights)
         end
     else # multiple weight vectors
         if isnopadding(padding)
-            rolling_basic_multiweights(window_fn, window_span, data; weights)
+            roll_basic_multiweights(window_fn, window_span, data; weights)
         elseif !padlast
-            rolling_padded_multiweights(window_fn, window_span, data; padding, weights)
+            roll_padded_multiweights(window_fn, window_span, data; padding, weights)
         else
-            rolling_paddedlast_multiweights(window_fn, window_span, data; padding, weights)
+            roll_paddedlast_multiweights(window_fn, window_span, data; padding, weights)
         end
     end
 end
