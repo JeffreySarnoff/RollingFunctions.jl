@@ -53,11 +53,24 @@ function rolling(window_fn::F, window_span::Int,
                  weights::AbstractVector{TW};
                  padding=nopadding, padlast=false) where {T1,TW,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, data1, window_span, weights)
+        basic_rolling_weighted(window_fn, window_span, data1, weights)
     elseif !padlast
-        padded_rolling(window_fn, data1, window_span, weights; padding)
+        padded_rolling_weighted(window_fn, window_span, data1, weights; padding)
     else
-        last_padded_rolling(window_fn, data1, window_span, weights; padding)
+        last_padded_rolling_weighted(window_fn, window_span, data1, weights; padding)
+    end
+end
+
+function rolling(window_fn::F, window_span::Int,
+                 data1::AbstractVector{T1}, 
+                 weights::AbstractVector{TW};
+                 padding=nopadding, padlast=false) where {T1,TW,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, data1, weights)
+    elseif !padlast
+        padded_rolling(window_fn, window_span, data1, weights; padding)
+    else
+        last_padded_rolling(window_fn, window_span, data1, weights; padding)
     end
 end
 
