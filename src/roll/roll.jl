@@ -12,19 +12,19 @@ function rolling(window_fn::F, window_span::Span,
         end
     elseif typeof(weights) <: AbstractWeights # single weighted
         if isnopadding(padding)
-            rolling_basic_weighted(window_fn, window_span, data; weights)
+            rolling_basic_weight(window_fn, window_span, data; weights)
         elseif !padlast
-            rolling_padded_weighted(window_fn, window_span, data; padding, weights)
+            rolling_padded_weight(window_fn, window_span, data; padding, weights)
         else
-            rolling_paddedlast_weighted(window_fn, window_span, data; padding, weights)
+            rolling_paddedlast_weight(window_fn, window_span, data; padding, weights)
         end
     else # multiple weight vectors
         if isnopadding(padding)
-            rolling_basic_mweighted(window_fn, window_span, data; weights)
+            rolling_basic_multiweight(window_fn, window_span, data; weights)
         elseif !padlast
-            rolling_padded_mweighted(window_fn, window_span, data; padding, weights)
+            rolling_padded_multiweight(window_fn, window_span, data; padding, weights)
         else
-            rolling_paddedlast_mweighted(window_fn, window_span, data; padding, weights)
+            rolling_paddedlast_multiweight(window_fn, window_span, data; padding, weights)
         end
     end
 end
