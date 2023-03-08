@@ -15,4 +15,4 @@ const noweights = NoWeights()
 isnoweights(x) = x === noweights
 isweights(x) = x !== noweights
 
-const UnWeighted = Weights(Real[])
+const Unweighted = Weights(Real[])
