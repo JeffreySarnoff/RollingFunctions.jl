@@ -49,6 +49,19 @@ function rolling(window_fn::F, window_span::Span,
     end
 end
 
+function rolling(window_fn::F, window_span::Span,
+                 datavec1::AbstractVector{T1}, datavec2::AbstractVector{T2},
+                 weightvec1::AbstractWeights, weightvec2::AbstractWeights;
+                 padding=nopadding, padlast=false) where {T1,T2,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, datavec1, datavec2, weightvec1, weightvec2)
+    elseif !padlast
+        padded_rolling(window_fn, window_span, datavec1, datavec2, weightvec1, weightvec2; padding)
+    else
+        last_padded_rolling(window_fn, window_span, datavec1, datavec2, weightvec1, weightvec2; padding)
+    end
+end
+
 
 function rolling(window_fn::F, window_span::Span, 
                  data::DataVecs;
