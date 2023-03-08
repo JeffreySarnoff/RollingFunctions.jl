@@ -5,3 +5,4 @@ seq(x::NTuple{N,T}) where {N,T} = x
 
 struct NoPadding end
 const nopadding = NoPadding()
+isnopadding(x) = x === nopadding

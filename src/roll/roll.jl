@@ -1,4 +1,5 @@
-function rolling(window_fn::F, window_span::Int, data1::AbstractVector{T1};
+function rolling(window_fn::F, window_span::Int, 
+    data1::AbstractVector{T1};
     padding=nopadding, padlast=false) where {T1,F<:Function}
     if isNothing(padding)
         basic_rolling(window_fn, data1, window_span)
