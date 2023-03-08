@@ -151,6 +151,7 @@ function nfilled(windowspan::T) where {T<:Signed}
     return windowspan - 1
 end
 
+# !! used with deprecated signatures !!
 # local exceptions
 
 SpanError(seqlength, windowspan) =
