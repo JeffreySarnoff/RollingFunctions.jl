@@ -36,15 +36,8 @@ using AccurateArithmetic: sum_oro
 
 using LoopVectorization
 
-for T in (:Int8, :Int16, :Int32, :Int64, :Int128,
-          :UInt8, :UInt16, :UInt32, :UInt64, :UInt128,
-          :Float16, :Float32, :Float64)
-  @eval LoopVectorization.check_args(x::Union{Missing,$T}) = true
-end
-
-const Seq = Union{V, NT} where {N, T, V<:AbstractVector{T}, NT<:NTuple{N,T}}
-seq(x::AbstractVector{T}) where {T} = x
-seq(x::NTuple{N,T}) where {N,T} = x
+include("support/types.jl")
+include("support/loopsupport.jl")
 
 include("support/exceptions.jl")
 include("support/utils.jl")
