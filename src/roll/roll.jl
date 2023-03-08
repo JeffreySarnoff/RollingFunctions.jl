@@ -1,3 +1,30 @@
+
+function rolling(window_fn::F, window_span::Span,
+                 datavec::AbstractVector{T1};
+                 padding=nopadding, padlast=false) where {T1,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, datavec)
+    elseif !padlast
+        padded_rolling(window_fn, window_span, datavec; padding)
+    else
+        last_padded_rolling(window_fn, window_span, datavec; padding)
+    end
+end
+
+function rolling(window_fn::F, window_span::Span,
+                 datavec::AbstractVector{T1},
+                 weightvec::AbstractWeights;
+                 padding=nopadding, padlast=false) where {T1,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, datavec, weightvec)
+    elseif !padlast
+        padded_rolling(window_fn, window_span, datavec, weightvec; padding)
+    else
+        last_padded_rolling(window_fn, window_span, datavec, weightvec; padding)
+    end
+end
+
+
 function rolling(window_fn::F, window_span::Span, 
                  data::DataVecs;
                  padding=nopadding, padlast=false,
@@ -53,17 +80,8 @@ function rolling(window_fn::F, window_span::Span,
     end
 end
 
-function rolling(window_fn::F, window_span::Span,
-                 data1::AbstractMatrix{T1};
-                 padding=nopadding, padlast=false) where {T1,F<:Function}
-    if isnopadding(padding)
-        basic_rolling(window_fn, window_span, data1)
-    elseif !padlast
-        padded_rolling(window_fn, window_span, data1; padding)
-    else
-        last_padded_rolling(window_fn, window_span, data1; padding)
-    end
-end
+
+
 
 # weighted
 
