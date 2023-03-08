@@ -245,7 +245,7 @@ end
 =#
 
 function basic_rolling(window_fn::Function, data1::AbstractVector{T1},
-    window_span::Span, weights::AbstractWeights=) where {T1}
+    window_span::Span, weights::AbstractWeights=Unweighted) where {T1}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
