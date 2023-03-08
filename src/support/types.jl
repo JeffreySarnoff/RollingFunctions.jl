@@ -10,9 +10,6 @@ const nopadding = NoPadding()
 isnopadding(x) = x === nopadding
 ispadding(x) = x !== nopadding
 
-struct NoWeights end
-const noweights = NoWeights()
-isnoweights(x) = x === noweights
-isweights(x) = x !== noweights
-
 const Unweighted = Weights(Real[])
+isweighted(x) = x !==  Unweighted
+isunweighted(x) = x === Unweighted
