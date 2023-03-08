@@ -42,7 +42,9 @@ for T in (:Int8, :Int16, :Int32, :Int64, :Int128,
   @eval LoopVectorization.check_args(x::Union{Missing,$T}) = true
 end
 
-const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
+const Seq = Union{V, NT} where {N, T, V<:AbstractVector{T}, NT<:NTuple{N,T}}
+seq(x::AbstractVector{T}) where {T} = x
+seq(x::NTuple{N,T}) where {N,T} = x
 
 include("support/exceptions.jl")
 include("support/utils.jl")
