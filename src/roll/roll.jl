@@ -1,12 +1,12 @@
 function rolling(window_fn::F, window_span::Int, 
-    data1::AbstractVector{T1};
-    padding=nopadding, padlast=false) where {T1,F<:Function}
+                 data1::AbstractVector{T1};
+                 padding=nopadding, padlast=false) where {T1,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, data1, window_span)
+        basic_rolling(window_fn, window_span, data1)
     elseif !padlast
-        padded_rolling(window_fn, data1, window_span; padding)
+        padded_rolling(window_fn, window_span, data1; padding)
     else
-        last_padded_rolling(window_fn, data1, window_span; padding)
+        last_padded_rolling(window_fn, window_span, data1; padding)
     end
 end
 
@@ -14,34 +14,35 @@ function rolling(window_fn::F, window_span::Int,
                  data1::AbstractVector{T1}, data2::AbstractVector{T2};
                  padding=Nothing, padlast=false) where {T1,T2,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, data1, data2, window_span)
+        basic_rolling(window_fn, window_span, data1, data2, window_span)
     elseif !padlast
-        padded_rolling(window_fn, data1, data2, window_span; padding)
+        padded_rolling(window_fn, window_span, data1, data2; padding)
     else
-        last_padded_rolling(window_fn, data1, data2, window_span; padding)
+        last_padded_rolling(window_fn, window_span, data1, data2; padding)
     end
 end
 
 function rolling(window_fn::F, window_span::Int,
-                 data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
-    padding=Nothing, padlast=false) where {T1,T2,T3,F<:Function}
+                 data1::AbstractVector{T1}, data2::AbstractVector{T2}, data...;
+                 padding=Nothing, padlast=false) where {T1,T2,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, data1, data2, data3, window_span)
+        basic_rolling(window_fn, window_span, data1, data2, data)
     elseif !padlast
-        padded_rolling(window_fn, data1, data2, data3, window_span; padding)
+        padded_rolling(window_fn, window_span, data1, data2, data; padding)
     else
-        last_padded_rolling(window_fn, data1, data2, data3, window_span; padding)
+        last_padded_rolling(window_fn, window_span, data1, data2, data; padding)
     end
 end
 
-function rolling(window_fn::F, window_span::Int, data1::AbstractMatrix{T1};
-    padding=Nothing, padlast=false) where {T1,F<:Function}
+function rolling(window_fn::F, window_span::Int,
+                 data1::AbstractMatrix{T1};
+                 padding=Nothing, padlast=false) where {T1,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, data1, window_span)
+        basic_rolling(window_fn, window_span, data1)
     elseif !padlast
-        padded_rolling(window_fn, data1, window_span; padding)
+        padded_rolling(window_fn, window_span, data1; padding)
     else
-        last_padded_rolling(window_fn, data1, window_span; padding)
+        last_padded_rolling(window_fn, window_span, data1; padding)
     end
 end
 
