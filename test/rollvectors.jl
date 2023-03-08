@@ -5,25 +5,25 @@ F = sum;
 W = 3;
 D = [1, 2, 3, 4, 5];
 expected = [6, 9, 12];
-@test rolling(F, D, W) == expected
+@test rolling(F, W, D) == expected
 
 expected = [missing, missing, 6, 9, 12];
-@test map(clean, rolling(F, D, W; padding=missing)) == map(clean, expected)
-@test typeof(rolling(F, D, W; padding=missing)) == typeof(expected)
+@test map(clean, rolling(F, W, D; padding=missing)) == map(clean, expected)
+@test typeof(rolling(F, W, D; padding=missing)) == typeof(expected)
 
 expected = [6, 9, 12, missing, missing];
-@test map(clean, rolling(F, D, W; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, D, W; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, W, D; padding=missing, padlast=true)) == map(clean, expected)
+@test typeof(rolling(F, W, D; padding=missing, padlast=true)) == typeof(expected)
 
 D = Float32[1, 2, 3, 4, 5];
 expected = Float32[6, 9, 12];
-@test rolling(F, D, W) == expected
+@test rolling(F, W, D) == expected
 
 F = sum;
 W = 4;
 D = [1, 2, 3, 4, 5];
 expected = [10, 14];
-@test rolling(F, D, W) == expected
+@test rolling(F, W, D) == expected
 
 D₁ = [1, 2, 3, 4, 5];
 D₂ = [5, 4, 3, 2, 1];
