@@ -2,8 +2,6 @@
 - nrows
 - ncols
 
-- isNothing
-
 - rts (returned types)
 - nrts (length(rts))
 
@@ -15,6 +13,8 @@
 - viewall
 
 - commontype
+
+- oneormore
 
 - filling
 =#
@@ -113,12 +113,61 @@ end
 Base.convert(::Type{Vector{T}}, tup::Tuple{Vararg{T,N}}) where {T,N} = [ tup... ]
 =#
 
-# from within a Union
+# commontype from within a Union
+
 union_types(x::Union) = (x.a, union_types(x.b)...)
 union_types(x::Type) = (x,)
 union_common(x::Union) = setdiff(union_types(x),(Missing,Nothing))
+
 commontype(x::Union) = union_common(x)[1]
 commontype(::Type{T}) where {T} = T
+
+# none, onlyone, oneormore, onlytwo, twoormore, ..., twelveormore
+
+
+#=
+   none(...)
+   only{one,two,three,..,twelve}(...)
+   {one,two,three,..,twelve}ormore(...)
+=#
+
+none() = true
+none(x::Nothing) = true
+none(x) = false
+
+namedints = ((:one, 1), (:two, 2), (:three, 3), (:four, 4),
+             (:five, 5), (:six, 6), (:seven, 7), (:eight, 8),
+             (:nine, 9), (:ten, 10), (:eleven, 11), (:twelve, 12))
+
+for (Nm, N) in namedints
+    fnstr = "only" * string(Nm)
+    fnsym = Symbol(fnstr)
+    fn = fnsym
+    @eval begin
+        ($fn)(x::Vararg{Any,K}) where {K} = false
+        ($fn)(x::Vararg{T,$N}) where {T} = true
+        ($fn)(x::Vararg{<:Union{<:AbstractVector, <:NTuple},$N}) = true
+    end
+end
+
+const maxtrueint = length(namedints)
+
+for (Nm, N) in namedints
+    lowfalses = collect(0:(N-1))
+    hightrues = collect(N:maxtrueint)
+
+    fnstr = string(Nm) * "ormore"
+    fnsym = Symbol(fnstr)
+    fn = fnsym
+    
+    for K in lowfalses
+        @eval ($fn)(x::Vararg{Any,$K}) = false
+    end
+    for K in hightrues
+        @eval ($fn)(x::Vararg{Any,$K}) = true
+        @eval ($fn)(x::Vararg{<:Union{<:AbstractVector,<:NTuple},$K}) = true
+    end
+end
 
 # filling
 
