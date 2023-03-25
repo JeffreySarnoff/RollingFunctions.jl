@@ -202,7 +202,7 @@ function rolling(window_fn::F, window_span::Span,
 end
 
 function rolling(window_fn::F, window_span::Span,
-                 data::AbstractVector{Vararg{AbstractVector,N}},
+                 data::DataVecs,
                  weights::AbstractWeights;
                  padding=nopadding, padlast=false) where {N,F<:Function}
     if isnopadding(padding)
