@@ -1,6 +1,7 @@
 const Span = Union{Int, NTuple{N,Int}} where {N}
 
-const Seq = Union{V, NT} where {N, T, V<:AbstractVector{T}, NT<:NTuple{N,T}}
+const Sequence = Union{V, NT} where {N, T, V<:AbstractVector{T}, NT<:NTuple{N,T}}
+const Seq = Sequence
 
 seq(x::AbstractVector{T}) where {T} = x
 seq(x::NTuple{N,T}) where {N,T} = x
