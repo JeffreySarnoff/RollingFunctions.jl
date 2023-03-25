@@ -64,7 +64,7 @@ end
 
 
 function rolling(window_fn::F, window_span::Span,
-                 datavecs::AbstractVector{T};
+                 datavecs::DataVecs;
                  padding=nopadding, padlast=false) where {T,F<:Function}
     if isnopadding(padding)
         basic_rolling(window_fn, window_span, datavecs)
