@@ -202,15 +202,15 @@ function rolling(window_fn::F, window_span::Span,
 end
 
 function rolling(window_fn::F, window_span::Span,
-                 data1::AbstractVector{T1}, data2::AbstractVector{T2}, data...,
+                 data::AbstractVector{Vararg{AbstractVector,N}}
                  weights::AbstractWeights;
-                 padding=nopadding, padlast=false) where {T1,T2,F<:Function}
+                 padding=nopadding, padlast=false) where {N,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, window_span, data1, data2, data, weights)
+        basic_rolling(window_fn, window_span, data, weights)
     elseif !padlast
-        padded_rolling(window_fn, window_span, data1, data2, data, weights; padding)
+        padded_rolling(window_fn, window_span, data, weights; padding)
     else
-        last_padded_rolling(window_fn, window_span, data1, data2, data, weights; padding)
+        last_padded_rolling(window_fn, window_span, data, weights; padding)
     end
 end
 
