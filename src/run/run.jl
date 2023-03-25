@@ -64,14 +64,14 @@ end
 
 
 function running(window_fn::F, window_span::Span,
-                 datavecs::AbstractVector{T2};
-                 padding=nopadding, padlast=false) where {T1,T2,F<:Function}
+                 datavecs::AbstractVector{T};
+                 padding=nopadding, padlast=false) where {T,F<:Function}
     if isnopadding(padding)
-        basic_running(window_fn, window_span, datavec1, datavec2)
+        basic_running(window_fn, window_span, datavecs)
     elseif !padlast
-        padded_running(window_fn, window_span, datavec1, datavec2; padding)
+        padded_running(window_fn, window_span, datavecs; padding)
     else
-        last_padded_running(window_fn, window_span, datavec1, datavec2; padding)
+        last_padded_running(window_fn, window_span, datavecs; padding)
     end
 end
 
