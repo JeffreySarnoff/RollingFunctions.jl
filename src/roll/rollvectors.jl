@@ -28,7 +28,7 @@ function basic_rolling(window_fn::Function, window_span::Span,
     results
 end
 
-function basic_rolling(window_fn::Function, , window_span::Span,
+function basic_rolling(window_fn::Function, window_span::Span,
                        data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
