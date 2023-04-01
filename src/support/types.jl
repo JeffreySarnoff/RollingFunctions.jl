@@ -40,8 +40,8 @@ const nopadding = NoPadding()
 isnopadding(x) = x === nopadding
 ispadding(x) = x !== nopadding
 
-struct UnWeighted end
-const unweighted = UnWeighted()
+struct Unweighted end
+const unweighted = Unweighted()
 isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
