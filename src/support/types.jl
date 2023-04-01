@@ -39,7 +39,7 @@ seq(x::NTuple{N,T}) where {N,T} = x
 seq(x::Tuple) = x
 =#
 
-
+#=
 using Test, BenchmarkTools
 
 nta = (1, 2, 3, 4)
@@ -107,7 +107,7 @@ ispadding(x) = x !== nopadding
 const Unweighted = Weights(Real[])
 isweighted(x) = x !== Unweighted
 isunweighted(x) = x === Unweighted
-
+=#
 
 #=
 const DataVecs = Union{AbstractVector,Tuple{Vararg{AbstractVector}}}
