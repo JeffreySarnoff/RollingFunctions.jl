@@ -34,6 +34,20 @@ seq(x::MultiSequence) = x
 multiseq(x::Sequence) = isa_multisequence(x) ? x : error("$(x) [typeof(x) == $(typeof(x))] is not a MultiSequence")
 multiseq(x::MultiSequence) = isa_multisequence(x)
 
+
+struct NoPadding end
+const nopadding = NoPadding()
+isnopadding(x) = x === nopadding
+ispadding(x) = x !== nopadding
+
+struct UnWeighted end
+const unweighted = UnWeighted()
+isunwieghted(x) = x === unweighted
+isweighted(x) = x !== unweighted
+
+const DataVecs = Union{AbstractVector,Tuple{Vararg{AbstractVector}}}
+const WeightVecs = AbstractWeights, Tuple{Vararg{AbstractWeights}}
+
 #=
 seq(x::AbstractVector{T}) where {T} = x
 seq(x::NTuple{N,T}) where {N,T} = x
@@ -100,19 +114,11 @@ vac = [va, vc]
 
 
 
-struct NoPadding end
-const nopadding = NoPadding()
-isnopadding(x) = x === nopadding
-ispadding(x) = x !== nopadding
-
 const Unweighted = Weights(Real[])
 isweighted(x) = x !== Unweighted
 isunweighted(x) = x === Unweighted
 =#
 
-
-const DataVecs = Union{AbstractVector,Tuple{Vararg{AbstractVector}}}
-const WeightVecs = AbstractWeights, Tuple{Vararg{AbstractWeights}}
 
 #=
 const ADataVec = AbstractVector{T} where {T<:Number}
