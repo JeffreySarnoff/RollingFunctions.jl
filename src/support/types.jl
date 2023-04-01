@@ -46,7 +46,7 @@ isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
 const DataVecs = Union{AbstractVector,Tuple{Vararg{AbstractVector}}}
-const WeightVecs = AbstractWeights, Tuple{Vararg{AbstractWeights}}
+const WeightVecs = Union{AbstractWeights, Tuple{Vararg{AbstractWeights}}}
 
 #=
 seq(x::AbstractVector{T}) where {T} = x
