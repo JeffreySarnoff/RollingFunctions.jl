@@ -110,11 +110,11 @@ isweighted(x) = x !== Unweighted
 isunweighted(x) = x === Unweighted
 =#
 
-#=
+
 const DataVecs = Union{AbstractVector,Tuple{Vararg{AbstractVector}}}
 const WeightVecs = AbstractWeights, Tuple{Vararg{AbstractWeights}}
 
-
+#=
 const ADataVec = AbstractVector{T} where {T<:Number}
 const ADataTuple = NTuple{N,T} where {N,T<:Real}
 
