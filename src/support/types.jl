@@ -1,3 +1,4 @@
+const Span = Union{Int32, Int64}
 
 const AkoTuple = Tuple{Vararg}
 const AkoNTuple = NTuple{N,T} where {N,T}
@@ -120,7 +121,7 @@ const ADataTuple = NTuple{N,T} where {N,T<:Real}
 const ADataVecs = AbstractVector{T} where {T<:AbstractVector}
 const ADataTuples = Tuple{Vararg{Tuple}}
 
-const Span = Union{Int,NTuple{N,Int}} where {N}
+
 
 =#
 
