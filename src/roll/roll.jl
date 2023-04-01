@@ -105,7 +105,7 @@ end
 function rolling(window_fn::F, window_span::Span, 
                  data::DataVecs;
                  padding=nopadding, padlast=false,
-                 weights::WeightVecs=Unweighted) where {F<:Function}
+                 weights::Union{WeightVecs, Unweighted}=unweighed) where {F<:Function}
     if isunweighted(weights)
         if isnopadding(padding)
             roll_basic(window_fn, window_span, data)
