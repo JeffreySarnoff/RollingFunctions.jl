@@ -75,7 +75,7 @@ end
 
 
 function rolling(window_fn::F, window_span::Span,
-    data::Tuple{Vararg};
+    data::Tuple{Vararg{<:AbstractArray}};
     padding=nopadding, padlast=false) where {F<:Function}
     if isnopadding(padding)
         basic_rolling(window_fn, window_span, data)
