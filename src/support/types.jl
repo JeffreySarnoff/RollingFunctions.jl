@@ -1,5 +1,3 @@
-const Span = Union{Int32,Int64}
-
 const VectorOfNTuples = AbstractVector{<:NTuple}
 const VectorOfTuples = AbstractVector{<:Tuple}
 const VectorOfVectors = AbstractVector{<:AbstractVector}
@@ -16,7 +14,9 @@ const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
 seq(x::NTuple{N,T}) where {N,T} = x
 
-const Multisequence = Union{Tuple{Vararg{<:Sequence}}, AbstractVector{<:Sequence}}
+const Multisequence = Union{Tuple{Vararg{<:Sequence}},AbstractVector{<:Sequence}}
+
+const Span = Union{Int32,Int64}
 
 struct NoPadding end
 const nopadding = NoPadding()
@@ -28,7 +28,7 @@ const unweighted = Unweighted()
 isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
-const Weights = Union{AbstractWeights{T},Tuple{Vararg{AbstractWeights{T}}}} where {T}
+const Weights = Union{AbstractWeights{T}, Tuple{Vararg{<:AbstractWeights{T}}}} where {T}
 
 
 
