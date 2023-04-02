@@ -73,6 +73,7 @@ function rolling(window_fn::F, window_span::Span,
     end
 end
 
+
 function rolling(window_fn::F, window_span::Span,
     data::Tuple{Vararg};
     padding=nopadding, padlast=false) where {F<:Function}
@@ -86,23 +87,12 @@ function rolling(window_fn::F, window_span::Span,
 end
 
 
-#=
 
 #=
-    unweighted rolling
-
-    rolling(window_fn, window_span, data; 
+    weighted rolling
+1
+    1rolling(window_fn, window_span, datas, weights; 
             padfirst=nopadding, padlast=false)
-=#
-
-
-
-
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 =#
 
 

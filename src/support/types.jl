@@ -1,5 +1,29 @@
 const Span = Union{Int32, Int64}
 
+const VectorOfVectors = AbstractVector{Vararg{AbstractVector}}}
+const TupleOfVectors  = Tuple{Vararg{AbstractVector}}}
+const Vectors = Union{VectorOfVectors, TupleOfVectors}
+
+const Sequence = Union{AbstractVector{T}, NTuple{N,T}} where {N,T}
+seq(x::AbstractVector{T}) where {T} = x
+seq(x::NTuple{N,T}) where {N,T} = x
+
+struct NoPadding end
+const nopadding = NoPadding()
+isnopadding(x) = x === nopadding
+ispadding(x) = x !== nopadding
+
+struct Unweighted end
+const unweighted = Unweighted()
+isunwieghted(x) = x === unweighted
+isweighted(x) = x !== unweighted
+
+const Weights = Union{AbstractWeights{T}, Tuple{Vararg{AbstractWeights{T}}}} where {T}
+
+
+
+#=
+
 const AkoTuple = Tuple{Vararg}
 const AkoNTuple = NTuple{N,T} where {N,T}
 const AkoVector = AbstractVector{T} where {T}
@@ -33,22 +57,12 @@ seq(x::Sequence) = x
 seq(x::MultiSequence) = x
 multiseq(x::Sequence) = isa_multisequence(x) ? x : error("$(x) [typeof(x) == $(typeof(x))] is not a MultiSequence")
 multiseq(x::MultiSequence) = isa_multisequence(x)
+=#
 
-
-struct NoPadding end
-const nopadding = NoPadding()
-isnopadding(x) = x === nopadding
-ispadding(x) = x !== nopadding
-
-struct Unweighted end
-const unweighted = Unweighted()
-isunwieghted(x) = x === unweighted
-isweighted(x) = x !== unweighted
-
+#=
 const DataVecs = Union{AbstractVector,Tuple{Vararg{AbstractVector}}}
 const WeightVecs = Union{AbstractWeights, Tuple{Vararg{AbstractWeights}}}
 
-#=
 seq(x::AbstractVector{T}) where {T} = x
 seq(x::NTuple{N,T}) where {N,T} = x
 seq(x::Tuple) = x
