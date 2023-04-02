@@ -1,15 +1,93 @@
-
 function rolling(window_fn::F, window_span::Span,
-                 datavec::AbstractVector{T1};
-                 padding=nopadding, padlast=false) where {T1,F<:Function}
+    data::AbstractVector{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
     if isnopadding(padding)
-        basic_rolling(window_fn, window_span, datavec)
+        basic_rolling(window_fn, window_span, data)
     elseif !padlast
-        padded_rolling(window_fn, window_span, datavec; padding)
+        padfirst_rolling(window_fn, window_span, data; padding, padlast)
     else
-        last_padded_rolling(window_fn, window_span, datavec; padding)
+        padfinal_rolling(window_fn, window_span, data; padding, padlast)
     end
 end
+
+function rolling(window_fn::F, window_span::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, data1, data2)
+    elseif !padlast
+        padfirst_rolling(window_fn, window_span, data1, data2; padding, padlast)
+    else
+        padfinal_rolling(window_fn, window_span, data1, data2; padding, padlast)
+    end
+end
+
+function rolling(window_fn::F, window_span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2};
+    padding=nopadding, padlast=false) where {T1,T2,F<:Function}
+    typ = promote_type(T1, T2)
+    ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
+    ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
+    rolling(window_fn, window_span, ᵛʷdata1, ᵛʷdata2; padding, padlast)
+end
+
+function rolling(window_fn::F, window_span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
+    padding=nopadding, padlast=false) where {T1,T2,T3,F<:Function}
+    typ = promote_type(T1, T2, T3)
+    ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
+    ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
+    ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
+    rolling(window_fn, window_span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3; padding, padlast)
+end
+
+function rolling(window_fn::F, window_span::Span,
+    data::T;
+    padding=nopadding, padlast=false) where {T<:Tuple{Vararg{<:AbstractVector}},F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, data)
+    elseif !padlast
+        padfirst_rolling(window_fn, window_span, data; padding, padlast)
+    else
+        padfinal_rolling(window_fn, window_span, data; padding, padlast)
+    end
+end
+
+function rolling(window_fn::F, window_span::Span,
+    data::AbstractMatrix{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, data)
+    elseif !padlast
+        padfirst_rolling(window_fn, window_span, data; padding, padlast)
+    else
+        padfinal_rolling(window_fn, window_span, data; padding, padlast)
+    end
+end
+
+function rolling(window_fn::F, window_span::Span,
+    data::Tuple{Vararg};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, data)
+    elseif !padlast
+        padfirst_rolling(window_fn, window_span, data; padding, padlast)
+    else
+        padfinal_rolling(window_fn, window_span, data; padding, padlast)
+    end
+end
+
+
+#=
+
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=#
+
+
 
 function rolling(window_fn::F, window_span::Span,
                  datavec::AbstractVector{T1},
@@ -233,18 +311,6 @@ end
 
 # weighted
 
-function rolling(window_fn::F, window_span::Span,
-                 data1::AbstractVector{T1}, data2::AbstractVector{T2},
-                 weights1::AbstractWeights, weights2::AbstractWeights;
-                 padding=nopadding, padlast=false) where {T1,T2,F<:Function}
-    if isnopadding(padding)
-        basic_rolling(window_fn, window_span, data1, data2, weights1, weights2)
-    elseif !padlast
-        padded_rolling(window_fn, window_span, data1, data2, weights1, weights2; padding)
-    else
-        last_padded_rolling(window_fn, window_span, data1, data2, weights1, weights2; padding)
-    end
-end
 
 function rolling(window_fn::F, window_span::Span,
                  data::DataVecs,
