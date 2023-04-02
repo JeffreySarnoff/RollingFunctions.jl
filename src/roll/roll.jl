@@ -65,7 +65,7 @@ end
 
 function rolling(window_fn::F, window_span::Span,
                  datavecs::DataVecs;
-                 padding=nopadding, padlast=false) where {T,F<:Function}
+                 padding=nopadding, padlast=false) where {F<:Function}
     if isnopadding(padding)
         basic_rolling(window_fn, window_span, datavecs)
     elseif !padlast
@@ -204,7 +204,7 @@ end
 function rolling(window_fn::F, window_span::Span,
                  data::DataVecs,
                  weights::AbstractWeights;
-                 padding=nopadding, padlast=false) where {N,F<:Function}
+                 padding=nopadding, padlast=false) where {F<:Function}
     if isnopadding(padding)
         basic_rolling(window_fn, window_span, data, weights)
     elseif !padlast
