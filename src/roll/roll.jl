@@ -1,3 +1,11 @@
+#=
+    unweighted rolling
+
+    rolling(window_fn, window_span, data...; 
+            padfirst=nopadding, padlast=false)
+=#
+
+
 function rolling(window_fn::F, window_span::Span,
     data::AbstractVector{T};
     padding=nopadding, padlast=false) where {T,F<:Function}
@@ -32,6 +40,18 @@ function rolling(window_fn::F, window_span::Span,
 end
 
 function rolling(window_fn::F, window_span::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(window_fn, window_span, data1, data2, data3)
+    elseif !padlast
+        padfirst_rolling(window_fn, window_span, data1, data2, data3; padding, padlast)
+    else
+        padfinal_rolling(window_fn, window_span, data1, data2, data3; padding, padlast)
+    end
+end
+
+function rolling(window_fn::F, window_span::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
     padding=nopadding, padlast=false) where {T1,T2,T3,F<:Function}
     typ = promote_type(T1, T2, T3)
@@ -39,18 +59,6 @@ function rolling(window_fn::F, window_span::Span,
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
     rolling(window_fn, window_span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3; padding, padlast)
-end
-
-function rolling(window_fn::F, window_span::Span,
-    data::T;
-    padding=nopadding, padlast=false) where {T<:Tuple{Vararg{<:AbstractVector}},F<:Function}
-    if isnopadding(padding)
-        basic_rolling(window_fn, window_span, data)
-    elseif !padlast
-        padfirst_rolling(window_fn, window_span, data; padding, padlast)
-    else
-        padfinal_rolling(window_fn, window_span, data; padding, padlast)
-    end
 end
 
 function rolling(window_fn::F, window_span::Span,
@@ -67,7 +75,7 @@ end
 
 function rolling(window_fn::F, window_span::Span,
     data::Tuple{Vararg};
-    padding=nopadding, padlast=false) where {T,F<:Function}
+    padding=nopadding, padlast=false) where {F<:Function}
     if isnopadding(padding)
         basic_rolling(window_fn, window_span, data)
     elseif !padlast
@@ -79,6 +87,16 @@ end
 
 
 #=
+
+#=
+    unweighted rolling
+
+    rolling(window_fn, window_span, data; 
+            padfirst=nopadding, padlast=false)
+=#
+
+
+
 
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
