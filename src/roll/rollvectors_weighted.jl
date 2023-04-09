@@ -397,20 +397,8 @@ function basic_rolling(func::Function, span::Span, data1::AbstractVector{T1}, da
     basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2)
 end
 
-function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷweights1 = asview(weights1)
-    ᵛʷweights2 = asview(weights2)
-    ᵛʷweights3 = asview(weights3)
-
-    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3)
-end
-
-function basic_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2::ViewOfVector{T}, data3::ViewOfVector{T},
-    weights1::ViewOfWeights{T}, weights2::ViewOfWeights{T}, weights3::ViewOfWeights{T}) where {T}
+function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweights1::ViewOfWeights{T}, ᵛʷweights2::ViewOfWeights{T}, ᵛʷweights3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     nvalues = nrolled(n, span)
 
@@ -523,15 +511,8 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
     results
 end
 
-function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}, padding) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷweights1 = asview(weights1)
-    ᵛʷweights2 = asview(weights2)
-    ᵛʷweights3 = asview(weights3)
-
+function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweights1::ViewOfWeights{T}, ᵛʷweights2::ViewOfWeights{T}, ᵛʷweights3::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
 
     nvalues = nrolled(n, span)
