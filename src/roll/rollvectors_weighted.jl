@@ -86,8 +86,8 @@ function basic_rolling(func::Function, span::Span,
     results
 end
 
-function basic_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2::ViewOfVector{T}, data3::ViewOfVector{T},
-    weights::ViewOfWeights{T}) where {T}
+function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    (ᵛʷweights::ViewOfWeights{T}) where {T}
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     nvalues = nrolled(n, span)
@@ -106,6 +106,37 @@ function basic_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2
 end
 
 # pad first
+
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
+    weights::AbstractWeights{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷweights = asview(weights)
+
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷweights, padding)
+end
+
+function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, weights::ViewOfWeights, padding) 
+    n = length(data1)
+    nvalues = nrolled(n, span)
+    # only completed span coverings are resolvable
+    # the first (span - 1) values are unresolved wrt func
+    padding_span = span - 1
+    padding_idxs = nvalues-padding_span:nvalues
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, span
+    @inline for idx in span:n
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
 
 function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
     weights::AbstractWeights{T}, padding) where {T}
