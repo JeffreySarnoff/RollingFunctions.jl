@@ -37,8 +37,8 @@ function rolling(func::F, span::Span,
 end
 
 function rolling(func::F, span::Span,
-    data1::AbstractVector{T}, data2::AbstractVector{T};
-    padding=nopadding, padlast=false) where {T,F<:Function}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2};
+    padding=nopadding, padlast=false) where {T1,T2,F<:Function}
     if isnopadding(padding)
         basic_rolling(func, span, data1, data2)
     elseif !padlast
@@ -49,8 +49,8 @@ function rolling(func::F, span::Span,
 end
 
 function rolling(func::F, span::Span,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T};
-    padding=nopadding, padlast=false) where {T,F<:Function}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
+    padding=nopadding, padlast=false) where {T1,T2,T3,F<:Function}
     if isnopadding(padding)
         basic_rolling(func, span, data1, data2, data3)
     elseif !padlast
@@ -81,6 +81,92 @@ function rolling(func::F, span::Span,
         padfirst_rolling(func, span, data, padding)
     else
         padfinal_rolling(func, span, data, padding)
+    end
+end
+
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T}, weights::AbstractWeights{W};
+    padding=nopadding, padlast=false) where {T,W,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, weights)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, weights, padding)
+    else
+        padfinal_rolling(func, span, data1, weights, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights::AbstractWeights{W}; 
+    padding=nopadding, padlast=false) where {T1,T2,W,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, data2, weights)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, data2, weights, padding)
+    else
+        padfinal_rolling(func, span, data1, data2, weights, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2};
+    padding=nopadding, padlast=false) where {T1,T2,W1,W2,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, data2, weights1, weights2)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, data2, weights1, weights2, padding)
+    else
+        padfinal_rolling(func, span, data1, data2, weights1, weights2, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, weights::AbstractWeights{W};
+    padding=nopadding, padlast=false) where {T1,T2,T3,W,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, data2, data3, weights)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, data2, data3, weights, padding)
+    else
+        padfinal_rolling(func, span, data1, data2, data3, weights, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}, weights3::AbstractWeights{W3};
+    padding=nopadding, padlast=false) where {T1,T2,T3,W1,W2,W3,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, data2, data3, weights1, weights2, weights3)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, data2, data3, weights1, weights2, weights3, padding)
+    else
+        padfinal_rolling(func, span, data1, data2, data3, weights1, weights2, weights3, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractMatrix{T}, weights::AbstractWeights{W};
+    padding=nopadding, padlast=false) where {T,W,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, weights)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, weights, padding)
+    else
+        padfinal_rolling(func, span, data1, weights, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data::Tuple{<:AbstractArray}, weights::AbstractWeights{W};
+    padding=nopadding, padlast=false) where {W,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data, weights)
+    elseif !padlast
+        padfirst_rolling(func, span, data, weights, padding)
+    else
+        padfinal_rolling(func, span, data, weights, padding)
     end
 end
 
