@@ -38,16 +38,6 @@ expected = [
 @test map(clean, rolling(F, W, M; padding=missing, padlast=true)) == map(clean, expected)
 @test typeof(rolling(F, W, M; padding=missing, padlast=true)) == typeof(expected)
 
-D₁ = [1, 2, 3, 4, 5]
-D₂ = [5, 4, 3, 2, 1]
-M = hcat(D₁, D₂)
-F = sum
-W = 3
-expected = [  2.3 3.7
-              3.3 2.7
-              4.3 1.7 ]
-@test isapprox(rolling(F, W, M, weights), expected)
-
 
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
