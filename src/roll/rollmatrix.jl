@@ -28,8 +28,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, span::Span, data::AbstractMatrix{T};
-                        padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, span) 
@@ -57,8 +56,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, span::Span, data::AbstractMatrix{T};
-                             padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, span) 
@@ -105,8 +103,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{T};
-                        padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, span) 
@@ -134,8 +131,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{T};
-                             padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, span) 
