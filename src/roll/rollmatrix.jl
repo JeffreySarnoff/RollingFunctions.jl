@@ -103,7 +103,7 @@ end
 
 function basic_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
-    ᵛʷdata = T === typ ? asview(data) : [typ(x) for x in data1]
+    ᵛʷdata = T === typ ? asview(data) : [typ(x) for x in data]
     ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
 
     basic_rolling(func, span, ᵛʷdata, ᵛʷweights)
@@ -130,7 +130,7 @@ end
 
 function padfirst_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
-    ᵛʷdata = T === typ ? asview(data) : [typ(x) for x in data1]
+    ᵛʷdata = T === typ ? asview(data) : [typ(x) for x in data]
     ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
 
     padfirst_rolling(func, span, ᵛʷdata, ᵛʷweights)
@@ -166,7 +166,7 @@ end
 
 function padfinal_rolling(func::Function, span::Span, data::AbstractMatrix{T}, weights::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
-    ᵛʷdata = T === typ ? asview(data) : [typ(x) for x in data1]
+    ᵛʷdata = T === typ ? asview(data) : [typ(x) for x in data]
     ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
 
     padfinal_rolling(func, span, ᵛʷdata, ᵛʷweights)
