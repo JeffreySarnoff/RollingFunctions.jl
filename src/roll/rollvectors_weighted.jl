@@ -261,12 +261,8 @@ function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, da
     results
 end
 
-function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weights::AbstractWeights{T}, padding) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷweights = asview(weights)
+function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweights::ViewOfWeights{T}, padding) where {T}
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
 
