@@ -141,7 +141,7 @@ function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
 end
 
 function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weights1::AbstractWeights{T}, weights1::AbstractWeights{T}, weights3::AbstractWeights{T}, padding) where {T}
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
