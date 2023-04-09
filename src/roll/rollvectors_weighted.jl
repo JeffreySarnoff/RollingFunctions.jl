@@ -1,27 +1,27 @@
 #=
-   basic_rolling(func, data1, span, weights) ..
-   basic_rolling(func, data1, data2, data3, data4, span, weights)
+   basic_rolling(func, span, data1, weights) ..
+   basic_rolling(func, span, data1, data2, data3, weights)
 
-   padfirst_rolling(func, data1, span, weights; padding) ..
-   padfirst_rolling(func, data1, data2, data3, data4, span, weights; padding)
+   padfirst_rolling(func, span, data1, weights; padding) ..
+   padfirst_rolling(func, span, data1, data2, data3, weights; padding)
 
-   padfinal_rolling(func, data1, span, weights; padding) ..
-   padfinal_rolling(func,data1, data2, data3, data4, span, weights; padding)
+   padfinal_rolling(func, span, data1, weights; padding) ..
+   padfinal_rolling(func, span, data1, data2, data3, weights; padding)
 
-   basic_rolling(func, data1, data2, span, weights1, weights2) ..
-   basic_rolling(func, data1, data2, data3, data4, span, 
-                            weights1, weights2, weights3, weights4)
+   basic_rolling(func, span, data1, data2, weights1, weights2) ..
+   basic_rolling(func, span, data1, data2, data3, span, 
+                            weights1, weights2, weights3)
 
-   padfirst_rolling(func, data1, data2, span, weights1, weights2; padding) ..
-   padfirst_rolling(func, data1, data2, data3, data4, span, 
+   padfirst_rolling(func, span, data1, data2, weights1, weights2; padding) ..
+   padfirst_rolling(func, span, data1, data2, data3, 
                             weights1, weights2, weights3, weights4; padding)
 
-   padfinal_rolling(func, data1, data2. span, weights1, weights2; padding) ..
-   padfinal_rolling(func,data1, data2, data3, data4, span, 
+   padfinal_rolling(func, span, data1, data2, weights1, weights2; padding) ..
+   padfinal_rolling(func, span, data1, data2, data3, 
                             weights1, weights2, weights3, weights4; padding)
 =#
 
-function basic_rolling(func::Function, span::Span, 
+function basic_rolling(func::Function, span::Span,
     data1::AbstractVector{T}, weights::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweights = asview(weights)
@@ -287,7 +287,7 @@ function basic_rolling(func::Function, span::Span, data1::AbstractVector{T1}, da
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview([typ(x) for x in data2])
     ᵛʷweights1 = typ == W1 ? asview(weights1) : asview([typ(x) for x in weights1])
     ᵛʷweights2 = typ == W2 ? asview(weights2) : asview([typ(x) for x in weights2])
- 
+
     basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2)
 end
 
