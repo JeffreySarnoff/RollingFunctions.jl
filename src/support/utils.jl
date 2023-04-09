@@ -108,6 +108,11 @@ end
 @inline viewall(data::A) where {T, A<:AbstractArray{T,2}} = view(data, :, :)
 @inline viewall(data::A) where {T, A<:AbstractArray{T,3}} = view(data, :, :, :)
 @inline viewall(data::A) where {T, A<:AbstractArray{T,4}} = view(data, :, :, :, :)
+
+@inline isview(x::Unweighted) = true
+@inline asview(x::Unweighted) = x
+@inline viewall(x::Unweighted) = x
+
 #=
 @inline viewall(data::Tuple{Vararg{T,N}}) where {T,N} = viewall(convert(Vector{T}, data))
 Base.convert(::Type{Vector{T}}, tup::Tuple{Vararg{T,N}}) where {T,N} = [ tup... ]

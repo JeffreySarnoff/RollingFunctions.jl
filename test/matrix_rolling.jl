@@ -50,4 +50,5 @@ expected = [  2.6 3.4
               4.6 1.4 ]
 @test isapprox(rolling(F, W, M2, wweights), expected)
 
-@test isapprox(rolling(F, W, M, wweights), expected)
+@test isapprox(rolling(F, W, M, wweights), expected
+

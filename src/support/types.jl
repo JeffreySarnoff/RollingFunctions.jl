@@ -32,9 +32,9 @@ const unweighted = Unweighted()
 isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
-const AkoWeight = Union{Unweighted,AbstractWeights{T}} where {T}
-const TupOfWeights = NTuple{N,AkoWeight} where {N}
-const SeqOfWeights = Tuple{<:AkoWeight} where {N}
+const Weighting = Union{Unweighted,AbstractWeights{T}} where {T}
+const TupOfWeights = NTuple{N,Weighting} where {N}
+const SeqOfWeights = Tuple{<:Weighting} where {N}
 
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
