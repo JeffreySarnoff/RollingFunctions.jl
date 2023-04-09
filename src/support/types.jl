@@ -28,8 +28,9 @@ const unweighted = Unweighted()
 isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
-const Weights = Union{AbstractWeights{T}, Tuple{Vararg{<:AbstractWeights{T}}}} where {T}
-
+const AkoWeight = Union{Unweighted, AbstractWeights{T}} where {T}
+const TupOfWeights = NTuple{N,AkoWeight} where {N}
+const SeqOfWeights = Vararg{AkoWeight,N} where {N}
 
 
 #=
