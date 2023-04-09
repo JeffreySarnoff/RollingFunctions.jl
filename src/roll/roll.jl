@@ -80,7 +80,7 @@ function rolling(func::F, span::Span,
 end
 
 function rolling(func::F, span::Span,
-    data::Tuple{Vararg{<:AbstractArray}};
+    data::Tuple{<:AbstractArray};
     padding=nopadding, padlast=false) where {F<:Function}
     ᵛʷdata = ntuple(i -> asview(data[i]), length(data))
     if isnopadding(padding)
