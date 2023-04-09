@@ -6,10 +6,10 @@ using Test
 
 include("roll.jl")
 include("rollvectors_weighted.jl")
+include("matrix_rolling.jl")
 # include("runvectors.jl")
 # include("runvectors_weighted.jl")
 
-# include("matrix_rolling.jl")
 
 #=
 datavec = collect(1.0f0:5.0f0)
