@@ -216,7 +216,7 @@ end
 # pad first implementations
 
 function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}, padding) where {T}
-    n = length(data1)
+    n = length(ᵛʷdata1)
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
