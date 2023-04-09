@@ -27,6 +27,68 @@ rolling
 function rolling(func::F, span::Span,
     data1::AbstractVector{T};
     padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, padding)
+    else
+        padfinal_rolling(func, span, data1, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, data2)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, data2, padding)
+    else
+        padfinal_rolling(func, span, data1, data2, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1, data2, data3)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, data2, data3, padding)
+    else
+        padfinal_rolling(func, span, data1, data2, data3, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data1::AbstractMatrix{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data1)
+    elseif !padlast
+        padfirst_rolling(func, span, data1, padding)
+    else
+        padfinal_rolling(func, span, data1, padding)
+    end
+end
+
+function rolling(func::F, span::Span,
+    data::Tuple{<:AbstractArray};
+    padding=nopadding, padlast=false) where {F<:Function}
+    if isnopadding(padding)
+        basic_rolling(func, span, data)
+    elseif !padlast
+        padfirst_rolling(func, span, data, padding)
+    else
+        padfinal_rolling(func, span, data, padding)
+    end
+end
+
+#=
+
+function rolling(func::F, span::Span,
+    data1::AbstractVector{T};
+    padding=nopadding, padlast=false) where {T,F<:Function}
     ᵛʷdata1 = asview(data1)
     if isnopadding(padding)
         basic_rolling(func, span, ᵛʷdata1)
@@ -112,7 +174,7 @@ function rolling(func::F, span::Span,
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview([typ(x) for x in data1])
     rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3; padding, padlast)
 end
-
+=#
 
 
 
@@ -123,7 +185,7 @@ end
             padfirst=nopadding, padlast=false)
 =#
 
-
+#=
 
 function rolling(func::F, span::Span,
     data1::AbstractVector{T}, weights1::AbstractWeights{T};
@@ -260,7 +322,7 @@ function rolling(func::F, span::Span,
     rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1; padding, padlast)
 end
 
-
+=#
 
 
 
