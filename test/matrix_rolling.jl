@@ -45,6 +45,10 @@ M = hcat(D₁, D₂)
 M2 = Float64.(M)
 F = sum
 S = 3
+
+wweights = ProbabilityWeights([0.1,0.2,0.7])
+mweights = hcat(wweights, wweights)
+
 expected = [  2.6 3.4
               3.6 2.4
               4.6 1.4 ]
