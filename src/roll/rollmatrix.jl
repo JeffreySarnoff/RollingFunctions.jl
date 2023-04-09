@@ -1,11 +1,11 @@
 #=
-     basic_rolling(func::Function, ::Matrix, span)
-     padfirst_rolling(func::Function, ::Matrix, span; padding, padlast)
-     padfinal_rolling(func::Function, ::Matrix, span; padding, padlast)
+     basic_rolling(func::Function, span, ::Matrix)
+     padfirst_rolling(func::Function, span, ::Matrix; padding)
+     padfinal_rolling(func::Function, span, ::Matrix; padding)
 
-     basic_rolling(func::Function, ::Matrix, span, weights)
-     padfirst_rolling(func::Function, ::Matrix, span, weights; padding, padlast)
-     padfinal_rolling(func::Function, ::Matrix, span, weights; padding, padlast)
+     basic_rolling(func::Function, span, ::Matrix, weights)
+     padfirst_rolling(func::Function, span, ::Matrix, weights; padding)
+     padfinal_rolling(func::Function, span, ::Matrix, weights; padding)
 =#
 
 function basic_rolling(func::Function, span::Span, data::AbstractMatrix{T}) where {T}
