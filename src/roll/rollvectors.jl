@@ -71,8 +71,7 @@ end
 
 # pad first
 
-function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
-    , padding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     n = length(ᵛʷdata1)
 
