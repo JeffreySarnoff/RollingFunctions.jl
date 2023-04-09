@@ -1,5 +1,5 @@
 
-function fast_normalize(weights::AbstractVector{T}) where {T}
+function fast_normalize(weights::AbstractWeights{T}) where {T}
     recip_sum = one(T)/sum(weights)
     weights .* recip_sum
 end

@@ -62,7 +62,7 @@ end
 
 # weighted
 
-function basic_running(func::Function, data::AbstractMatrix{T}, span::Span, weights::AbstractVector{T}) where {T}
+function basic_running(func::Function, data::AbstractMatrix{T}, span::Span, weights::AbstractWeights{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues  = nrolled(n, span) 
@@ -82,7 +82,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_running(func::Function, data::AbstractMatrix{T}, span::Span, weights::AbstractVector{T};
+function padfirst_running(func::Function, data::AbstractMatrix{T}, span::Span, weights::AbstractWeights{T};
                         padding=nopadding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
