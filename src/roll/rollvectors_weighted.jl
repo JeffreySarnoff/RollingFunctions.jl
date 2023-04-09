@@ -215,7 +215,7 @@ end
 
 # pad first implementations
 
-function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, weights::ViewOfWeights{T}, padding) where {T}
+function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}, padding) where {T}
     n = length(data1)
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -237,8 +237,8 @@ function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, we
     results
 end
 
-function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2::ViewOfVector{T},
-    weights::ViewOfWeights{T}, padding) where {T}
+function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+    ᵛʷweights::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
 
     nvalues = nrolled(n, span)
@@ -289,8 +289,8 @@ end
 
 # pad final implementations
 
-function padfinal_rolling(func::Function, span::Span, data1::ViewOfVector{T},
-    weights::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T},
+    ᵛʷweights::ViewOfWeights{T}, padding) where {T}
     n = length(ᵛʷdata1)
 
     nvalues = nrolled(n, span)
@@ -313,8 +313,8 @@ function padfinal_rolling(func::Function, span::Span, data1::ViewOfVector{T},
     results
 end
 
-function padfinal_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2::ViewOfVector{T},
-    weights::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+    ᵛʷweights::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
 
     nvalues = nrolled(n, span)
@@ -337,8 +337,8 @@ function padfinal_rolling(func::Function, span::Span, data1::ViewOfVector{T}, da
     results
 end
 
-function padfinal_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2::ViewOfVector{T}, data3::ViewOfVector{T},
-    weights::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweights::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
 
     nvalues = nrolled(n, span)
