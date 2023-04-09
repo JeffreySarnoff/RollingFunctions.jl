@@ -382,7 +382,7 @@ function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, 
 end
 
 function basic_rolling(func::Function, span::Span,
-    data1::AbstractMatrix{T}, weights::ViewOfWeights{W}) where {T,W}
+    data1::ViewOfMatrix{T}, weights::ViewOfWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : [typ(x) for x in data1]
     ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
