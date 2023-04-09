@@ -87,15 +87,16 @@ function basic_rolling(func::Function, span::Span,
 end
 
 function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
-    (ᵛʷweights::ViewOfWeights{T}) where {T}
+    ᵛʷweights::ViewOfWeights{T}) where {T}
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
-
+    
     ilow, ihigh = 1, span
+
     @inline for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
         ilow = ilow + 1
