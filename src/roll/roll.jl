@@ -378,7 +378,6 @@ end
 
     rolling(func, span, data, weights; 
             padfirst=nopadding, padlast=false)
-=#
 
 
 
