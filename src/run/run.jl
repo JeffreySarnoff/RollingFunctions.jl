@@ -103,7 +103,7 @@ end
 
 
 function running(window_fn::F, window_span::Span, 
-                 data::DataVecs;
+                 data::AbstractVector;
                  padding=nopadding, padlast=false,
                  weights::AkoWeight=Unweighted) where {F<:Function}
     if isunweighted(weights)
@@ -202,7 +202,7 @@ function running(window_fn::F, window_span::Span,
 end
 
 function running(window_fn::F, window_span::Span,
-                 data::DataVecs,
+                 data::AbstractVector,
                  weights::AbstractWeights;
                  padding=nopadding, padlast=false) where {N,F<:Function}
     if isnopadding(padding)
@@ -247,7 +247,7 @@ function running(window_fn::F, window_span::Span,
 end
 
 function running(window_fn::F, window_span::Span,
-                 data::DataVecs,
+                 data::AbstractVector,
                  weights::AkoWeight;
                  padding=nopadding, padlast=false) where {F<:Function}
     if isnopadding(padding)
