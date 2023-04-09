@@ -210,8 +210,8 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
     results
 end
 
-# pad last
 
+# pad final
 
 function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T},
     weights::AbstractWeights{T}, padding) where {T}
@@ -375,9 +375,7 @@ function basic_rolling(func::Function, span::Span, data1::ViewOfVector{T}, data2
 end
 
 
-
 # pad first
-
 
 function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
     weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, padding) where {T}
