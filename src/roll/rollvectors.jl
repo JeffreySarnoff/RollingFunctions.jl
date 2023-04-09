@@ -48,7 +48,7 @@ function basic_rolling(func::Function, span::Span,
     results
 end
 
-function basic_rolling(func::Function,     span::Span,
+function basic_rolling(func::Function, span::Span,
                        data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
