@@ -2,11 +2,11 @@
    basic_rolling(func, span, data1) ..
    basic_rolling(func, span, data1, data2, data3)
 
-   padfirst_rolling(func, span, data1; padding) ..
-   padfirst_rolling(func, span, data1, data2, data3; padding)
+   padfirst_rolling(func, span, data1, padding) ..
+   padfirst_rolling(func, span, data1, data2, data3, padding)
 
-   padfinal_rolling(func, span, data1; padding) ..
-   padfinal_rolling(func, span, data1, data2, data3; padding)
+   padfinal_rolling(func, span, data1, padding) ..
+   padfinal_rolling(func, span, data1, data2, data3, padding)
 =#
 
 function basic_rolling(func::Function, span::Span,
@@ -72,7 +72,7 @@ end
 # pad first
 
 function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
-    ; padding=nopadding) where {T}
+    , padding) where {T}
     ᵛʷdata1 = asview(data1)
     n = length(ᵛʷdata1)
 
@@ -96,7 +96,7 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
     results
 end
 
-function padfirst_rolling(func::Function, span::Span,data1::AbstractVector{T}, data2::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span,data1::AbstractVector{T}, data2::AbstractVector{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
@@ -121,7 +121,7 @@ function padfirst_rolling(func::Function, span::Span,data1::AbstractVector{T}, d
     results
 end
 
-function padfirst_rolling(func::Function, span::Span,data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span,data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -149,7 +149,7 @@ end
 
 # pad last
 
-function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     n = length(ᵛʷdata1)
 
@@ -173,7 +173,7 @@ function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}; 
     results
 end
 
-function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
@@ -198,7 +198,7 @@ function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
     results
 end
 
-function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
