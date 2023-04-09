@@ -2,16 +2,16 @@
    basic_running(window_fn, data1, window_span) ..
    basic_running(window_fn, data1, data2, data3, data4, window_span)
 
-   padded_running(window_fn, data1, window_span; padding) ..
-   padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
+   padfirst_running(window_fn, data1, window_span; padding) ..
+   padfirst_running(window_fn, data1, data2, data3, data4, window_span; padding)
 =#
 
 #=
    basic_running(window_fn, data1, window_span) ..
    basic_running(window_fn, data1, data2, data3, data4, window_span)
 
-   padded_running(window_fn, data1, window_span; padding) ..
-   padded_running(window_fn, data1, data2, data3, data4, window_span; padding)
+   padfirst_running(window_fn, data1, window_span; padding) ..
+   padfirst_running(window_fn, data1, data2, data3, data4, window_span; padding)
 =#
 
 function basic_running(window_fn::Function, data1::AbstractVector{T}, window_span::Span, weights::AbstractVector{T}) where {T}
@@ -127,7 +127,7 @@ end
 
 # pad first
 
-function padded_running(window_fn::Function,
+function padfirst_running(window_fn::Function,
     data1::AbstractVector{T},
     window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
@@ -156,7 +156,7 @@ function padded_running(window_fn::Function,
     results
 end
 
-function padded_running(window_fn::Function,
+function padfirst_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T},
     window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
@@ -186,7 +186,7 @@ function padded_running(window_fn::Function,
     results
 end
 
-function padded_running(window_fn::Function,
+function padfirst_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
@@ -217,7 +217,7 @@ function padded_running(window_fn::Function,
     results
 end
 
-function padded_running(window_fn::Function,
+function padfirst_running(window_fn::Function,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
     window_span::Span, weights::AbstractVector{T}; padding::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)

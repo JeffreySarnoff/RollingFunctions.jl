@@ -46,8 +46,8 @@ isoffset(w::Window) = !notoffset(w)
 # >> specifying both a leading offset and a trailing offset is supported
 
 # is there to be padding
-notpadded(w::Window) = iszero(w.pad_first) && iszero(w.pad_final)
-ispadded(w::Window) = !notpadded(w)
+notpadfirst(w::Window) = iszero(w.pad_first) && iszero(w.pad_final)
+ispadfirst(w::Window) = !notpadfirst(w)
 # >> it is an error to specify both a leading padding and a trailing padding
 
 # is the information processed in direct (lower index to higher index) order

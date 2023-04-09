@@ -10,9 +10,9 @@ function rolling(window_fn::F, data1::AbstractVector{T1}, window_span::Span;
     if isnopadding(padding)
         basic_rolling(window_fn, data1, window_span)
     elseif !padlast
-        padded_rolling(window_fn, data1, window_span; padding)
+        padfirst_rolling(window_fn, data1, window_span; padding)
     else
-        last_padded_rolling(window_fn, data1, window_span; padding)
+        padfinal_rolling(window_fn, data1, window_span; padding)
     end
 end
 
@@ -28,9 +28,9 @@ function rolling(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
     if isnopadding(padding)
         basic_rolling(window_fn, data1, data2, window_span)
     elseif !padlast
-        padded_rolling(window_fn, data1, data2, window_span; padding)
+        padfirst_rolling(window_fn, data1, data2, window_span; padding)
     else
-        last_padded_rolling(window_fn, data1, data2, window_span; padding)
+        padfinal_rolling(window_fn, data1, data2, window_span; padding)
     end
 end
 
@@ -47,7 +47,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, window_span::Span;
     if isnopadding(padding)
         basic_running(window_fn, data1, window_span)
     else
-        padded_running(window_fn, data1, window_span; padding)
+        padfirst_running(window_fn, data1, window_span; padding)
     end
 end
 
@@ -64,7 +64,7 @@ function running(window_fn::F, data1::AbstractVector{T1}, data2::AbstractVector{
     if isnopadding(padding)
         basic_running(window_fn, data1, data2, window_span)
     else
-        padded_running(window_fn, data1, data2, window_span; padding)
+        padfirst_running(window_fn, data1, data2, window_span; padding)
     end
 end
 

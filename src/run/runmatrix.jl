@@ -1,9 +1,9 @@
 #=
      basic_running(window_fn::Function, ::Matrix, window_span)
-     padded_running(window_fn::Function, ::Matrix, window_span; padding, padlast)
+     padfirst_running(window_fn::Function, ::Matrix, window_span; padding, padlast)
 
      basic_running(window_fn::Function, ::Matrix, window_span, weights)
-     padded_running(window_fn::Function, ::Matrix, window_span, weights; padding, padlast)
+     padfirst_running(window_fn::Function, ::Matrix, window_span, weights; padding, padlast)
 =#
 
 
@@ -32,7 +32,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padded_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Span;
+function padfirst_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Span;
                         padding=nopadding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
@@ -82,7 +82,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padded_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Span, weights::AbstractVector{T};
+function padfirst_running(window_fn::Function, data::AbstractMatrix{T}, window_span::Span, weights::AbstractVector{T};
                         padding=nopadding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)

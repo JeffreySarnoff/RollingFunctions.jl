@@ -393,9 +393,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavec, weightvec)
     elseif !padlast
-        padded_rolling(func, span, datavec, weightvec; padding)
+        padfirst_rolling(func, span, datavec, weightvec; padding)
     else
-        last_padded_rolling(func, span, datavec, weightvec; padding)
+        padfinal_rolling(func, span, datavec, weightvec; padding)
     end
 end
 
@@ -405,9 +405,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavec1, datavec2)
     elseif !padlast
-        padded_rolling(func, span, datavec1, datavec2; padding)
+        padfirst_rolling(func, span, datavec1, datavec2; padding)
     else
-        last_padded_rolling(func, span, datavec1, datavec2; padding)
+        padfinal_rolling(func, span, datavec1, datavec2; padding)
     end
 end
 
@@ -418,9 +418,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavec1, datavec2, weightvec)
     elseif !padlast
-        padded_rolling(func, span, datavec1, datavec2, weightvec; padding)
+        padfirst_rolling(func, span, datavec1, datavec2, weightvec; padding)
     else
-        last_padded_rolling(func, span, datavec1, datavec2, weightvec; padding)
+        padfinal_rolling(func, span, datavec1, datavec2, weightvec; padding)
     end
 end
 
@@ -431,9 +431,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2)
     elseif !padlast
-        padded_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
+        padfirst_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
     else
-        last_padded_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
+        padfinal_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
     end
 end
 
@@ -444,9 +444,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavecs)
     elseif !padlast
-        padded_rolling(func, span, datavecs; padding)
+        padfirst_rolling(func, span, datavecs; padding)
     else
-        last_padded_rolling(func, span, datavecs; padding)
+        padfinal_rolling(func, span, datavecs; padding)
     end
 end
 
@@ -457,9 +457,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavec1, datavec2, weightvec)
     elseif !padlast
-        padded_rolling(func, span, datavec1, datavec2, weightvec; padding)
+        padfirst_rolling(func, span, datavec1, datavec2, weightvec; padding)
     else
-        last_padded_rolling(func, span, datavec1, datavec2, weightvec; padding)
+        padfinal_rolling(func, span, datavec1, datavec2, weightvec; padding)
     end
 end
 
@@ -470,9 +470,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2)
     elseif !padlast
-        padded_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
+        padfirst_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
     else
-        last_padded_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
+        padfinal_rolling(func, span, datavec1, datavec2, weightvec1, weightvec2; padding)
     end
 end
 
@@ -485,25 +485,25 @@ function rolling(func::F, span::Span,
         if isnopadding(padding)
             roll_basic(func, span, data)
         elseif !padlast
-            roll_padded(func, span, data; padding)
+            roll_padfirst(func, span, data; padding)
         else
-            roll_paddedlast(func, span, data; padding)
+            roll_padfirstlast(func, span, data; padding)
         end
     elseif typeof(weights) <: AbstractWeights # single weighted
         if isnopadding(padding)
             roll_basic_weights(func, span, data; weights)
         elseif !padlast
-            roll_padded_weights(func, span, data; padding, weights)
+            roll_padfirst_weights(func, span, data; padding, weights)
         else
-            roll_paddedlast_weights(func, span, data; padding, weights)
+            roll_padfirstlast_weights(func, span, data; padding, weights)
         end
     else # multiple weight vectors
         if isnopadding(padding)
             roll_basic_multiweights(func, span, data; weights)
         elseif !padlast
-            roll_padded_multiweights(func, span, data; padding, weights)
+            roll_padfirst_multiweights(func, span, data; padding, weights)
         else
-            roll_paddedlast_multiweights(func, span, data; padding, weights)
+            roll_padfirstlast_multiweights(func, span, data; padding, weights)
         end
     end
 end
@@ -514,9 +514,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data1, data2, span)
     elseif !padlast
-        padded_rolling(func, span, data1, data2; padding)
+        padfirst_rolling(func, span, data1, data2; padding)
     else
-        last_padded_rolling(func, span, data1, data2; padding)
+        padfinal_rolling(func, span, data1, data2; padding)
     end
 end
 
@@ -526,9 +526,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data1, data2, data)
     elseif !padlast
-        padded_rolling(func, span, data1, data2, data; padding)
+        padfirst_rolling(func, span, data1, data2, data; padding)
     else
-        last_padded_rolling(func, span, data1, data2, data; padding)
+        padfinal_rolling(func, span, data1, data2, data; padding)
     end
 end
 
@@ -544,9 +544,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling_weighted(func, span, data1, weights)
     elseif !padlast
-        padded_rolling_weighted(func, span, data1, weights; padding)
+        padfirst_rolling_weighted(func, span, data1, weights; padding)
     else
-        last_padded_rolling_weighted(func, span, data1, weights; padding)
+        padfinal_rolling_weighted(func, span, data1, weights; padding)
     end
 end
 
@@ -557,9 +557,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data1, weights)
     elseif !padlast
-        padded_rolling(func, span, data1, weights; padding)
+        padfirst_rolling(func, span, data1, weights; padding)
     else
-        last_padded_rolling(func, span, data1, weights; padding)
+        padfinal_rolling(func, span, data1, weights; padding)
     end
 end
 
@@ -570,9 +570,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data1, data2, weights)
     elseif !padlast
-        padded_rolling(func, span, data1, data2, weights; padding)
+        padfirst_rolling(func, span, data1, data2, weights; padding)
     else
-        last_padded_rolling(func, span, data1, data2, weights; padding)
+        padfinal_rolling(func, span, data1, data2, weights; padding)
     end
 end
 
@@ -583,9 +583,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data, weights)
     elseif !padlast
-        padded_rolling(func, span, data, weights; padding)
+        padfirst_rolling(func, span, data, weights; padding)
     else
-        last_padded_rolling(func, span, data, weights; padding)
+        padfinal_rolling(func, span, data, weights; padding)
     end
 end
 
@@ -596,9 +596,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data1, weights)
     elseif !padlast
-        padded_rolling(func, span, data1, weights; padding)
+        padfirst_rolling(func, span, data1, weights; padding)
     else
-        last_padded_rolling(func, span, data1, weights; padding)
+        padfinal_rolling(func, span, data1, weights; padding)
     end
 end
 
@@ -616,9 +616,9 @@ function rolling(func::F, span::Span,
     if isnopadding(padding)
         basic_rolling(func, span, data, weights)
     elseif !padlast
-        padded_rolling(func, span, data, weights; padding)
+        padfirst_rolling(func, span, data, weights; padding)
     else
-        last_padded_rolling(func, span, data, weights; padding)
+        padfinal_rolling(func, span, data, weights; padding)
     end
 end
 
@@ -628,10 +628,10 @@ end
 #=
    basic_rolling(func, data1, span) ..
    basic_rolling(func, data1, data2, data3, data4, span)
-   padded_rolling(func, data1, span; padding, padlast) ..
-   padded_rolling(func, data1, data2, data3, data4, span; padding, padlast)
-   last_padded_rolling(func, data1, span; padding, padlast) ..
-   last_padded_rolling(func, data1, data2, data3, data4, span; padding, padlast)
+   padfirst_rolling(func, data1, span; padding, padlast) ..
+   padfirst_rolling(func, data1, data2, data3, data4, span; padding, padlast)
+   padfinal_rolling(func, data1, span; padding, padlast) ..
+   padfinal_rolling(func, data1, data2, data3, data4, span; padding, padlast)
 =#
 
 function basic_rolling(func::Function, span::Span,
@@ -654,19 +654,19 @@ function basic_rolling(func::Function, span::Span,
 end
 
 
-# padded rolling
+# padfirst rolling
 
-function padded_rolling(func::Function, span::Span,
+function padfirst_rolling(func::Function, span::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2};
     padding=nopadding) where {T1,T2}
     typ = promote_type(T1, T2)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
 
-    padded_rolling(func, span, ᵛʷdata1, ᵛʷdata2; padding)
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     span::Span;
     padding=nopadding) where {T1,T2,T3}
     typ = promote_type(T1, T2, T3)
@@ -674,40 +674,40 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span; padding)
 end
 
-# last_padded rolling
+# padfinal rolling
 
-function last_padded_rolling(func::Function, span::Int,
+function padfinal_rolling(func::Function, span::Int,
     data1::AbstractVector{T1}, data2::AbstractVector{T2},
     padding=nopadding) where {T1,T2}
     typ = promote_type(T1, T2)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
 
-    last_padded_rolling(func, span, ᵛʷdata1, ᵛʷdata2; padding)
+    padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2; padding)
 end
 
 #= !!FIXME!!
-function last_padded_rolling(func::Function, span::Span, data::DataVec;
+function padfinal_rolling(func::Function, span::Span, data::DataVec;
          padding=nopadding)
     typ = promote_type(typeof.(data))
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span; padding)
 end
 =#
 
 #=
    basic_rolling(func, data1, span, weights) ..
    basic_rolling(func, data1, data2, data3, data4, span, weights)
-   padded_rolling(func, data1, span, weights; padding) ..
-   padded_rolling(func, data1, data2, data3, data4, span, weights; padding)
-   last_padded_rolling(func, data1, span, weights; padding) ..
-   last_padded_rolling(func, data1, data2, data3, data4, span, weights; padding)
+   padfirst_rolling(func, data1, span, weights; padding) ..
+   padfirst_rolling(func, data1, data2, data3, data4, span, weights; padding)
+   padfinal_rolling(func, data1, span, weights; padding) ..
+   padfinal_rolling(func, data1, data2, data3, data4, span, weights; padding)
 =#
 
 function basic_rolling(func::Function, data1::AbstractVector{T1},
@@ -761,19 +761,19 @@ function basic_rolling(func::Function, data1::Matrix{T1},
     basic_rolling(func, ᵛʷdata1, span, ᵛʷweights)
 end
 
-# padded rolling
+# padfirst rolling
 
-function padded_rolling(func::Function, data1::AbstractVector{T1},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    padded_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
+    padfirst_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1,T2}
     typ = promote_type(T1, T2, TW)
@@ -781,10 +781,10 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1,T2,T3}
     typ = promote_type(T1, T2, T3, TW)
@@ -793,10 +793,10 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1,T2,T3,T4}
     typ = promote_type(T1, T2, T3, T4, TW)
@@ -806,32 +806,32 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
     ᵛʷdata4 = typ == T3 ? asview(data4) : asview(map(typ, data4))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractMatrix{T1},
+function padfirst_rolling(func::Function, data1::AbstractMatrix{T1},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    padded_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
+    padfirst_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
 end
 
-# last_padded rolling
+# padfinal rolling
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    last_padded_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
+    padfinal_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
 end
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1,T2}
     typ = promote_type(T1, T2, TW)
@@ -839,10 +839,10 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview(map(typ, data2))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights; padding)
 end
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1,T2,T3}
     typ = promote_type(T1, T2, T3, TW)
@@ -851,10 +851,10 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview(map(typ, data3))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights; padding)
 end
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1,T2,T3,T4}
     typ = promote_type(T1, T2, T3, T4, TW)
@@ -864,17 +864,17 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
     ᵛʷdata4 = typ == T3 ? asview(data4) : asview(map(typ, data4))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights; padding)
 end
 
-function last_padded_rolling(func::Function, data1::AbstractMatrix{T1},
+function padfinal_rolling(func::Function, data1::AbstractMatrix{T1},
     span::Span, weights::AbstractWeights;
     padding=nopadding) where {T1}
     typ = promote_type(T1, TW)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview(map(typ, data1))
     ᵛʷweights = typ == TW ? asview(weights) : asview(map(typ, weights))
 
-    last_padded_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
+    padfinal_rolling(func, ᵛʷdata1, span, ᵛʷweights; padding)
 end
 
 #
@@ -940,9 +940,9 @@ function basic_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstrac
     basic_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4)
 end
 
-# padded rolling
+# padfirst rolling
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
     span::Span, weights1::AbstractWeights, weights2::AbstractWeights;
     padding=nopadding) where {T1,T2}
     typ = promote_type(T1, T2, TW)
@@ -957,10 +957,10 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
         ᵛʷweights2 = asview(map(typ, weights2))
     end
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights1, ᵛʷweights2; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights1, ᵛʷweights2; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights;
     padding=nopadding) where {T1,T2,T3}
     typ = promote_type(T1, T2, T3, TW)
@@ -978,10 +978,10 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
         ᵛʷweights3 = asview(map(typ, weights3))
     end
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3; padding)
 end
 
-function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
+function padfirst_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights, weights4::AbstractWeights;
     padding=nopadding) where {T1,T2,T3,T4}
     typ = promote_type(T1, T2, T3, T4, TW)
@@ -1002,12 +1002,12 @@ function padded_rolling(func::Function, data1::AbstractVector{T1}, data2::Abstra
         ᵛʷweights4 = asview(map(typ, weights4))
     end
 
-    padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
+    padfirst_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
 end
 
-# last_padded rolling
+# padfinal rolling
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2},
     span::Span, weights1::AbstractWeights, weights2::AbstractWeights;
     padding=nopadding) where {T1,T2}
     typ = promote_type(T1, T2, TW)
@@ -1022,10 +1022,10 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
         ᵛʷweights2 = asview(map(typ, weights2))
     end
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights1, ᵛʷweights2; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, span, ᵛʷweights1, ᵛʷweights2; padding)
 end
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights;
     padding=nopadding) where {T1,T2,T3}
     typ = promote_type(T1, T2, T3, TW)
@@ -1043,10 +1043,10 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
         ᵛʷweights3 = asview(map(typ, weights3))
     end
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3; padding)
 end
 
-function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
+function padfinal_rolling(func::Function, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4},
     span::Span, weights1::AbstractWeights, weights2::AbstractWeights, weights3::AbstractWeights, weights4::AbstractWeights;
     padding=nopadding) where {T1,T2,T3,T4}
     typ = promote_type(T1, T2, T3, T4, TW)
@@ -1067,6 +1067,6 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
         ᵛʷweights4 = asview(map(typ, weights4))
     end
 
-    last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
+    padfinal_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
 end
 =#

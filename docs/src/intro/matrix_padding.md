@@ -1,7 +1,7 @@
 You may pad the result with the padding value of your choice
 
 padding is a keyword argument
-- if you assign e.g. padding = missing, the result will be padded
+- if you assign e.g. padding = missing, the result will be padfirst
 - you may pad using any defined value and all types except Nothing
 - example pads(missing, 0, nothing, NaN, '∅', AbstractString)
 
