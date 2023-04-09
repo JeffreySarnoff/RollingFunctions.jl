@@ -45,9 +45,9 @@ M = hcat(D₁, D₂)
 M2 = Float64.(M)
 F = sum
 W = 3
-expected = [  2.3 3.7
-              3.3 2.7
-              4.3 1.7 ]
+expected = [  2.6 3.4
+              3.6 2.4
+              4.6 1.4 ]
 @test isapprox(rolling(F, W, M2, wweights), expected)
 
 @test isapprox(rolling(F, W, M, wweights), expected)
