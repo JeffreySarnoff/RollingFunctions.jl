@@ -223,9 +223,10 @@ function rolling(func::F, span::Span,
 end
 
 function rolling(func::F, span::Span,
-    data::Tuple{Vararg{<:AbstractArray}};
+    data::Tuple{Vararg{<:AbstractArray}}, weights1::AkoWeight;
     padding=nopadding, padlast=false) where {F<:Function}
     ᵛʷdata = ntuple(i -> asview(data[i]), length(data))
+    ᵛʷweights = asview(weights1)
     if isnopadding(padding)
         basic_rolling(func, span, ᵛʷdata)
     elseif !padlast
@@ -238,22 +239,25 @@ end
 # with mixed types of data
 
 function rolling(func::F, span::Span,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2};
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights1::AkoWeight;
     padding=nopadding, padlast=false) where {T1,T2,F<:Function}
     typ = promote_type(T1, T2)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview([typ(x) for x in data2])
-    rolling(func, span, ᵛʷdata1, ᵛʷdata2; padding, padlast)
+    ᵛʷweights1 = asview(weights1)
+    rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1; padding, padlast)
 end
 
 function rolling(func::F, span::Span,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weights1::AkoWeight;
     padding=nopadding, padlast=false) where {T1,T2,T3,F<:Function}
     typ = promote_type(T1, T2, T3)
     ᵛʷdata1 = typ == T1 ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = typ == T2 ? asview(data2) : asview([typ(x) for x in data2])
     ᵛʷdata3 = typ == T3 ? asview(data3) : asview([typ(x) for x in data1])
-    rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3; padding, padlast)
+    ᵛʷweights1 = asview(weights1)
+    rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1; padding, padlast)
 end
 
 
