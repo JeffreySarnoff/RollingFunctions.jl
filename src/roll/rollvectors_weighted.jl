@@ -215,7 +215,7 @@ end
 
 # pad first implementations
 
-function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, weights::ViewOfWeights, padding)
+function padfirst_rolling(func::Function, span::Span, data1::ViewOfVector{T}, weights::ViewOfWeights{T}, padding) where {T}
     n = length(data1)
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
