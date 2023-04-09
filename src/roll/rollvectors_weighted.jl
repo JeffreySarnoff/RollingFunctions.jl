@@ -71,6 +71,61 @@ function basic_rolling(func::Function, span::Span,
     basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3)
 end
 
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T}, weights::AbstractWeights{W}) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷweights)
+end
+
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights::AbstractWeights{W}) where {T1,T2,W}
+    typ = promote_type(T1, T2, W)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights)
+end
+
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}) where {T1,T2,W1,W2}
+    typ = promote_type(T1, T2, W1, W2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷweights1 = W1 === typ ? asview(weights1) : [typ(x) for x in weights1]
+    ᵛʷweights2 = W2 === typ ? asview(weights2) : [typ(x) for x in weights2]
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2)
+end
+
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, weights::AbstractWeights{W}) where {T1,T2,T3,W}
+    typ = promote_type(T1, T2, T3, W)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷdata3 = T3 === typ ? asview(data3) : [typ(x) for x in data3]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights)
+end
+
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}, weights3::AbstractWeights{W3}) where {T1,T2,T3,W1,W2,W3}
+    typ = promote_type(T1, T2, T3, W1, W2, W3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷdata3 = T3 === typ ? asview(data3) : [typ(x) for x in data3]
+    ᵛʷweights1 = W1 === typ ? asview(weights1) : [typ(x) for x in weights1]
+    ᵛʷweights2 = W2 === typ ? asview(weights2) : [typ(x) for x in weights2]
+    ᵛʷweights3 = W3 === typ ? asview(weights3) : [typ(x) for x in weights3]
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3)
+end
+
 # pad first
 
 function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
@@ -98,6 +153,62 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
     ᵛʷweights = asview(weights)
 
     padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights, padding)
+end
+
+
+function padfirst_rolling(func::Function, span::Span,
+    data1::AbstractVector{T}, weights::AbstractWeights{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷweights, padding)
+end
+
+function padfirst_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights::AbstractWeights{W}, padding) where {T1,T2,W}
+    typ = promote_type(T1, T2, W)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights, padding)
+end
+
+function padfirst_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
+    typ = promote_type(T1, T2, W1, W2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷweights1 = W1 === typ ? asview(weights1) : [typ(x) for x in weights1]
+    ᵛʷweights2 = W2 === typ ? asview(weights2) : [typ(x) for x in weights2]
+
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2, padding)
+end
+
+function padfirst_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, weights::AbstractWeights{W}, padding) where {T1,T2,T3,W}
+    typ = promote_type(T1, T2, T3, W)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷdata3 = T3 === typ ? asview(data3) : [typ(x) for x in data3]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights, padding)
+end
+
+function padfirst_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}, weights3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    typ = promote_type(T1, T2, T3, W1, W2, W3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷdata3 = T3 === typ ? asview(data3) : [typ(x) for x in data3]
+    ᵛʷweights1 = W1 === typ ? asview(weights1) : [typ(x) for x in weights1]
+    ᵛʷweights2 = W2 === typ ? asview(weights2) : [typ(x) for x in weights2]
+    ᵛʷweights3 = W3 === typ ? asview(weights3) : [typ(x) for x in weights3]
+
+    padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, padding)
 end
 
 # pad final
@@ -151,6 +262,63 @@ function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
 
     padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, padding)
 end
+
+
+function padfinal_rolling(func::Function, span::Span,
+    data1::AbstractVector{T}, weights::AbstractWeights{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    padfinal_rolling(func, span, ᵛʷdata1, ᵛʷweights, padding)
+end
+
+function padfinal_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights::AbstractWeights{W}, padding) where {T1,T2,W}
+    typ = promote_type(T1, T2, W)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights, padding)
+end
+
+function padfinal_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
+    typ = promote_type(T1, T2, W1, W2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷweights1 = W1 === typ ? asview(weights1) : [typ(x) for x in weights1]
+    ᵛʷweights2 = W2 === typ ? asview(weights2) : [typ(x) for x in weights2]
+
+    padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2, padding)
+end
+
+function padfinal_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, weights::AbstractWeights{W}, padding) where {T1,T2,T3,W}
+    typ = promote_type(T1, T2, T3, W)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷdata3 = T3 === typ ? asview(data3) : [typ(x) for x in data3]
+    ᵛʷweights = W === typ ? asview(weights) : [typ(x) for x in weights]
+
+    padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights, padding)
+end
+
+function padfinal_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weights1::AbstractWeights{W1}, weights2::AbstractWeights{W2}, weights3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    typ = promote_type(T1, T2, T3, W1, W2, W3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : [typ(x) for x in data1]
+    ᵛʷdata2 = T2 === typ ? asview(data2) : [typ(x) for x in data2]
+    ᵛʷdata3 = T3 === typ ? asview(data3) : [typ(x) for x in data3]
+    ᵛʷweights1 = W1 === typ ? asview(weights1) : [typ(x) for x in weights1]
+    ᵛʷweights2 = W2 === typ ? asview(weights2) : [typ(x) for x in weights2]
+    ᵛʷweights3 = W3 === typ ? asview(weights3) : [typ(x) for x in weights3]
+
+    padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, padding)
+end
+
 
 # IMPLEMENTATIONS
 
