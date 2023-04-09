@@ -6,48 +6,48 @@ floatvec = collect(1.0:10.0);
 intmat = hcat(intvec, reverse(intvec));
 floatmat = hcat(floatvec, reverse(floatvec));
 
-window_span = 7
-window_fn = sum
+span = 7
+func = sum
 
-result = rolling(intvec, window_span, window_fn)
+result = rolling(intvec, span, func)
 expected = [28, 35, 42, 49]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
-result = rolling(floatvec, window_span, window_fn)
+result = rolling(floatvec, span, func)
 expected = [28.0, 35.0, 42.0, 49.0]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
-result = rolling(intmat, window_span, window_fn)
+result = rolling(intmat, span, func)
 expected = [28 49; 35 42; 42 35; 49 28]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
-result = rolling(floatmat, window_span, window_fn)
+result = rolling(floatmat, span, func)
 expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 # pad first
 
-result = rolling(intvec, window_span, window_fn; padding = missing)
+result = rolling(intvec, span, func; padding = missing)
 expected = [missing, missing, missing, missing, missing, missing, 28, 35, 42, 49]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = rolling(floatvec, window_span, window_fn; padding = missing)
+result = rolling(floatvec, span, func; padding = missing)
 expected = [missing, missing, missing, missing, missing, missing, 28.0, 35.0, 42.0, 49.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = rolling(intmat, window_span, window_fn; padding = missing)
+result = rolling(intmat, span, func; padding = missing)
 expected = [missing missing; missing missing; missing missing; missing missing; missing missing; missing missing; 28 49; 35 42; 42 35; 49 28]
   
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = rolling(floatmat, window_span, window_fn; padding = missing)
+result = rolling(floatmat, span, func; padding = missing)
 expected = [missing missing; missing missing; missing missing; missing missing; missing missing; missing missing; 28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
@@ -55,22 +55,22 @@ expected = [missing missing; missing missing; missing missing; missing missing; 
 
 # pad last
 
-result = rolling(intvec, window_span, window_fn; padding = 0, padlast=true)
+result = rolling(intvec, span, func; padding = 0, padlast=true)
 expected = [28, 35, 42, 49, 0, 0, 0, 0, 0, 0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = rolling(floatvec, window_span, window_fn; padding = 0.0, padlast=true)
+result = rolling(floatvec, span, func; padding = 0.0, padlast=true)
 expected = [28.0, 35.0, 42.0, 49.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = rolling(intmat, window_span, window_fn; padding = 0, padlast=true)
+result = rolling(intmat, span, func; padding = 0, padlast=true)
 expected = [28 49; 35 42; 42 35; 49 28; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = rolling(floatmat, window_span, window_fn; padding = 0.0, padlast=true)
+result = rolling(floatmat, span, func; padding = 0.0, padlast=true)
 expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)

@@ -21,11 +21,11 @@ The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 
 
 #### Use a single, shared padding value
 
-- rolling(function, data, window_span; padding = missing)
+- rolling(function, data, span; padding = missing)
 - this will fill the initial result values with the padding value
   - pads these values(result[1], .., result[pad_nindices])
 
-- rolling(function, data, window_span; padding = missing, padlast = true)
+- rolling(function, data, span; padding = missing, padlast = true)
 - this will fill the final result values with the padding value
   - pads these values(result[n-pad_nindices+1], .., result[n])
 
@@ -38,7 +38,7 @@ The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 
 - this fills the extra indices with values obtained bytrimming
 
 - trimming evaluates the window function over available data
-  - trimmed window spans are less than the specified window_span
+  - trimmed window spans are less than the specified span
 
 #### Use a vector of𝓃 padding values
 

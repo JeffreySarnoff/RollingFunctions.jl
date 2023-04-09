@@ -42,7 +42,7 @@ rolled
  14
 ```
 
-Generally, with data that has r rows using a window_span of s results in r - s + 1 rows of values.
+Generally, with data that has r rows using a span of s results in r - s + 1 rows of values.
 
 
 ### To get back a result with the same number of rows as your data

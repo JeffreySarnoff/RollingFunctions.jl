@@ -25,13 +25,13 @@ The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - �
 
 - _here is the way to do that_
   - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>])
-  - running(function, data, window_span; padding = [<values>])
+  - running(function, data, span; padding = [<values>])
 
 ##### specify the padding vector to be at the end
 
 - _here is the way to do that_
   - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>], padlast = true)
-  - running(function, data, window_span; padding = [<values>], padlast = true)
+  - running(function, data, span; padding = [<values>], padlast = true)
 
 #### Use an empty vector 
 
@@ -39,10 +39,10 @@ The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - �
 
 - _here is the way to do that_
   - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = eltype(𝐷𝑎𝑡𝑎)[])
-  - running(function, data, window_span; padding = eltype(𝐷𝑎𝑡𝑎)[])
+  - running(function, data, span; padding = eltype(𝐷𝑎𝑡𝑎)[])
 
 -trimming evaluates the window function over available data
-  - trimmed window spans are less than the specified window_span
+  - trimmed window spans are less than the specified span
 
 #### Use a vector of𝓃 padding values
 

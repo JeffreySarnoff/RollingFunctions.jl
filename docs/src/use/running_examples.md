@@ -39,7 +39,7 @@ result
 ```
 
 
-Using a window_span of s over data with r rows results in r - s + 1 values.
+Using a span of s over data with r rows results in r - s + 1 values.
 - to obtain values, use padding or tapering
 
 
