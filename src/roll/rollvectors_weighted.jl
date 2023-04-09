@@ -21,7 +21,7 @@
                             weights1, weights2, weights3, weights4; padding)
 =#
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, span::Span, weights::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweights = asview(weights)
 
@@ -41,7 +41,7 @@ function basic_rolling(func::Function, data1::AbstractVector{T}, span::Span, wei
     results
 end
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, span::Span, weights::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights = asview(weights)
@@ -62,8 +62,8 @@ function basic_rolling(func::Function, data1::AbstractVector{T}, data2::Abstract
     results
 end
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -85,8 +85,8 @@ function basic_rolling(func::Function, data1::AbstractVector{T}, data2::Abstract
     results
 end
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
+    weights::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -112,8 +112,8 @@ end
 
 # pad first
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweights = asview(weights)
 
@@ -139,8 +139,8 @@ function padfirst_rolling(func::Function, data1::AbstractVector{T},
     results
 end
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights = asview(weights)
@@ -167,8 +167,8 @@ function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -196,8 +196,8 @@ function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -228,8 +228,8 @@ end
 
 # pad last
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweights = asview(weights)
 
@@ -255,8 +255,8 @@ function padfinal_rolling(func::Function, data1::AbstractVector{T},
     results
 end
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights = asview(weights)
@@ -283,8 +283,8 @@ function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -312,8 +312,8 @@ function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    span::Span, weights::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
+    weights::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -346,8 +346,8 @@ end
 # multiple weight vectors
 #
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, span::Span, 
-    weights1::AbstractVector{T}, weights2::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, 
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights1 = asview(weights1)
@@ -369,8 +369,8 @@ function basic_rolling(func::Function, data1::AbstractVector{T}, data2::Abstract
     results
 end
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -394,8 +394,8 @@ function basic_rolling(func::Function, data1::AbstractVector{T}, data2::Abstract
     results
 end
 
-function basic_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}, weights4::AbstractVector{T}) where {T}
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}, weights4::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -425,8 +425,8 @@ end
 # pad first
 
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights1 = asview(weights1)
@@ -454,8 +454,8 @@ function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -485,8 +485,8 @@ function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfirst_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}, weights4::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}, weights4::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -521,8 +521,8 @@ end
 # pad last
 
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}; padding=nopadding) where {T}
+function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweights1 = asview(weights1)
@@ -550,8 +550,8 @@ function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -581,8 +581,8 @@ function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::Abstr
     results
 end
 
-function padfinal_rolling(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    span::Span, weights1::AbstractVector{T}, weights2::AbstractVector{T}, weights3::AbstractVector{T}, weights4::AbstractVector{T}; padding=nopadding) where {T}
+function padfinal_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
+    weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}, weights4::AbstractVector{T}; padding=nopadding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
