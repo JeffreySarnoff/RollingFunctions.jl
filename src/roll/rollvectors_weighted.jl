@@ -63,6 +63,28 @@ function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, dat
     results
 end
 
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weights::AbstractWeights{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷweights = asview(weights)
+
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    nvalues = nrolled(n, span)
+
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{rettype}(undef, nvalues)
+
+    ilow, ihigh = 1, span
+    @inline for idx in eachindex(results)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
 function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     weights::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
@@ -85,7 +107,6 @@ function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, dat
 
     results
 end
-
 
 # pad first
 
