@@ -1069,3 +1069,4 @@ function last_padded_rolling(func::Function, data1::AbstractVector{T1}, data2::A
 
     last_padded_rolling(func, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷdata4, span, ᵛʷweights1, ᵛʷweights2, ᵛʷweights3, ᵛʷweights4; padding)
 end
+=#
