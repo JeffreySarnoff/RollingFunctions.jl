@@ -7,6 +7,9 @@ M = hcat(D₁, D₂);
 F = sum;
 W = 3;
 
+wweights = ProbabilityWeights([0.1,0.2,0.7])
+mweights = hcat(wweights, wweights)
+
 expected = [
     6 12
     9 9
@@ -55,6 +58,6 @@ W = 3
 expected = [  2.3 3.7
               3.3 2.7
               4.3 1.7 ]
-@test isapprox(rolling(F, W, M2, weights), expected)
+@test isapprox(rolling(F, W, M2, wweights), expected)
 
-@test isapprox(rolling(F, W, M, weights), expected)
+@test isapprox(rolling(F, W, M, wweights), expected)
