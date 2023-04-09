@@ -122,6 +122,7 @@ union_common(x::Union) = setdiff(union_types(x),(Missing,Nothing))
 commontype(x::Union) = union_common(x)[1]
 commontype(::Type{T}) where {T} = T
 
+#=
 # none, onlyone, oneormore, onlytwo, twoormore, ..., twelveormore
 
 
@@ -168,6 +169,7 @@ for (Nm, N) in namedints
         @eval ($fn)(x::Vararg{<:Union{<:AbstractVector,<:NTuple},$K}) = true
     end
 end
+=#
 
 # filling
 
