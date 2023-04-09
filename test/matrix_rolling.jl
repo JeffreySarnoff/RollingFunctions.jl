@@ -1,3 +1,6 @@
+clean(x) = x
+clean(x::Missing) = Missing
+
 D₁ = [1, 2, 3, 4, 5];
 D₂ = [5, 4, 3, 2, 1];
 M = hcat(D₁, D₂);
