@@ -9,8 +9,8 @@ expected = [
     9 9
     12 6];
 
-@test rolling(F, M, W) == expected
-@test typeof(rolling(F, M, W)) == typeof(expected)
+@test rolling(F, W, M) == expected
+@test typeof(rolling(F, W, M)) == typeof(expected)
 
 expected = [
     missing missing
@@ -19,8 +19,8 @@ expected = [
     9 9
     12 6];
 
-@test map(clean, rolling(F, M, W; padding=missing)) == map(clean, expected)
-@test typeof(rolling(F, M, W; padding=missing)) == typeof(expected)
+@test map(clean, rolling(F, W, M; padding=missing)) == map(clean, expected)
+@test typeof(rolling(F, W, M; padding=missing)) == typeof(expected)
 
 expected = [
     6 12
@@ -29,8 +29,8 @@ expected = [
     missing missing
     missing missing];
 
-@test map(clean, rolling(F, M, W; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, M, W; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, W, M; padding=missing, padlast=true)) == map(clean, expected)
+@test typeof(rolling(F, W, M; padding=missing, padlast=true)) == typeof(expected)
 
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
