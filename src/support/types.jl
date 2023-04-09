@@ -34,7 +34,7 @@ isweighted(x) = x !== unweighted
 
 const AkoWeight = Union{Unweighted,AbstractWeights{T}} where {T}
 const TupOfWeights = NTuple{N,AkoWeight} where {N}
-const SeqOfWeights = Vararg{AkoWeight,N} where {N}
+const SeqOfWeights = Tuple{<:AkoWeight} where {N}
 
 #=
 
