@@ -365,6 +365,10 @@ function padfinal_rolling(func::Function, span::Span, data1::ViewOfVector{T}, da
     results
 end
 
+
+# =============================================
+
+
 #
 # multiple weight vectors
 #
