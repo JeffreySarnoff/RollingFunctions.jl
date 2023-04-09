@@ -107,7 +107,7 @@ function basic_rolling(func::Function, span::Span, ᵛʷdata::ViewOfMatrix{T}, �
 
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(eachrow(results))
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* weight))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -142,7 +142,7 @@ function padfirst_rolling(func::Function, span::Span, ᵛʷdata::ViewOfMatrix{T}
 
     ilow, ihigh = 1, span
     @inbounds for idx in span:n
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* weight))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -161,7 +161,7 @@ function padfinal_rolling(func::Function, span::Span, data::AbstractMatrix{T}, w
     padfinal_rolling(func, span, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_rolling(func::Function, span::Span, data::ViewOfMatrix{T}, weight::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::Function, span::Span, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolled(n, span)
     rettype = Union{typeof(padding),rts(func, (T,))}
@@ -177,7 +177,7 @@ function padfinal_rolling(func::Function, span::Span, data::ViewOfMatrix{T}, wei
 
     ilow, ihigh = 1, span
     @inbounds for idx in 1:n-padding_span
-        @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* weight))
+        @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
