@@ -47,6 +47,8 @@ include("roll/roll.jl")
 include("roll/rollvectors.jl")
 include("roll/rollvectors_weighted.jl")
 include("roll/rollmatrix.jl")
+
+#=
 include("roll/rollstats.jl")
 
 include("support/tapers.jl")
@@ -55,7 +57,7 @@ include("run/runvectors.jl")
 include("run/runvectors_weighted.jl")
 include("run/runmatrix.jl")
 include("run/runstats.jl")
-
+=#
 
 end # RollingFunctions
 
