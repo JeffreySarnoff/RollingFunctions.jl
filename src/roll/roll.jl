@@ -223,7 +223,7 @@ function rolling(func::F, span::Span,
 end
 
 function rolling(func::F, span::Span,
-    data::Tuple{Vararg{<:AbstractVector{T}}}, weights1::AbstractWeights{T};
+    data::Tuple{<:AbstractVector{T}}, weights1::AbstractWeights{T};
     padding=nopadding, padlast=false) where {T,F<:Function}
     ᵛʷdata = ntuple(i -> asview(data[i]), length(data))
     ᵛʷweights = asview(weights1)
