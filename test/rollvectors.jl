@@ -41,6 +41,7 @@ expected = [-1.0, -1.0, -1.0, missing, missing];
 @test map(clean, rolling(F, W, D₁, D₂; padding=missing, padlast=true)) == map(clean, expected)
 @test typeof(rolling(F, W, D₁, D₂; padding=missing, padlast=true)) == typeof(expected)
 
+#=
 D₁ = [1, 2, 3, 4, 5];
 D₂ = [5, 4, 3, 2, 1];
 M = hcat(D₁, D₂);
@@ -74,4 +75,4 @@ expected = [
 
 @test map(clean, rolling(F, M, W; padding=missing, padlast=true)) == map(clean, expected)
 @test typeof(rolling(F, M, W; padding=missing, padlast=true)) == typeof(expected)
-
+=#

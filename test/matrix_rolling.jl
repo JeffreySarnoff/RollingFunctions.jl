@@ -1,20 +1,33 @@
-𝐹𝑢𝑛𝑐 = sum
-𝑆𝑝𝑎𝑛 = 3
+D₁ = [1, 2, 3, 4, 5];
+D₂ = [5, 4, 3, 2, 1];
+M = hcat(D₁, D₂);
+F = sum;
+W = 3;
 
-𝐷𝑎𝑡𝑎₁ = [1, 2, 3, 4, 5];
-𝐷𝑎𝑡𝑎₂ = [5, 4, 3, 2, 1];
-𝐷𝑎𝑡𝑎₃ = [1, 2, 3, 2, 1];
+expected = [
+    6 12
+    9 9
+    12 6];
 
-𝑀 = hcat(𝐷𝑎𝑡𝑎₁, 𝐷𝑎𝑡𝑎₂, 𝐷𝑎𝑡𝑎₃);
+@test rolling(F, M, W) == expected
+@test typeof(rolling(F, M, W)) == typeof(expected)
 
-result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛);
+expected = [
+    missing missing
+    missing missing
+    6 12
+    9 9
+    12 6];
 
-expected = [  6  12  6
-              9   9  7
-             12   6  6 ];
+@test map(clean, rolling(F, M, W; padding=missing)) == map(clean, expected)
+@test typeof(rolling(F, M, W; padding=missing)) == typeof(expected)
 
-@test result == expected
-@test typeof(result) == typeof(expected)
+expected = [
+    6 12
+    9 9
+    12 6
+    missing missing
+    missing missing];
 
-
-
+@test map(clean, rolling(F, M, W; padding=missing, padlast=true)) == map(clean, expected)
+@test typeof(rolling(F, M, W; padding=missing, padlast=true)) == typeof(expected)
