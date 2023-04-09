@@ -5,10 +5,14 @@ const VectorOfVectors = AbstractVector{<:AbstractVector}
 const TupleOfNTuples = Tuple{Vararg{<:NTuple}}
 const TupleOfTuples = Tuple{Vararg{<:Tuple}}
 const TupleOfVectors = Tuple{Vararg{<:AbstractVector}}
-
+#=
 const NTuples = Union{VectorOfNTuples,TupleOfNTuples}
 const Tuples = Union{VectorOfTuples,TupleOfTuples}
 const Vectors = Union{VectorOfVectors,TupleOfVectors}
+=#
+const NTuples = Union{VectorOfNTuples,Tuple{<:NTuple}}
+const Tuples = Union{VectorOfTuples,Tuple{<:Tuple}}
+const Vectors = Union{VectorOfVectors,Tuple{<:Vector}}
 
 const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
@@ -28,10 +32,9 @@ const unweighted = Unweighted()
 isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
-const AkoWeight = Union{Unweighted, AbstractWeights{T}} where {T}
+const AkoWeight = Union{Unweighted,AbstractWeights{T}} where {T}
 const TupOfWeights = NTuple{N,AkoWeight} where {N}
 const SeqOfWeights = Vararg{AkoWeight,N} where {N}
-
 
 #=
 
