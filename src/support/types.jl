@@ -2,18 +2,18 @@ const VectorOfNTuples = AbstractVector{<:NTuple}
 const VectorOfTuples = AbstractVector{<:Tuple}
 const VectorOfVectors = AbstractVector{<:AbstractVector}
 
-const TupleOfNTuples = Tuple{Vararg{<:NTuple}}
-const TupleOfTuples = Tuple{Vararg{<:Tuple}}
-const TupleOfVectors = Tuple{Vararg{<:AbstractVector}}
-#=
+const TupleOfNTuples = Tuple{<:NTuple}
+const TupleOfTuples = Tuple{<:Tuple}
+const TupleOfVectors = Tuple{<:AbstractVector}
+
 const NTuples = Union{VectorOfNTuples,TupleOfNTuples}
 const Tuples = Union{VectorOfTuples,TupleOfTuples}
 const Vectors = Union{VectorOfVectors,TupleOfVectors}
-=#
+#=
 const NTuples = Union{VectorOfNTuples,Tuple{<:NTuple}}
 const Tuples = Union{VectorOfTuples,Tuple{<:Tuple}}
 const Vectors = Union{VectorOfVectors,Tuple{<:Vector}}
-
+=#
 const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
 seq(x::NTuple{N,T}) where {N,T} = x
