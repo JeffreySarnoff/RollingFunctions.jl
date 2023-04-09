@@ -168,7 +168,7 @@ function rolling(func::F, span::Span,
     elseif !padlast
         padfirst_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2; padding)
     else
-        padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2;; padding)
+        padfinal_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2; padding)
     end
 end
 
