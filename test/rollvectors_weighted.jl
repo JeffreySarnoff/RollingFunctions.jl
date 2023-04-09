@@ -22,14 +22,16 @@ W = 3
 expected = [0.9946433500242822, 0.9773555548504419, -0.9511012772444227]
 @test rolling(F, W, D₁, D₂, weights) == expected
 
-#=
+
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
 M = hcat(D₁, D₂)
+M2 = Float64.(M)
 F = sum
 W = 3
 expected = [  2.3 3.7
               3.3 2.7
               4.3 1.7 ]
+@test isapprox(rolling(F, W, M2, weights), expected)
+
 @test isapprox(rolling(F, W, M, weights), expected)
-=#
