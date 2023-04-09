@@ -279,6 +279,17 @@ function basic_rolling(func::Function, span::Span, data1::AbstractVector{T1},
     basic_rolling(func, span, ᵛʷdata1, ᵛʷweights1)
 end
 
+function basic_rolling(func::Function, span::Span, data1::AbstractVector{T1}, data2::AbstractVector{T1},
+    weights1::AbstractWeights{W1}, weights2::AbstractWeights{W1}) where {T1,W1}
+    typ = promote_type(T1, W1)
+    ᵛʷdata1 = typ == T1 ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = typ == T1 ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷweights1 = typ == W1 ? asview(weights1) : asview([typ(x) for x in weights1])
+    ᵛʷweights2 = typ == W1 ? asview(weights2) : asview([typ(x) for x in weights2])
+ 
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweights1, ᵛʷweights2)
+end
+
 function basic_rolling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     weights1::AbstractWeights{T}, weights2::AbstractWeights{T}, weights3::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
