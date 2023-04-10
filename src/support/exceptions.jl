@@ -32,7 +32,14 @@ check_tilespan(seqlength, tilespan) =
     tilespan > (seqlength - windowspan + 1) && TrimSpanError(seqlength, tilespan)
 
 check_weights(nweights, windowspan) =
-    nweights != windowspan && WeightsError(nweights, windowspan)
+    (nweights == windowspan) || WeightsError(nweights, windowspan)
+
+check_weights(nweights1, nweights2, windowspan) =
+    (nweights1 === nweights2 == windowspan) || WeightsError(length(weights1), windowspan)
+
+check_weights(nweights1, nweights2, nweights3, windowspan) =
+    (nweights1 === nweights2 === nweights3 == windowspan) || WeightsError(length(weights1), windowspan)
+
 
 function span_error(seqlength, windowspan)
     str = string("Bad window span (", windowspan, ") for length (", seqlength, ").")

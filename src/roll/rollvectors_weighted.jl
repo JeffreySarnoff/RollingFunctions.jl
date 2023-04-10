@@ -301,8 +301,7 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_span(n, span)
-    check_weights(length(ᵛʷweight1), span)
-    check_weights(length(ᵛʷweight2), span)
+    check_weights(length(ᵛʷweight1), length(ᵛʷweight2), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -335,9 +334,7 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_span(n, span)
-    check_weights(length(ᵛʷweight1), span)
-    check_weights(length(ᵛʷweight2), span)
-    check_weights(length(ᵛʷweight3), span)
+    check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
