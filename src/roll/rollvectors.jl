@@ -77,6 +77,8 @@ end
 function basic_rolling(func::Function, span::Span,
     ᵛʷdata1::ViewOfVector{T}) where {T}
     n = length(ᵛʷdata1)
+    check_span(n, span)
+
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T},))
@@ -95,6 +97,8 @@ end
 function basic_rolling(func::Function, span::Span,
     ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
+
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
@@ -113,6 +117,8 @@ end
 function basic_rolling(func::Function, span::Span,
     ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_span(n, span)
+
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
@@ -132,6 +138,7 @@ end
 
 function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, padding) where {T}
     n = length(ᵛʷdata1)
+    check_span(n, span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -155,6 +162,7 @@ end
 
 function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -178,6 +186,7 @@ end
 
 function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_span(n, span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -203,6 +212,7 @@ end
 
 function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, padding) where {T}
     n = length(ᵛʷdata1)
+    check_span(n, span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -226,6 +236,7 @@ end
 
 function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -249,6 +260,7 @@ end
 
 function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_span(n, span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable

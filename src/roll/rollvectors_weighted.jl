@@ -202,6 +202,9 @@ end
 function basic_rolling(func::Function, span::Span,
     ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
+    check_span(n, span)
+    check_weights(length(ᵛʷweight), span)
+
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T},))
@@ -220,6 +223,10 @@ end
 function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+    check_weights(length(ᵛʷweight2), span)
+
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
@@ -238,6 +245,11 @@ end
 function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+    check_weights(length(ᵛʷweight2), span)
+    check_weights(length(ᵛʷweight3), span)
+
     nvalues = nrolled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
@@ -257,6 +269,9 @@ end
 
 function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
     n = length(ᵛʷdata1)
+    check_span(n, span)
+    check_weights(length(ᵛʷweight), span)
+
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
@@ -285,6 +300,9 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
     ᵛʷweight2 = asview(weight2)
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+    check_weights(length(ᵛʷweight2), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -316,6 +334,10 @@ function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, 
     ᵛʷweight3 = asview(weight3)
 
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+    check_weights(length(ᵛʷweight2), span)
+    check_weights(length(ᵛʷweight3), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -343,6 +365,8 @@ end
 function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T},
     ᵛʷweight::ViewOfWeights{T}, padding) where {T}
     n = length(ᵛʷdata1)
+    check_span(n, span)
+    check_weights(length(ᵛʷweight), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -367,6 +391,9 @@ end
 function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+    check_weights(length(ᵛʷweight2), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable
@@ -391,6 +418,10 @@ end
 function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+    check_weights(length(ᵛʷweight2), span)
+    check_weights(length(ᵛʷweight3), span)
 
     nvalues = nrolled(n, span)
     # only completed span coverings are resolvable

@@ -13,13 +13,12 @@
     rolling(      (a)->fn(a),       window, adata)
     rolling(    (a,b)->fn(a,b),     window, adata, bdata)
     rolling(  (a,b,c)->fn(a,b,c),   window, adata, bdata, cdata)
-    rolling((a,b,c,d)->fn(a,b,c,d), window, (adata, bdata, cdata, ddata))
+
     rolling(      row->fn(row),     window, datamatrix)
 
 the data is given as a vector
                or as 2 vectors
                or as 3 vectors 
-               or as a tuple of n vectors
                or as matrix
 """
 rolling
