@@ -1,25 +1,3 @@
-#=
-   basic_rolling(func, span, data1, weight) ..
-   basic_rolling(func, span, data1, data2, data3, weight)
-
-   padfirst_rolling(func, span, data1, weight; padding) ..
-   padfirst_rolling(func, span, data1, data2, data3, weight; padding)
-
-   padfinal_rolling(func, span, data1, weight; padding) ..
-   padfinal_rolling(func, span, data1, data2, data3, weight; padding)
-
-   basic_rolling(func, span, data1, data2, weight1, weight2) ..
-   basic_rolling(func, span, data1, data2, data3, span, 
-                            weight1, weight2, weight3)
-
-   padfirst_rolling(func, span, data1, data2, weight1, weight2; padding) ..
-   padfirst_rolling(func, span, data1, data2, data3, 
-                            weight1, weight2, weight3, weight4; padding)
-
-   padfinal_rolling(func, span, data1, data2, weight1, weight2; padding) ..
-   padfinal_rolling(func, span, data1, data2, data3, 
-                            weight1, weight2, weight3, weight4; padding)
-=#
 
 function basic_rolling(func::Function, span::Span,
     data1::AbstractVector{T}, weight::Weighting{T}) where {T}
@@ -433,4 +411,3 @@ function padfinal_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T
 
     results
 end
-

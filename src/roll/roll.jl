@@ -72,19 +72,7 @@ function rolling(func::F, span::Span,
     end
 end
 
-function rolling(func::F, span::Span,
-    data::Tuple{<:AbstractArray};
-    padding=nopadding, padlast=false) where {F<:Function}
-    if isnopadding(padding)
-        basic_rolling(func, span, data)
-    elseif !padlast
-        padfirst_rolling(func, span, data, padding)
-    else
-        padfinal_rolling(func, span, data, padding)
-    end
-end
-
-# with weight
+# with weights
 
 function rolling(func::F, span::Span,
     data1::AbstractVector{T}, weight1::Weighting{W};
