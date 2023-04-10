@@ -1,35 +1,61 @@
+#### for brevity
+
+- fn1(x)        is a function of 1 argument,  returns a scalar
+- fn2(x, y)     is a function of 2 arguments, returns a scalar
+- fn3(x, y, z)  is a function of 3 arguments, returns a scalar
+
+```
+const AV  = AbstractVector
+const PVD = nopadding # padding[value]_default
+const PLD = false # padlast_default
+```
 
 #### these are the three foundational forms that roll
 
 ```
-rolling(window_func, datavec, span)
+rolling(fn1, span, data1::V) where {V<:AV}
 
-rolling(window_func, datavec, span; padding)
+rolling(fn1, span, data1::V;
+        padding=PVD) where {V<:AV}
 
-rolling(window_func, datavec, span; padding, padlast)
+rolling(fn1, span, data1::V;
+        padding=PVD, padlast=PLD) where {V<:AV}
 ```
 
-#### enhanced forms allow 2, 3, or 4 distinct data vectors
+#### enhanced forms allow two or three distinct data vectors
 
-- they support summarizing functions that take 2, 3, or 4 args
+- they support summarizing functions that take 2 or 3  args
 
 ```
-rolling(window_func, datavec1, datavec2, span)
+rolling(fn2, span, data1::V, data2::V) where {V<:AV}
 
-rolling(window_func, datavec1, datavec2, datavec3, span; padding)
+rolling(fn2, span, data1::V, data2::V;
+        padding=PVD) where {V<:AV}
 
-rolling(window_func, datavec1, datavec2, datavec3, datavec4, span; padding, padlast)
+rolling(fn2, span, data1::V, data2::V;
+        padding=PVD, padlast=PLD) where {V<:AV}
 ```
+
+```
+rolling(fn3, span, data1::V, data2::V, data3::V) where {V<:AV}
+
+rolling(fn3, span, data1::V, data2::V, data3::V;
+        padding=PVD) where {V<:AV}
+
+rolling(fn3, span, data1::V, data2::V, data3::V;
+        padding=PVD, padlast=PLD) where {V<:AV}
+```
+
 
 #### given a matrix, the function is applied to each column
 - a corresponding matrix is returned
 
 ```
-rolling(window_func, datamat, span)
+rolling(fn1, datamat, span)
 
-rolling(window_func, datamat, span; padding)
+rolling(fn1, datamat, span; padding)
 
-rolling(window_func, datamat, span; padding, padlast)
+rolling(fn1, datamat, span; padding, padlast)
 ```
 
 
