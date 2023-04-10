@@ -275,15 +275,6 @@ function basic_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, 
     results
 end
 
-function basic_rolling(func::Function, span::Span,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
-    typ = promote_type(T, W)
-    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
-
-    basic_rolling(func, span, ᵛʷdata1, ᵛʷweight)
-end
-
 # pad first implementations
 
 function padfirst_rolling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
