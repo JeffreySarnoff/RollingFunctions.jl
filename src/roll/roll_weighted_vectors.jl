@@ -8,6 +8,15 @@ function basic_rolling(func::Function, span::Span,
 end
 
 function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::Weighting{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷweight1 = asview(weight1)
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight1)
+end
+
+function basic_rolling(func::Function, span::Span,
     data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::Weighting{T}, weight2::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -15,6 +24,17 @@ function basic_rolling(func::Function, span::Span,
     ᵛʷweight2 = asview(weight2)
 
     basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+end
+
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::Weighting{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷdata3 = asview(data3)
+    ᵛʷweight1 = asview(weight1)
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight1, ᵛʷweight1)
 end
 
 function basic_rolling(func::Function, span::Span,
