@@ -4,14 +4,29 @@ using StatsBase
 using LinearAlgebra
 using Test
 
-include("roll.jl")
-include("rollvectors_weighted.jl")
-include("matrix_rolling.jl")
-# include("runvectors.jl")
-# include("runvectors_weighted.jl")
-
+include("roll/roll.jl")
+include("roll/roll_vectors.jl")
+include("roll/roll_weighted_vectors.jl")
+include("roll/roll_matrix.jl")
+include("roll/roll_stats.jl")
 
 #=
+include("tile/tile.jl")
+include("tile/tile_vectors.jl")
+include("tile/tile_weighted_vectors.jl")
+include("tile/tile_matrix.jl")
+include("tile/tile_stats.jl")
+=#
+
+#=
+include("run/run.jl")
+include("run/run_vectors.jl")
+include("run/run_weighted_vectors.jl")
+include("run/run_matrix.jl")
+include("run/run_stats.jl")
+=#
+
+
 datavec = collect(1.0f0:5.0f0)
 weighting = normalize([1.0f0, 2.0f0, 4.0f0])
 
