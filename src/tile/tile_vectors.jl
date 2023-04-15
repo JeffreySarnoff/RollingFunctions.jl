@@ -145,6 +145,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     if iszero(npaddings)
         return basic_tiling(func, span, ᵛʷdata1)
     end
+    nvalues += npaddings
     padding_idxs = 1:npaddings
 
     rettype = rts(func, (Vector{T},))
