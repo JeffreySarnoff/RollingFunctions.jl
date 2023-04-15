@@ -56,13 +56,12 @@ include("roll/roll_matrix.jl")
 include("roll/roll_stats.jl")
 
 
-#=
 include("tile/tile.jl")
 include("tile/tile_vectors.jl")
 include("tile/tile_weighted_vectors.jl")
 include("tile/tile_matrix.jl")
 include("tile/tile_stats.jl")
-=#
+
 
 #=
 include("run/run.jl")
