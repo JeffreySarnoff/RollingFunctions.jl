@@ -105,7 +105,7 @@ end
 # with weightings
 #
 
-function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::Tuple{Weights})
+function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights)
     check_empty(data)
     check_empty(weights)
     check_span(span, minimum(map(length, data)))
