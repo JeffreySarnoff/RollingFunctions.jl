@@ -20,7 +20,6 @@ FastBroadcast = "7034ab61-46d4-4ed7-9d0f-46aef9175898"
 
 [weakdeps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-version = "1.5.0"
 
 [extensions]
 DataFramesExt = "DataFrames"
@@ -41,4 +40,5 @@ LoopVectorization = "0.12, 0.13, 0.14"
 AccurateArithmetic = "0.3.8, 0.3.9, 0.3.10"
 Tables = "1.10"
 DataTables = "0.15, 0.16, 0.17"
+DataFrames = "1.5"
 julia = "1.8"
