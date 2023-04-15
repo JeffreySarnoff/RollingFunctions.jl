@@ -1,5 +1,5 @@
 datavec = collect(1.0f0:5.0f0)
-weighting = normalize([1.0f0, 2.0f0, 4.0f0])
+weighting = AnalyticWeights(normalize([1.0f0, 2.0f0, 4.0f0]))
 
 windowsize = 3
 
