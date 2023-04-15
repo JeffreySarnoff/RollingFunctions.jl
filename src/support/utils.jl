@@ -215,14 +215,16 @@ nimputed_rolling(nseq, span) = span - 1
 length obtained from seq with span as the window size
 and tile as the tiling step
 """
+ntiled(nseq, span) = div(nseq, span)
+
 ntiled(nseq, span, tile) =
-    if span <= tile
-        div(nseq, tile)
-    else # span > tile
-         # span <= nseq - k*tile < 2span
-        div(nseq, tile)
-        div(nseq-span-1, tile)
-    end
+        if span <= tile
+            div(nseq, tile)
+        else # span > tile
+            # span <= nseq - k*tile < 2span
+            div(nseq, tile)
+            div(nseq - span - 1, tile)
+        end
 
 """
     nimputed_tiling(nseq, span, tile)
@@ -230,6 +232,8 @@ ntiled(nseq, span, tile) =
 count of values to be imputed from seq with
 span as the window size and tile as the tiling step
 """
+function nimputed_tiling(nseq, span) = 1
+
 function nimputed_tiling(nseq, span, tile)
     if span == tile
         rem(nseq, span)
