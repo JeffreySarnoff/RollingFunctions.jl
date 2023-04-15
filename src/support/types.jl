@@ -1,19 +1,18 @@
-const VectorOfNTuples = AbstractVector{<:NTuple}
-const VectorOfTuples = AbstractVector{<:Tuple}
-const VectorOfVectors = AbstractVector{<:AbstractVector}
+const VectorOfNTuples = AbstractVector{Vararg{NTuple}}
+const VectorOfTuples = AbstractVector{Vararg{Tuple}}
+const VectorOfVectors = AbstractVector{Vararg{AbstractVector}}
+const VectorOfWeights = AbstractVector{Vararg{AbstractWeights}}
 
-const TupleOfNTuples = Tuple{<:NTuple}
-const TupleOfTuples = Tuple{<:Tuple}
-const TupleOfVectors = Tuple{<:AbstractVector}
+const TupleOfNTuples = Tuple{Vararg{NTuple}}
+const TupleOfTuples = Tuple{Vararg{Tuple}}
+const TupleOfVectors = Tuple{Vararg{AbstractVector}}
+const TupleOfWeights = Tuple{Vararg{AbstractWeights}}
 
-const NTuples = Union{VectorOfNTuples,TupleOfNTuples}
-const Tuples = Union{VectorOfTuples,TupleOfTuples}
-const Vectors = Union{VectorOfVectors,TupleOfVectors}
-#=
-const NTuples = Union{VectorOfNTuples,Tuple{<:NTuple}}
-const Tuples = Union{VectorOfTuples,Tuple{<:Tuple}}
-const Vectors = Union{VectorOfVectors,Tuple{<:Vector}}
-=#
+const AkoNTuples = Union{VectorOfNTuples,TupleOfNTuples}
+const AkoTuples  = Union{VectorOfTuples,TupleOfTuples}
+const AkoVectors = Union{VectorOfVectors,TupleOfVectors}
+const AkoWeights = Union{VectorOfWeights, TupleOfWeights}
+
 const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
 seq(x::NTuple{N,T}) where {N,T} = x
@@ -38,7 +37,7 @@ const SeqOfWeights = Tuple{<:Weighting} where {N}
 
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
-const ViewOfMatrix = SubArray{T,2,M,Tuple{Base.Slice{Base.OneTo{Int64}}, Base.Slice{Base.OneTo{Int64}}}, true} where {T,M<:AbstractMatrix{T}}
+const ViewOfMatrix = SubArray{T,2,M,Tuple{Base.Slice{Base.OneTo{Int64}},Base.Slice{Base.OneTo{Int64}}},true} where {T,M<:AbstractMatrix{T}}
 
 #=
 

@@ -8,7 +8,7 @@
      padfinal_tupled_rolling(func::Function, span, ::Tuple, weight; padding, padlast)
 =#
 
-function basic_tupled_rolling(func::Function, span::Span, data::Tuple{AbstractVector})
+function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors)
     check_empty(data)
     check_span(span, minimum(map(length, data)))
 
@@ -36,7 +36,7 @@ end
 # pad the dropped indicies at the start with a given padding value
 # do not move the windowed data
 
-function padfirst_tupled_rolling(func::Function, span::Span, data::Tuple{<:AbstractVector}, padding)
+function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, padding)
     check_empty(data)
     check_span(span, minimum(map(length, data)))
 
@@ -70,7 +70,7 @@ end
 # pad the dropped indicies at the end with a given padding value
 # move windowed data back into the first entries
 
-function padfinal_tupled_rolling(func::Function, span::Span, data::Tuple{<:AbstractVector}, padding)
+function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, padding)
     check_empty(data)
     check_span(span, minimum(map(length, data)))
 
@@ -101,9 +101,11 @@ function padfinal_tupled_rolling(func::Function, span::Span, data::Tuple{<:Abstr
     results
 end
 
+#
 # with weightings
+#
 
-function basic_tupled_rolling(func::Function, span::Span, data::Tuple{<:AbstractVector}, weights::Tuple{<:AbstractWeights})
+function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights)
     check_empty(data)
     check_empty(weights)
     check_span(minimum(map(length, data)), span)
@@ -133,7 +135,7 @@ end
 # pad the dropped indicies at the start with a given padding value
 # do not move the windowed data
 
-function padfirst_tupled_rolling(func::Function, span::Span, data::Tuple{<:AbstractVector}, weights::Tuple{<:AbstractWeights}, padding)
+function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
     check_span(minimum(map(length, data)), span)
@@ -169,7 +171,7 @@ end
 # pad the dropped indicies at the end with a given padding value
 # move windowed data back into the first entries
 
-function padfinal_tupled_rolling(func::Function, span::Span, data::Tuple{<:AbstractVector}, weights::Tuple{<:AbstractWeights}, padding)
+function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
     check_span(minimum(map(length, data)), span)
