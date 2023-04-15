@@ -18,7 +18,7 @@ obtained = rolling(mean, 3, datavec, weighting)
 @test Float32(eps(Float32)) > abs(sum(expected .- obtained))
 
 data1=[1,2,3,4,5,6,7];data2=[1,4,6,16,25,36,49];
-weighting = normalize([1.0, 2.0, 1.0, 2.0]);
+weighting = AnalyticWeights(normalize([1.0, 2.0, 1.0, 2.0]));
 
 expected = [2.5, 6.0, 9.5, 10.0, 12.0]
 obtained = rolling(cov, 3, data1, data2)
