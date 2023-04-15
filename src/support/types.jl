@@ -8,9 +8,9 @@ const TupleOfTuples = Tuple{Vararg{Tuple}}
 const TupleOfVectors = Tuple{Vararg{AbstractVector}}
 const TupleOfWeights = Tuple{Vararg{AbstractWeights}}
 
-const NTupleOfTuples = NTuple{Vararg{Tuple}}
-const NTupleOfVectors = NTuple{Vararg{AbstractVector}}
-const NTupleOfWeights = NTuple{Vararg{AbstractWeights}}
+const NTupleOfTuples = NTuple{N,Tuple}} where {N}
+const NTupleOfVectors = NTuple{N, AbstractVector} where {N}
+const NTupleOfWeights = NTuple{N, AbstractWeights} where {N}
 
 const AkoNTuples = Union{VectorOfNTuples,NTupleOfTuples}
 const AkoTuples = Union{VectorOfTuples,TupleOfTuples}
