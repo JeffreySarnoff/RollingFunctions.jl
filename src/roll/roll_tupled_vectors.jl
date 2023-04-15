@@ -19,7 +19,7 @@ function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors)
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
 
-    nvalues = nrolled(n, span)
+    nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
     results = Vector{rettype}(undef, nvalues)
 
@@ -48,7 +48,7 @@ function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
 
-    nvalues = nrolled(n, span)
+    nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
     results = Vector{rettype}(undef, nvalues)
 
@@ -82,7 +82,7 @@ function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
 
-    nvalues = nrolled(n, span)
+    nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
     results = Vector{rettype}(undef, nvalues)
 
@@ -118,7 +118,7 @@ function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, 
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
 
-    nvalues = nrolled(n, span)
+    nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
     results = Vector{rettype}(undef, nvalues)
 
@@ -149,7 +149,7 @@ function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
 
-    nvalues = nrolled(n, span)
+    nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
     results = Vector{rettype}(undef, nvalues)
 
@@ -185,7 +185,7 @@ function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
 
-    nvalues = nrolled(n, span)
+    nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
     results = Vector{rettype}(undef, nvalues)
 
