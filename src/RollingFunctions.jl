@@ -2,7 +2,7 @@ module RollingFunctions
 
 using Base: @kwdef
 
-export rolling,
+export rolling, tiling,
        # functions using VectorizedStatistics
        rollmin, rollmax, rollmean, rollsum,
        rollvar, rollstd, rollcor, rollcov
