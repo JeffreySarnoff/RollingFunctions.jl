@@ -141,18 +141,18 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = 1:padding_span
+    npaddings = nimputed_tilings(n, span)
+    if iszero(npaddings)
+        return basic_tiling(func, span, ᵛʷdata1)
+    end
+    padding_idxs = 1:npaddings
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in span:n
+    @inbounds for idx in (1+npaddings):nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + span
         ihigh = ihigh + span
