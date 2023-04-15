@@ -4,8 +4,11 @@
     trimspan_error
     trimtile_error
     weights_error
- 
+
 =#
+struct EmptyError <: Exception
+    msg::String
+end
 
 struct SpanError <: Exception
     msg::String
@@ -18,6 +21,9 @@ end
 struct WeightsError <: Exception
     msg::String
 end
+
+check_empty(sequence) = 
+    isempty(sequence) && EmptyError(sequence)
 
 check_span(seqlength, windowspan) =
     ((windowspan > seqlength) || (iszero(seqlength))) && SpanError(seqlength, windowspan)
@@ -40,6 +46,15 @@ check_weights(nweights1, nweights2, windowspan) =
 check_weights(nweights1, nweights2, nweights3, windowspan) =
     (nweights1 === nweights2 === nweights3 == windowspan) || WeightsError(length(weights1), windowspan)
 
+check_weights(nweights::NTuple, windowspan) =
+    (windowspan .== nweights) || WeightsError("length.(weights) must equal windowspan")
+
+
+function empty_error(sequence)
+    str = string("Sequence must be nonempty.")
+    err = EmptyError(str)
+    throw(err)
+end
 
 function span_error(seqlength, windowspan)
     str = string("Bad window span (", windowspan, ") for length (", seqlength, ").")
@@ -67,6 +82,11 @@ end
 
 function weights_error(nweighting, windowspan)
     str = string("Bad weights length (", nweighting, ") != for window length (", windowspan, ").")
+    err = WeightsError(str)
+    throw(err)
+end
+
+function weights_error(str::String)
     err = WeightsError(str)
     throw(err)
 end

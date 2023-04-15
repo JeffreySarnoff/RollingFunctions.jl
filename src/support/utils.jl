@@ -115,6 +115,9 @@ end
 @inline asview(x::Unweighted) = x
 @inline viewall(x::Unweighted) = x
 
+@inline asviewtype(::Type{T}, dta) where {T} =
+        eltype(dta) === T ? asview(dta) : asview([T(x) for x in dta])
+
 #=
 @inline viewall(data::Tuple{Vararg{T,N}}) where {T,N} = viewall(convert(Vector{T}, data))
 Base.convert(::Type{Vector{T}}, tup::Tuple{Vararg{T,N}}) where {T,N} = [ tup... ]

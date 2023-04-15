@@ -32,6 +32,25 @@ function basic_rolling(func::Function, span::Span,
     basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
 end
 
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}) where {T1,T2}
+    typ = promote_type(T1, T2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2)
+end
+
+function basic_rolling(func::Function, span::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}) where {T1,T2,T3}
+    typ = promote_type(T1, T2, T3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷdata2 = T3 === typ ? asview(data3) : asview([typ(x) for x in data3])
+
+    basic_rolling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
+end
+
 # padfirst_rolling
 
 function padfirst_rolling(func::Function, span::Span, data1::AbstractVector{T}, padding) where {T}
@@ -94,25 +113,7 @@ function basic_rolling(func::Function, span::Span,
     results
 end
 
-function basic_rolling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    check_span(n, span)
 
-    nvalues = nrolled(n, span)
-
-    rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
-
-    ilow, ihigh = 1, span
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
 
 function basic_rolling(func::Function, span::Span,
     ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}

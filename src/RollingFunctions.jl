@@ -54,6 +54,7 @@ include("roll/roll_vectors.jl")
 include("roll/roll_weighted_vectors.jl")
 include("roll/roll_matrix.jl")
 include("roll/roll_stats.jl")
+include("roll/roll_tupled_vectors.jl")
 
 
 include("tile/tile.jl")
