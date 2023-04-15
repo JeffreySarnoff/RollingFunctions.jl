@@ -79,16 +79,16 @@ function basic_tiling(func::Function, span::Span,
     n = length(ᵛʷdata1)
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, span
-    @inbounds for idx in eachindex(results)
+    @inbounds for idx in 1:span:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -99,7 +99,7 @@ function basic_tiling(func::Function, span::Span,
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -107,8 +107,8 @@ function basic_tiling(func::Function, span::Span,
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -119,7 +119,7 @@ function basic_tiling(func::Function, span::Span,
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -127,8 +127,8 @@ function basic_tiling(func::Function, span::Span,
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -140,7 +140,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     n = length(ᵛʷdata1)
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
+
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -153,8 +154,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inbounds for idx in span:n
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -164,7 +165,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
+
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -177,8 +179,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inbounds for idx in span:n
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -188,7 +190,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
+
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -201,8 +204,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inbounds for idx in span:n
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -214,7 +217,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     n = length(ᵛʷdata1)
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
+
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -227,8 +231,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -238,7 +242,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
+
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -251,8 +256,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -262,7 +267,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_span(n, span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
+
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -275,8 +281,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results

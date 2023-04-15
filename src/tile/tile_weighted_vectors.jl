@@ -213,8 +213,8 @@ function basic_tiling(func::Function, span::Span,
     ilow, ihigh = 1, span
     @inline for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -235,8 +235,8 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, �
     ilow, ihigh = 1, span
     @inline for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -258,8 +258,8 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, �
     ilow, ihigh = 1, span
     @inline for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -285,8 +285,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inline for idx in span:n
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -316,8 +316,8 @@ function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, d
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues-padding_span
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -349,8 +349,8 @@ function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, d
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues-padding_span
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -378,8 +378,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -405,8 +405,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -433,8 +433,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results

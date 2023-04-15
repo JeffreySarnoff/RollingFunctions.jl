@@ -1,6 +1,18 @@
 clean(x) = x
 clean(x::Missing) = Missing
 
+data1 = collect(1.0f0:16.0f0)
+data2 = reverse(data1)
+
+func = sum
+span = 8
+tile = 8
+padding = nopadding
+padlast = false
+
+
+
+
 intvec = collect(1:10);
 floatvec = collect(1.0:10.0);
 intmat = hcat(intvec, reverse(intvec));

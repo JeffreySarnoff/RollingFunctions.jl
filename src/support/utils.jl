@@ -22,12 +22,14 @@
 """
     nrows(x)
 count the rows of x
-""" nrows
+"""
+nrows
 
 """
     ncols(x)
 count the columns of x
-""" ncols
+"""
+ncols
 
 nrows(x::AbstractVector) = length(x)
 nrows(x::AbstractArray) = size(x)[1]
@@ -45,11 +47,11 @@ isNothing(::Type{Nothing}) = true
 # returned types (rough) and tally(returned types)
 # more specific when `typs` are provided
 
-@inline rts(fn) = Base.return_types(fn)[max(1, end-1)]
-@inline rts(fn, typs) = Base.return_types(fn, typs)[max(1, end-1)]
+@inline rts(fn) = Base.return_types(fn)[max(1, end - 1)]
+@inline rts(fn, typs) = Base.return_types(fn, typs)[max(1, end - 1)]
 
 @inline nrts(fn) = max(1, length(rts(fn).parameters))
-@inline nrts(fn, typs) = max(1, length(rts(fn,typs).parameters))
+@inline nrts(fn, typs) = max(1, length(rts(fn, typs).parameters))
 
 # FixTwo
 
@@ -73,7 +75,7 @@ struct FixTwo{F,T} <: Function
     x::T
     y::T
 
-    FixTwo(f::F, x, y) where {F} = new{F, Base._stable_typeof(x)}(f, x, y)
+    FixTwo(f::F, x, y) where {F} = new{F,Base._stable_typeof(x)}(f, x, y)
     FixTwo(f::Type{F}, x, y) where {F} = new{Type{F},Base._stable_typeof(x)}(f, x, y)
 end
 
@@ -93,7 +95,7 @@ struct FixThree{F,T} <: Function
     y::T
     z::T
 
-    FixThree(f::F, x, y, z) where {F} = new{F, Base._stable_typeof(x)}(f, x, y, z)
+    FixThree(f::F, x, y, z) where {F} = new{F,Base._stable_typeof(x)}(f, x, y, z)
     FixThree(f::Type{F}, x, y, z) where {F} = new{Type{F},Base._stable_typeof(x)}(f, x, y, z)
 end
 
@@ -101,13 +103,13 @@ end
 
 # views
 
-@inline isview(data) = isa(data, SubArray) 
+@inline isview(data) = isa(data, SubArray)
 @inline asview(data) = isview(data) ? data : viewall(data)
 
-@inline viewall(data::A) where {T, A<:AbstractArray{T,1}} = view(data, :)
-@inline viewall(data::A) where {T, A<:AbstractArray{T,2}} = view(data, :, :)
-@inline viewall(data::A) where {T, A<:AbstractArray{T,3}} = view(data, :, :, :)
-@inline viewall(data::A) where {T, A<:AbstractArray{T,4}} = view(data, :, :, :, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,1}} = view(data, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,2}} = view(data, :, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,3}} = view(data, :, :, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,4}} = view(data, :, :, :, :)
 
 @inline isview(x::Unweighted) = true
 @inline asview(x::Unweighted) = x
@@ -122,7 +124,7 @@ Base.convert(::Type{Vector{T}}, tup::Tuple{Vararg{T,N}}) where {T,N} = [ tup... 
 
 union_types(x::Union) = (x.a, union_types(x.b)...)
 union_types(x::Type) = (x,)
-union_common(x::Union) = setdiff(union_types(x),(Missing,Nothing))
+union_common(x::Union) = setdiff(union_types(x), (Missing, Nothing))
 
 commontype(x::Union) = union_common(x)[1]
 commontype(::Type{T}) where {T} = T
@@ -165,7 +167,7 @@ for (Nm, N) in namedints
     fnstr = string(Nm) * "ormore"
     fnsym = Symbol(fnstr)
     fn = fnsym
-    
+
     for K in lowfalses
         @eval ($fn)(x::Vararg{Any,$K}) = false
     end
@@ -179,13 +181,13 @@ end
 # filling
 
 function fills(filler::T, data::AbstractVector{T}) where {T}
-    nvals  = axes(data)[1].stop
+    nvals = axes(data)[1].stop
     return fill(filler, nvals)
 end
 
-function fills(filler::T1, data::AbstractVector{T2}) where {T1, T2}
+function fills(filler::T1, data::AbstractVector{T2}) where {T1,T2}
     elemtype = Union{T1,T2}
-    nvals  = axes(data)[1].stop
+    nvals = axes(data)[1].stop
     result = Array{elemtype,1}(undef, nvals)
     result[:] = filler
     return result
@@ -193,17 +195,88 @@ end
 
 # number of values to be obtained
 
-function nrolled(seqlength::T, windowspan::T) where {T<:Signed}
-    (0 < windowspan <= seqlength) || throw(SpanError(seqlength,windowspan))
+"""
+    nrolled(nseq, span)
 
-    return seqlength - windowspan + 1
+length obtained from seq with span as the window size
+"""
+nrolled(nseq, span) = nseq - span + 1
+
+"""
+    nimputed_rolling(nseq, span)
+
+count of values to be imputed from seq with span as the window size
+"""
+nimputed_rolling(nseq, span) = span - 1
+
+"""
+    ntiled(nseq, span, tile)
+
+length obtained from seq with span as the window size
+and tile as the tiling step
+"""
+ntiled(nseq, span, tile) =
+    if span <= tile
+        div(nseq, tile)
+    else # span > tile
+         # span <= nseq - k*tile < 2span
+        div(nseq, tile)
+        div(nseq-span-1, tile)
+    end
+
+"""
+    nimputed_tiling(nseq, span, tile)
+
+count of values to be imputed from seq with
+span as the window size and tile as the tiling step
+"""
+function nimputed_tiling(nseq, span, tile)
+    if span == tile
+        rem(nseq, span)
+    else # span > tile
+        nseq_atmost = nimputed_rolling(nseq, tile) * tile
+        nimputed_rolling(nseq_atmost, span)
+    end
 end
+
+#=
+
+ntiled(nseq, span, tile=span) =
+    function swi(s, w, i)
+        ls = length(s)
+        lo = 1 + i * w
+        hi = (1 + i) * w
+        iq = div(ls, w)
+        ir = rem(ls, w)
+        if ls < hi
+            return (ls - ir + 1, ls)
+        end
+        return sw(s, w, i)
+    end
+
 
 # number of values to be imputed
 
+"""
+    nimputed(nseq, span)
+
+count of values to be imputed from seq with span as the window size
+"""
+nimputed(nseq, span) = span - 1
+
+"""
+    nimputed(nseq, span, tile)
+
+count of values to be imputed from seq with span as the window size
+and tile as the tiling step
+"""
+nimputed(nseq, span, tile) = rem(nrolled(nseq, span), tile)
+
 function nfilled(windowspan::T) where {T<:Signed}
-    windowspan < 1 && throw(SpanError(seqlength,windowspan))
+    windowspan < 1 && throw(SpanError(seqlength, windowspan))
 
     return windowspan - 1
 end
+
+=#
 

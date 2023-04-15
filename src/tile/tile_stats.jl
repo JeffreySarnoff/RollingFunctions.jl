@@ -1,7 +1,7 @@
 for T1 in (:T, :(Union{Missing,T}))
-    for (R, F) in ((:rollmin, :vminimum), (:rollmax, :vmaximum),
-        (:rollmean, :vmean), (:rollsum, :vsum),
-        (:rollvar, :vvar), (:rollstd, :vstd))
+    for (R, F) in ((:tilemin, :vminimum), (:tilemax, :vmaximum),
+        (:tilemean, :vmean), (:tilesum, :vsum),
+        (:tilevar, :vvar), (:tilestd, :vstd))
         @eval begin
             $R(span::Span, data::V; padding=nopadding, padlast=false) where {T, V<:AbstractVector{$T1}} =
                 tiling($F, span, data; padding, padlast)
@@ -12,7 +12,7 @@ for T1 in (:T, :(Union{Missing,T}))
 end
 
 for T1 in (:T, :(Union{Missing,T}))
-    for (R, F) in ((:rollcor, :vcor), (:rollcov, :vcov))
+    for (R, F) in ((:tilecor, :vcor), (:tilecov, :vcov))
         @eval begin
             $R(span::Span, data1::V, data2::V; padding=nopadding, padlast=false) where {T,V<:AbstractVector{$T1}} =
                 tiling($F, span, data1, data2; padding, padlast)
