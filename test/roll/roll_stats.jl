@@ -14,7 +14,7 @@ obtained = rollmean(windowsize, datavec, weighting)
 @test Float32(eps(Float32)) > abs(sum(expected .- obtained))
 
 expected = [1.0f0, 1.1180339f0, 1.236568f0, 1.7457432f0, 2.254918f0]
-obtained = running(mean, 3, datavec, weighting)
+obtained = rolling(mean, 3, datavec, weighting)
 @test Float32(eps(Float32)) > abs(sum(expected .- obtained))
 
 data1=[1,2,3,4,5,6,7];data2=[1,4,6,16,25,36,49];
