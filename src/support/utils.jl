@@ -232,7 +232,7 @@ ntiled(nseq, span, tile) =
 count of values to be imputed from seq with
 span as the window size and tile as the tiling step
 """
-function nimputed_tiling(nseq, span) = 1
+nimputed_tiling(nseq, span) = !iszero(rem(nseq, span)) ? 1 : 0
 
 function nimputed_tiling(nseq, span, tile)
     if span == tile
