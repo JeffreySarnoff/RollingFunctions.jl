@@ -46,7 +46,7 @@ check_weights(nweights1, nweights2, windowspan) =
 check_weights(nweights1, nweights2, nweights3, windowspan) =
     (nweights1 === nweights2 === nweights3 == windowspan) || weights_error(length(weights1), windowspan)
 
-check_weights(nweights::NTuple, windowspan) =
+check_weights(windowspan, nweights::Tuple) =
     (windowspan .== nweights) || weights_error("length.(weights) must equal windowspan")
 
 
