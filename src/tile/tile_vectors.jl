@@ -219,11 +219,11 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = n-padding_span-1:n
+    npaddings = nimputed_tiling(n, span)
+    if iszero(npaddings)
+        return basic_tiling(func, span, ᵛʷdata1)
+    end
+    padding_idxs = nvalues-npaddings-1:nvalues
 
     rettype = rts(func, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
