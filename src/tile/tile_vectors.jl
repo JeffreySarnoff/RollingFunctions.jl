@@ -223,7 +223,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     if iszero(npaddings)
         return basic_tiling(func, span, ᵛʷdata1)
     end
-    padding_idxs = nvalues-npaddings-1:nvalues
+    padding_idxs = nvalues-npaddings:nvalues
 
     rettype = rts(func, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
