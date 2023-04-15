@@ -23,31 +23,31 @@ struct WeightsError <: Exception
 end
 
 check_empty(sequence) = 
-    isempty(sequence) && EmptyError(sequence)
+    isempty(sequence) && empty_error(sequence)
 
 check_span(seqlength, windowspan) =
-    ((windowspan > seqlength) || (iszero(seqlength))) && SpanError(seqlength, windowspan)
+    ((windowspan > seqlength) || (iszero(seqlength))) && span_error(seqlength, windowspan)
 
 check_trimspan(seqlength, windowspan) =
-    windowspan > (seqlength - windowspan + 1) && TrimSpanError(seqlength, windowspan)
+    windowspan > (seqlength - windowspan + 1) && trimspan_error(seqlength, windowspan)
 
 check_tile(seqlength, tilespan) =
-    ((tilespan > seqlength) || (iszero(seqlength))) && TileError(seqlength, tilespan)
+    ((tilespan > seqlength) || (iszero(seqlength))) && tile_error(seqlength, tilespan)
 
 check_tilespan(seqlength, tilespan) =
-    tilespan > (seqlength - windowspan + 1) && TrimSpanError(seqlength, tilespan)
+    tilespan > (seqlength - windowspan + 1) && tilespan_error(seqlength, tilespan)
 
 check_weights(nweights, windowspan) =
-    (nweights == windowspan) || WeightsError(nweights, windowspan)
+    (nweights == windowspan) || weights_error(nweights, windowspan)
 
 check_weights(nweights1, nweights2, windowspan) =
-    (nweights1 === nweights2 == windowspan) || WeightsError(length(weights1), windowspan)
+    (nweights1 === nweights2 == windowspan) || weights_error(length(weights1), windowspan)
 
 check_weights(nweights1, nweights2, nweights3, windowspan) =
-    (nweights1 === nweights2 === nweights3 == windowspan) || WeightsError(length(weights1), windowspan)
+    (nweights1 === nweights2 === nweights3 == windowspan) || weights_error(length(weights1), windowspan)
 
 check_weights(nweights::NTuple, windowspan) =
-    (windowspan .== nweights) || WeightsError("length.(weights) must equal windowspan")
+    (windowspan .== nweights) || weights_error("length.(weights) must equal windowspan")
 
 
 function empty_error(sequence)

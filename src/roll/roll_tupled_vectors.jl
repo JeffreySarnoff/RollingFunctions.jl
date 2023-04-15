@@ -8,7 +8,7 @@
      padfinal_tupled_rolling(func::Function, span, ::Tuple, weight; padding, padlast)
 =#
 
-function basic_tupled_rolling(func::Function, span::Span, data::Tuple{<:AbstractVector})
+function basic_tupled_rolling(func::Function, span::Span, data::Tuple{AbstractVector})
     check_empty(data)
     check_span(span, minimum(map(length, data)))
 
