@@ -226,7 +226,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     padding_idxs = nvalues-npaddings:nvalues
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+npaddings)
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, span
