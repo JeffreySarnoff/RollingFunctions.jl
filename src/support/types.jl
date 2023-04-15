@@ -8,12 +8,11 @@ const TupleOfTuples = Tuple{Vararg{Tuple}}
 const TupleOfVectors = Tuple{Vararg{AbstractVector}}
 const TupleOfWeights = Tuple{Vararg{AbstractWeights}}
 
-const NTupleOfNTuples = NTuple{Vararg{NTuple}}
 const NTupleOfTuples = NTuple{Vararg{Tuple}}
 const NTupleOfVectors = NTuple{Vararg{AbstractVector}}
 const NTupleOfWeights = NTuple{Vararg{AbstractWeights}}
 
-const AkoNTuples = Union{VectorOfNTuples,TupleOfNTuples}
+const AkoNTuples = Union{VectorOfNTuples,NTupleOfTuples}
 const AkoTuples = Union{VectorOfTuples,TupleOfTuples}
 const AkoVectors = Union{VectorOfVectors,TupleOfVectors}
 const AkoWeights = Union{VectorOfWeights,NTupleOfWeights}
