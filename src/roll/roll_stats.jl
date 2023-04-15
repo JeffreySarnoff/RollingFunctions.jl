@@ -24,7 +24,7 @@ for T1 in (:T, :(Union{Missing,T}))
     end
 end
 
-
+#=
 mad_not_normalized(x) = mad(x, normalize=false)
 mad_normalized(x) = mad(x, normalize=true)
 
@@ -64,3 +64,4 @@ rollcor(data1::V1, data2::V2, windowspan::Int, weighting::AbstractVector{S}) whe
 rollcov(data1::V1, data2::V2, windowspan::Int, weighting::AbstractVector{S}) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
                                                                                           V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
     rolling(cov, data1, data2, windowspan, weighting)
+=#
