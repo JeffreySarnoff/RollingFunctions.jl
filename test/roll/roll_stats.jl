@@ -6,7 +6,7 @@ windowsize = 3
 @test rollmean(windowsize, datavec) == Float32[2.0, 3.0, 4.0]
 
 expected = [2.0f0, 3.0f0, 4.0f0]
-obtained = rolling(mean, datavec, 3)
+obtained = rolling(mean, 3, datavec)
 @test Float32(eps(Float64)) > abs(sum(expected .- obtained))
 
 expected = [1.236568f0, 1.7457432f0, 2.254918f0]
