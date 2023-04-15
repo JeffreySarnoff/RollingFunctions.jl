@@ -85,7 +85,7 @@ function basic_tiling(func::Function, span::Span,
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, span
-    @inbounds for idx in 1:span:nvalues
+    @inbounds for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + span
         ihigh = ihigh + span
