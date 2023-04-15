@@ -28,7 +28,7 @@ expected = [0.9751641759537001, 0.9283031155706918, 0.9749534026403799, 0.973216
 obtained = rollcor(4, data1, data2, weighting)
 @test eps(Float32) > abs(sum(expected .- obtained))
 
-expected = [2.5, 7.833333333333333, 15.0, 20.75, 26.5]
+expected = [15.0, 20.75, 26.5]
 obtained = rollcov(5, data1, data2)
 @test eps(Float32) > abs(sum(expected .- obtained))
 
