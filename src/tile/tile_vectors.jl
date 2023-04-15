@@ -141,7 +141,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tilings(n, span)
+    npaddings = nimputed_tiling(n, span)
     if iszero(npaddings)
         return basic_tiling(func, span, ᵛʷdata1)
     end
