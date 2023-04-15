@@ -15,7 +15,7 @@ const NTupleOfWeights = NTuple{N, AbstractWeights} where {N}
 const AkoNTuples = Union{VectorOfNTuples,NTupleOfTuples}
 const AkoTuples = Union{VectorOfTuples,TupleOfTuples}
 const AkoVectors = Union{VectorOfVectors,TupleOfVectors}
-const AkoWeights = Union{VectorOfWeights,NTupleOfWeights}
+const AkoWeights = Union{VectorOfWeights,TupleOfWeights}
 
 const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
