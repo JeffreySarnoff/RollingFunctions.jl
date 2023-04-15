@@ -8,10 +8,15 @@ const TupleOfTuples = Tuple{Vararg{Tuple}}
 const TupleOfVectors = Tuple{Vararg{AbstractVector}}
 const TupleOfWeights = Tuple{Vararg{AbstractWeights}}
 
+const NTupleOfNTuples = NTuple{Vararg{NTuple}}
+const NTupleOfTuples = NTuple{Vararg{Tuple}}
+const NTupleOfVectors = NTuple{Vararg{AbstractVector}}
+const NTupleOfWeights = NTuple{Vararg{AbstractWeights}}
+
 const AkoNTuples = Union{VectorOfNTuples,TupleOfNTuples}
-const AkoTuples  = Union{VectorOfTuples,TupleOfTuples}
+const AkoTuples = Union{VectorOfTuples,TupleOfTuples}
 const AkoVectors = Union{VectorOfVectors,TupleOfVectors}
-const AkoWeights = Union{VectorOfWeights, TupleOfWeights}
+const AkoWeights = Union{VectorOfWeights,NTupleOfWeights}
 
 const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
