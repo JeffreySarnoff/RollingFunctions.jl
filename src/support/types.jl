@@ -1,7 +1,7 @@
-const VectorOfNTuples = AbstractVector{Vararg{NTuple}}
-const VectorOfTuples = AbstractVector{Vararg{Tuple}}
-const VectorOfVectors = AbstractVector{Vararg{AbstractVector}}
-const VectorOfWeights = AbstractVector{Vararg{AbstractWeights}}
+const VectorOfNTuples = AbstractVector{<:NTuple}
+const VectorOfTuples = AbstractVector{<:Tuple}
+const VectorOfVectors = AbstractVector{<:AbstractVector}
+const VectorOfWeights = AbstractVector{<AbstractWeights}
 
 const TupleOfNTuples = Tuple{Vararg{NTuple}}
 const TupleOfTuples = Tuple{Vararg{Tuple}}
