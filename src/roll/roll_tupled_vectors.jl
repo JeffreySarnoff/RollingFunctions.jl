@@ -108,8 +108,8 @@ end
 function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights)
     check_empty(data)
     check_empty(weights)
-    check_span(span, minimum(map(length, data)))
-    check_weights(span, map(length, weights))
+    check_span(minimum(map(length, data)), span)
+    check_weights(map(length, weights), span)
 
     nvectors = length(data)
     if nvectors < 4
@@ -138,8 +138,8 @@ end
 function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
-    check_span(span, minimum(map(length, data)))
-    check_weights(span, map(length, weights))
+    check_span(minimum(map(length, data)), span)
+    check_weights(map(length, weights), span)
 
     nvectors = length(data)
     if nvectors < 4
@@ -174,8 +174,8 @@ end
 function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
-    check_span(span, minimum(map(length, data)))
-    check_weights(span, map(length, weights))
+    check_span(minimum(map(length, data)), span)
+    check_weights(map(length, weights), span)
 
     nvectors = length(data)
     if nvectors < 4
