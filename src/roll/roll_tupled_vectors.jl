@@ -110,6 +110,7 @@ function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, 
     check_empty(weights)
     check_span(minimum(map(length, data)), span)
     check_weights(map(length, weights), span)
+    check_lengths(length(data), length(weights))
 
     nvectors = length(data)
     if nvectors < 4
@@ -117,7 +118,7 @@ function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, 
     end
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
-    ᵛʷweight = map(dta -> asviewtype(typ, dta), weights)
+    ᵛʷweight = (map(dta -> asviewtype(typ, dta), map(Vector{typ},weights)))
 
     nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
@@ -125,7 +126,7 @@ function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, 
 
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(results)
-        currdata = (getindex(dta, ilow:ihigh) for dta in ᵛʷdata) .* ᵛʷweight
+        currdata = map((c,w)->c .* w,  (getindex(dta, ilow:ihigh) for dta in ᵛʷdata), ᵛʷweight)
         @views results[idx] = func(currdata...)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -142,14 +143,15 @@ function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     check_empty(weights)
     check_span(minimum(map(length, data)), span)
     check_weights(map(length, weights), span)
+    check_lengths(length(data), length(weights))
 
     nvectors = length(data)
     if nvectors < 4
-        return padfirst_rolling(func, span, data...)
+        return padfirst_rolling(func, span, data..., weights...)
     end
-
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
+    ᵛʷweight = (map(dta -> asviewtype(typ, dta), map(Vector{typ}, weights)))
 
     nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
@@ -158,11 +160,11 @@ function padfirst_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     padding_span = span - 1
     padding_idxs = 1:padding_span
     results[padding_idxs] .= padding
-    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, span
     @inbounds for idx in span:nvalues
-        @views results[idx] .= func(map(dta -> getindex(dta, ilow:ihigh), data)...)
+        currdata = map((c,w)->c .* w,  (getindex(dta, ilow:ihigh) for dta in ᵛʷdata), ᵛʷweight)
+        @views results[idx] = func(currdata...)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -176,16 +178,17 @@ end
 function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
-    check_span(span, minimum(map(length, data)))
-    check_weights(span, map(length, weights))
+    check_span(minimum(map(length, data)), span)
+    check_weights(map(length, weights), span)
+    check_lengths(length(data), length(weights))
 
     nvectors = length(data)
     if nvectors < 4
-        return padfinal_rolling(func, span, data...)
+        return padfinal_rolling(func, span, data..., weights...)
     end
-
     typ = promote_type(map(eltype, data)...)
     ᵛʷdata = map(dta -> asviewtype(typ, dta), data)
+    ᵛʷweight = (map(dta -> asviewtype(typ, dta), map(Vector{typ}, weights)))
 
     nvalues = nrolled(minimum(map(length, data)), span)
     rettype = rts(func, map(typeof, ᵛʷdata))
@@ -196,9 +199,9 @@ function padfinal_tupled_rolling(func::Function, span::Span, data::TupleOfVector
     results[padding_idxs] .= padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in in
-        1:n-padding_span
-        @views results[idx] .= func(map(dta -> getindex(dta, ilow:ihigh), data)...)
+    @inbounds for idx in in 1:n-padding_span
+        currdata = map((c,w)->c .* w,  (getindex(dta, ilow:ihigh) for dta in ᵛʷdata), ᵛʷweight)
+        @views results[idx] = func(currdata...)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end

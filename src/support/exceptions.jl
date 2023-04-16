@@ -4,6 +4,7 @@
     trimspan_error
     trimtile_error
     weights_error
+    lengths_error
 
 =#
 struct EmptyError <: Exception
@@ -22,7 +23,11 @@ struct WeightsError <: Exception
     msg::String
 end
 
-check_empty(sequence) = 
+struct LengthsError <: Exception
+    msg::String
+end
+
+check_empty(sequence) =
     isempty(sequence) && empty_error(sequence)
 
 check_span(seqlength::Int, windowspan::Span) =
@@ -49,6 +54,8 @@ check_weights(nweights1::Int, nweights2::Int, nweights3::Int, windowspan::Span) 
 check_weights(nweights::NTuple{N,Int}, windowspan::Span) where {N} =
     (all(windowspan .== nweights)) || weights_error("all length.(weights) must equal windowspan")
 
+check_lengths(ndata, nweights) =
+    (ndata === nweights) || lengths_error(ndata, nweights)
 
 function empty_error(sequence)
     str = string("Sequence must be nonempty.")
@@ -91,3 +98,8 @@ function weights_error(str::String)
     throw(err)
 end
 
+function lengths_error(ndata, nweights)
+    str = string("tupled data and tupled wieghts must be the same length ($ndata != $nweights).")
+    err = LengthsError(str)
+    throw(err)
+end
