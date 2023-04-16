@@ -124,7 +124,8 @@ function basic_tupled_rolling(func::Function, span::Span, data::TupleOfVectors, 
 
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(results)
-        @views results[idx] = func((getindex(dta, ilow:ihigh) for dta in ᵛʷdata)...)
+        weighted = ((getindex(dta, ilow:ihigh) .* getindex(weights, idx)) for dta in ᵛʷdata)
+        @views results[idx] = func(weighted...)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
