@@ -35,17 +35,15 @@ using Statistics: mean, median, std, var, cor, cov
 using StatsBase: kurtosis, mad, sem, skewness, variation,
        AbstractWeights, Weights,
        FrequencyWeights, AnalyticWeights, ProbabilityWeights
+using VectorizedStatistics
 
 using KahanSummation: sum_kbn
 using AccurateArithmetic: sum_oro
-
-using VectorizedStatistics, LoopVectorization
 
 include("support/types.jl")
 include("support/exceptions.jl")
 include("support/utils.jl")
 
-include("support/loop_support.jl")
 include("support/normalize_weights.jl")
 include("support/tapers.jl")
 
