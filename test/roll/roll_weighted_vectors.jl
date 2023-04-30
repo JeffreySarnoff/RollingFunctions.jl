@@ -28,3 +28,8 @@ weights = ProbabilityWeights([0.2, 0.3, 0.5]);
 expected = [0.9946433500242822, 0.9773555548504419, -0.9511012772444227]
 @test rolling(F, W, D₁, D₂, weights) == expected
 
+D₃ = (D₁ .- D₂) ./ (D₁ .+ D₂);
+weights = AnalyticWeights([0.3, 0.6, 0.9]);
+fn(a,b,c) = cov(a,b) - cov(a,c)
+expected = Float32[0.56, 0.11, -0.58]
+@test Float32.(rolling(fn, W, D₁, D₂, D₃, weights)) == expected
