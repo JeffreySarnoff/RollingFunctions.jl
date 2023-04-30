@@ -113,7 +113,25 @@ function basic_rolling(func::Function, span::Span,
     results
 end
 
+function basic_rolling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_span(n, span)
 
+    nvalues = nrolled(n, span)
+
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{rettype}(undef, nvalues)
+
+    ilow, ihigh = 1, span
+    @inbounds for idx in eachindex(results)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
 
 function basic_rolling(func::Function, span::Span,
     ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
