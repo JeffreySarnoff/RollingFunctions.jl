@@ -132,12 +132,12 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    taperding_width = width - 1
-    taperding_idxs = nvalues-taperding_width:nvalues
+    tapering_width = width - 1
+    tapering_idxs = nvalues-tapering_width:nvalues
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
-    results[taperding_idxs] .= taperding
+    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
     @inline for idx in width:n
@@ -163,15 +163,15 @@ function taperfirst_running(func::Function, width::Width, data1::AbstractVector{
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    taperding_width = width - 1
-    taperding_idxs = nvalues-taperding_width:nvalues
+    tapering_width = width - 1
+    tapering_idxs = nvalues-tapering_width:nvalues
 
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
-    results[taperding_idxs] .= taperding
+    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
-    @inline for idx in 1:nvalues-taperding_width
+    @inline for idx in 1:nvalues-tapering_width
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -196,15 +196,15 @@ function taperfirst_running(func::Function, width::Width, data1::AbstractVector{
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    taperding_width = width - 1
-    taperding_idxs = nvalues-taperding_width:nvalues
+    tapering_width = width - 1
+    tapering_idxs = nvalues-tapering_width:nvalues
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
-    results[taperding_idxs] .= taperding
+    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
-    @inline for idx in 1:nvalues-taperding_width
+    @inline for idx in 1:nvalues-tapering_width
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -225,12 +225,12 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    taperding_width = width - 1
-    taperding_idxs = n-taperding_width-1:n
+    tapering_width = width - 1
+    tapering_idxs = n-tapering_width-1:n
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
-    results[taperding_idxs] .= taperding
+    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
@@ -252,12 +252,12 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    taperding_width = width - 1
-    taperding_idxs = n-taperding_width-1:n
+    tapering_width = width - 1
+    tapering_idxs = n-tapering_width-1:n
 
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
-    results[taperding_idxs] .= taperding
+    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
@@ -280,12 +280,12 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    taperding_width = width - 1
-    taperding_idxs = n-taperding_width-1:n
+    tapering_width = width - 1
+    tapering_idxs = n-tapering_width-1:n
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
-    results[taperding_idxs] .= taperding
+    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
