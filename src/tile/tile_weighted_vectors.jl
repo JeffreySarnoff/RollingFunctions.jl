@@ -313,7 +313,7 @@ function basic_tiling(func::Function, span::Span,
 end
 
 function basic_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, , ᵛʷdata3::ViewOfVector{T},
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     w = min(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3))
@@ -392,7 +392,7 @@ function padfirst_tiling(func::Function, span::Span,
 end
 
 function padfirst_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, , ᵛʷdata3::ViewOfVector{T},
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T},
     padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
@@ -477,7 +477,7 @@ function padfinal_tiling(func::Function, span::Span,
 end
 
 function padfinal_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, , ᵛʷdata3::ViewOfVector{T},
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T},
     padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
