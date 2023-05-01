@@ -124,24 +124,24 @@ end
 
 # taper first implementations
 
-function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
-    check_weights(length(ᵛʷweight), width)
+    check_weights(length(ᵛʷweight1), width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    tapering_width = width - 1
-    tapering_idxs = nvalues-tapering_width:nvalues
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
-    results[tapering_idxs] .= tapering
+    taper_idxs = 1:n-nvalues
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{rettype}(undef, n)
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end])
+    end
 
     ilow, ihigh = 1, width
     @inline for idx in width:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -160,15 +160,13 @@ function taperfirst_running(func::Function, width::Width, data1::AbstractVector{
     check_width(n, width)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), width)
 
-    nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    tapering_width = width - 1
-    tapering_idxs = nvalues-tapering_width:nvalues
-
+    taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
-    results[tapering_idxs] .= tapering
+    results = Vector{rettype}(undef, n)
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end]]
+    end
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues-tapering_width
@@ -194,14 +192,14 @@ function taperfirst_running(func::Function, width::Width, data1::AbstractVector{
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    tapering_width = width - 1
-    tapering_idxs = nvalues-tapering_width:nvalues
 
+    taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
-    results[tapering_idxs] .= tapering
+    results = Vector{rettype}(undef, n)
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[1:idx].* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end],ᵛʷdata3[1:idx] .* ᵛʷweight3[end-idx+1:end])
+    end
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues-tapering_width
