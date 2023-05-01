@@ -279,7 +279,7 @@ function padfirst_tiling(func::Function, width::Width,
     end
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues+1)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
     results[1] = padding
 
@@ -307,7 +307,7 @@ function padfirst_tiling(func::Function, width::Width,
     end
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues+1)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
     results[1] = padding
 
@@ -336,7 +336,7 @@ function padfirst_tiling(func::Function, width::Width,
     end
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
 
     results[1] = padding
 
@@ -364,7 +364,7 @@ function padfinal_tiling(func::Function, width::Width,
     end
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues+1)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
     results[end] = padding
 
@@ -392,7 +392,7 @@ function padfinal_tiling(func::Function, width::Width,
     end
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues+1)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
     results[end] = padding
 
@@ -421,7 +421,7 @@ function padfinal_tiling(func::Function, width::Width,
     end
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues)
+    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
 
     results[end] = padding
 
