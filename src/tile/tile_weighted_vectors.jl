@@ -269,10 +269,10 @@ end
 # basic_tiling implementation
 
 function basic_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_span(n, span)
-    check_weights(length(ᵛʷweight), span)
+    check_weights(length(ᵛʷweight1), span)
 
     nvalues = ntiled(n, span)
 
@@ -281,7 +281,7 @@ function basic_tiling(func::Function, span::Span,
 
     ilow, ihigh = 1, span
     @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + span
         ihigh = ihigh + span
     end
