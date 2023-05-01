@@ -57,10 +57,13 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         return basic_rolling(func, width, ᵛʷdata1)
     end
 
-    taper_idxs = n-width:n
+    taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    #results[padding_idxs] .= padding
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[1:idx])
+    end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -81,10 +84,13 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2)
     end
 
-    taper_idxs = n-width:n
+    taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    #results[padding_idxs] .= padding
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
+    end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -105,10 +111,13 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2)
     end
 
-    taper_idxs = n-width:n
+    taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    #results[padding_idxs] .= padding
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
+    end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -131,16 +140,19 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         return basic_rolling(func, width, ᵛʷdata1)
     end
 
-    taper_idxs = 1:n-nvalues
+    taper_idxs = n - width
     rettype = rts(func, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    #results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
+    end
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[idx:end])
     end
 
     results
@@ -155,16 +167,19 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         return basic_rolling(func, width, ᵛʷdata1)
     end
 
-    taper_idxs = 1:n-nvalues
+    taper_idxs = n - width
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    #results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
+    end
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[idx:end], ᵛʷdata2[idx:end])
     end
 
     results
@@ -179,7 +194,7 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         return basic_rolling(func, width, ᵛʷdata1)
     end
 
-    taper_idxs = 1:n-nvalues
+    taper_idxs = n - width
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     # results[padding_idxs] .= padding
@@ -189,6 +204,10 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
+    end
+
+    @inbounds for idx in taper_idxs
+        @views results[idx] = func(ᵛʷdata1[idx:end], ᵛʷdata2[idx:end], ᵛʷdata3[idx:end])
     end
 
     results
