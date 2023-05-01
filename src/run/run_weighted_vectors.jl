@@ -1,23 +1,23 @@
-# pad first
+# taper first
 
-function padfirst_running(func::Function, width::Width, data1::AbstractVector{T},
+function taperfirst_running(func::Function, width::Width, data1::AbstractVector{T},
     weight::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
+    taperfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function padfirst_running(func::Function, width::Width,
+function taperfirst_running(func::Function, width::Width,
     data1::AbstractVector{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
+    taperfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function padfirst_running(func::Function, width::Width,
+function taperfirst_running(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -25,10 +25,10 @@ function padfirst_running(func::Function, width::Width,
     ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    taperfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function padfirst_running(func::Function, width::Width,
+function taperfirst_running(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -39,41 +39,41 @@ function padfirst_running(func::Function, width::Width,
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
     ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    taperfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
 
-function padfirst_running(func::Function, width::Width,
+function taperfirst_running(func::Function, width::Width,
     data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
+    taperfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
 
-# pad final
+# taper final
 
-function padfinal_running(func::Function, width::Width, data1::AbstractVector{T},
+function taperfinal_running(func::Function, width::Width, data1::AbstractVector{T},
     weight::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight)
+    taperfinal_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function padfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
+function taperfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
     weight1::Weighting{T}, weight2::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
     ᵛʷweight2 = asview(weight2)
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    taperfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function padfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+function taperfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -82,20 +82,20 @@ function padfinal_running(func::Function, width::Width, data1::AbstractVector{T}
     ᵛʷweight2 = asview(weight2)
     ᵛʷweight3 = asview(weight3)
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    taperfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
 
-function padfinal_running(func::Function, width::Width,
+function taperfinal_running(func::Function, width::Width,
     data1::AbstractVector{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight)
+    taperfinal_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function padfinal_running(func::Function, width::Width,
+function taperfinal_running(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -103,10 +103,10 @@ function padfinal_running(func::Function, width::Width,
     ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    taperfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function padfinal_running(func::Function, width::Width,
+function taperfinal_running(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -117,14 +117,14 @@ function padfinal_running(func::Function, width::Width,
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
     ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    taperfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
 # IMPLEMENTATIONS
 
-# pad first implementations
+# taper first implementations
 
-function padfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
@@ -132,12 +132,12 @@ function padfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = nvalues-padding_width:nvalues
+    taperding_width = width - 1
+    taperding_idxs = nvalues-taperding_width:nvalues
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
+    results[taperding_idxs] .= taperding
 
     ilow, ihigh = 1, width
     @inline for idx in width:n
@@ -149,7 +149,7 @@ function padfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     results
 end
 
-function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
+function taperfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
     weight1::Weighting{T}, weight2::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -163,15 +163,15 @@ function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = nvalues-padding_width:nvalues
+    taperding_width = width - 1
+    taperding_idxs = nvalues-taperding_width:nvalues
 
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
+    results[taperding_idxs] .= taperding
 
     ilow, ihigh = 1, width
-    @inline for idx in 1:nvalues-padding_width
+    @inline for idx in 1:nvalues-taperding_width
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -180,7 +180,7 @@ function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}
     results
 end
 
-function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+function taperfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -196,15 +196,15 @@ function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = nvalues-padding_width:nvalues
+    taperding_width = width - 1
+    taperding_idxs = nvalues-taperding_width:nvalues
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
+    results[taperding_idxs] .= taperding
 
     ilow, ihigh = 1, width
-    @inline for idx in 1:nvalues-padding_width
+    @inline for idx in 1:nvalues-taperding_width
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -214,9 +214,9 @@ function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}
 end
 
 
-# pad final implementations
+# taper final implementations
 
-function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T},
+function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T},
     ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
@@ -225,12 +225,12 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = n-padding_width-1:n
+    taperding_width = width - 1
+    taperding_idxs = n-taperding_width-1:n
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
+    results[taperding_idxs] .= taperding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
@@ -242,7 +242,7 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     results
 end
 
-function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
@@ -252,12 +252,12 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = n-padding_width-1:n
+    taperding_width = width - 1
+    taperding_idxs = n-taperding_width-1:n
 
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
+    results[taperding_idxs] .= taperding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
@@ -269,7 +269,7 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     results
 end
 
-function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
@@ -280,12 +280,12 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = n-padding_width-1:n
+    taperding_width = width - 1
+    taperding_idxs = n-taperding_width-1:n
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{Union{typeof(taperding),rettype}}(undef, n)
+    results[taperding_idxs] .= taperding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
