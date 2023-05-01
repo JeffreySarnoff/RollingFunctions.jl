@@ -165,7 +165,7 @@ function taperfirst_running(func::Function, width::Width, data1::AbstractVector{
     results = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
-        @views results[idx] = func(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end]]
+        @views results[idx] = func(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end])
     end
 
     ilow, ihigh = 1, width
