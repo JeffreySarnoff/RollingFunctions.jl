@@ -44,7 +44,7 @@ function padfirst_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
     results[1,:] .= padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in eachindex(2:nvalues+1)
+    @inbounds for idx in 2:nvalues+1
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + span
         ihigh = ihigh + span
@@ -52,7 +52,6 @@ function padfirst_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
 
     results
 end
-
 
 # pad the last entries, move windowed data back to the first entries
 
@@ -71,7 +70,7 @@ function padfinal_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
     results[end, :] .= padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in eachindex(1:nvalues)
+    @inbounds for idx in 1:nvalues
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + span
         ihigh = ihigh + span
