@@ -22,6 +22,7 @@ D₂ = [5, 4, 3, 2, 1];
 F = cor;
 W = 3;
 expected = [NaN, -1.0, -1.0, -1.0, -1.0];
-@test running(F, W, D₁, D₂)[2:end] == expected[2:end]
-@test isnan(running(F, W, D₁, D₂, weights)[1])
+result = running(F, W, D₁, D₂)
+@test result[2:end] == expected[2:end]
+@test any((isnan).(result))
 
