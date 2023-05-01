@@ -167,30 +167,6 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     nvalues = ntiled(n, span)
     npaddings = nimputed_tiling(n, span)
     if iszero(npaddings)
-        return basic_tiling(func, span, ᵛʷdata1)
-    end
-
-    rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues + 1)
-    results[1] = padding
-
-    ilow, ihigh = 1, span
-    @inbounds for idx in 2:nvalues
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
-        ilow = ilow + span
-        ihigh = ihigh + span
-    end
-
-    results
-end
-
-function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    check_span(n, span)
-
-    nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
         return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2)
     end
 
