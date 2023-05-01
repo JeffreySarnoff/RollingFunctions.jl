@@ -4,7 +4,7 @@ clean(x::Missing) = Missing
 F = sum;
 W = 3;
 D = [1, 2, 3, 4, 5];
-expected = [6, 9, 12];
+expected = [1, 3, 6, 9, 12];
 @test running(F, W, D) == expected
 
 expected = [missing, missing, 6, 9, 12];
