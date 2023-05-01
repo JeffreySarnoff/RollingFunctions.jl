@@ -39,7 +39,7 @@ function padfirst_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
     end
 
     rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (nvalues+1, ncols(ᵛʷdata)))
+    results = Matrix{Union{typeof(padding),rettype}}(undef, (nvalues+1, ncols(ᵛʷdata)))
 
     results[1,:] .= padding
 
@@ -67,7 +67,7 @@ function padfinal_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
     end
 
     rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (nvalues + 1, ncols(ᵛʷdata)))
+    results = Matrix{Union{typeof(padding),rettype}}(undef, (nvalues + 1, ncols(ᵛʷdata)))
 
     results[end, :] .= padding
 
