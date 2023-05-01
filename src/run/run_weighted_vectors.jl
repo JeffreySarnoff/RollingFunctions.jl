@@ -1,36 +1,36 @@
 # pad first
 
 function padfirst_running(func::Function, width::Width, data1::AbstractVector{T},
-    weight::Weighting{T}, padding) where {T}
+    weight::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
 function padfirst_running(func::Function, width::Width,
-    data1::AbstractVector{T}, weight::Weighting{W}, padding) where {T,W}
+    data1::AbstractVector{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
 function padfirst_running(func::Function, width::Width,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}, padding) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
     ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
 function padfirst_running(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -39,42 +39,42 @@ function padfirst_running(func::Function, width::Width,
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
     ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
 
 function padfirst_running(func::Function, width::Width,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}, padding) where {T,W}
+    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
 
 # pad final
 
 function padfinal_running(func::Function, width::Width, data1::AbstractVector{T},
-    weight::Weighting{T}, padding) where {T}
+    weight::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
 function padfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, padding) where {T}
+    weight1::Weighting{T}, weight2::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
     ᵛʷweight2 = asview(weight2)
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
 function padfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}, padding) where {T}
+    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -82,33 +82,33 @@ function padfinal_running(func::Function, width::Width, data1::AbstractVector{T}
     ᵛʷweight2 = asview(weight2)
     ᵛʷweight3 = asview(weight3)
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
 
 function padfinal_running(func::Function, width::Width,
-    data1::AbstractVector{T}, weight::Weighting{W}, padding) where {T,W}
+    data1::AbstractVector{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
 function padfinal_running(func::Function, width::Width,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}, padding) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
     ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
 function padfinal_running(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -117,14 +117,14 @@ function padfinal_running(func::Function, width::Width,
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
     ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
 
-    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
 # IMPLEMENTATIONS
 
 # pad first implementations
 
-function padfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+function padfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
@@ -150,7 +150,7 @@ function padfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
 end
 
 function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, padding) where {T}
+    weight1::Weighting{T}, weight2::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -181,7 +181,7 @@ function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}
 end
 
 function padfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}, padding) where {T}
+    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -217,7 +217,7 @@ end
 # pad final implementations
 
 function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T},
-    ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+    ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
@@ -243,7 +243,7 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
 end
 
 function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T}
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
@@ -270,7 +270,7 @@ function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector
 end
 
 function padfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {T}
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
