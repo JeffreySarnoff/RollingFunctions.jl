@@ -2,13 +2,13 @@
     unweighted running
 
     running(func, width, data...; 
-            padfirst=nopadding, padlast=false)
+            taperfirst=nopadding, taperlast=false)
 =#
 
 """
     running(function, window, data)
-    running(function, window, data, padding)
-    running(function, window, data; padding, padlast=true)
+    running(function, window, data)
+    running(function, window, data; padding, taperlast=true)
 
     running(      (a)->fn(a),       window, adata)
     running(    (a,b)->fn(a,b),     window, adata, bdata)
@@ -24,50 +24,41 @@ the data is given as a vector
 running
 
 function running(func::F, width::Span,
-    data1::AbstractVector{T};
-    padding=nopadding, padlast=false) where {T,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1)
-    elseif !padlast
-        padfirst_running(func, width, data1, padding)
+    data1::AbstractVector{T}; taperlast=false) where {T,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1)
     else
-        padfinal_running(func, width, data1, padding)
+        taperfinal_running(func, width, data1)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2};
-    padding=nopadding, padlast=false) where {T1,T2,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, data2)
-    elseif !padlast
-        padfirst_running(func, width, data1, data2, padding)
+    taperlast=false) where {T1,T2,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, data2)
     else
-        padfinal_running(func, width, data1, data2, padding)
+        taperfinal_running(func, width, data1, data2)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
-    padding=nopadding, padlast=false) where {T1,T2,T3,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, data2, data3)
-    elseif !padlast
-        padfirst_running(func, width, data1, data2, data3, padding)
+    taperlast=false) where {T1,T2,T3,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, data2, data3)
     else
-        padfinal_running(func, width, data1, data2, data3, padding)
+        taperfinal_running(func, width, data1, data2, data3)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractMatrix{T};
-    padding=nopadding, padlast=false) where {T,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1)
-    elseif !padlast
-        padfirst_running(func, width, data1, padding)
+    taperlast=false) where {T,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1)
     else
-        padfinal_running(func, width, data1, padding)
+        taperfinal_running(func, width, data1)
     end
 end
 
@@ -75,89 +66,75 @@ end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T}, weight1::Weighting{W};
-    padding=nopadding, padlast=false) where {T,W,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, weight1)
-    elseif !padlast
-        padfirst_running(func, width, data1, weight1, padding)
+    taperlast=false) where {T,W,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, weight1)
     else
-        padfinal_running(func, width, data1, weight1, padding)
+        taperfinal_running(func, width, data1, weight1)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     weight1::Weighting{W}; 
-    padding=nopadding, padlast=false) where {T1,T2,W,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, data2, weight1, weight1)
-    elseif !padlast
-        padfirst_running(func, width, data1, data2, weight1, weight1, padding)
+    taperlast=false) where {T1,T2,W,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, data2, weight1, weight1)
     else
-        padfinal_running(func, width, data1, data2, weight1, weight1, padding)
+        taperfinal_running(func, width, data1, data2, weight1, weight1)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2},
     weight1::Weighting{W1}, weight2::Weighting{W2};
-    padding=nopadding, padlast=false) where {T1,T2,W1,W2,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, data2, weight1, weight2)
-    elseif !padlast
-        padfirst_running(func, width, data1, data2, weight1, weight2, padding)
+    taperlast=false) where {T1,T2,W1,W2,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, data2, weight1, weight2)
     else
-        padfinal_running(func, width, data1, data2, weight1, weight2, padding)
+        taperfinal_running(func, width, data1, data2, weight1, weight2)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::Weighting{W};
-    padding=nopadding, padlast=false) where {T1,T2,T3,W,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, data2, data3, weight1, weight1, weight1)
-    elseif !padlast
-        padfirst_running(func, width, data1, data2, data3, weight1, weight1, weight1, padding)
+    taperlast=false) where {T1,T2,T3,W,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, data2, data3, weight1, weight1, weight1)
     else
-        padfinal_running(func, width, data1, data2, data3, weight1, weight1, weight1, padding)
+        taperfinal_running(func, width, data1, data2, data3, weight1, weight1, weight1)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3};
-    padding=nopadding, padlast=false) where {T1,T2,T3,W1,W2,W3,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, data2, data3, weight1, weight2, weight3)
-    elseif !padlast
-        padfirst_running(func, width, data1, data2, data3, weight1, weight2, weight3, padding)
+    taperlast=false) where {T1,T2,T3,W1,W2,W3,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, data2, data3, weight1, weight2, weight3)
     else
-        padfinal_running(func, width, data1, data2, data3, weight1, weight2, weight3, padding)
+        taperfinal_running(func, width, data1, data2, data3, weight1, weight2, weight3)
     end
 end
 
 function running(func::F, width::Span,
     data1::AbstractMatrix{T}, weight1::Weighting{W};
-    padding=nopadding, padlast=false) where {T,W,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data1, weight1)
-    elseif !padlast
-        padfirst_running(func, width, data1, weight1, padding)
+    taperlast=false) where {T,W,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data1, weight1)
     else
-        padfinal_running(func, width, data1, weight1, padding)
+        taperfinal_running(func, width, data1, weight1)
     end
 end
 
 function running(func::F, width::Span,
     data::Tuple{<:AbstractArray}, weight1::Weighting{W};
-    padding=nopadding, padlast=false) where {W,F<:Function}
-    if isnopadding(padding)
-        basic_running(func, width, data, weight1)
-    elseif !padlast
-        padfirst_running(func, width, data, weight1, padding)
+    taperlast=false) where {W,F<:Function}
+    if !taperlast
+        taperfirst_running(func, width, data, weight1)
     else
-        padfinal_running(func, width, data, weight1, padding)
+        taperfinal_running(func, width, data, weight1)
     end
 end
 

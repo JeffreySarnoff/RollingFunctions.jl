@@ -160,11 +160,11 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
+    if iszero(nimputed_rolling(n, width))
+        return basic_rolling(func, width, ᵛʷdata1)
+    end
 
+    padding_idxs = n-width:n
     rettype = rts(func, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
@@ -179,16 +179,18 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     results
 end
 
+# padfirst implementation
+
 function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
-
+    if iszero(nimputed_rolling(n, width))
+        return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2)
+    end
+    
+    padding_idxs = n-width:n
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
@@ -208,11 +210,11 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
+    if iszero(nimputed_rolling(n, width))
+        return basic_rolling(func, width, ᵛʷdata1,  ᵛʷdata2,  ᵛʷdata3)
+    end
 
+    padding_idxs = n-width:n
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
@@ -234,11 +236,11 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = n-padding_width-1:n
+    if iszero(nimputed_rolling(n, width))
+        return basic_rolling(func, width, ᵛʷdata1)
+    end
 
+    padding_idxs = n-width:n
     rettype = rts(func, (Vector{T},))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
@@ -258,11 +260,11 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = n-padding_width-1:n
+    if iszero(nimputed_rolling(n, width))
+        return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2)
+    end
 
+    padding_idxs = n-width:n
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
@@ -282,11 +284,11 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
 
     nvalues = nrolling(n, width)
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    padding_width = width - 1
-    padding_idxs = n-padding_width-1:n
+    if iszero(nimputed_rolling(n, width))
+        return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ʷdata3)
+    end
 
+    padding_idxs = n-width:n
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
