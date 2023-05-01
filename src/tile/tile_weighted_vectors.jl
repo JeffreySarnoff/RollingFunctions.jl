@@ -212,7 +212,7 @@ function basic_tiling(func::Function, width::Width,
 
     ilow, ihigh = 1, width
     @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + width
         ihigh = ihigh + width
     end
@@ -223,10 +223,10 @@ end
 function basic_tiling(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2))
     check_width(n, width)
-    check_weights(length(ᵛʷweight1), width)
-    check_weights(length(ᵛʷweight2), width)
-
+    check_weights(w, width)
+ 
     nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
@@ -245,10 +245,9 @@ end
 function basic_tiling(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3))
     check_width(n, width)
-    check_weights(length(ᵛʷweight1), width)
-    check_weights(length(ᵛʷweight2), width)
-    check_weights(length(ᵛʷweight3), width)
+    check_weights(w, width)
 
     nvalues = ntiling(n, width)
 
