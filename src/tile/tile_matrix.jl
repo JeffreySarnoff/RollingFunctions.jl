@@ -54,7 +54,6 @@ function padfirst_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
 end
 
 
-
 # pad the last entries, move windowed data back to the first entries
 
 function padfinal_tiling(func::Function, span::Span, data::AbstractMatrix{T}, padding) where {T}
