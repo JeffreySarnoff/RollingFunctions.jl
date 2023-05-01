@@ -141,8 +141,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
+    if iszero(nimputed_tiling(n, span))
         return basic_tiling(func, span, ᵛʷdata1)
     end
 
@@ -165,8 +164,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
+    if iszero(nimputed_tiling(n, span))
         return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2)
     end
 
@@ -189,8 +187,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
+    if iszero(nimputed_tiling(n, span))
         return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
     end
 
@@ -215,8 +212,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
+    if iszero(nimputed_tiling(n, span))
         return basic_tiling(func, span, ᵛʷdata1)
     end
 
@@ -239,8 +235,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
+    if iszero(nimputed_tiling(n, span))
         return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2)
     end
 
@@ -263,8 +258,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
 
     nvalues = ntiled(n, span)
-    npaddings = nimputed_tiling(n, span)
-    if iszero(npaddings)
+    if iszero(nimputed_tiling(n, span))
         return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
     end
 

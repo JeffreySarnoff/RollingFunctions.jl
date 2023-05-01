@@ -10,6 +10,8 @@ include("roll/roll_weighted_vectors.jl")
 include("roll/roll_matrix.jl")
 include("roll/roll_stats.jl")
 
+include("tile/tile_vectors.jl")
+
 #=
 include("tile/tile.jl")
 include("tile/tile_vectors.jl")
