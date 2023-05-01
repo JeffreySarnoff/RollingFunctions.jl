@@ -327,7 +327,7 @@ function basic_tiling(func::Function, span::Span,
 
     ilow, ihigh = 1, span
     @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, , ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + span
         ihigh = ihigh + span
     end
@@ -412,7 +412,7 @@ function padfirst_tiling(func::Function, span::Span,
 
     ilow, ihigh = 1, span
     @inline for idx in 2:nvalues+1
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, , ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + span
         ihigh = ihigh + span
     end
@@ -497,7 +497,7 @@ function padfinal_tiling(func::Function, span::Span,
 
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, , ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + span
         ihigh = ihigh + span
     end
