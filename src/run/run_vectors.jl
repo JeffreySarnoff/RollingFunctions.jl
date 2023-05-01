@@ -59,7 +59,7 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
 
     taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = func(ᵛʷdata1[1:idx])
@@ -86,7 +86,7 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
 
     taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
@@ -113,7 +113,7 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
 
     taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
@@ -142,7 +142,7 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
 
     taper_idxs = n - width
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{rettype}(undef, n)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
@@ -169,7 +169,7 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
 
     taper_idxs = n - width
     rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{rettype}(undef, n)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
@@ -196,7 +196,7 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
 
     taper_idxs = n - width
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results = Vector{rettype}(undef, n)
     # results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
