@@ -11,71 +11,71 @@
 function basic_tiling(func::Function, span::Span, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolled(n, span)
-    # there are 1 or more columns, each holds `n` values
+    nvalues = ntiled(n, span)
+
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(eachrow(results))
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + span
-        ihigh = ihigh + span
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
 end
+
 
 # pad the dropped indicies with a given padding value
 
 function padfirst_tiling(func::Function, span::Span, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolled(n, span)
-    rettype = Union{typeof(padding),rts(func, (T,))}
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
+    nvalues = ntiled(n, span)
 
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    # this is the padding_span
-    padding_span = span - 1
-    padding_idxs = 1:padding_span
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata)
+    end
 
-    results = Matrix{Union{typeof(padding),rettype}}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
+    rettype = rts(func, (T,))
+    results = Matrix{rettype}(undef, (nvalues+1, ncols(ᵛʷdata)))
+
+    results[1,:] .= padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in span:n
+    @inbounds for idx in eachindex(2:nvalues+1)
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + span
-        ihigh = ihigh + span
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
 end
+
+
 
 # pad the last entries, move windowed data back to the first entries
 
 function padfinal_tiling(func::Function, span::Span, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolled(n, span)
-    rettype = Union{typeof(padding),rts(func, (T,))}
+    nvalues = ntiled(n, span)
 
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    # this is the padding_span
-    padding_span = span - 1
-    padding_idxs = n-padding_span:n
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata)
+    end
 
-    results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
+    rettype = rts(func, (T,))
+    results = Matrix{rettype}(undef, (nvalues + 1, ncols(ᵛʷdata)))
+
+    results[end, :] .= padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in 1:n-padding_span
-        @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + span
-        ihigh = ihigh + span
+    @inbounds for idx in eachindex(1:nvalues)
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -108,8 +108,8 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata::ViewOfMatrix{T}, �
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(eachrow(results))
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
-        ilow = ilow + span
-        ihigh = ihigh + span
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -143,8 +143,8 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata::ViewOfMatrix{T},
     ilow, ihigh = 1, span
     @inbounds for idx in span:n
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
-        ilow = ilow + span
-        ihigh = ihigh + span
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
@@ -178,8 +178,8 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata::ViewOfMatrix{T},
     ilow, ihigh = 1, span
     @inbounds for idx in 1:n-padding_span
         @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
-        ilow = ilow + span
-        ihigh = ihigh + span
+        ilow = ilow + 1
+        ihigh = ihigh + 1
     end
 
     results
