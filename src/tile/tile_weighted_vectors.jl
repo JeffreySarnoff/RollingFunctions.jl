@@ -205,7 +205,7 @@ function basic_tiling(func::Function, span::Span,
     check_span(n, span)
     check_weights(length(ᵛʷweight), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
@@ -227,7 +227,7 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, �
     check_weights(length(ᵛʷweight1), span)
     check_weights(length(ᵛʷweight2), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -250,7 +250,7 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, �
     check_weights(length(ᵛʷweight2), span)
     check_weights(length(ᵛʷweight3), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -272,7 +272,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
     check_weights(length(ᵛʷweight), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -303,7 +303,7 @@ function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, d
     check_span(n, span)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -336,7 +336,7 @@ function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, d
     check_span(n, span)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -365,7 +365,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_span(n, span)
     check_weights(length(ᵛʷweight), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -392,7 +392,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_weights(length(ᵛʷweight1), span)
     check_weights(length(ᵛʷweight2), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
@@ -420,7 +420,7 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     check_weights(length(ᵛʷweight2), span)
     check_weights(length(ᵛʷweight3), span)
 
-    nvalues = nrolled(n, span)
+    nvalues = ntiled(n, span)
     # only completed span coverings are resolvable
     # the first (span - 1) values are unresolved wrt func
     padding_span = span - 1
