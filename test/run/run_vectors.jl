@@ -7,46 +7,28 @@ D = [1, 2, 3, 4, 5];
 expected = [1, 3, 6, 9, 12];
 @test running(F, W, D) == expected
 
-expected = [missing, missing, 6, 9, 12];
-@test map(clean, running(F, W, D; padding=missing)) == map(clean, expected)
-@test typeof(running(F, W, D; padding=missing)) == typeof(expected)
-
-expected = [6, 9, 12, missing, missing];
-@test map(clean, running(F, W, D; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(running(F, W, D; padding=missing, padlast=true)) == typeof(expected)
-
 D = Float32[1, 2, 3, 4, 5];
-expected = Float32[6, 9, 12];
+expected = Float32[1, 3, 6, 9, 12];
 @test running(F, W, D) == expected
 
 F = sum;
 W = 4;
 D = [1, 2, 3, 4, 5];
-expected = [10, 14];
+expected = [1, 3, 6, 10, 14];
 @test running(F, W, D) == expected
 
 D₁ = [1, 2, 3, 4, 5];
 D₂ = [5, 4, 3, 2, 1];
 F = cor;
 W = 3;
-expected = [-1.0, -1.0, -1.0];
+expected = [-1.0, -1.0, -1.0, -1.0, -1.0];
 @test running(F, W, D₁, D₂) == expected
-
-expected = [missing, missing, -1.0, -1.0, -1.0];
-@test map(clean, running(F, W, D₁, D₂; padding=missing)) == map(clean, expected)
-@test typeof(running(F, W, D₁, D₂; padding=missing)) == typeof(expected)
-
-
-expected = [-1.0, -1.0, -1.0, missing, missing];
-@test map(clean, running(F, W, D₁, D₂; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(running(F, W, D₁, D₂; padding=missing, padlast=true)) == typeof(expected)
-
 
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
 F = cor
 W = 3
-expected = [0.9946433500242822, 0.9773555548504419, -0.9511012772444227]
+expected = [cor([1],[5]), cor([1,2],[5,4]), cor([1,2,3],[5,4,3]), cor([2,3,4],[4,3,2]), cor([3,4,5],[3,2,1])]
 @test running(F, W, D₁, D₂, weights) == expected
 
 
