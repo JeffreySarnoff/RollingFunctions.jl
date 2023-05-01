@@ -275,7 +275,7 @@ function padfirst_tiling(func::Function, width::Width,
 
     nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
-        return basic_tiling(func, width, ᵛʷdata1, ʷweight1)
+        return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
 
     rettype = rts(func, (Vector{T},))
@@ -303,7 +303,7 @@ function padfirst_tiling(func::Function, width::Width,
 
     nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
-        return basic_tiling(func, width, ᵛʷdata1, ʷweight1)
+        return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
 
     rettype = rts(func, (Vector{T},))
@@ -360,7 +360,7 @@ function padfinal_tiling(func::Function, width::Width,
 
     nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
-        return basic_tiling(func, width, ᵛʷdata1, ʷweight1)
+        return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
 
     rettype = rts(func, (Vector{T},))
@@ -388,7 +388,7 @@ function padfinal_tiling(func::Function, width::Width,
 
     nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
-        return basic_tiling(func, width, ᵛʷdata1, ʷweight1)
+        return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
 
     rettype = rts(func, (Vector{T},))
