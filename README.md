@@ -137,7 +137,7 @@ This package provides a way for rolling and for running a functional window over
 When a window is provided with weights, the weights ~should~ must be normalized. We provide an algorithmically safe normalizing function that you may rely upon. Adding the sequence of normalized values one to the next obtains 1.0 or a value very slightly less than 1.0 -- their sum will not exceed unity.
 _I do not know how to augment something already whole while respecting its integrity._
 
-When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's span.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.
+When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's width.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.
 
 This software exists to simpilfy some of what you create and to faciliate some of the work you do. 
 

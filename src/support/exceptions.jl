@@ -1,7 +1,7 @@
 #=
-    span_error
+    width_error
     tile_error
-    trimspan_error
+    trimwidth_error
     trimtile_error
     weights_error
     lengths_error
@@ -30,29 +30,29 @@ end
 check_empty(sequence) =
     isempty(sequence) && empty_error(sequence)
 
-check_span(seqlength::Int, windowspan::Span) =
-    ((windowspan > seqlength) || (iszero(seqlength))) && span_error(seqlength, windowspan)
+check_width(seqlength::Int, windowwidth::Span) =
+    ((windowwidth > seqlength) || (iszero(seqlength))) && width_error(seqlength, windowwidth)
 
-check_trimspan(seqlength::Int, windowspan::Span) =
-    windowspan > (seqlength - windowspan + 1) && trimspan_error(seqlength, windowspan)
+check_trimwidth(seqlength::Int, windowwidth::Span) =
+    windowwidth > (seqlength - windowwidth + 1) && trimwidth_error(seqlength, windowwidth)
 
-check_tile(seqlength::Int, tilespan::Span) =
-    ((tilespan > seqlength) || (iszero(seqlength))) && tile_error(seqlength, tilespan)
+check_tile(seqlength::Int, tilewidth::Span) =
+    ((tilewidth > seqlength) || (iszero(seqlength))) && tile_error(seqlength, tilewidth)
 
-check_tilespan(seqlength::Int, tilespan::Span) =
-    tilespan > (seqlength - windowspan + 1) && tilespan_error(seqlength, tilespan)
+check_tilewidth(seqlength::Int, tilewidth::Span) =
+    tilewidth > (seqlength - windowwidth + 1) && tilewidth_error(seqlength, tilewidth)
 
-check_weights(nweights::Int, windowspan::Span) =
-    (nweights == windowspan) || weights_error(nweights, windowspan)
+check_weights(nweights::Int, windowwidth::Span) =
+    (nweights == windowwidth) || weights_error(nweights, windowwidth)
 
-check_weights(nweights1::Int, nweights2::Int, windowspan::Span) =
-    (nweights1 === nweights2 == windowspan) || weights_error(length(weights1), windowspan)
+check_weights(nweights1::Int, nweights2::Int, windowwidth::Span) =
+    (nweights1 === nweights2 == windowwidth) || weights_error(length(weights1), windowwidth)
 
-check_weights(nweights1::Int, nweights2::Int, nweights3::Int, windowspan::Span) =
-    (nweights1 === nweights2 === nweights3 == windowspan) || weights_error(length(weights1), windowspan)
+check_weights(nweights1::Int, nweights2::Int, nweights3::Int, windowwidth::Span) =
+    (nweights1 === nweights2 === nweights3 == windowwidth) || weights_error(length(weights1), windowwidth)
 
-check_weights(nweights::NTuple{N,Int}, windowspan::Span) where {N} =
-    (all(windowspan .== nweights)) || weights_error("all length.(weights) must equal windowspan")
+check_weights(nweights::NTuple{N,Int}, windowwidth::Span) where {N} =
+    (all(windowwidth .== nweights)) || weights_error("all length.(weights) must equal windowwidth")
 
 check_lengths(ndata, nweights) =
     (ndata === nweights) || lengths_error(ndata, nweights)
@@ -63,32 +63,32 @@ function empty_error(sequence)
     throw(err)
 end
 
-function span_error(seqlength::Int, windowspan::Span)
-    str = string("Bad window span (", windowspan, ") for length (", seqlength, ").")
+function width_error(seqlength::Int, windowwidth::Span)
+    str = string("Bad window width (", windowwidth, ") for length (", seqlength, ").")
     err = SpanError(str)
     throw(err)
 end
 
-function trimspan_error(seqlength::Int, windowspan::Span)
-    str = string("Bad window span (", windowspan, ") for trimmed length (", seqlength, ").")
+function trimwidth_error(seqlength::Int, windowwidth::Span)
+    str = string("Bad window width (", windowwidth, ") for trimmed length (", seqlength, ").")
     err = SpanError(str)
     throw(err)
 end
 
-function tile_error(seqlength::Int, tilespan::Span)
-    str = string("Bad tile span (", tilespan, ") for length (", seqlength, ").")
+function tile_error(seqlength::Int, tilewidth::Span)
+    str = string("Bad tile width (", tilewidth, ") for length (", seqlength, ").")
     err = TileError(str)
     throw(err)
 end
 
-function trimtile_error(seqlength::Int, tilespan::Span)
-    str = string("Bad tile span (", tilespan, ") for trimmed length (", seqlength, ").")
+function trimtile_error(seqlength::Int, tilewidth::Span)
+    str = string("Bad tile width (", tilewidth, ") for trimmed length (", seqlength, ").")
     err = TileError(str)
     throw(err)
 end
 
-function weights_error(nweighting::Int, windowspan::Span)
-    str = string("Bad weights length (", nweighting, ") != for window length (", windowspan, ").")
+function weights_error(nweighting::Int, windowwidth::Span)
+    str = string("Bad weights length (", nweighting, ") != for window length (", windowwidth, ").")
     err = WeightsError(str)
     throw(err)
 end

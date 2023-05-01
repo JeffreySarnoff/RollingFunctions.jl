@@ -1,78 +1,78 @@
-function rolling(func::F, data1::AbstractVector{T1}, span::Span;
+function rolling(func::F, data1::AbstractVector{T1}, width::Span;
     padding=nopadding, padlast=false) where {T1,F<:Function}
     
     Base.depwarn(
         "The function `rolling` has changed. You are using a deprecated call signature. " *
-        "Please use `rolling(func, span, data_vec; ...)` instead of `rolling(func, data_vec, span; ...)`.",
+        "Please use `rolling(func, width, data_vec; ...)` instead of `rolling(func, data_vec, width; ...)`.",
         :rolling,
     )
 
     if isnopadding(padding)
-        basic_rolling(func, data1, span)
+        basic_rolling(func, data1, width)
     elseif !padlast
-        padfirst_rolling(func, data1, span; padding)
+        padfirst_rolling(func, data1, width; padding)
     else
-        padfinal_rolling(func, data1, span; padding)
+        padfinal_rolling(func, data1, width; padding)
     end
 end
 
-function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, span::Span;
+function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Span;
     padding=nopadding, padlast=false) where {T1,T2,F<:Function}
     
     Base.depwarn(
         "The function `rolling` has changed. You are using a deprecated call signature. " *
-        "Please use `rolling(func, span, data_vec1, data_vec2; ...)` instead of `rolling(func, data_vec1, data_vec2, span; ...)`.",
+        "Please use `rolling(func, width, data_vec1, data_vec2; ...)` instead of `rolling(func, data_vec1, data_vec2, width; ...)`.",
         :rolling,
     )
 
     if isnopadding(padding)
-        basic_rolling(func, data1, data2, span)
+        basic_rolling(func, data1, data2, width)
     elseif !padlast
-        padfirst_rolling(func, data1, data2, span; padding)
+        padfirst_rolling(func, data1, data2, width; padding)
     else
-        padfinal_rolling(func, data1, data2, span; padding)
+        padfinal_rolling(func, data1, data2, width; padding)
     end
 end
 
-function running(func::F, data1::AbstractVector{T1}, span::Span;
+function running(func::F, data1::AbstractVector{T1}, width::Span;
     padding=nopadding) where {T1,F<:Function}
     
     Base.depwarn(
         "The function `running` has changed. You are using a deprecated call signature. " *
-        "Please use `running(func, span, data_vec; ...)` " *
-        "instead of `running(func, data_vec, span; ...)`.",
+        "Please use `running(func, width, data_vec; ...)` " *
+        "instead of `running(func, data_vec, width; ...)`.",
         :running,
     )
 
     if isnopadding(padding)
-        basic_running(func, data1, span)
+        basic_running(func, data1, width)
     else
-        padfirst_running(func, data1, span; padding)
+        padfirst_running(func, data1, width; padding)
     end
 end
 
-function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, span::Span;
+function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Span;
     padding=nopadding) where {T1,T2,F<:Function}
     
     Base.depwarn(
         "The function `running` has changed. You are using a deprecated call signature. " *
-        "Please use `running(func, span, data_vec1, data_vec2; ...)` " *
-        "instead of `running(func, data_vec1, data_vec2, span; ...)`.",
+        "Please use `running(func, width, data_vec1, data_vec2; ...)` " *
+        "instead of `running(func, data_vec1, data_vec2, width; ...)`.",
         :running,
     )
 
     if isnopadding(padding)
-        basic_running(func, data1, data2, span)
+        basic_running(func, data1, data2, width)
     else
-        padfirst_running(func, data1, data2, span; padding)
+        padfirst_running(func, data1, data2, width; padding)
     end
 end
 
 # !! used with deprecated signatures !!
 # local exceptions
 
-SpanError(seqlength, windowspan) =
-    ErrorException("\n\tBad window span ($windowspan) for length $seqlength.\n" )
+SpanError(seqlength, windowwidth) =
+    ErrorException("\n\tBad window width ($windowwidth) for length $seqlength.\n" )
 
-WeightsError(nweighting, windowspan) =
-    ErrorException("\n\twindowspan ($windowspan) != length(weighting) ($nweighting))).\n" )
+WeightsError(nweighting, windowwidth) =
+    ErrorException("\n\twindowwidth ($windowwidth) != length(weighting) ($nweighting))).\n" )

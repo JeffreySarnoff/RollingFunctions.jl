@@ -199,56 +199,56 @@ end
 # number of values to be obtained
 
 """
-    nrolled(nseq, span)
+    nrolled(nseq, width)
 
-length obtained from seq with span as the window size
+length obtained from seq with width as the window size
 """
-nrolled(nseq, span) = nseq - span + 1
-
-"""
-    nimputed_rolling(nseq, span)
-
-count of values to be imputed from seq with span as the window size
-"""
-nimputed_rolling(nseq, span) = span - 1
+nrolled(nseq, width) = nseq - width + 1
 
 """
-    ntiled(nseq, span, tile)
+    nimputed_rolling(nseq, width)
 
-length obtained from seq with span as the window size
+count of values to be imputed from seq with width as the window size
+"""
+nimputed_rolling(nseq, width) = width - 1
+
+"""
+    ntiled(nseq, width, tile)
+
+length obtained from seq with width as the window size
 and tile as the tiling step
 """
-ntiled(nseq, span) = div(nseq, span)
+ntiled(nseq, width) = div(nseq, width)
 
-ntiled(nseq, span, tile) =
-        if span <= tile
+ntiled(nseq, width, tile) =
+        if width <= tile
             div(nseq, tile)
-        else # span > tile
-            # span <= nseq - k*tile < 2span
+        else # width > tile
+            # width <= nseq - k*tile < 2width
             div(nseq, tile)
-            div(nseq - span - 1, tile)
+            div(nseq - width - 1, tile)
         end
 
 """
-    nimputed_tiling(nseq, span, tile)
+    nimputed_tiling(nseq, width, tile)
 
 count of values to be imputed from seq with
-span as the window size and tile as the tiling step
+width as the window size and tile as the tiling step
 """
-nimputed_tiling(nseq, span) = !iszero(rem(nseq, span)) ? 1 : 0
+nimputed_tiling(nseq, width) = !iszero(rem(nseq, width)) ? 1 : 0
 
-function nimputed_tiling(nseq, span, tile)
-    if span == tile
-        rem(nseq, span)
-    else # span > tile
+function nimputed_tiling(nseq, width, tile)
+    if width == tile
+        rem(nseq, width)
+    else # width > tile
         nseq_atmost = nimputed_rolling(nseq, tile) * tile
-        nimputed_rolling(nseq_atmost, span)
+        nimputed_rolling(nseq_atmost, width)
     end
 end
 
 #=
 
-ntiled(nseq, span, tile=span) =
+ntiled(nseq, width, tile=width) =
     function swi(s, w, i)
         ls = length(s)
         lo = 1 + i * w
@@ -265,24 +265,24 @@ ntiled(nseq, span, tile=span) =
 # number of values to be imputed
 
 """
-    nimputed(nseq, span)
+    nimputed(nseq, width)
 
-count of values to be imputed from seq with span as the window size
+count of values to be imputed from seq with width as the window size
 """
-nimputed(nseq, span) = span - 1
+nimputed(nseq, width) = width - 1
 
 """
-    nimputed(nseq, span, tile)
+    nimputed(nseq, width, tile)
 
-count of values to be imputed from seq with span as the window size
+count of values to be imputed from seq with width as the window size
 and tile as the tiling step
 """
-nimputed(nseq, span, tile) = rem(nrolled(nseq, span), tile)
+nimputed(nseq, width, tile) = rem(nrolled(nseq, width), tile)
 
-function nfilled(windowspan::T) where {T<:Signed}
-    windowspan < 1 && throw(SpanError(seqlength, windowspan))
+function nfilled(windowwidth::T) where {T<:Signed}
+    windowwidth < 1 && throw(SpanError(seqlength, windowwidth))
 
-    return windowspan - 1
+    return windowwidth - 1
 end
 
 =#

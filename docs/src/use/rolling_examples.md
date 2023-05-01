@@ -1,6 +1,6 @@
 
 - You have a data sequence 𝐷𝑎𝑡𝑎, the Vector[1, 2, 3, 4, 5].
-- The window span 𝑆𝑝𝑎𝑛 of each subsequence is 3.
+- The window width 𝑆𝑝𝑎𝑛 of each subsequence is 3.
 - The function 𝐹𝑢𝑛𝑐 to be applied over subsequences of 𝐷𝑎𝑡𝑎 is sum.
 
 ```
@@ -31,7 +31,7 @@ julia> sum(𝐷𝑎𝑡𝑎[1:3]), sum(𝐷𝑎𝑡𝑎[2:4]), sum(𝐷𝑎𝑡�
 (6, 9, 12)
 
 
-If the span of each subsequence increases to 4..
+If the width of each subsequence increases to 4..
 
 𝑆𝑝𝑎𝑛 = 4
 rolled = rolling(𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛, 𝒮);
@@ -42,7 +42,7 @@ rolled
  14
 ```
 
-Generally, with data that has r rows using a span of s results in r - s + 1 rows of values.
+Generally, with data that has r rows using a width of s results in r - s + 1 rows of values.
 
 
 ### To get back a result with the same number of rows as your data

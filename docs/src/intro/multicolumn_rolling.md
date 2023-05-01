@@ -4,7 +4,7 @@
 You have n data vectors of equal length (rowcount 𝓇)
 𝐷𝑎𝑡𝑎₁ .. 𝐷𝑎𝑡𝑎ᵢ .. 𝐷𝑎𝑡𝑎ₙ
 you apply a function (StatsBase.cor) of n==2 arguments
-to subsequences of span 3 (over successive triple rows)
+to subsequences of width 3 (over successive triple rows)
 
 =#
 

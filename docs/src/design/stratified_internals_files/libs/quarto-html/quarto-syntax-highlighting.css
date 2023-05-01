@@ -36,15 +36,15 @@
   --quarto-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-pre > code.sourceCode > span {
+pre > code.sourceCode > width {
   color: #003B4F;
 }
 
-code span {
+code width {
   color: #003B4F;
 }
 
-code.sourceCode > span {
+code.sourceCode > width {
   color: #003B4F;
 }
 
@@ -53,114 +53,114 @@ div.sourceCode pre.sourceCode {
   color: #003B4F;
 }
 
-code span.ot {
+code width.ot {
   color: #003B4F;
 }
 
-code span.at {
+code width.at {
   color: #657422;
 }
 
-code span.ss {
+code width.ss {
   color: #20794D;
 }
 
-code span.an {
+code width.an {
   color: #5E5E5E;
 }
 
-code span.fu {
+code width.fu {
   color: #4758AB;
 }
 
-code span.st {
+code width.st {
   color: #20794D;
 }
 
-code span.cf {
+code width.cf {
   color: #003B4F;
 }
 
-code span.op {
+code width.op {
   color: #5E5E5E;
 }
 
-code span.er {
+code width.er {
   color: #AD0000;
 }
 
-code span.bn {
+code width.bn {
   color: #AD0000;
 }
 
-code span.al {
+code width.al {
   color: #AD0000;
 }
 
-code span.va {
+code width.va {
   color: #111111;
 }
 
-code span.pp {
+code width.pp {
   color: #AD0000;
 }
 
-code span.in {
+code width.in {
   color: #5E5E5E;
 }
 
-code span.vs {
+code width.vs {
   color: #20794D;
 }
 
-code span.wa {
+code width.wa {
   color: #5E5E5E;
   font-style: italic;
 }
 
-code span.do {
+code width.do {
   color: #5E5E5E;
   font-style: italic;
 }
 
-code span.im {
+code width.im {
   color: #00769E;
 }
 
-code span.ch {
+code width.ch {
   color: #20794D;
 }
 
-code span.dt {
+code width.dt {
   color: #AD0000;
 }
 
-code span.fl {
+code width.fl {
   color: #AD0000;
 }
 
-code span.co {
+code width.co {
   color: #5E5E5E;
 }
 
-code span.cv {
+code width.cv {
   color: #5E5E5E;
   font-style: italic;
 }
 
-code span.cn {
+code width.cn {
   color: #8f5902;
 }
 
-code span.sc {
+code width.sc {
   color: #5E5E5E;
 }
 
-code span.dv {
+code width.dv {
   color: #AD0000;
 }
 
-code span.kw {
+code width.kw {
   color: #003B4F;
 }
 

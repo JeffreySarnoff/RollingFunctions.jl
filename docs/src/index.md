@@ -8,7 +8,7 @@
 
 ----
 
-You give a summarizing function 𝐹𝑢𝑛𝑐, the data𝐷𝑎𝑡𝑎, and a window span 𝑆𝑝𝑎𝑛.  
+You give a summarizing function 𝐹𝑢𝑛𝑐, the data𝐷𝑎𝑡𝑎, and a window width 𝑆𝑝𝑎𝑛.  
 
 The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 𝑆𝑝𝑎𝑛 + 1.
 - the result omits 𝑅ᴼ = 𝑆𝑝𝑎𝑛 - 1 indices into 𝐷𝑎𝑡𝑎.
@@ -21,11 +21,11 @@ The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 
 
 #### Use a single, shared padding value
 
-- rolling(function, data, span; padding = missing)
+- rolling(function, data, width; padding = missing)
 - this will fill the initial result values with the padding value
   - pads these values(result[1], .., result[pad_nindices])
 
-- rolling(function, data, span; padding = missing, padlast = true)
+- rolling(function, data, width; padding = missing, padlast = true)
 - this will fill the final result values with the padding value
   - pads these values(result[n-pad_nindices+1], .., result[n])
 
@@ -38,7 +38,7 @@ The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 
 - this fills the extra indices with values obtained bytrimming
 
 - trimming evaluates the window function over available data
-  - trimmed window spans are less than the specified span
+  - trimmed window widths are less than the specified width
 
 #### Use a vector of𝓃 padding values
 

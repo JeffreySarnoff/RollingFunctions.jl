@@ -7,7 +7,7 @@ All inherit from AbstractWindowing
 abstract type AbstractWindow end
 
 @kwdef mutable struct BasicWindow <: AbstractWindow
-    const length::Int              # span of contiguous elements
+    const length::Int              # width of contiguous elements
     
     direct::Bool=true              # process from low indices to high
 
@@ -18,7 +18,7 @@ end
 
 
 @kwdef mutable struct Window{T} <: AbstractWindow
-    const length::Int              # span of contiguous elements
+    const length::Int              # width of contiguous elements
     
     offset_first::Int=0            # start  at index offset_first + 1
     offset_final::Int=0            # finish at index length - offset_final + 1
@@ -53,7 +53,7 @@ ispadfirst(w::Window) = !notpadfirst(w)
 # is the information processed in direct (lower index to higher index) order
 isdirect(w::Window) = w.direct
 
-# are only complete window spans to be allowed
+# are only complete window widths to be allowed
 onlywhole(w::Window) = w.onlywhole
 allowpartial(w::Window) = !onlywhole(w)
 

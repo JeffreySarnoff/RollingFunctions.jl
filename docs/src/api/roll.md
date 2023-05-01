@@ -13,12 +13,12 @@ const PLD = false # padlast_default
 #### these are the three foundational forms that roll
 
 ```
-rolling(fn1, span, data1::V) where {V<:AV}
+rolling(fn1, width, data1::V) where {V<:AV}
 
-rolling(fn1, span, data1::V;
+rolling(fn1, width, data1::V;
         padding=PVD) where {V<:AV}
 
-rolling(fn1, span, data1::V;
+rolling(fn1, width, data1::V;
         padding=PVD, padlast=PLD) where {V<:AV}
 ```
 
@@ -27,22 +27,22 @@ rolling(fn1, span, data1::V;
 - they support summarizing functions that take 2 or 3  args
 
 ```
-rolling(fn2, span, data1::V, data2::V) where {V<:AV}
+rolling(fn2, width, data1::V, data2::V) where {V<:AV}
 
-rolling(fn2, span, data1::V, data2::V;
+rolling(fn2, width, data1::V, data2::V;
         padding=PVD) where {V<:AV}
 
-rolling(fn2, span, data1::V, data2::V;
+rolling(fn2, width, data1::V, data2::V;
         padding=PVD, padlast=PLD) where {V<:AV}
 ```
 
 ```
-rolling(fn3, span, data1::V, data2::V, data3::V) where {V<:AV}
+rolling(fn3, width, data1::V, data2::V, data3::V) where {V<:AV}
 
-rolling(fn3, span, data1::V, data2::V, data3::V;
+rolling(fn3, width, data1::V, data2::V, data3::V;
         padding=PVD) where {V<:AV}
 
-rolling(fn3, span, data1::V, data2::V, data3::V;
+rolling(fn3, width, data1::V, data2::V, data3::V;
         padding=PVD, padlast=PLD) where {V<:AV}
 ```
 
@@ -51,11 +51,11 @@ rolling(fn3, span, data1::V, data2::V, data3::V;
 - a corresponding matrix is returned
 
 ```
-rolling(fn1, datamat, span)
+rolling(fn1, datamat, width)
 
-rolling(fn1, datamat, span; padding)
+rolling(fn1, datamat, width; padding)
 
-rolling(fn1, datamat, span; padding, padlast)
+rolling(fn1, datamat, width; padding, padlast)
 ```
 
 

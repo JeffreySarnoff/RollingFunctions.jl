@@ -10,7 +10,7 @@
 <title>stratified_internals</title>
 <style>
 code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
+width.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
 div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -47,25 +47,25 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="rolling-is-built-from-three-internal-functions" class="level2">
 <h2 class="anchored" data-anchor-id="rolling-is-built-from-three-internal-functions"><code>rolling</code> is built from three internal functions</h2>
-<pre><code>function rolling(fn1, span, data; padding, padlast)
+<pre><code>function rolling(fn1, width, data; padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn1, span, data)
+       basic_rolling(fn1, width, data)
     elseif !padlast
-       padfirst_rolling(fn1, span, data, padding)
+       padfirst_rolling(fn1, width, data, padding)
     else
-       padfinal_rolling(fn1, span, data, padding)
+       padfinal_rolling(fn1, width, data, padding)
     end
 
 end</code></pre>
-<pre><code>function rolling(fn1, span, data, weights; padding, padlast)
+<pre><code>function rolling(fn1, width, data, weights; padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn1, span, data, weights)
+       basic_rolling(fn1, width, data, weights)
     elseif !padlast
-       padfirst_rolling(fn1, span, data, weights, padding)
+       padfirst_rolling(fn1, width, data, weights, padding)
     else
-       padfinal_rolling(fn1, span, data, weights, padding)
+       padfinal_rolling(fn1, width, data, weights, padding)
     end
 
 end</code></pre>
@@ -116,29 +116,29 @@ end</code></pre>
 <ul>
 <li>There are similar implementations for functions of 2, 3 arguments.</li>
 </ul>
-<pre><code>function rolling(fn2, span, data1, data2; 
+<pre><code>function rolling(fn2, width, data1, data2; 
                 padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn2, span, data1, data2)
+       basic_rolling(fn2, width, data1, data2)
     elseif !padlast
-       padfirst_rolling(fn2, span, data1, data2, padding)
+       padfirst_rolling(fn2, width, data1, data2, padding)
     else
-       padfinal_rolling(fn2, span, data1, data2, padding)
+       padfinal_rolling(fn2, width, data1, data2, padding)
     end
 
 end</code></pre>
-<pre><code>function rolling(fn2, span, data1, data2, weights1, weights2;
+<pre><code>function rolling(fn2, width, data1, data2, weights1, weights2;
                  padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn2, span, data1, data2,
+       basic_rolling(fn2, width, data1, data2,
                                 weights1, weights2)
     elseif !padlast
-       padfirst_rolling(fn2, span, data1, data2, 
+       padfirst_rolling(fn2, width, data1, data2, 
                                    weights1, weights2, padding)
     else
-       padfinal_rolling(fn2, span, data1, data2,
+       padfinal_rolling(fn2, width, data1, data2,
                                    weights1, weights2, padding)
     end
 

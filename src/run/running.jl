@@ -3,41 +3,41 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
     # unweighted windowed function application that tapers
 
-    function running(fun::Function, data::V, windowspan::Int) where {T, V<:AbstractVector{$T1}}
+    function running(fun::Function, data::V, windowwidth::Int) where {T, V<:AbstractVector{$T1}}
         ndata   = length(data)
-        nvals   = nrolled(ndata, windowspan)
+        nvals   = nrolled(ndata, windowwidth)
         ntapers = ndata - nvals
 
         result = zeros($T2, ndata)
 
         result[1:ntapers] = tapers(fun, data[1:ntapers])
         ntapers += 1
-        result[ntapers:ndata] = rolling(fun, data, windowspan)
+        result[ntapers:ndata] = rolling(fun, data, windowwidth)
 
         return result
     end
 
     # weighted windowed function application that tapers
 
-    function running(fun::Function, data::V, windowspan::Int, weighting::F) where
+    function running(fun::Function, data::V, windowwidth::Int, weighting::F) where
                      {T, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
 
         ndata   = length(data)
-        nvals   = nrolled(ndata, windowspan)
+        nvals   = nrolled(ndata, windowwidth)
         ntapers = ndata - nvals
 
         result = zeros($T2, ndata)
 
         result[1:ntapers] = tapers(fun, data[1:ntapers], weighting[end-(ntapers-1):end])
         ntapers += 1
-        result[ntapers:ndata] = rolling(fun, data, windowspan, weighting)
+        result[ntapers:ndata] = rolling(fun, data, windowwidth, weighting)
 
         return result
     end
 
-    running(fun::Function, data::V, windowspan::Int, weighting::W) where
+    running(fun::Function, data::V, windowwidth::Int, weighting::W) where
                     {T, V<:AbstractVector{$T1}, W<:AbstractWeights} =
-        running(fun, data, windowspan, weighting.values)
+        running(fun, data, windowwidth, weighting.values)
 
   end
 end

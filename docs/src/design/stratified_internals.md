@@ -2,12 +2,12 @@
 
 - basic rolling
    - given a data sequence of N elements
-   - using a data window that spans S indices
+   - using a data window that widths S indices
    - one obtains N - S + 1 result values
 
 - padded rolling
    - given a data sequence of N elements
-   - using a data window that spans S indices
+   - using a data window that widths S indices
    - one obtains  N - S + 1 result values
    - and provides S - 1 elements that pad
 
@@ -25,14 +25,14 @@
 #### unweighted rolling
 
 ```
-function rolling(fn1, span, data; padding, padlast)
+function rolling(fn1, width, data; padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn1, span, data)
+       basic_rolling(fn1, width, data)
     elseif !padlast
-       padfirst_rolling(fn1, span, data, padding)
+       padfirst_rolling(fn1, width, data, padding)
     else
-       padfinal_rolling(fn1, span, data, padding)
+       padfinal_rolling(fn1, width, data, padding)
     end
 
 end
@@ -41,14 +41,14 @@ end
 #### weighted rolling
 
 ```
-function rolling(fn1, span, data, weights; padding, padlast)
+function rolling(fn1, width, data, weights; padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn1, span, data, weights)
+       basic_rolling(fn1, width, data, weights)
     elseif !padlast
-       padfirst_rolling(fn1, span, data, weights, padding)
+       padfirst_rolling(fn1, width, data, weights, padding)
     else
-       padfinal_rolling(fn1, span, data, weights, padding)
+       padfinal_rolling(fn1, width, data, weights, padding)
     end
 
 end
@@ -75,32 +75,32 @@ end
 - There are similar implementations for functions of 2, 3 arguments.
 
 ```
-function rolling(fn2, span, data1, data2; 
+function rolling(fn2, width, data1, data2; 
                 padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn2, span, data1, data2)
+       basic_rolling(fn2, width, data1, data2)
     elseif !padlast
-       padfirst_rolling(fn2, span, data1, data2, padding)
+       padfirst_rolling(fn2, width, data1, data2, padding)
     else
-       padfinal_rolling(fn2, span, data1, data2, padding)
+       padfinal_rolling(fn2, width, data1, data2, padding)
     end
 
 end
 ```
 
 ```
-function rolling(fn2, span, data1, data2, weights1, weights2;
+function rolling(fn2, width, data1, data2, weights1, weights2;
                  padding, padlast)
 
     if padding === nopadding
-       basic_rolling(fn2, span, data1, data2,
+       basic_rolling(fn2, width, data1, data2,
                                 weights1, weights2)
     elseif !padlast
-       padfirst_rolling(fn2, span, data1, data2, 
+       padfirst_rolling(fn2, width, data1, data2, 
                                    weights1, weights2, padding)
     else
-       padfinal_rolling(fn2, span, data1, data2,
+       padfinal_rolling(fn2, width, data1, data2,
                                    weights1, weights2, padding)
     end
 
