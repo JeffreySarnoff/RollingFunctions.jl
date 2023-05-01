@@ -79,7 +79,7 @@ function basic_tiling(func::Function, width::Span,
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
@@ -99,7 +99,7 @@ function basic_tiling(func::Function, width::Span,
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -119,7 +119,7 @@ function basic_tiling(func::Function, width::Span,
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -140,7 +140,7 @@ function padfirst_tiling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
         return basic_tiling(func, width, ᵛʷdata1)
     end
@@ -163,7 +163,7 @@ function padfirst_tiling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷdata2)
     end
@@ -186,7 +186,7 @@ function padfirst_tiling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
     end
@@ -211,7 +211,7 @@ function padfinal_tiling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
         return basic_tiling(func, width, ᵛʷdata1)
     end
@@ -234,7 +234,7 @@ function padfinal_tiling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷdata2)
     end
@@ -257,7 +257,7 @@ function padfinal_tiling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = ntiled(n, width)
+    nvalues = ntiling(n, width)
     if iszero(nimputed_tiling(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
     end

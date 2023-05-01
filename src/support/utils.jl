@@ -199,11 +199,11 @@ end
 # number of values to be obtained
 
 """
-    nrolled(nseq, width)
+    nrolling(nseq, width)
 
 length obtained from seq with width as the window size
 """
-nrolled(nseq, width) = nseq - width + 1
+nrolling(nseq, width) = nseq - width + 1
 
 """
     nimputed_rolling(nseq, width)
@@ -213,14 +213,28 @@ count of values to be imputed from seq with width as the window size
 nimputed_rolling(nseq, width) = width - 1
 
 """
-    ntiled(nseq, width, tile)
+    nrunning(nseq, width)
+
+length obtained from seq with width as the window size
+"""
+nrunning(nseq, width) = nrolling(nseq, width)
+
+"""
+    nimputed_running(nseq, width)
+
+count of values to be tapered from seq with width as the window size
+"""
+nimputed_running(nseq, width) = nseq - nrunning(nseq, width)
+
+"""
+    ntiling(nseq, width, tile)
 
 length obtained from seq with width as the window size
 and tile as the tiling step
 """
-ntiled(nseq, width) = div(nseq, width)
+ntiling(nseq, width) = div(nseq, width)
 
-ntiled(nseq, width, tile) =
+ntiling(nseq, width, tile) =
         if width <= tile
             div(nseq, tile)
         else # width > tile
@@ -245,45 +259,4 @@ function nimputed_tiling(nseq, width, tile)
         nimputed_rolling(nseq_atmost, width)
     end
 end
-
-#=
-
-ntiled(nseq, width, tile=width) =
-    function swi(s, w, i)
-        ls = length(s)
-        lo = 1 + i * w
-        hi = (1 + i) * w
-        iq = div(ls, w)
-        ir = rem(ls, w)
-        if ls < hi
-            return (ls - ir + 1, ls)
-        end
-        return sw(s, w, i)
-    end
-
-
-# number of values to be imputed
-
-"""
-    nimputed(nseq, width)
-
-count of values to be imputed from seq with width as the window size
-"""
-nimputed(nseq, width) = width - 1
-
-"""
-    nimputed(nseq, width, tile)
-
-count of values to be imputed from seq with width as the window size
-and tile as the tiling step
-"""
-nimputed(nseq, width, tile) = rem(nrolled(nseq, width), tile)
-
-function nfilled(windowwidth::T) where {T<:Signed}
-    windowwidth < 1 && throw(SpanError(seqlength, windowwidth))
-
-    return windowwidth - 1
-end
-
-=#
 

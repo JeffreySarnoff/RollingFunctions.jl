@@ -98,7 +98,7 @@ function basic_rolling(func::Function, width::Span,
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
 
     rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
@@ -118,7 +118,7 @@ function basic_rolling(func::Function, width::Span,
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -138,7 +138,7 @@ function basic_rolling(func::Function, width::Span,
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -159,7 +159,7 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -183,7 +183,7 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -207,7 +207,7 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -233,7 +233,7 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -257,7 +257,7 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -281,7 +281,7 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
