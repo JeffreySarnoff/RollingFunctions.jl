@@ -225,7 +225,7 @@ function basic_rolling(func::Function, width::Span,
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
 
     rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
@@ -247,7 +247,7 @@ function basic_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T},
     check_weights(length(ᵛʷweight1), width)
     check_weights(length(ᵛʷweight2), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -270,7 +270,7 @@ function basic_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T},
     check_weights(length(ᵛʷweight2), width)
     check_weights(length(ᵛʷweight3), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -292,7 +292,7 @@ function padfirst_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -323,7 +323,7 @@ function padfirst_rolling(func::Function, width::Span, data1::AbstractVector{T},
     check_width(n, width)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -356,7 +356,7 @@ function padfirst_rolling(func::Function, width::Span, data1::AbstractVector{T},
     check_width(n, width)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -385,7 +385,7 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -412,7 +412,7 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_weights(length(ᵛʷweight1), width)
     check_weights(length(ᵛʷweight2), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1
@@ -440,7 +440,7 @@ function padfinal_rolling(func::Function, width::Span, ᵛʷdata1::ViewOfVector{
     check_weights(length(ᵛʷweight2), width)
     check_weights(length(ᵛʷweight3), width)
 
-    nvalues = nrolled(n, width)
+    nvalues = nrolling(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     padding_width = width - 1

@@ -5,7 +5,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
 
     function running(fun::Function, data::V, windowwidth::Int) where {T, V<:AbstractVector{$T1}}
         ndata   = length(data)
-        nvals   = nrolled(ndata, windowwidth)
+        nvals   = nrolling(ndata, windowwidth)
         ntapers = ndata - nvals
 
         result = zeros($T2, ndata)
@@ -23,7 +23,7 @@ for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(
                      {T, V<:AbstractVector{$T1}, N<:Number, F<:Vector{N}}
 
         ndata   = length(data)
-        nvals   = nrolled(ndata, windowwidth)
+        nvals   = nrolling(ndata, windowwidth)
         ntapers = ndata - nvals
 
         result = zeros($T2, ndata)
