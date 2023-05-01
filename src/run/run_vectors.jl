@@ -1,26 +1,110 @@
 #=
-   basic_running(func, data1, width) ..
-   basic_running(func, data1, data2, data3, data4, width)
+   basic_running(func, width, data1) ..
+   basic_running(func, width, data1, data2, data3)
 
-   padfirst_running(func, data1, width; padding) ..
-   padfirst_running(func, data1, data2, data3, data4, width; padding)
+   padfirst_running(func, width, data1, padding) ..
+   padfirst_running(func, width, data1, data2, data3, padding)
+
+   padfinal_running(func, width, data1, padding) ..
+   padfinal_running(func, width, data1, data2, data3, padding)
 =#
 
-function basic_running(func::Function, data1::AbstractVector{T}, width::Span) where {T}
+# basic_running
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
+    basic_running(func, width, ᵛʷdata1)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷdata3 = asview(data3)
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}) where {T1,T2}
+    typ = promote_type(T1, T2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}) where {T1,T2,T3}
+    typ = promote_type(T1, T2, T3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷdata2 = T3 === typ ? asview(data3) : asview([typ(x) for x in data3])
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
+end
+
+# padfirst_running
+
+function padfirst_running(func::Function, width::Span, data1::AbstractVector{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    padfirst_running(func, width, ᵛʷdata1, padding)
+end
+
+function padfirst_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, padding)
+end
+
+function padfirst_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷdata3 = asview(data3)
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, padding)
+end
+
+# padfinal_running
+
+function padfinal_running(func::Function, width::Span, data1::AbstractVector{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    padfinal_running(func, width, ᵛʷdata1, padding)
+end
+
+function padfinal_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, padding)
+end
+
+function padfinal_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷdata3 = asview(data3)
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, padding)
+end
+
+# basic_running implementation
+
+function basic_running(func::Function, width::Span,
+    ᵛʷdata1::ViewOfVector{T}) where {T}
     n = length(ᵛʷdata1)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues
 
-    rettype  = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    @inbounds for idx in 1:ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx])
-    end
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in ntapers+1:n
+    @inbounds for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -29,24 +113,18 @@ function basic_running(func::Function, data1::AbstractVector{T}, width::Span) wh
     results
 end
 
-function basic_running(func::Function, 
-    data1::AbstractVector{T}, data2::AbstractVector{T}, 
-    width::Span) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
+function basic_running(func::Function, width::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues
 
-    rettype  = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    @inbounds for idx in 1:ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in ntapers+1:n
+    @inbounds for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -55,15 +133,14 @@ function basic_running(func::Function,
     results
 end
 
-function basic_running(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, 
-                       width::Span) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    n = min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3))
-    nvalues  = nrolled(n, width)
-   
-    rettype  = rts(func, (Vector{T}, Vector{T}, Vector{T}))
+function basic_running(func::Function, width::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_width(n, width)
+
+    nvalues = nrolled(n, width)
+
+    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
@@ -76,53 +153,24 @@ function basic_running(func::Function, data1::AbstractVector{T}, data2::Abstract
     results
 end
 
-function basic_running(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-                       width::Span) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷdata4 = asview(data4)
-    n = min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4))
-    nvalues  = nrolled(n, width)
-   
-    rettype  = rts(func, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+# padfirst_running implementation
 
-    ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
-
-# pad first
-
-function padfirst_running(func::Function,
-    data1::AbstractVector{T},
-    width::Span; padding::AbstractVector) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷpadding = asview(padding)
+function padfirst_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, padding) where {T}
     n = length(ᵛʷdata1)
-    npads = length(padding)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = 1:padding_width
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    if npads > 0
-        results[1:npads] .= ᵛʷpadding
-    end
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx])
-    end
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
+    @inbounds for idx in width:n
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -131,27 +179,22 @@ function padfirst_running(func::Function,
     results
 end
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷpadding = asview(padding)
+function padfirst_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    npads = length(padding)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = 1:padding_width
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
+    @inbounds for idx in width:n
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -160,29 +203,23 @@ function padfirst_running(func::Function,
     results
 end
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷpadding = asview(padding)
+function padfirst_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
-    npads = length(padding)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = 1:padding_width
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx])
+    @inbounds for idx in width:n
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -190,61 +227,21 @@ function padfirst_running(func::Function,
     results
 end
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷdata4 = asview(data4)
-    ᵛʷpadding = asview(padding)
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3), length(ᵛʷdata4))
-    npads = length(padding)
-    nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
+# padfinal_running implementation
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
-
-#
-# pad last
-#
-
-function padfinal_running(func::Function,
-    data1::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷpadding = asview(padding)
+function padfinal_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, padding) where {T}
     n = length(ᵛʷdata1)
-    npads = length(padding)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
-    padding_idxs = nvalues+1:n
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = n-padding_width-1:n
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[padding_idxs] .= ᵛʷpadding
-
-    @inbounds for idx in nvalues+1:nvalues+ntapers
-        results[idx] = func(ᵛʷdata1[1:idx])
-    end
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
@@ -256,29 +253,23 @@ function padfinal_running(func::Function,
     results
 end
 
-function padfinal_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷpadding = asview(padding)
+function padfinal_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    npads = length(padding)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
-    padding_idxs = nvalues+1:n
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = n-padding_width-1:n
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[padding_idxs] .= ᵛʷpadding
-    @inbounds for idx in nvalues+1:nvalues+ntapers
-        results[idx] = func(ᵛʷdata1[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -286,63 +277,23 @@ function padfinal_running(func::Function,
     results
 end
 
-function padfinal_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷpadding = asview(padding)
+function padfinal_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
-    npads = length(padding)
+    check_width(n, width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
-    padding_idxs = nvalues+1:n
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = n-padding_width-1:n
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[padding_idxs] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
-function padfinal_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    width::Span; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷdata4 = asview(data4)
-    ᵛʷpadding = asview(padding)
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3), length(ᵛʷdata4))
-    npads = length(padding)
-    nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
-    padding_idxs = nvalues+1:n
-
- 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[padding_idxs] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx])
+    @inbounds for idx in 1:nvalues
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end

@@ -1,154 +1,238 @@
-#=
-   basic_running(func, data1, width) ..
-   basic_running(func, data1, data2, data3, data4, width)
 
-   padfirst_running(func, data1, width; padding) ..
-   padfirst_running(func, data1, data2, data3, data4, width; padding)
-=#
-
-#=
-   basic_running(func, data1, width) ..
-   basic_running(func, data1, data2, data3, data4, width)
-
-   padfirst_running(func, data1, width; padding) ..
-   padfirst_running(func, data1, data2, data3, data4, width; padding)
-=#
-
-function basic_running(func::Function, data1::AbstractVector{T}, width::Span, weights::AbstractWeights{T}) where {T}
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, weight::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
-    ᵛʷweights = asview(weights)
-    n = length(ᵛʷdata1)
-    nvalues = nrolled(n, width)
-    ntapers = n - nvalues
+    ᵛʷweight = asview(weight)
 
-    rettype  = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    @inbounds for idx in 1:ntapers
-        wts = fast_normalize(ᵛʷweights[width:-1:width-idx+1])
-        @views results[idx] = func(ᵛʷdata1[1:idx] .* wts)
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
+    basic_running(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function basic_running(func::Function, 
-    data1::AbstractVector{T}, data2::AbstractVector{T}, 
-    width::Span, weights::AbstractWeights{T}) where {T}
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
-    ᵛʷweights = asview(weights)
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    nvalues = nrolled(n, width)
-    ntapers = n - nvalues
+    ᵛʷweight1 = asview(weight1)
 
-    rettype  = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    @inbounds for idx in 1:ntapers
-        wts = fast_normalize(ᵛʷweights[1:idx])
-        @views results[idx] = func(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts)
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight1)
 end
 
-function basic_running(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, 
-                       width::Span, weights::AbstractWeights{T}) where {T}
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::Weighting{T}, weight2::Weighting{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷweight1 = asview(weight1)
+    ᵛʷweight2 = asview(weight2)
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    ᵛʷweights = asview(weights)
-    n = min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3))
-    nvalues  = nrolled(n, width)
-    ntapers = n - nvalues
- 
-    rettype  = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+    ᵛʷweight1 = asview(weight1)
 
-    @inbounds for idx in 1:ntapers
-        wts = fast_normalize(ᵛʷweights[1:idx])
-        @views results[idx] = func(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts), ᵛʷdata3[1:idx] .* wts
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh] .* ᵛʷweights)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight1, ᵛʷweight1)
 end
 
-function basic_running(func::Function, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-                       width::Span, weights::AbstractWeights{T}) where {T}
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    ᵛʷdata4 = asview(data4)
-    ᵛʷweights = asview(weights)
-    n = min(length(ᵛʷdata1),length(ᵛʷdata2),length(ᵛʷdata3),length(ᵛʷdata4))
-    nvalues  = nrolled(n, width)
-    ntapers = n - nvalues
+    ᵛʷweight1 = asview(weight1)
+    ᵛʷweight2 = asview(weight2)
+    ᵛʷweight3 = asview(weight3)
 
-    rettype  = rts(func, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
-
-    @inbounds for idx in 1:ntapers
-        wts = fast_normalize(ᵛʷweights[1:idx])
-        @views results[idx] = func(ᵛʷdata1[1:idx] .* wts, ᵛʷdata2[1:idx] .* wts, ᵛʷdata3[1:idx] .* wts, ᵛʷdata4[1:idx] .* wts)
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweights, ᵛʷdata2[ilow:ihigh] .* ᵛʷweights, ᵛʷdata3[ilow:ihigh .* ᵛʷweights], ᵛʷdata4[ilow:ihigh .* ᵛʷweights])
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T}, weight::Weighting{W}) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷweight)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}) where {T1,T2,W1,W2}
+    typ = promote_type(T1, T2, W1, W2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
+    ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}) where {T1,T2,T3,W1,W2,W3}
+    typ = promote_type(T1, T2, T3, W1, W2, W3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷdata3 = T3 === typ ? asview(data3) : asview([typ(x) for x in data3])
+    ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
+    ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
+    ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+end
+
+function basic_running(func::Function, width::Span,
+    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    basic_running(func, width, ᵛʷdata1, ᵛʷweight)
+end
 
 # pad first
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T},
-    width::Span, weights::AbstractWeights{T}; padding::AbstractVector{T}) where {T}
+function padfirst_running(func::Function, width::Span, data1::AbstractVector{T},
+    weight::Weighting{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
-    ᵛʷweights = asview(weights)
-    ᵛʷpadding = asview(padding)
+    ᵛʷweight = asview(weight)
+
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+end
+
+function padfirst_running(func::Function, width::Span,
+    data1::AbstractVector{T}, weight::Weighting{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+end
+
+function padfirst_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}, padding) where {T1,T2,W1,W2}
+    typ = promote_type(T1, T2, W1, W2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
+    ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
+
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+end
+
+function padfirst_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    typ = promote_type(T1, T2, T3, W1, W2, W3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷdata3 = T3 === typ ? asview(data3) : asview([typ(x) for x in data3])
+    ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
+    ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
+    ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
+
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+end
+
+
+function padfirst_running(func::Function, width::Span,
+    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    padfirst_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+end
+
+
+# pad final
+
+function padfinal_running(func::Function, width::Span, data1::AbstractVector{T},
+    weight::Weighting{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷweight = asview(weight)
+
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+end
+
+function padfinal_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weight1::Weighting{T}, weight2::Weighting{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷweight1 = asview(weight1)
+    ᵛʷweight2 = asview(weight2)
+
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+end
+
+function padfinal_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷdata3 = asview(data3)
+    ᵛʷweight1 = asview(weight1)
+    ᵛʷweight2 = asview(weight2)
+    ᵛʷweight3 = asview(weight3)
+
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+end
+
+
+function padfinal_running(func::Function, width::Span,
+    data1::AbstractVector{T}, weight::Weighting{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷweight, padding)
+end
+
+function padfinal_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}, padding) where {T1,T2,W1,W2}
+    typ = promote_type(T1, T2, W1, W2)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
+    ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
+
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+end
+
+function padfinal_running(func::Function, width::Span,
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
+    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    typ = promote_type(T1, T2, T3, W1, W2, W3)
+    ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
+    ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
+    ᵛʷdata3 = T3 === typ ? asview(data3) : asview([typ(x) for x in data3])
+    ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
+    ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
+    ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
+
+    padfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+end
+
+# IMPLEMENTATIONS
+
+# basic_running implementations
+
+function basic_running(func::Function, width::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
-    npads = length(padding)
+    check_width(n, width)
+    check_weights(length(ᵛʷweight), width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx])
-    end
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
+    @inline for idx in eachindex(results)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -156,29 +240,21 @@ function padfirst_running(func::Function,
     results
 end
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T},
-    width::Span, weights::AbstractWeights{T}; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷweights = asview(weights)
-    ᵛʷpadding = asview(padding)
+function basic_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    npads = length(padding)
+    check_width(n, width)
+    check_weights(length(ᵛʷweight1), width)
+    check_weights(length(ᵛʷweight2), width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
+    @inline for idx in eachindex(results)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -186,30 +262,22 @@ function padfirst_running(func::Function,
     results
 end
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    width::Span, weights::AbstractWeights{T}; padding::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷweights = asview(weights)
-    ᵛʷpadding = asview(padding)
+function basic_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
-    npads = length(padding)
+    check_width(n, width)
+    check_weights(length(ᵛʷweight1), width)
+    check_weights(length(ᵛʷweight2), width)
+    check_weights(length(ᵛʷweight3), width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx])
+    @inline for idx in eachindex(results)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -217,31 +285,174 @@ function padfirst_running(func::Function,
     results
 end
 
-function padfirst_running(func::Function,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}, data4::AbstractVector{T},
-    width::Span, weights::AbstractWeights{T}; padding::AbstractVector{T}) where {T}
+# pad first implementations
+
+function padfirst_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+    n = length(ᵛʷdata1)
+    check_width(n, width)
+    check_weights(length(ᵛʷweight), width)
+
+    nvalues = nrolled(n, width)
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = nvalues-padding_width:nvalues
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, width
+    @inline for idx in width:n
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padfirst_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weight1::Weighting{T}, weight2::Weighting{T}, padding) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷweight1 = asview(weight1)
+    ᵛʷweight2 = asview(weight2)
+
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_width(n, width)
+    check_weights(length(ᵛʷweight1), length(ᵛʷweight2), width)
+
+    nvalues = nrolled(n, width)
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = nvalues-padding_width:nvalues
+
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, width
+    @inline for idx in 1:nvalues-padding_width
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padfirst_running(func::Function, width::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    ᵛʷdata4 = asview(data4)
-    ᵛʷweights = asview(weights)
-    ᵛʷpadding = asview(padding)
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3), length(ᵛʷdata4))
-    npads = length(padding)
+    ᵛʷweight1 = asview(weight1)
+    ᵛʷweight2 = asview(weight2)
+    ᵛʷweight3 = asview(weight3)
+
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_width(n, width)
+    check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), width)
+
     nvalues = nrolled(n, width)
-    ntapers = n - nvalues - npads
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = nvalues-padding_width:nvalues
 
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, n)
-
-    results[1:npads] .= ᵛʷpadding
-    @inbounds for idx in npads+1:npads+ntapers
-        @views results[idx] = func(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
-    end
+    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
-    @inbounds for idx in npads+ntapers+1:n
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[1:idx], ᵛʷdata4[1:idx])
+    @inline for idx in 1:nvalues-padding_width
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+
+# pad final implementations
+
+function padfinal_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T},
+    ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+    n = length(ᵛʷdata1)
+    check_width(n, width)
+    check_weights(length(ᵛʷweight), width)
+
+    nvalues = nrolled(n, width)
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = n-padding_width-1:n
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, width
+    @inline for idx in 1:nvalues
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padfinal_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T}
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    check_width(n, width)
+    check_weights(length(ᵛʷweight1), width)
+    check_weights(length(ᵛʷweight2), width)
+
+    nvalues = nrolled(n, width)
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = n-padding_width-1:n
+
+    rettype = rts(func, (Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, width
+    @inline for idx in 1:nvalues
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padfinal_running(func::Function, width::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {T}
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    check_width(n, width)
+    check_weights(length(ᵛʷweight1), width)
+    check_weights(length(ᵛʷweight2), width)
+    check_weights(length(ᵛʷweight3), width)
+
+    nvalues = nrolled(n, width)
+    # only completed width coverings are resolvable
+    # the first (width - 1) values are unresolved wrt func
+    padding_width = width - 1
+    padding_idxs = n-padding_width-1:n
+
+    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
+    results = Vector{Union{typeof(padding),rettype}}(undef, n)
+    results[padding_idxs] .= padding
+
+    ilow, ihigh = 1, width
+    @inline for idx in 1:nvalues
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end

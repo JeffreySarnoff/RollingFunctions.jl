@@ -1,19 +1,42 @@
-var1(x) = length(x) > 1 ? var(x) : 0.0
-std1(x) = length(x) > 1 ? std(x) : 0.0
-sem1(x) = length(x) > 1 ? sem(x) : 0.0
-variation1(x) = length(x) > 1 ? variation(x) : 0.0
-skewness1(x) = length(x) > 1 ? skewness(x) : 1.0
-kurtosis1(x) = length(x) > 1 ? kurtosis(x) : -1.0
+for T1 in (:T, :(Union{Missing,T}))
+    for (R, F) in ((:runmin, :vminimum), (:runmax, :vmaximum),
+        (:runmean, :vmean), (:runsum, :vsum),
+        (:runvar, :vvar), (:runstd, :vstd))
+        @eval begin
+            $R(width::Span, data::V; padding=nopadding, padlast=false) where {T, V<:AbstractVector{$T1}} =
+                running($F, width, data; padding, padlast)
+            $R(width::Span, data::V, weights::W; padding=nopadding, padlast=false) where {T, V<:AbstractVector{$T1}, W<:AbstractWeights} =
+                running($F, width, data, weights; padding, padlast)
+        end
+    end
+end
 
 for T1 in (:T, :(Union{Missing,T}))
+    for (R, F) in ((:runcor, :vcor), (:runcov, :vcov))
+        @eval begin
+            $R(width::Span, data1::V, data2::V; padding=nopadding, padlast=false) where {T,V<:AbstractVector{$T1}} =
+                running($F, width, data1, data2; padding, padlast)
+            $R(width::Span, data1::V, data2::V, weights::W; padding=nopadding, padlast=false) where {T,V<:AbstractVector{$T1},W<:AbstractWeights} =
+                running($F, width, data1, data2, weights, weights; padding, padlast)
+            $R(width::Span, data1::V, data2::V, weights1::W, weights2::W; padding=nopadding, padlast=false) where {T,V<:AbstractVector{$T1},W<:AbstractWeights} =
+                running($F, width, data1, data2, weights1, weights2; padding, padlast)
+        end
+    end
+end
+
+#=
+mad_not_normalized(x) = mad(x, normalize=false)
+mad_normalized(x) = mad(x, normalize=true)
+
+for T1 in (:T, :(Union{Missing,T}))    
     for (R,F) in ((:runmin, :minimum), (:runmax, :maximum),
                   (:runmean, :mean), (:runmedian, :median), 
-                  (:runvar, :var1), (:runstd, :std1),
-                  (:runskewness, :skewness1), (:runkurtosis, :kurtosis1),
-                  (:runsem, :sem1), 
+                  (:runvar, :var), (:runstd, :std),
+                  (:runskewness, :skewness), (:runkurtosis, :kurtosis),
+                  (:runsem, :sem), 
                   (:runmad, :mad_not_normalized),
                   (:runmad_normalized, :mad_normalized),
-                  (:runvariation, :variation1))
+                  (:runvariation, :variation))
         @eval begin
             $R(data::V, windowwidth::Int) where {T, V<:AbstractVector{$T1}} =
                 running($F, data, windowwidth)
@@ -26,20 +49,19 @@ for T1 in (:T, :(Union{Missing,T}))
 end
 
 
-
 runcor(data1::V1, data2::V2, windowwidth::Int) where {T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
                                                          V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
-    running(cor, data1, data2, windowwidth, 1)
+    running(cor, data1, data2, windowwidth)
 
 runcov(data1::V1, data2::V2, windowwidth::Int) where {T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
                                                          V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
-    running(cov, data1, data2, windowwidth, 0)
+    running(cov, data1, data2, windowwidth)
 
 runcor(data1::V1, data2::V2, windowwidth::Int, weighting::AbstractVector{S}) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
-                                                                                         V2<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}} =
-    running(cor, data1, data2, windowwidth, weighting, 1)
+                                                                                          V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
+    running(cor, data1, data2, windowwidth, weighting)
 
 runcov(data1::V1, data2::V2, windowwidth::Int, weighting::AbstractVector{S}) where {S, T, V1<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}, 
-                                                                                         V2<:Union{AbstractVector{T}, AbstractVector{Union{Missing,T}}}} =
-    running(cov, data1, data2, windowwidth, weighting, 0)
-
+                                                                                          V2<:Union{AbstractVector{T},AbstractVector{Union{Missing,T}}}} =
+    running(cov, data1, data2, windowwidth, weighting)
+=#
