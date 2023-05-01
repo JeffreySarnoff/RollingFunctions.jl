@@ -200,10 +200,10 @@ end
 # basic_tiling implementations
 
 function basic_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_span(n, span)
-    check_weights(length(ᵛʷweight), span)
+    check_weights(length(ᵛʷweight1), span)
 
     nvalues = ntiled(n, span)
 
@@ -212,7 +212,7 @@ function basic_tiling(func::Function, span::Span,
 
     ilow, ihigh = 1, span
     @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + span
         ihigh = ihigh + span
     end
@@ -253,76 +253,6 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, �
     nvalues = ntiled(n, span)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
-
-    ilow, ihigh = 1, span
-    @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
-        ilow = ilow + span
-        ihigh = ihigh + span
-    end
-
-    results
-end
-
-
-# basic_tiling implementation
-
-function basic_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
-    n = length(ᵛʷdata1)
-    check_span(n, span)
-    check_weights(length(ᵛʷweight), span)
-
-    nvalues = ntiled(n, span)
-
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues)
-
-    ilow, ihigh = 1, span
-    @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
-        ilow = ilow + span
-        ihigh = ihigh + span
-    end
-
-    results
-end
-
-function basic_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, 
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
-    w = min(length(ᵛʷweight1), length(ᵛʷweight2))
-    check_span(n, span)
-    check_weights(w, span)
-
-    nvalues = ntiled(n, span)
-
-    rettype = rts(func, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues)
-
-    ilow, ihigh = 1, span
-    @inline for idx in eachindex(results)
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
-        ilow = ilow + span
-        ihigh = ihigh + span
-    end
-
-    results
-end
-
-function basic_tiling(func::Function, span::Span,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
-    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
-    w = min(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3))
-    check_span(n, span)
-    check_weights(w, span)
-
-    nvalues = ntiled(n, span)
-
-    rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, span
