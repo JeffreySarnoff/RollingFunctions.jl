@@ -150,7 +150,7 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     results[1] = padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in 2:nvalues
+    @inbounds for idx in 2:nvalues+1
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + span
         ihigh = ihigh + span
