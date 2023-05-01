@@ -19,19 +19,15 @@ expected = [
 
 expected = [
     missing missing
-    missing missing
-    6 12
-    9 9
-    12 6];
+    6 18
+    15 9];
 
 @test map(clean, tiling(F, S, M; padding=missing)) == map(clean, expected)
 @test typeof(tiling(F, S, M; padding=missing)) == typeof(expected)
 
 expected = [
-    6 12
-    9 9
-    12 6
-    missing missing
+    6 18
+    15 9
     missing missing];
 
 @test map(clean, tiling(F, S, M; padding=missing, padlast=true)) == map(clean, expected)
