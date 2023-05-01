@@ -241,10 +241,10 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, nvalues + 1)
-    results[1] = padding
+    results[end] = padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in 2:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + span
         ihigh = ihigh + span
@@ -264,10 +264,10 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{Union{typeof(padding),rettype}}(undef, nvalues + 1)
-    results[1] = padding
+    results[end] = padding
 
     ilow, ihigh = 1, span
-    @inbounds for idx in 2:nvalues
+    @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + span
         ihigh = ihigh + span
