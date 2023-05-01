@@ -1,4 +1,4 @@
-function rolling(func::F, data1::AbstractVector{T1}, width::Span;
+function rolling(func::F, data1::AbstractVector{T1}, width::Width;
     padding=nopadding, padlast=false) where {T1,F<:Function}
     
     Base.depwarn(
@@ -16,7 +16,7 @@ function rolling(func::F, data1::AbstractVector{T1}, width::Span;
     end
 end
 
-function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Span;
+function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Width;
     padding=nopadding, padlast=false) where {T1,T2,F<:Function}
     
     Base.depwarn(
@@ -34,7 +34,7 @@ function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     end
 end
 
-function running(func::F, data1::AbstractVector{T1}, width::Span;
+function running(func::F, data1::AbstractVector{T1}, width::Width;
     padding=nopadding) where {T1,F<:Function}
     
     Base.depwarn(
@@ -51,7 +51,7 @@ function running(func::F, data1::AbstractVector{T1}, width::Span;
     end
 end
 
-function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Span;
+function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Width;
     padding=nopadding) where {T1,T2,F<:Function}
     
     Base.depwarn(
@@ -71,7 +71,7 @@ end
 # !! used with deprecated signatures !!
 # local exceptions
 
-SpanError(seqlength, windowwidth) =
+WidthError(seqlength, windowwidth) =
     ErrorException("\n\tBad window width ($windowwidth) for length $seqlength.\n" )
 
 WeightsError(nweighting, windowwidth) =

@@ -8,7 +8,7 @@
      padfinal_rolling(func::Function, width, ::Matrix, weight; padding)
 =#
 
-function basic_rolling(func::Function, width::Span, data::AbstractMatrix{T}) where {T}
+function basic_rolling(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
@@ -28,7 +28,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, width::Span, data::AbstractMatrix{T}, padding) where {T}
+function padfirst_rolling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
@@ -56,7 +56,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, width::Span, data::AbstractMatrix{T}, padding) where {T}
+function padfinal_rolling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
@@ -83,14 +83,14 @@ end
 
 # weighted
 
-function basic_rolling(func::Function, width::Span, data::AbstractMatrix{T}, weight::Weighting{T}) where {T}
+function basic_rolling(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{T}) where {T}
     ᵛʷdata = asview(data)
     ᵛʷweight = asview(weight)
     basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
 
-function basic_rolling(func::Function, width::Span, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
+function basic_rolling(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -98,7 +98,7 @@ function basic_rolling(func::Function, width::Span, data::AbstractMatrix{T}, wei
     basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function basic_rolling(func::Function, width::Span, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function basic_rolling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
     # there are 1 or more columns, each holds `n` values
@@ -117,7 +117,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, width::Span, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
+function padfirst_rolling(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -125,7 +125,7 @@ function padfirst_rolling(func::Function, width::Span, data::AbstractMatrix{T}, 
     padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfirst_rolling(func::Function, width::Span, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function padfirst_rolling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
@@ -153,7 +153,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, width::Span, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
+function padfinal_rolling(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -161,7 +161,7 @@ function padfinal_rolling(func::Function, width::Span, data::AbstractMatrix{T}, 
     padfinal_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_rolling(func::Function, width::Span, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolled(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}

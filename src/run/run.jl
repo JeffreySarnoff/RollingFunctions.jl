@@ -23,7 +23,7 @@ the data is given as a vector
 """
 running
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T}; taperlast=false) where {T,F<:Function}
     if !taperlast
         taperfirst_running(func, width, data1)
@@ -32,7 +32,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2};
     taperlast=false) where {T1,T2,F<:Function}
     if !taperlast
@@ -42,7 +42,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
     taperlast=false) where {T1,T2,T3,F<:Function}
     if !taperlast
@@ -52,7 +52,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractMatrix{T};
     taperlast=false) where {T,F<:Function}
     if !taperlast
@@ -64,7 +64,7 @@ end
 
 # with weights
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T}, weight1::Weighting{W};
     taperlast=false) where {T,W,F<:Function}
     if !taperlast
@@ -74,7 +74,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     weight1::Weighting{W}; 
     taperlast=false) where {T1,T2,W,F<:Function}
@@ -85,7 +85,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2},
     weight1::Weighting{W1}, weight2::Weighting{W2};
     taperlast=false) where {T1,T2,W1,W2,F<:Function}
@@ -96,7 +96,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::Weighting{W};
     taperlast=false) where {T1,T2,T3,W,F<:Function}
@@ -107,7 +107,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3};
     taperlast=false) where {T1,T2,T3,W1,W2,W3,F<:Function}
@@ -118,7 +118,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data1::AbstractMatrix{T}, weight1::Weighting{W};
     taperlast=false) where {T,W,F<:Function}
     if !taperlast
@@ -128,7 +128,7 @@ function running(func::F, width::Span,
     end
 end
 
-function running(func::F, width::Span,
+function running(func::F, width::Width,
     data::Tuple{<:AbstractArray}, weight1::Weighting{W};
     taperlast=false) where {W,F<:Function}
     if !taperlast

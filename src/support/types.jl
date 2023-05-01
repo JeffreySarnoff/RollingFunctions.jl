@@ -23,7 +23,7 @@ seq(x::NTuple{N,T}) where {N,T} = x
 
 const Multisequence = Union{Tuple{<:Sequence},AbstractVector{<:Sequence}}
 
-const Span = Union{Int32,Int64}
+const Width = Union{Int32,Int64}
 
 struct NoPadding end
 const nopadding = NoPadding()
