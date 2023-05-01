@@ -265,25 +265,22 @@ function basic_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, �
     results
 end
 
-# pad first implementations
 
-function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+# basic_tiling implementation
+
+function basic_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = length(ᵛʷdata1)
     check_span(n, span)
     check_weights(length(ᵛʷweight), span)
 
     nvalues = ntiled(n, span)
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = nvalues-padding_span:nvalues
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, span
-    @inline for idx in span:n
+    @inline for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
         ilow = ilow + span
         ihigh = ihigh + span
@@ -292,29 +289,21 @@ function padfirst_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     results
 end
 
-function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, padding) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷweight1 = asview(weight1)
-    ᵛʷweight2 = asview(weight2)
-
+function basic_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, 
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2))
     check_span(n, span)
-    check_weights(length(ᵛʷweight1), length(ᵛʷweight2), span)
+    check_weights(w, span)
 
     nvalues = ntiled(n, span)
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = nvalues-padding_span:nvalues
 
-    rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, span
-    @inline for idx in 1:nvalues-padding_span
+    @inline for idx in eachindex(results)
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + span
         ihigh = ihigh + span
@@ -323,61 +312,22 @@ function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, d
     results
 end
 
-function padfirst_tiling(func::Function, span::Span, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}, padding) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    ᵛʷweight1 = asview(weight1)
-    ᵛʷweight2 = asview(weight2)
-    ᵛʷweight3 = asview(weight3)
-
+function basic_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, , ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3))
     check_span(n, span)
-    check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), span)
+    check_weights(w, span)
 
     nvalues = ntiled(n, span)
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = nvalues-padding_span:nvalues
-
-    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
-
-    ilow, ihigh = 1, span
-    @inline for idx in 1:nvalues-padding_span
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
-        ilow = ilow + span
-        ihigh = ihigh + span
-    end
-
-    results
-end
-
-
-# pad final implementations
-
-function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T},
-    ᵛʷweight::ViewOfWeights{T}, padding) where {T}
-    n = length(ᵛʷdata1)
-    check_span(n, span)
-    check_weights(length(ᵛʷweight), span)
-
-    nvalues = ntiled(n, span)
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = n-padding_span-1:n
 
     rettype = rts(func, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    results = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, span
-    @inline for idx in 1:nvalues
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+    @inline for idx in eachindex(results)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, , ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + span
         ihigh = ihigh + span
     end
@@ -385,22 +335,136 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     results
 end
 
-function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+# padfirst_tiling implementation
+
+function padfirst_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}, padding) where {T}
+    n = length(ᵛʷdata1)
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+
+    nvalues = ntiled(n, span)
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata1, ʷweight1)
+    end
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues+1)
+
+    results[1] = padding
+
+    ilow, ihigh = 1, span
+    @inline for idx in 2:nvalues+1
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
+        ilow = ilow + span
+        ihigh = ihigh + span
+    end
+
+    results
+end
+
+function padfirst_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, 
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2))
     check_span(n, span)
-    check_weights(length(ᵛʷweight1), span)
-    check_weights(length(ᵛʷweight2), span)
+    check_weights(w, span)
 
     nvalues = ntiled(n, span)
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = n-padding_span-1:n
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata1, ʷweight1)
+    end
 
-    rettype = rts(func, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues+1)
+
+    results[1] = padding
+
+    ilow, ihigh = 1, span
+    @inline for idx in 2:nvalues+1
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        ilow = ilow + span
+        ihigh = ihigh + span
+    end
+
+    results
+end
+
+function padfirst_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, , ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T},
+    padding) where {T}
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3))
+    check_span(n, span)
+    check_weights(w, span)
+
+    nvalues = ntiled(n, span)
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    end
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues)
+
+    results[1] = padding
+
+    ilow, ihigh = 1, span
+    @inline for idx in 2:nvalues+1
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, , ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        ilow = ilow + span
+        ihigh = ihigh + span
+    end
+
+    results
+end
+
+# padfinal_tiling implementation
+
+function padfinal_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}, padding) where {T}
+    n = length(ᵛʷdata1)
+    check_span(n, span)
+    check_weights(length(ᵛʷweight1), span)
+
+    nvalues = ntiled(n, span)
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata1, ʷweight1)
+    end
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues+1)
+
+    results[end] = padding
+
+    ilow, ihigh = 1, span
+    @inline for idx in 1:nvalues
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
+        ilow = ilow + span
+        ihigh = ihigh + span
+    end
+
+    results
+end
+
+function padfinal_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, 
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T}
+    n = min(length(ᵛʷdata1), length(ᵛʷdata2))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2))
+    check_span(n, span)
+    check_weights(w, span)
+
+    nvalues = ntiled(n, span)
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata1, ʷweight1)
+    end
+
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues+1)
+
+    results[end] = padding
 
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues
@@ -412,30 +476,32 @@ function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}
     results
 end
 
-function padfinal_tiling(func::Function, span::Span, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {T}
+function padfinal_tiling(func::Function, span::Span,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, , ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T},
+    padding) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
+    w = min(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3))
     check_span(n, span)
-    check_weights(length(ᵛʷweight1), span)
-    check_weights(length(ᵛʷweight2), span)
-    check_weights(length(ᵛʷweight3), span)
+    check_weights(w, span)
 
     nvalues = ntiled(n, span)
-    # only completed span coverings are resolvable
-    # the first (span - 1) values are unresolved wrt func
-    padding_span = span - 1
-    padding_idxs = n-padding_span-1:n
+    if iszero(nimputed_tiling(n, span))
+        return basic_tiling(func, span, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    end
 
-    rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    rettype = rts(func, (Vector{T},))
+    results = Vector{rettype}(undef, nvalues)
+
+    results[end] = padding
 
     ilow, ihigh = 1, span
     @inline for idx in 1:nvalues
-        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views results[idx] = func(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, , ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + span
         ihigh = ihigh + span
     end
 
     results
 end
+
