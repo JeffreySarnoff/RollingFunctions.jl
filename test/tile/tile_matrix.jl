@@ -1,8 +1,8 @@
 clean(x) = x
 clean(x::Missing) = Missing
 
-D₁ = [1, 2, 3, 4, 5];
-D₂ = [5, 4, 3, 2, 1];
+D₁ = [1, 2, 3, 4, 5, 6, 7];
+D₂ = [7, 6, 5, 4, 3, 2, 1];
 M = hcat(D₁, D₂);
 F = sum;
 S = 3;
@@ -11,9 +11,8 @@ wweights = ProbabilityWeights([0.1,0.2,0.7])
 mweights = hcat(wweights, wweights)
 
 expected = [
-    6 12
-    9 9
-    12 6];
+    6 18
+    15 9];
 
 @test tiling(F, S, M) == expected
 @test typeof(tiling(F, S, M)) == typeof(expected)

@@ -19,8 +19,8 @@ function basic_tiling(func::Function, span::Span, data::AbstractMatrix{T}) where
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(eachrow(results))
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -46,8 +46,8 @@ function padfirst_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(2:nvalues+1)
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
@@ -74,8 +74,8 @@ function padfinal_tiling(func::Function, span::Span, data::AbstractMatrix{T}, pa
     ilow, ihigh = 1, span
     @inbounds for idx in eachindex(1:nvalues)
         @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
+        ilow = ilow + span
+        ihigh = ihigh + span
     end
 
     results
