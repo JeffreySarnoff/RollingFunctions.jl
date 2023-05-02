@@ -132,7 +132,7 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     nvalues = nrolling(n, width)
 
     taper_idxs = 1:n-nvalues
-    rettype = rts(func, (Vector{T}, Vector{T}))
+    rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
