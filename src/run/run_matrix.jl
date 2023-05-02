@@ -22,7 +22,7 @@ function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}) wher
     tapering_width = width - 1
     tapering_idxs = 1:tapering_width
 
-    results = Matrix{Union{typeof(tapering),rettype}}(undef, size(ᵛʷdata))
+    results = Matrix{rettype}(undef, size(ᵛʷdata))
     results[tapering_idxs, :] .= tapering
 
     ilow, ihigh = 1, width
@@ -86,7 +86,7 @@ function taperfirst_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, �
     tapering_width = width - 1
     tapering_idxs = 1:tapering_width
 
-    results = Matrix{Union{typeof(tapering),rettype}}(undef, size(ᵛʷdata))
+    results = Matrix{rettype}(undef, size(ᵛʷdata))
     results[tapering_idxs, :] .= tapering
 
     ilow, ihigh = 1, width
