@@ -1,14 +1,68 @@
 # RollingFunctions.jl
 
-> The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
+> The current version is [0.9.8](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.8)
 
 This describes an unreleased work-in-process version of RollingFunctions.
-version RollingFunctions
 
+## symbology
+
+macro zx(digs)
+   :( Meta.parse("0x" * string($digs)) )
+end
+macro ⧣(digs)
+    :( @zx($digs) )
+end
+
+codes = (@⧣(:(2983)), @⧣(:(2984)), @⧣(:(2991)), @⧣(:(2992)), @⧣(:(29FC)), @⧣(:(29FD)), @⧣(:(27EC)), @⧣(:(27ED)),)
+holds = map(Char, codes)
+codes = (@⧣(:(29DC)), @⧣(:(29C2)), @⧣(:(29DD)), @⧣(:(2982)), )
+bubble = map(Char, codes)
+codes = (0x23E6, @⧣(:(23D6)), 0x23d4,  0x2a6b,  0x2933, 0x2942, 0x2943, 0x2944)
+wavesorts = map(Char, codes)
+
+julia> codes = (@⧣(:(29DC)), @⧣(:(29C2)), @⧣(:(29DD)), @⧣(:(2982)), )
+(0x29dc, 0x29c2, 0x29dd, 0x2982)
+
+chrs =  (Char(0x2982), Char(0x29C2), (Char(0x29DC), Char(0x29DD), Char(0x29DE))))
+(('⦃', '⦄', '⦑', '⦒', '⧼', '⧽'), ('⦂', '⧂', ('⧜', '⧝', '⧞')))
+
+julia> bubble = map(Char, codes)
+('⧜', '⧂', '⧝', '⦂')
+julia> codes = (0x23E6, @⧣(:(23D6)), 0x23d4,  0x2a6b,  0x2933, 0x2942, 0x2943, 0x2944)
+(0x23e6, 0x23d6, 0x23d4, 0x2a6b, 0x2933, 0x2942, 0x2943, 0x2944)
+
+julia> wavesorts = map(Char, codes)
+('⏦', '⏖', '⏔', '⩫', '⤳', '⥂', '⥃', '⥄')
+
+
+## terminology
+
+- `data` ⋮⋮ :: information provided as if sampling from a stream
+    - `data sequence`  ⩷ :⤏: a finite discrete data source with each datum sequentially given
+    - `multidata sequence`  ≞ :: a data sequence where each value is itself a small sequence
+
+## process through windows onto data
+
+### rolling
+
+- advances your window over the data in successive steps
+- provides as many results as are completely available
+   - often the result has fewer values than the data holds
+
+#### padded rolling
+
+- completes the result with copies of any one padding value
+   - the result is padded at the start or at the end
+   
+### tiling
+
+- advances your window of the data in strides that match the window width
+- provides as many results as are completely available
+    - the result has fewer values than the data holds
+    - 
+   
 ### Roll a [weighted] function or run a statistic along windowed data.
 
-This describes version 1 of RollingFunctions
-The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
 
 
 #### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
