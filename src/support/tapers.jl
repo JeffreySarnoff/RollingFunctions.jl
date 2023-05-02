@@ -20,12 +20,22 @@ function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}) where {
     (func(ᵛʷdata[i:n]) for i = m:n)
 end
 
+function taperfirst(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{W}) where {T,W,F<:Function}
+    ntapers = width - 1
+    (func(ᵛʷdata[1:i] .* ᵛʷweigths[1:i]) for i = 1:ntapers)
+end
 function taperfirst(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}) where {T,F<:Function}
     ntapers = width - 1
     (func(ᵛʷdata[1:i] .* ᵛʷweigths[1:i]) for i = 1:ntapers)
 end
 
-function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights) where {T,F<:Function}
+function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{W}) where {T,W,F<:Function}
+    n = length(data)
+    m = n - width + 2
+    (func(ᵛʷdata[i:n] .* ᵛʷweigths[1:i]) for i = m:n)
+end
+
+function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}) where {T,F<:Function}
     n = length(data)
     m = n - width + 2
     (func(ᵛʷdata[i:n] .* ᵛʷweigths[1:i]) for i = m:n)
