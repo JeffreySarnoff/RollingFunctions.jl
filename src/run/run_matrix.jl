@@ -13,7 +13,7 @@ function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}) wher
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    rettype = Union{typeof(tapering),rts(func, (T,))}
+    rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     # only completed width coverings are resolvable
@@ -41,7 +41,7 @@ function taperfinal_running(func::F, width::Width, data::AbstractMatrix{T}) wher
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    rettype = Union{typeof(tapering),rts(func, (T,))}
+    rettype = rts(func, (T,))
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
@@ -77,7 +77,7 @@ end
 function taperfirst_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    rettype = Union{typeof(tapering),rts(func, (T,))}
+    rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     # only completed width coverings are resolvable
@@ -113,7 +113,7 @@ end
 function taperfinal_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    rettype = Union{typeof(tapering),rts(func, (T,))}
+    rettype = rts(func, (T,))
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
