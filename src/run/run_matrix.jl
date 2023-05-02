@@ -23,7 +23,7 @@ function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}) wher
     tapering_idxs = 1:tapering_width
 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[tapering_idxs, :] .= tapering
+    results[tapering_idxs, :] .= taperfirst(func, width, ᵛʷdata)
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -50,7 +50,7 @@ function taperfinal_running(func::F, width::Width, data::AbstractMatrix{T}) wher
     tapering_idxs = n-tapering_width:n
 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[tapering_idxs, :] .= tapering
+    results[tapering_idxs, :] .= taperfinal(func, width, ᵛʷdata)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-tapering_width
@@ -87,7 +87,7 @@ function taperfirst_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, �
     tapering_idxs = 1:tapering_width
 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[tapering_idxs, :] .= tapering
+    results[tapering_idxs, :] .= taperfirst(func, width, ᵛʷdata, ᵛʷweight)
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -122,7 +122,7 @@ function taperfinal_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, �
     tapering_idxs = n-tapering_width:n
 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[tapering_idxs, :] .= tapering
+    results[tapering_idxs, :] .= taperfinal(func, width, ᵛʷdata, ᵛʷweight)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-tapering_width
