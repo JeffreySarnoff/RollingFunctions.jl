@@ -5,13 +5,22 @@
 This describes an unreleased work-in-process version of RollingFunctions.
 
 ## symbology
-
+```
 macro zx(digs)
    :( Meta.parse("0x" * string($digs)) )
 end
 macro ⧣(digs)
     :( @zx($digs) )
 end
+```
+
+```
+('⦃', '⦄', '⦑', '⦒', '⧼', '⧽'),
+('⦂', '⧂', ('⧜', '⧝', '⧞'))
+('⏦', '⏖', '⏔',)
+('⩫','⤳', '⥂', '⥃', '⥄')
+
+
 
 codes = (@⧣(:(2983)), @⧣(:(2984)), @⧣(:(2991)), @⧣(:(2992)), @⧣(:(29FC)), @⧣(:(29FD)), @⧣(:(27EC)), @⧣(:(27ED)),)
 holds = map(Char, codes)
@@ -28,12 +37,13 @@ chrs =  (Char(0x2982), Char(0x29C2), (Char(0x29DC), Char(0x29DD), Char(0x29DE)))
 
 julia> bubble = map(Char, codes)
 ('⧜', '⧂', '⧝', '⦂')
+
 julia> codes = (0x23E6, @⧣(:(23D6)), 0x23d4,  0x2a6b,  0x2933, 0x2942, 0x2943, 0x2944)
 (0x23e6, 0x23d6, 0x23d4, 0x2a6b, 0x2933, 0x2942, 0x2943, 0x2944)
 
 julia> wavesorts = map(Char, codes)
 ('⏦', '⏖', '⏔', '⩫', '⤳', '⥂', '⥃', '⥄')
-
+```
 
 ## terminology
 
