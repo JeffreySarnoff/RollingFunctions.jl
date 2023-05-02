@@ -9,6 +9,17 @@ function taperfinal(func::F, width::Integer, data::AbstractVector{T}) where {T,F
     (func(data[i:n]) for i = m:n)
 end
 
+function taperfirst(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
+    ntapers = width - 1
+    (func(data[1:i,]) for i = 1:ntapers)
+end
+
+function taperfinal(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
+    n = length(data)
+    m = n - width + 2
+    (func(data[i:n]) for i = m:n)
+end
+
 function taperfirst(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}) where {T,F<:Function}
     ntapers = width - 1
     (func(ᵛʷdata[1:i]) for i = 1:ntapers)
