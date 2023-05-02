@@ -1,54 +1,54 @@
 #=
-   taperfirst_running(func, width, data1) ..
-   taperfirst_running(func, width, data1, data2, data3)
+   taperfirst(func, width, data1) ..
+   taperfirst(func, width, data1, data2, data3)
 
-   taperfinal_running(func, width, data1) ..
-   taperfinal_running(func, width, data1, data2, data3)
+   taperfinal(func, width, data1) ..
+   taperfinal(func, width, data1, data2, data3)
 =#
 
-# taperfirst_running
+# taperfirst
 
-function taperfirst_running(func::Function, width::Width, data1::AbstractVector{T}) where {T}
+function taperfirst(func::Function, width::Width, data1::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
-    taperfirst_running(func, width, ᵛʷdata1)
+    taperfirst(func, width, ᵛʷdata1)
 end
 
-function taperfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    taperfirst_running(func, width, ᵛʷdata1, ᵛʷdata2)
-end
-
-function taperfirst_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}) where {T}
+function taperfirst(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
-    ᵛʷdata3 = asview(data3)
-    taperfirst_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
+    taperfirst(func, width, ᵛʷdata1, ᵛʷdata2)
 end
 
-# taperfinal_running
-
-function taperfinal_running(func::Function, width::Width, data1::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    taperfinal_running(func, width, ᵛʷdata1)
-end
-
-function taperfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
-    ᵛʷdata1 = asview(data1)
-    ᵛʷdata2 = asview(data2)
-    taperfinal_running(func, width, ᵛʷdata1, ᵛʷdata2)
-end
-
-function taperfinal_running(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}) where {T}
+function taperfirst(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
-    taperfinal_running(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
+    taperfirst(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
 end
 
-# taperfirst_running implementation
+# taperfinal
 
-function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}) where {T}
+function taperfinal(func::Function, width::Width, data1::AbstractVector{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    taperfinal(func, width, ᵛʷdata1)
+end
+
+function taperfinal(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    taperfinal(func, width, ᵛʷdata1, ᵛʷdata2)
+end
+
+function taperfinal(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T}) where {T}
+    ᵛʷdata1 = asview(data1)
+    ᵛʷdata2 = asview(data2)
+    ᵛʷdata3 = asview(data3)
+    taperfinal(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3)
+end
+
+# taperfirst implementation
+
+function taperfirst(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
 
@@ -75,7 +75,7 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     results
 end
 
-function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
+function taperfirst(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
@@ -102,7 +102,7 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     results
 end
 
-function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
+function taperfirst(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
@@ -129,9 +129,9 @@ function taperfirst_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     results
 end
 
-# taperfinal_running implementation
+# taperfinal implementation
 
-function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}) where {T}
+function taperfinal(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}) where {T}
     n = length(ᵛʷdata1)
     check_width(n, width)
 
@@ -158,7 +158,7 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     results
 end
 
-function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
+function taperfinal(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
@@ -185,7 +185,7 @@ function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVect
     results
 end
 
-function taperfinal_running(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
+function taperfinal(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}) where {T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 

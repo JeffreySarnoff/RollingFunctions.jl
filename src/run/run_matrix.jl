@@ -1,15 +1,15 @@
 #=
-     taperfirst_running(func::F, width, ::Matrix)
-     taperfinal_running(func::F, width, ::Matrix)
+     taperfirst(func::F, width, ::Matrix)
+     taperfinal(func::F, width, ::Matrix)
 
-     taperfirst_running(func::F, width, ::Matrix, weight)
-     taperfinal_running(func::F, width, ::Matrix, weight)
+     taperfirst(func::F, width, ::Matrix, weight)
+     taperfinal(func::F, width, ::Matrix, weight)
 =#
 
 
 # taper the dropped indicies with a given tapering value
 
-function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
+function taperfirst(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
@@ -37,7 +37,7 @@ end
 
 # taper the last entries, move windowed data back to the first entries
 
-function taperfinal_running(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
+function taperfinal(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
@@ -66,15 +66,15 @@ end
 
 # taper the dropped indicies with a given tapering value
 
-function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
+function taperfirst(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    taperfirst_running(func, width, ᵛʷdata, ᵛʷweight)
+    taperfirst(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function taperfirst_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
+function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
     rettype = rts(func, (T,))
@@ -102,15 +102,15 @@ end
 
 # taper the last entries, move windowed data back to the first entries
 
-function taperfinal_running(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
+function taperfinal(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    taperfinal_running(func, width, ᵛʷdata, ᵛʷweight)
+    taperfinal(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function taperfinal_running(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
+function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
     rettype = rts(func, (T,))
