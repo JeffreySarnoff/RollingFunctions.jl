@@ -1,3 +1,32 @@
+function taperfirst(func::F, data::AbstractVector{T}, width::Integer) where {T, F<:Function}
+    ntapers = width - 1
+    (func(data[1:i]) for i=1:ntapers)
+end
+
+function taperfinal(func::F, data::AbstractVector{T}, width::Integer) where {T,F<:Function}
+    n = length(data)
+    m = n - width + 2
+    (func(data[i:n]) for i = m:n)
+end
+
+function taperfirst!(result, func::F, data::AbstractVector{T}, width::Integer) where {T, F<:Function}
+    check_length_gte(length(result), length(data))
+    ntapers = width - 1
+    result[1:width-1] .= (func(data[1:i]) for i=1:ntapers)
+    result
+end
+
+function taperfinal!(result, func::F, data::AbstractVector{T}, width::Integer) where {T, F<:Function}
+    n = length(data)
+    check_length_gte(length(result), n)
+    m = n - width + 2
+    result[m:n] .= (func(data[i:n]) for i = m:n)
+
+    result
+end
+
+    
+
 for (T1, T2) in ((:T, :(float(T))), (:(Union{Missing,T}), :(Union{Missing,float(T)})))
   @eval begin  
 

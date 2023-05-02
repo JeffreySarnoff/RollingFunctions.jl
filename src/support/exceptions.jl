@@ -27,6 +27,10 @@ struct LengthsError <: Exception
     msg::String
 end
 
+struct LengthGteError <: Exception
+    msg::String
+end
+
 check_empty(sequence) =
     isempty(sequence) && empty_error(sequence)
 
@@ -56,6 +60,9 @@ check_weights(nweights::NTuple{N,Int}, windowwidth::Width) where {N} =
 
 check_lengths(ndata, nweights) =
     (ndata === nweights) || lengths_error(ndata, nweights)
+
+check_length_gte(many, some) =
+    (many >= some) || length_gte_error(many, some)
 
 function empty_error(sequence)
     str = string("Sequence must be nonempty.")
@@ -101,5 +108,11 @@ end
 function lengths_error(ndata, nweights)
     str = string("tupled data and tupled wieghts must be the same length ($ndata != $nweights).")
     err = LengthsError(str)
+    throw(err)
+end
+
+function length_gte_error(many, some)
+    str = string("result must be at least as long as the data !($many >= $some).")
+    err = LengthGteError(str)
     throw(err)
 end
