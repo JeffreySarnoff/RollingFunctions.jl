@@ -1,48 +1,29 @@
 #=
-     basic_running(func::Function, width, ::Matrix)
-     padfirst_running(func::Function, width, ::Matrix; padding)
-     padfinal_running(func::Function, width, ::Matrix; padding)
+     taperfirst_running(func::Function, width, ::Matrix; tapering)
+     taperfinal_running(func::Function, width, ::Matrix; tapering)
 
-     basic_running(func::Function, width, ::Matrix, weight)
-     padfirst_running(func::Function, width, ::Matrix, weight; padding)
-     padfinal_running(func::Function, width, ::Matrix, weight; padding)
+     taperfirst_running(func::Function, width, ::Matrix, weight; tapering)
+     taperfinal_running(func::Function, width, ::Matrix, weight; tapering)
 =#
 
-function basic_running(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
+
+# taper the dropped indicies with a given tapering value
+
+function taperfirst_running(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    # there are 1 or more columns, each holds `n` values
-    rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(eachrow(results))
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
-# pad the dropped indicies with a given padding value
-
-function padfirst_running(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
-    ᵛʷdata = asview(data)
-    n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
-    rettype = Union{typeof(padding),rts(func, (T,))}
+    rettype = Union{typeof(tapering),rts(func, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    # this is the padding_width
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
+    # this is the tapering_width
+    tapering_width = width - 1
+    tapering_idxs = 1:tapering_width
 
-    results = Matrix{Union{typeof(padding),rettype}}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
+    results = Matrix{Union{typeof(tapering),rettype}}(undef, size(ᵛʷdata))
+    results[tapering_idxs, :] .= tapering
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -54,25 +35,25 @@ function padfirst_running(func::Function, width::Width, data::AbstractMatrix{T},
     results
 end
 
-# pad the last entries, move windowed data back to the first entries
+# taper the last entries, move windowed data back to the first entries
 
-function padfinal_running(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
+function taperfinal_running(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    rettype = Union{typeof(padding),rts(func, (T,))}
+    rettype = Union{typeof(tapering),rts(func, (T,))}
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    # this is the padding_width
-    padding_width = width - 1
-    padding_idxs = n-padding_width:n
+    # this is the tapering_width
+    tapering_width = width - 1
+    tapering_idxs = n-tapering_width:n
 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
+    results[tapering_idxs, :] .= tapering
 
     ilow, ihigh = 1, width
-    @inbounds for idx in 1:n-padding_width
+    @inbounds for idx in 1:n-tapering_width
         @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -83,62 +64,30 @@ end
 
 # weighted
 
-function basic_running(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{T}) where {T}
-    ᵛʷdata = asview(data)
-    ᵛʷweight = asview(weight)
-    basic_running(func, width, ᵛʷdata, ᵛʷweight)
-end
+# taper the dropped indicies with a given tapering value
 
-
-function basic_running(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
+function taperfirst_running(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    basic_running(func, width, ᵛʷdata, ᵛʷweight)
+    taperfirst_running(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function basic_running(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function taperfirst_running(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    # there are 1 or more columns, each holds `n` values
-    rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(eachrow(results))
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
-# pad the dropped indicies with a given padding value
-
-function padfirst_running(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
-    typ = promote_type(T, W)
-    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
-
-    padfirst_running(func, width, ᵛʷdata, ᵛʷweight)
-end
-
-function padfirst_running(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
-    n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
-    rettype = Union{typeof(padding),rts(func, (T,))}
+    rettype = Union{typeof(tapering),rts(func, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    # this is the padding_width
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
+    # this is the tapering_width
+    tapering_width = width - 1
+    tapering_idxs = 1:tapering_width
 
-    results = Matrix{Union{typeof(padding),rettype}}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
+    results = Matrix{Union{typeof(tapering),rettype}}(undef, size(ᵛʷdata))
+    results[tapering_idxs, :] .= tapering
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
@@ -151,32 +100,32 @@ function padfirst_running(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{
 end
 
 
-# pad the last entries, move windowed data back to the first entries
+# taper the last entries, move windowed data back to the first entries
 
-function padfinal_running(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
+function taperfinal_running(func::Function, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfinal_running(func, width, ᵛʷdata, ᵛʷweight)
+    taperfinal_running(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_running(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+function taperfinal_running(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolling(n, width)
-    rettype = Union{typeof(padding),rts(func, (T,))}
+    rettype = Union{typeof(tapering),rts(func, (T,))}
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
-    # this is the padding_width
-    padding_width = width - 1
-    padding_idxs = n-padding_width:n
+    # this is the tapering_width
+    tapering_width = width - 1
+    tapering_idxs = n-tapering_width:n
 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
+    results[tapering_idxs, :] .= tapering
 
     ilow, ihigh = 1, width
-    @inbounds for idx in 1:n-padding_width
+    @inbounds for idx in 1:n-tapering_width
         @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight))
         ilow = ilow + 1
         ihigh = ihigh + 1
