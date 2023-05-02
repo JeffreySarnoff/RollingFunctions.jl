@@ -66,7 +66,7 @@ end
 
 # taper the dropped indicies with a given tapering value
 
-function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}`
+function taperfirst_running(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
