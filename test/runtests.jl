@@ -21,8 +21,9 @@ include("tile/tile_stats.jl")
 
 include("run/run_vectors.jl")
 include("run/run_weighted_vectors.jl")
+include("run/run_matrix.jl")
+
 #=
 include("run/run.jl")
-include("run/run_matrix.jl")
 include("run/run_stats.jl")
 =#

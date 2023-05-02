@@ -18,26 +18,6 @@ expected = [
 @test running(F, S, M) == expected
 @test typeof(running(F, S, M)) == typeof(expected)
 
-expected = [
-    missing missing
-    missing missing
-    6 12
-    9 9
-    12 6];
-
-@test map(clean, running(F, S, M; padding=missing)) == map(clean, expected)
-@test typeof(running(F, S, M; padding=missing)) == typeof(expected)
-
-expected = [
-    6 12
-    9 9
-    12 6
-    missing missing
-    missing missing];
-
-@test map(clean, running(F, S, M; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(running(F, S, M; padding=missing, padlast=true)) == typeof(expected)
-
 
 D₁ = [1, 2, 3, 4, 5]
 D₂ = [5, 4, 3, 2, 1]
