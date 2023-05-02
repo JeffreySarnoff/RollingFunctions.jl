@@ -15,7 +15,7 @@ This describes an unreleased work-in-process version of RollingFunctions.
 ## terminology
 
 - `data`: information provided as if sampling from a stream
-    - `data sequencw`: a finite discrete data source with each datum sequentially given
+    - `data sequence`: a finite discrete data source with each datum sequentially given
     - `multidata sequence`: a data sequence where each value is itself a small sequence
 
 ## process through windows onto data
