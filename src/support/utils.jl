@@ -209,11 +209,10 @@ function wholepartwindows(n, width, slide)
     # if separation is >= 0, there is no overlap (overlap is <= 0)
     # if overlap is >= 0, there is no complete separation
     overlap = width - slide
-    separation = -overlap
     nwindows = 0
     nextraindices = 0
     m = n
-    if separation == 0
+    if overlap == 0
         nwindows, nextraindices = fldmod(n, width)
     elseif n < width
         nextraindices = n
