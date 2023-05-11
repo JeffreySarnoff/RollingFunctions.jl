@@ -202,99 +202,13 @@ function nimputed_tiling(nseq, width, tile)
     end
 end
 
-
 function wholepartwindows(n, width, slide)
     # overlap is count of indicies shared by successive windows
     # separation is count of indicies skipped by successive windows
     # separation = -overlap
     # if separation is >= 0, there is no overlap (overlap is <= 0)
     # if overlap is >= 0, there is no complete separation
-    overlap = width - slide # == sep
-    separation = -overlap
-    nwindows = 0
-    nextraindices = 0
-    if n < width
-        nextraindices = n
-    elseif n < width+separation
-        nwindows = 1
-        nextraindices = separation
-    elseif separation == 0
-        nwindows, nextraindices = fldmod(n, width)
-    elseif overlap == width - 1
-        nwindows = n - width + 1
-        nextraindices = width - 1
-    elseif overlap > 0
-        nwindows = 0
-        m = n
-        while m > width
-            nwindows += 1
-            m -= slide
-        end
-        if m == width
-            nwindows += 1
-            nextraindices = 0
-        else
-            nextraindices = m
-        end
-    else # separation > 0
-        nwindows = 0
-        m = n
-        while m >= width
-            nwindows += 1
-            m -= (width+separation)
-        end
-        nextraindices = m
-    end
-    (; nwindows, nextraindices)
-end
-
-
-function wholepartwindows(n, width, slide)
-    # overlap is count of indicies shared by successive windows
-    # separation is count of indicies skipped by successive windows
-    # separation = -overlap
-    # if separation is >= 0, there is no overlap (overlap is <= 0)
-    # if overlap is >= 0, there is no complete separation
-    overlap = width - slide # == sep
-    separation = -overlap
-    nwindows = 0
-    nextraindices = 0
-    m = n
-    if n < width
-        nextraindices = n
-    elseif n < width + separation
-        nwindows = 1
-        nextraindices = separation
-    elseif separation == 0
-        nwindows, nextraindices = fldmod(n, width)
-    elseif overlap > 0
-        while m > width
-            nwindows += 1
-            m -= slide
-        end
-        if m == width
-            nwindows += 1
-        else
-            nextraindices = m
-        end
-    else # separation > 0
-        while m >= width
-            nwindows += 1
-            m -= (width + separation)
-        end
-        nextraindices = m
-    end
-    (; nwindows, nextraindices)
-end
-
-
-function wholepartwindows(n, width, slide)
-    # overlap is count of indicies shared by successive windows
-    # separation is count of indicies skipped by successive windows
-    # separation = -overlap
-    # if separation is >= 0, there is no overlap (overlap is <= 0)
-    # if overlap is >= 0, there is no complete separation
-    overlap = width - slide # == sep
+    overlap = width - slide
     separation = -overlap
     nwindows = 0
     nextraindices = 0
@@ -303,9 +217,9 @@ function wholepartwindows(n, width, slide)
         nwindows, nextraindices = fldmod(n, width)
     elseif n < width
         nextraindices = n
-    elseif n < width + separation
-        nwindows = 1
-        nextraindices = n - width
+    elseif slide == 1
+        nwindows =  n - width + 1
+        nextraindices = width - 1
     elseif overlap > 0
         while m > width
             nwindows += 1
