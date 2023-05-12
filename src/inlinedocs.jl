@@ -1,3 +1,5 @@
+using Documenter
+
 """
     rolling(func, winwidth, data; padding=nopadding, atend=false)
 
