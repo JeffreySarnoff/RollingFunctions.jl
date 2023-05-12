@@ -169,14 +169,14 @@ count of values to be tapered from seq with width as the window size
 nimputed_running(nseq, width) = nseq - nrunning(nseq, width)
 
 """
-    tiling_wholes(nseq, width, tile)
+    ntiling(nseq, width, tile)
 
 length obtained from seq with width as the window size
 and tile as the tiling step
 """
-tiling_wholes(nseq, width) = div(nseq, width)
+ntiling(nseq, width) = div(nseq, width)
 
-tiling_wholes(nseq, width, tile) =
+ntiling(nseq, width, tile) =
         if width <= tile
             div(nseq, tile)
         else # width > tile
@@ -186,14 +186,14 @@ tiling_wholes(nseq, width, tile) =
         end
 
 """
-    tiling_parts(nseq, width, tile)
+    nimputed_tiling(nseq, width, tile)
 
 count of values to be imputed from seq with
 width as the window size and tile as the tiling step
 """
-tiling_parts(nseq, width) = !iszero(rem(nseq, width)) ? 1 : 0
+nimputed_tiling(nseq, width) = !iszero(rem(nseq, width)) ? 1 : 0
 
-function tiling_parts(nseq, width, tile)
+function nimputed_tiling(nseq, width, tile)
     if width == tile
         rem(nseq, width)
     else # width > tile

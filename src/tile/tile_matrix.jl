@@ -11,7 +11,7 @@
 function basic_tiling(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
@@ -32,7 +32,7 @@ end
 function padfirst_tiling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
 
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata)
@@ -58,7 +58,7 @@ end
 function padfinal_tiling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
 
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata)

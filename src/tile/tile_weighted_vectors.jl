@@ -205,7 +205,7 @@ function basic_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T},))
     results = Vector{rettype}(undef, nvalues)
@@ -227,7 +227,7 @@ function basic_tiling(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T},
     check_width(n, width)
     check_weights(w, width)
  
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -249,7 +249,7 @@ function basic_tiling(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T},
     check_width(n, width)
     check_weights(w, width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
 
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, nvalues)
@@ -273,7 +273,7 @@ function padfirst_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
@@ -301,7 +301,7 @@ function padfirst_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(w, width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
@@ -330,7 +330,7 @@ function padfirst_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(w, width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
     end
@@ -358,7 +358,7 @@ function padfinal_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
@@ -386,7 +386,7 @@ function padfinal_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(w, width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷweight1)
     end
@@ -415,7 +415,7 @@ function padfinal_tiling(func::Function, width::Width,
     check_width(n, width)
     check_weights(w, width)
 
-    nvalues = tiling_wholes(n, width)
+    nvalues = ntiling(n, width)
     if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
     end
