@@ -39,7 +39,7 @@ running(row->fn(row), width, datamatrix)
 ```
 The data is given as 1, 2, or 3 vectors or as a matrix.
 
-See also: [`tapering`](@ref), [`rolling`](@ref), [`tiling`](@ref)
+See also: [`taper`](@ref), [`rolling`](@ref), [`tiling`](@ref)
 
 """ running
 
@@ -92,7 +92,7 @@ See also: [`rolling`](@ref), [`padding`](@ref)
 """ atend
 
 """
-#### tapering
+#### taper
 
 By definition, applying a windowed function over data
 will result in fewer items than are in the original data.
@@ -106,7 +106,17 @@ To place tapered values at the start of the result, set `atend=true`.
 
 See also: [`rolling`](@ref), [`atend`](@ref)
 
-""" tapering
+""" taper
+
+"""
+#### atend
+
+`atend` is a keyword argument that defaults to `false`.
+- additional value[s] are placed at the start of the results.
+using `atend = true`
+- additional value[s] are placed at the end (highest indices).
+
+""" atend
 
 """
 #### RollingFunctions
