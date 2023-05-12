@@ -141,18 +141,18 @@ end
 # number of values to be obtained
 
 """
-    rolling_wholes(nseq, width)
+    nrolling(nseq, width)
 
 length obtained from seq with width as the window size
 """
-rolling_wholes(nseq, width) = nseq - width + 1
+nrolling(nseq, width) = nseq - width + 1
 
 """
-    rolling_parts(nseq, width)
+    nimputed_rolling(nseq, width)
 
 count of values to be imputed from seq with width as the window size
 """
-rolling_parts(nseq, width) = width - 1
+nimputed_rolling(nseq, width) = width - 1
 
 """
     nrunning(nseq, width)
