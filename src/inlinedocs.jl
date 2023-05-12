@@ -1,11 +1,11 @@
 """
-    rolling(func, winwidth, data; padding=nopadding, atend=false)
+    rolling(func, width, data; padding=nopadding, atend=false)
 
 `rolling` repeatedly moves the window one index forward.
 
-- rolling(func, win\\_width, data)
-- rolling(func, win\\_width, data; padding)
-- rolling(func, win\\_width, data; padding, atend=false)
+- rolling(func, width, data)
+- rolling(func, width, data; padding)
+- rolling(func, width, data; padding, atend=false)
 
 ```
 rolling(    (a)->fn(a),     width, adata)
@@ -19,16 +19,19 @@ The data is given as 1, 2, or 3 vectors or as a matrix.
 
 With padding, there will be width-1 padded values.
 
-See also: [`padding`](@ref), [`atend`](@ref), [`running`](@ref), [`tiling`](@ref)
-
-""" rolling
+See also: [`weighted`](@ref), [`weighted_rolling`](@ref),
+          [`padding`](@ref), [`atend`](@ref),
+          [`running`](@ref), [`tiling`](@ref)
 
 """
-    running(func, winwidth, data)
+rolling
+
+"""
+    running(func, width, data)
 
 `running` repeatedly moves the window one index forward.
 
-`running` tapers the winwidth as it nears the end of the data.
+`running` tapers the width as it nears the end of the data.
 - there is no padding, tapered results are used instead.
 
 ```
@@ -40,18 +43,20 @@ running(row->fn(row), width, datamatrix)
 ```
 The data is given as 1, 2, or 3 vectors or as a matrix.
 
-See also: [`taper`](@ref), [`rolling`](@ref), [`tiling`](@ref)
-
-""" running
+See also: [`weighted`](@ref), [`weighted_running`](@ref),
+          [`tapering`](@ref), [`rolling`](@ref), [`tiling`](@ref)
 
 """
-    tiling(func, winwidth, data; padding=nopadding, atend=false)
+running
+
+"""
+    tiling(func, width, data; padding=nopadding, atend=false)
 
 `tiling` repeatedly moves the window just beyond its current end.
 
-- tiling(func, win\\_width, data)
-- tiling(func, win\\_width, data; padding)
-- tiling(func, win\\_width, data; padding, atend=false)
+- tiling(func, width, data)
+- tiling(func, width, data; padding)
+- tiling(func, width, data; padding, atend=false)
 
 ```
 tiling(    (a)->fn(a),     width, adata)
@@ -65,9 +70,35 @@ The data is given as 1, 2, or 3 vectors or as a matrix.
 
 With padding, there will be 0 (if an exact fit) or 1 padded value.
 
-See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@ref)
+See also: [`weighted`](@ref), [`weighted_tiling`](@ref),
+          [`padding`](@ref), [`atend`](@ref),
+          [`rolling`](@ref), [`running`](@ref)
 
-""" tiling
+"""
+tiling
+
+"""
+    weighted
+
+Windowed data may be weighted before the window function is applied.
+
+Weights may be used with `running`, `rolling`, or `tiling`.
+The function signatures' positional arguments are extended
+     by giving the weights as the last positional argument[s].
+
+`rolling(func, width, data, weights; padding=nopadding, atend=false)`
+
+Where two data sources are used, two weights must be used.
+`rolling(func, width, data1, data2, weights1, weights2)`
+
+The weights are `StatsBase.Weights`; generally one wants normalized weights.
+
+Use `fast_normalize_weights(weights)` or `normalize_weights(weights)`. 
+
+`length(weights) == width` is a requirement
+
+"""
+weighted
 
 """
     padding
@@ -84,11 +115,11 @@ See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@re
  
  See also: [`rolling`](@ref), [`atend`](@ref)
  
-""" 
+"""
 padding
 
 """
-    taper
+    tapering
   
   By definition, applying a windowed function over data
   will result in fewer items than are in the original data.
@@ -103,7 +134,7 @@ padding
   See also: [`rolling`](@ref), [`atend`](@ref)
   
 """
-taper
+tapering
 
 """
     atend
@@ -125,7 +156,8 @@ atend
     __RollingFunctions__
  
  see: [`rolling`](@ref), [`running`](@ref), [`tiling`](@ref)
-""" RollingFunctions
+"""
+RollingFunctions
 
 # end of inline docs
 

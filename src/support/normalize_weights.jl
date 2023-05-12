@@ -1,14 +1,12 @@
 
-@inline function fast_normalize(weights::AbstractWeights{T}) where {T}
+@inline function fast_normalize_weights(weights::AbstractWeights{T}) where {T}
     recip_sum = one(T) / sum(weights)
     map(*, weights, recip_sum)
 end
 
-
-function fast_normalize(weightseq::NTuple{N,AbstractWeights{T}}) where {N,T}
+function fast_normalize_weights(weightseq::NTuple{N,AbstractWeights{T}}) where {N,T}
     map(fast_normalize, weightseq)
 end
-
 
 function normalize_weights(weights::Sequence)
     nweights = length(weights)
