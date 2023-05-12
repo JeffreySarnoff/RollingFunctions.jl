@@ -5,24 +5,6 @@
             taperfirst=nopadding, taperlast=false)
 =#
 
-"""
-    running(function, window, data)
-    running(function, window, data)
-    running(function, window, data; padding, taperlast=true)
-
-    running(      (a)->fn(a),       window, adata)
-    running(    (a,b)->fn(a,b),     window, adata, bdata)
-    running(  (a,b,c)->fn(a,b,c),   window, adata, bdata, cdata)
-
-    running(      row->fn(row),     window, datamatrix)
-
-the data is given as a vector
-               or as 2 vectors
-               or as 3 vectors 
-               or as matrix
-"""
-running
-
 function running(func::F, width::Width,
     data1::AbstractVector{T}; taperlast=false) where {T,F<:Function}
     if !taperlast

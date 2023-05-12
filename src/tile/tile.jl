@@ -5,24 +5,6 @@
             padfirst=nopadding, atend=false)
 =#
 
-"""
-    tiling(function, window, data)
-    tiling(function, window, data, padding)
-    tiling(function, window, data; padding, atend=true)
-
-    tiling(      (a)->fn(a),       window, adata)
-    tiling(    (a,b)->fn(a,b),     window, adata, bdata)
-    tiling(  (a,b,c)->fn(a,b,c),   window, adata, bdata, cdata)
-
-    tiling(      row->fn(row),     window, datamatrix)
-
-the data is given as a vector
-               or as 2 vectors
-               or as 3 vectors 
-               or as matrix
-"""
-tiling
-
 function tiling(func::F, width::Width,
     data1::AbstractVector{T};
     padding=nopadding, atend=false) where {T,F<:Function}

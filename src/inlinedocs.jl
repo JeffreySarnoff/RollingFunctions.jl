@@ -82,10 +82,10 @@ See also: [`rolling`](@ref), [`atend`](@ref)
 #### atend
 
 By default, padding is applied at the begining of the result.
-- padding value is placed at the lowest indices
+- the padding value is placed at the lowest indices
 
 To apply padding at the end of the result, set `atend=true`.
-- padding value is placed at the highest indices
+- the padding value is placed at the highest indices
 
 See also: [`rolling`](@ref), [`padding`](@ref)
 
@@ -100,9 +100,9 @@ will result in fewer items than are in the original data.
 `tapering` is a way to add the dropped items using the data itself.
 
 By default, tapered values are placed at the start of the result.
-- values are placed at the lowest indices
+- the tapered values are placed at the lowest indices
 To place tapered values at the start of the result, set `atend=true`.
-- values are placed at the highest indices
+- the tapered values are placed at the highest indices
 
 See also: [`rolling`](@ref), [`atend`](@ref)
 
