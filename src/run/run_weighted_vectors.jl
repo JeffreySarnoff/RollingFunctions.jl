@@ -129,7 +129,7 @@ function taperfirst(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, �
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
 
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
 
     taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T},))
@@ -191,7 +191,7 @@ function taperfirst(func::Function, width::Width, data1::AbstractVector{T}, data
     check_width(n, width)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), length(ᵛʷweight3), width)
 
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
 
     taper_idxs = 1:n-nvalues
     rettype = rts(func, (Vector{T}, Vector{T}, Vector{T}))
@@ -220,7 +220,7 @@ function taperfinal(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T},
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
 
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     tapering_width = width - 1
@@ -247,7 +247,7 @@ function taperfinal(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, �
     check_weights(length(ᵛʷweight1), width)
     check_weights(length(ᵛʷweight2), width)
 
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     tapering_width = width - 1
@@ -275,7 +275,7 @@ function taperfinal(func::Function, width::Width, ᵛʷdata1::ViewOfVector{T}, �
     check_weights(length(ᵛʷweight2), width)
     check_weights(length(ᵛʷweight3), width)
 
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt func
     tapering_width = width - 1

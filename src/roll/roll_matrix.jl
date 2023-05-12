@@ -11,7 +11,7 @@
 function basic_rolling(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     # there are 1 or more columns, each holds `n` values
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
@@ -31,7 +31,7 @@ end
 function padfirst_rolling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
@@ -59,7 +59,7 @@ end
 function padfinal_rolling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
 
     # only completed width coverings are resolvable
@@ -100,7 +100,7 @@ end
 
 function basic_rolling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     # there are 1 or more columns, each holds `n` values
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
@@ -127,7 +127,7 @@ end
 
 function padfirst_rolling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 

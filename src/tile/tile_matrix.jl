@@ -11,7 +11,7 @@
 function basic_tiling(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = ntiling(n, width)
+    nvalues = tiling_wholes(n, width)
 
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
@@ -32,9 +32,9 @@ end
 function padfirst_tiling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = ntiling(n, width)
+    nvalues = tiling_wholes(n, width)
 
-    if iszero(nimputed_tiling(n, width))
+    if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata)
     end
 
@@ -58,9 +58,9 @@ end
 function padfinal_tiling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = ntiling(n, width)
+    nvalues = tiling_wholes(n, width)
 
-    if iszero(nimputed_tiling(n, width))
+    if iszero(tiling_parts(n, width))
         return basic_tiling(func, width, ᵛʷdata)
     end
 
@@ -98,7 +98,7 @@ end
 
 function basic_tiling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     # there are 1 or more columns, each holds `n` values
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
@@ -125,7 +125,7 @@ end
 
 function padfirst_tiling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
@@ -161,7 +161,7 @@ end
 
 function padfinal_tiling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
 
     # only completed width coverings are resolvable

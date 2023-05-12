@@ -12,7 +12,7 @@
 function taperfirst(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
@@ -40,7 +40,7 @@ end
 function taperfinal(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = rts(func, (T,))
 
     # only completed width coverings are resolvable
@@ -76,7 +76,7 @@ end
 
 function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
@@ -112,7 +112,7 @@ end
 
 function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
-    nvalues = nrolling(n, width)
+    nvalues = rolling_wholes(n, width)
     rettype = rts(func, (T,))
 
     # only completed width coverings are resolvable

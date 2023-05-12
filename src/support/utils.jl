@@ -141,25 +141,25 @@ end
 # number of values to be obtained
 
 """
-    nrolling(nseq, width)
+    rolling_wholes(nseq, width)
 
 length obtained from seq with width as the window size
 """
-nrolling(nseq, width) = nseq - width + 1
+rolling_wholes(nseq, width) = nseq - width + 1
 
 """
-    nimputed_rolling(nseq, width)
+    rolling_parts(nseq, width)
 
 count of values to be imputed from seq with width as the window size
 """
-nimputed_rolling(nseq, width) = width - 1
+rolling_parts(nseq, width) = width - 1
 
 """
     nrunning(nseq, width)
 
 length obtained from seq with width as the window size
 """
-nrunning(nseq, width) = nrolling(nseq, width)
+nrunning(nseq, width) = rolling_wholes(nseq, width)
 
 """
     nimputed_running(nseq, width)
@@ -169,14 +169,14 @@ count of values to be tapered from seq with width as the window size
 nimputed_running(nseq, width) = nseq - nrunning(nseq, width)
 
 """
-    ntiling(nseq, width, tile)
+    tiling_wholes(nseq, width, tile)
 
 length obtained from seq with width as the window size
 and tile as the tiling step
 """
-ntiling(nseq, width) = div(nseq, width)
+tiling_wholes(nseq, width) = div(nseq, width)
 
-ntiling(nseq, width, tile) =
+tiling_wholes(nseq, width, tile) =
         if width <= tile
             div(nseq, tile)
         else # width > tile
@@ -186,19 +186,19 @@ ntiling(nseq, width, tile) =
         end
 
 """
-    nimputed_tiling(nseq, width, tile)
+    tiling_parts(nseq, width, tile)
 
 count of values to be imputed from seq with
 width as the window size and tile as the tiling step
 """
-nimputed_tiling(nseq, width) = !iszero(rem(nseq, width)) ? 1 : 0
+tiling_parts(nseq, width) = !iszero(rem(nseq, width)) ? 1 : 0
 
-function nimputed_tiling(nseq, width, tile)
+function tiling_parts(nseq, width, tile)
     if width == tile
         rem(nseq, width)
     else # width > tile
-        nseq_atmost = nimputed_rolling(nseq, tile) * tile
-        nimputed_rolling(nseq_atmost, width)
+        nseq_atmost = rolling_parts(nseq, tile) * tile
+        rolling_parts(nseq_atmost, width)
     end
 end
 
@@ -222,9 +222,51 @@ function wholesparts(n, width, slide)
     elseif slide >= width
         nwindows, nextraindices = fldmod(n, slide)
         return (; nwindows, nextraindices)
-    else
-        nwindows = 0
-        nextraindices = n
-        return (; nwindows, nextraindices)
     end
 end 
+
+rolling_wholesparts(n, width) = wholesparts(n, width, 1)
+tiling_wholesparts(n, width)  = wholesparts(n, width, width)
+
+function wholes(n, width, slide)
+    if n < width
+        nwindows = 0
+        return nwindows
+    elseif slide < width
+        nwindows = fld(n - width, slide)
+        m = n - nwindows * slide
+        nwindows += m >= width
+        m -= slide
+        if m == width
+            nwindows += 1
+        end
+        return nwindows
+    elseif slide >= width
+        nwindows = fld(n, slide)
+        return nwindows
+    end
+end 
+
+rolling_wholes(n, width) = wholes(n, width, 1)
+tiling_wholes(n, width)  = wholes(n, width, width)
+
+function parts(n, width, slide)
+    if n < width
+        return n
+    elseif slide < width
+        nwindows = fld(n - width, slide)
+        m = n - nwindows * slide
+        m -= slide
+        if m == width
+            nextraindices = 0
+        else
+            nextraindices = m
+        end
+        return nextraindices
+    elseif slide >= width
+        return mod(n, slide)
+    end
+end 
+
+rolling_parts(n, width) = parts(n, width, 1)
+tiling_parts(n, width)  = parts(n, width, width)
