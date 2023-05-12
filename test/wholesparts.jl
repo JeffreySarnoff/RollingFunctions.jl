@@ -4,15 +4,11 @@ function testwholesparts(n, width, slide)
     nwindows = 0
     nextraindices = 0
     m = n
-    while m > width
+    while m >= width
         nwindows += 1
         m -= slide
     end
-    if m == width
-        nwindows += 1
-    else
-        nextraindices = m
-    end
+    nextraindices = m
     (; nwindows, nextraindices)
 end
 
