@@ -202,41 +202,43 @@ function nimputed_tiling(nseq, width, tile)
     end
 end
 
-function wholepartwindows(n, width, slide)
-    # overlap is count of indicies shared by successive windows
-    # separation is count of indicies skipped by successive windows
-    # separation = -overlap
-    # if separation is >= 0, there is no overlap (overlap is <= 0)
-    # if overlap is >= 0, there is no complete separation
-    overlap = width - slide
-    nwindows = 0
-    nextraindices = 0
-    m = n
-    if overlap == 0
-        nwindows, nextraindices = fldmod(n, width)
-    elseif n < width
-        nextraindices = n
-    elseif slide == 1
-        nwindows =  n - width + 1
-        nextraindices = width - 1
-    elseif overlap > 0
-        while m > width
-            nwindows += 1
-            m -= slide
-        end
+function wholesparts(n, width, slide)
+    if slide < width
+        nwindows = fld(n - slide, slide)
+        m = n - nwindows * slide
+        nwindows += m >= width
+        m -= slide
         if m == width
             nwindows += 1
+            nextraindices = 0
         else
             nextraindices = m
         end
-    else # separation > 0
-        while m >= width
-            nwindows += 1
-            m -= slide
-        end
+        return (; nwindows, nextraindices)
+    elseif slide >= width
+        nwindows, nextraindices = fldmod(n, slide)
+        return (; nwindows, nextraindices)
+    else
+        nwindows = 0
+        nextraindices = n
+        return (; nwindows, nextraindices)
+    end
+end
+
+
+function testwholepart(n,w,s)
+    nwindows = 0
+    nextraindices = 0
+    m = n
+    while m > w
+        nwindows += 1
+        m -= s
+    end
+    if m == w
+        nwindows += 1
+    else
         nextraindices = m
     end
     (; nwindows, nextraindices)
 end
-
 
