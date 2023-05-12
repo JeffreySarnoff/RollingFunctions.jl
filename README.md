@@ -1,14 +1,45 @@
 # RollingFunctions.jl
 
-> The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
+> The current version is [0.9.8](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.8)
 
 This describes an unreleased work-in-process version of RollingFunctions.
-version RollingFunctions
 
+## symbology
+```
+('⦃', '⦄', '⦑', '⦒', '⧼', '⧽'),
+('⦂', '⧂', ('⧜', '⧝', '⧞'))
+('⏦', '⏖', '⏔',)
+('⩫','⤳', '⥂', '⥃', '⥄')
+```
+
+## terminology
+
+- `data`: information provided as if sampling from a stream
+    - `data sequence`: a finite discrete data source with each datum sequentially given
+    - `multidata sequence`: a data sequence where each value is itself a small sequence
+
+## process through windows onto data
+
+### rolling
+
+- advances your window over the data in successive steps
+- provides as many results as are completely available
+   - often the result has fewer values than the data holds
+
+#### padded rolling
+
+- completes the result with copies of any one padding value
+   - the result is padded at the start or at the end
+   
+### tiling
+
+- advances your window of the data in strides that match the window width
+- provides as many results as are completely available
+    - the result has fewer values than the data holds
+    - 
+   
 ### Roll a [weighted] function or run a statistic along windowed data.
 
-This describes version 1 of RollingFunctions
-The current version is [0.7.x](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.7.0)
 
 
 #### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
