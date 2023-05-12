@@ -203,8 +203,12 @@ function nimputed_tiling(nseq, width, tile)
 end
 
 function wholesparts(n, width, slide)
-    if slide < width
-        nwindows = fld(n - slide, slide)
+    if n < width
+        nwindows = 0
+        nextraindices = n
+        return (; nwindows, nextraindices)
+    elseif slide < width
+        nwindows = fld(n - width, slide)
         m = n - nwindows * slide
         nwindows += m >= width
         m -= slide
@@ -223,4 +227,4 @@ function wholesparts(n, width, slide)
         nextraindices = n
         return (; nwindows, nextraindices)
     end
-end
+end 
