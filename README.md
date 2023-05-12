@@ -1,6 +1,6 @@
 # RollingFunctions.jl
 
-> The current version is [0.9.8](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.8)
+> The current version is [0.9.9](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.9)
 
 This describes an unreleased work-in-process version of RollingFunctions.
 
