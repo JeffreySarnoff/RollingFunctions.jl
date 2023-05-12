@@ -205,8 +205,8 @@ end
 function wholesparts(n, width, slide)
     if n < width
         nwindows = 0
-        nextraindices = n
-        return (; nwindows, nextraindices)
+        nindices = n
+        return (; nwindows, nindices)
     elseif slide < width
         nwindows = fld(n - width, slide)
         m = n - nwindows * slide
@@ -214,18 +214,21 @@ function wholesparts(n, width, slide)
         m -= slide
         if m == width
             nwindows += 1
-            nextraindices = 0
+            nindices = 0
         else
-            nextraindices = m
+            nindices = m
         end
-        return (; nwindows, nextraindices)
+        return (; nwindows, nindices)
     elseif slide >= width
-        nwindows, nextraindices = fldmod(n, slide)
-        return (; nwindows, nextraindices)
+        nwindows, nindices = fldmod(n, slide)
+        return (; nwindows, nindices)
     end
 end 
 
+wholesparts(; n, width, slide) = wholesparts(n, width, slide)
+
 rolling_wholesparts(n, width) = wholesparts(n, width, 1)
+running_wholesparts(n, width) = rolling_wholesparts(n, width)
 tiling_wholesparts(n, width)  = wholesparts(n, width, width)
 
 function wholes(n, width, slide)
@@ -248,6 +251,7 @@ function wholes(n, width, slide)
 end 
 
 rolling_wholes(n, width) = wholes(n, width, 1)
+running_wholes(n, width) = rolling_wholes(n, width)
 tiling_wholes(n, width)  = wholes(n, width, width)
 
 function parts(n, width, slide)
@@ -258,15 +262,16 @@ function parts(n, width, slide)
         m = n - nwindows * slide
         m -= slide
         if m == width
-            nextraindices = 0
+            nindices = 0
         else
-            nextraindices = m
+            nindices = m
         end
-        return nextraindices
+        return nindices
     elseif slide >= width
         return mod(n, slide)
     end
 end 
 
 rolling_parts(n, width) = parts(n, width, 1)
+running_parts(n, width) = rolling_parts(n, width)
 tiling_parts(n, width)  = parts(n, width, width)

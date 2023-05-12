@@ -177,7 +177,7 @@ function taperfinal(func::F, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
         ihigh = ihigh + 1
     end
 
-    taper_idxs = il
+    taper_idxs = ilow:n
     @inbounds for idx in taper_idxs
         @views results[idx] = func(ᵛʷdata1[idx:end], ᵛʷdata2[idx:end])
     end
