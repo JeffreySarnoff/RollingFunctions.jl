@@ -1,5 +1,3 @@
-using Documenter
-
 """
     rolling(func, winwidth, data; padding=nopadding, atend=false)
 
@@ -72,7 +70,7 @@ See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@re
 """ tiling
 
 """
-    _padding_
+    padding
  
  By definition, applying a windowed function over data
  will result in fewer items than are in the original data.
@@ -86,10 +84,11 @@ See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@re
  
  See also: [`rolling`](@ref), [`atend`](@ref)
  
-""" padding
+""" 
+padding
 
 """
-    _taper_
+    taper
   
   By definition, applying a windowed function over data
   will result in fewer items than are in the original data.
@@ -103,10 +102,11 @@ See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@re
   
   See also: [`rolling`](@ref), [`atend`](@ref)
   
-""" taper
+"""
+taper
 
 """
-    _atend_
+    atend
   
   `atend` is a keyword argument that defaults to `false`.
   - additional value[s] are placed at the start of the results.
@@ -118,7 +118,8 @@ See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@re
   To apply padding at the end of the result, set `atend=true`.
   - the padding value is placed at the highest indices
   
-""" atend
+"""
+atend
 
 """
     __RollingFunctions__
