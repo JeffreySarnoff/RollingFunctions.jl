@@ -20,12 +20,31 @@ The data is given as 1, 2, 3, or 4 vectors or as a matrix.
 
 With padding, there will be width-1 padded values.
 
-See also: [`weighted`](@ref), [`weighted_rolling`](@ref),
+See also: [`weighted`](@ref), 
+          [`windows_with_vectors`](@ref), [`windows_with_matrices`](@ref),
           [`padding`](@ref), [`atend`](@ref),
           [`running`](@ref), [`tiling`](@ref)
 
 """
 rolling
+
+"""
+    windows_with_matrices
+
+Rolling (running, tiling) a windowed function over a matrix
+rolls (runs, tiles) that function over windows on each column
+independently.
+
+""" windows_with_matrices
+
+"""
+    windows_with_vectors
+
+Rolling (running, tiling) a windowed function over 2,3,[4] vectors
+rolls (runs, tiles) that n-ary function over windows on the n vectors
+as if they were zipped together (simultaneously).
+
+""" windows_with_vectors
 
 """
     running(func, width, data)
