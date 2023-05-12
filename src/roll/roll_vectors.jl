@@ -67,7 +67,7 @@ end
 
 function basic_rolling(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
-    data3::AbstractVector{T3}, data3::AbstractVector{T4}) where {T1,T2,T3,T4}
+    data3::AbstractVector{T3}, data4::AbstractVector{T4}) where {T1,T2,T3,T4}
     typ = promote_type(T1, T2, T3, T4)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
