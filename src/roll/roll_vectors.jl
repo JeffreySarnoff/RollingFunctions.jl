@@ -159,7 +159,6 @@ function padfirst_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = rolling_wholes(n, width)
     if iszero(rolling_parts(n, width))
         return basic_rolling(func, width, ᵛʷdata1)
     end
@@ -185,7 +184,6 @@ function padfirst_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = rolling_wholes(n, width)
     if iszero(rolling_parts(n, width))
         return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2)
     end
@@ -209,7 +207,6 @@ function padfirst_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = rolling_wholes(n, width)
     if iszero(rolling_parts(n, width))
         return basic_rolling(func, width, ᵛʷdata1,  ᵛʷdata2,  ᵛʷdata3)
     end
@@ -235,7 +232,6 @@ function padfinal_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     n = length(ᵛʷdata1)
     check_width(n, width)
 
-    nvalues = rolling_wholes(n, width)
     if iszero(rolling_parts(n, width))
         return basic_rolling(func, width, ᵛʷdata1)
     end
@@ -245,6 +241,7 @@ function padfinal_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
 
+    nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh])
@@ -259,7 +256,6 @@ function padfinal_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
 
-    nvalues = rolling_wholes(n, width)
     if iszero(rolling_parts(n, width))
         return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2)
     end
@@ -269,6 +265,7 @@ function padfinal_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
 
+    nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
@@ -283,7 +280,6 @@ function padfinal_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
 
-    nvalues = rolling_wholes(n, width)
     if iszero(rolling_parts(n, width))
         return basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ʷdata3)
     end
@@ -293,6 +289,7 @@ function padfinal_rolling(func::Function, width::Width, ᵛʷdata1::ViewOfVector
     results = Vector{Union{typeof(padding),rettype}}(undef, n)
     results[padding_idxs] .= padding
 
+    nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
         @views results[idx] = func(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
