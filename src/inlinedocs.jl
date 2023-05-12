@@ -62,7 +62,7 @@ See also: [`running`](@ref), [`rolling`](@ref)
 """ tiling
 
 """
-    *padding*
+    padding
 
 By definition, applying a windowed function over data
 will result in fewer items than are in the original data.
@@ -79,7 +79,7 @@ See also: [`rolling`](@ref), [`atend`](@ref)
 """ padding
 
 """
-    *taper*
+    taper
 
 By definition, applying a windowed function over data
 will result in fewer items than are in the original data.
@@ -96,7 +96,7 @@ See also: [`rolling`](@ref), [`atend`](@ref)
 """ taper
 
 """
-    *atend*
+    atend
 
 `atend` is a keyword argument that defaults to `false`.
 - additional value[s] are placed at the start of the results.
@@ -117,6 +117,4 @@ see: [`rolling`](@ref), [`running`](@ref), [`tiling`](@ref)
 """ RollingFunctions
 
 # end of inline docs
-
-
 
