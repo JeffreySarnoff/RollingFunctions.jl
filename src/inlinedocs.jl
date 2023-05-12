@@ -79,19 +79,6 @@ See also: [`rolling`](@ref), [`atend`](@ref)
 """ padding
 
 """
-#### atend
-
-By default, padding is applied at the begining of the result.
-- the padding value is placed at the lowest indices
-
-To apply padding at the end of the result, set `atend=true`.
-- the padding value is placed at the highest indices
-
-See also: [`rolling`](@ref), [`padding`](@ref)
-
-""" atend
-
-"""
 #### taper
 
 By definition, applying a windowed function over data
@@ -115,6 +102,11 @@ See also: [`rolling`](@ref), [`atend`](@ref)
 - additional value[s] are placed at the start of the results.
 using `atend = true`
 - additional value[s] are placed at the end (highest indices).
+
+By default, padding is applied at the begining of the result.
+- the padding value is placed at the lowest indices
+To apply padding at the end of the result, set `atend=true`.
+- the padding value is placed at the highest indices
 
 """ atend
 
