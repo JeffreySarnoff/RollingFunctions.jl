@@ -70,58 +70,58 @@ See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@re
 """ tiling
 
 """
-    padding
-
-By definition, applying a windowed function over data
-will result in fewer items than are in the original data.
-To add the missing items, select a padding value using
-the `padding` keyword argument e.g. `padding=missing`.
-
-By default, padding is applied at the begining of the result.
-- padding value is placed at the lowest indices
-To apply padding at the end of the result, set `atend=true`.
-- padding value is placed at the highest indices
-
-See also: [`rolling`](@ref), [`atend`](@ref)
-
+    _padding_
+ 
+ By definition, applying a windowed function over data
+ will result in fewer items than are in the original data.
+ To add the missing items, select a padding value using
+ the `padding` keyword argument e.g. `padding=missing`.
+ 
+ By default, padding is applied at the begining of the result.
+ - padding value is placed at the lowest indices
+ To apply padding at the end of the result, set `atend=true`.
+ - padding value is placed at the highest indices
+ 
+ See also: [`rolling`](@ref), [`atend`](@ref)
+ 
 """ padding
 
 """
-    taper
-
-By definition, applying a windowed function over data
-will result in fewer items than are in the original data.
-
-`tapering` is a way to add the dropped items using the data itself.
-
-By default, tapered values are placed at the start of the result.
-- the tapered values are placed at the lowest indices
-To place tapered values at the start of the result, set `atend=true`.
-- the tapered values are placed at the highest indices
-
-See also: [`rolling`](@ref), [`atend`](@ref)
-
+    _taper_
+  
+  By definition, applying a windowed function over data
+  will result in fewer items than are in the original data.
+  
+  `tapering` is a way to add the dropped items using the data itself.
+  
+  By default, tapered values are placed at the start of the result.
+  - the tapered values are placed at the lowest indices
+  To place tapered values at the start of the result, set `atend=true`.
+  - the tapered values are placed at the highest indices
+  
+  See also: [`rolling`](@ref), [`atend`](@ref)
+  
 """ taper
 
 """
-    atend
-
-`atend` is a keyword argument that defaults to `false`.
-- additional value[s] are placed at the start of the results.
-using `atend = true`
-- additional value[s] are placed at the end (highest indices).
-
-By default, padding is applied at the begining of the result.
-- the padding value is placed at the lowest indices
-To apply padding at the end of the result, set `atend=true`.
-- the padding value is placed at the highest indices
-
+    _atend_
+  
+  `atend` is a keyword argument that defaults to `false`.
+  - additional value[s] are placed at the start of the results.
+  using `atend = true`
+  - additional value[s] are placed at the end (highest indices).
+  
+  By default, padding is applied at the begining of the result.
+  - the padding value is placed at the lowest indices
+  To apply padding at the end of the result, set `atend=true`.
+  - the padding value is placed at the highest indices
+  
 """ atend
 
 """
-    *RollingFunctions*
-
-see: [`rolling`](@ref), [`running`](@ref), [`tiling`](@ref)
+    __RollingFunctions__
+ 
+ see: [`rolling`](@ref), [`running`](@ref), [`tiling`](@ref)
 """ RollingFunctions
 
 # end of inline docs
