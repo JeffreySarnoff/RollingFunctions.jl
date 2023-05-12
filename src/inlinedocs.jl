@@ -1,4 +1,3 @@
-
 """
     rolling(func, winwidth, data; padding=nopadding, atend=false)
 
@@ -18,7 +17,9 @@ rolling(row->fn(row), width, datamatrix; padding, atend=false)
 ```
 The data is given as 1, 2, or 3 vectors or as a matrix.
 
-See also: [`padding`](@ref), [`padlist`](@ref), [`running`](@ref), [`tiling`](@ref)
+With padding, there will be width-1 padded values.
+
+See also: [`padding`](@ref), [`atend`](@ref), [`running`](@ref), [`tiling`](@ref)
 
 """ rolling
 
@@ -44,9 +45,13 @@ See also: [`taper`](@ref), [`rolling`](@ref), [`tiling`](@ref)
 """ running
 
 """
-    tiling(func, winwidth, data)
+    tiling(func, winwidth, data; padding=nopadding, atend=false)
 
 `tiling` repeatedly moves the window just beyond its current end.
+
+- tiling(func, win\\_width, data)
+- tiling(func, win\\_width, data; padding)
+- tiling(func, win\\_width, data; padding, atend=false)
 
 ```
 tiling(    (a)->fn(a),     width, adata)
@@ -54,10 +59,13 @@ tiling(  (a,b)->fn(a,b),   width, adata, bdata)
 tiling((a,b,c)->fn(a,b,c), width, adata, bdata, cdata)
 
 tiling(row->fn(row), width, datamatrix)
+tiling(row->fn(row), width, datamatrix; padding, atend=false)
 ```
 The data is given as 1, 2, or 3 vectors or as a matrix.
 
-See also: [`running`](@ref), [`rolling`](@ref)
+With padding, there will be 0 (if an exact fit) or 1 padded value.
+
+See also: [`padding`](@ref), [`atend`](@ref), [`rolling`](@ref), [`running`](@ref)
 
 """ tiling
 
