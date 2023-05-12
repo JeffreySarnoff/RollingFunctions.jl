@@ -108,6 +108,13 @@ See also: [`rolling`](@ref), [`atend`](@ref)
 
 """ tapering
 
+"""
+#### RollingFunctions
+
+see: [`rolling`](@ref), [`running`](@ref), [`tiling`](@ref)
+""" RollingFunctions
+
+# end of inline docs
 
 
 
