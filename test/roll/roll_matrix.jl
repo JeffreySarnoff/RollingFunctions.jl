@@ -7,6 +7,8 @@ M = hcat(D₁, D₂);
 F = sum;
 S = 3;
 
+@test rolling(F,S,M) == hcat(rolling(F,S,D₁), rolling(F,S,D₂))
+
 wweights = ProbabilityWeights([0.1,0.2,0.7])
 mweights = hcat(wweights, wweights)
 
