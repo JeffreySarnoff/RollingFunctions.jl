@@ -4,6 +4,8 @@ using StatsBase
 using LinearAlgebra
 using Test
 
+include("wholesparts.jl")
+
 include("roll/roll.jl")
 include("roll/roll_vectors.jl")
 include("roll/roll_weighted_vectors.jl")

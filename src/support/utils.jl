@@ -224,21 +224,3 @@ function wholesparts(n, width, slide)
         return (; nwindows, nextraindices)
     end
 end
-
-
-function testwholepart(n,w,s)
-    nwindows = 0
-    nextraindices = 0
-    m = n
-    while m > w
-        nwindows += 1
-        m -= s
-    end
-    if m == w
-        nwindows += 1
-    else
-        nextraindices = m
-    end
-    (; nwindows, nextraindices)
-end
-

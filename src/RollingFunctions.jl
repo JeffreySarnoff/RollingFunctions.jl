@@ -27,7 +27,8 @@ export rolling,
        runvariation,                  # coefficient of variation
        # with two data vectors
        rollcor, rollcov,
-       runcor, runcov
+       runcor, runcov,
+       wholesparts
 
 using LinearAlgebra: normalize
 
