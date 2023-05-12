@@ -39,7 +39,7 @@ julia> result
 #### Give me the real values first, pad to the end.
 
 ```
-result = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = missing, padlast=true);
+result = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = missing, atend=true);
 #=
 julia> result
 5-element Vector{Union{Missing,Int64}}:

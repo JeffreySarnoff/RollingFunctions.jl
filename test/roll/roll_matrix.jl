@@ -35,8 +35,8 @@ expected = [
     missing missing
     missing missing];
 
-@test map(clean, rolling(F, S, M; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, S, M; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, S, M; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(rolling(F, S, M; padding=missing, atend=true)) == typeof(expected)
 
 
 D₁ = [1, 2, 3, 4, 5]

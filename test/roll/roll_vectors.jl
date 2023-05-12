@@ -12,8 +12,8 @@ expected = [missing, missing, 6, 9, 12];
 @test typeof(rolling(F, W, D; padding=missing)) == typeof(expected)
 
 expected = [6, 9, 12, missing, missing];
-@test map(clean, rolling(F, W, D; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, W, D; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, W, D; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(rolling(F, W, D; padding=missing, atend=true)) == typeof(expected)
 
 D = Float32[1, 2, 3, 4, 5];
 expected = Float32[6, 9, 12];
@@ -38,8 +38,8 @@ expected = [missing, missing, -1.0, -1.0, -1.0];
 @test typeof(rolling(F, W, D₁, D₂; padding=missing)) == typeof(expected)
 
 expected = [-1.0, -1.0, -1.0, missing, missing];
-@test map(clean, rolling(F, W, D₁, D₂; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, W, D₁, D₂; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, W, D₁, D₂; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(rolling(F, W, D₁, D₂; padding=missing, atend=true)) == typeof(expected)
 
 D₃ = D₁ .* D₂ .- D₂;
 
@@ -81,6 +81,6 @@ expected = [
     missing missing
     missing missing];
 
-@test map(clean, rolling(F, M, W; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, M, W; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, M, W; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(rolling(F, M, W; padding=missing, atend=true)) == typeof(expected)
 =#

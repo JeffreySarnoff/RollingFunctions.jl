@@ -1,5 +1,7 @@
+Base.@deprecate rolling(fun::Function, data::AbstractVector{T}, windowspan::Int) rolling(fun::F, width::Width, data::AbstractVector{T}) where {T, F<:Function}
+
 function rolling(func::F, data1::AbstractVector{T1}, width::Width;
-    padding=nopadding, padlast=false) where {T1,F<:Function}
+    padding=nopadding, atend=false) where {T1,F<:Function}
     
     Base.depwarn(
         "The function `rolling` has changed. You are using a deprecated call signature. " *
@@ -9,7 +11,7 @@ function rolling(func::F, data1::AbstractVector{T1}, width::Width;
 
     if isnopadding(padding)
         basic_rolling(func, data1, width)
-    elseif !padlast
+    elseif !atend
         padfirst_rolling(func, data1, width; padding)
     else
         padfinal_rolling(func, data1, width; padding)
@@ -17,7 +19,7 @@ function rolling(func::F, data1::AbstractVector{T1}, width::Width;
 end
 
 function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Width;
-    padding=nopadding, padlast=false) where {T1,T2,F<:Function}
+    padding=nopadding, atend=false) where {T1,T2,F<:Function}
     
     Base.depwarn(
         "The function `rolling` has changed. You are using a deprecated call signature. " *
@@ -27,7 +29,7 @@ function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
 
     if isnopadding(padding)
         basic_rolling(func, data1, data2, width)
-    elseif !padlast
+    elseif !atend
         padfirst_rolling(func, data1, data2, width; padding)
     else
         padfinal_rolling(func, data1, data2, width; padding)

@@ -38,7 +38,7 @@ missing missing missing
 
 ### Give me the real values first, pad to the end.
 
-result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛; padding = missing, padlast=true)
+result = rolling(𝐹𝑢𝑛𝑐, 𝑀, 𝑆𝑝𝑎𝑛; padding = missing, atend=true)
 #=
 5×3 Matrix{Union{Missing,Int64}}:
   6  12  6

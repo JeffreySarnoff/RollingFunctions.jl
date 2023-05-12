@@ -30,8 +30,8 @@ The result  𝑅 is of length  𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - �
 ##### specify the padding vector to be at the end
 
 - _here is the way to do that_
-  - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>], padlast = true)
-  - running(function, data, width; padding = [<values>], padlast = true)
+  - running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = [<values>], atend = true)
+  - running(function, data, width; padding = [<values>], atend = true)
 
 #### Use an empty vector 
 

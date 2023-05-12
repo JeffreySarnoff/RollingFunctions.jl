@@ -1,11 +1,11 @@
 #=
      basic_tupled_rolling(func::Function, width, ::Tuple)
      padfirst_tupled_rolling(func::Function, width, ::Tuple; padding)
-     padfinal_tupled_rolling(func::Function, width, ::Tuple; padding, padlast)
+     padfinal_tupled_rolling(func::Function, width, ::Tuple; padding, atend)
 
      basic_tupled_rolling(func::Function, width, ::Matrix, weight)
      padfirst_tupled_rolling(func::Function, width, ::Tuple, weight; padding)
-     padfinal_tupled_rolling(func::Function, width, ::Tuple, weight; padding, padlast)
+     padfinal_tupled_rolling(func::Function, width, ::Tuple, weight; padding, atend)
 =#
 
 function basic_tupled_rolling(func::Function, width::Width, data::TupleOfVectors)

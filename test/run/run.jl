@@ -55,22 +55,22 @@ expected = [missing missing; missing missing; missing missing; missing missing; 
 
 # pad last
 
-result = running(func, width, intvec; padding = 0, padlast=true)
+result = running(func, width, intvec; padding = 0, atend=true)
 expected = [28, 35, 42, 49, 0, 0, 0, 0, 0, 0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = running(func, width, floatvec; padding = 0.0, padlast=true)
+result = running(func, width, floatvec; padding = 0.0, atend=true)
 expected = [28.0, 35.0, 42.0, 49.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = running(func, width, intmat; padding = 0, padlast=true)
+result = running(func, width, intmat; padding = 0, atend=true)
 expected = [28 49; 35 42; 42 35; 49 28; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = running(func, width, floatmat; padding = 0.0, padlast=true)
+result = running(func, width, floatmat; padding = 0.0, atend=true)
 expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)

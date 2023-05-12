@@ -31,7 +31,7 @@ julia> result
 ### Give me the real values first, pad to the end.
 
 ```
-result = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎₁, 𝐷𝑎𝑡𝑎₂, 𝑆𝑝𝑎𝑛; padding = missing, padlast=true)
+result = rolling(𝐹𝑢𝑛𝑐, 𝐷𝑎𝑡𝑎₁, 𝐷𝑎𝑡𝑎₂, 𝑆𝑝𝑎𝑛; padding = missing, atend=true)
 
 #=
 5 element Vector {Float64}:

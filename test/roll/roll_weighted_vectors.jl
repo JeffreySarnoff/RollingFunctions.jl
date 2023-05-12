@@ -14,8 +14,8 @@ expected = [missing, missing, 2.3, 3.3, 4.3];
 @test typeof(rolling(F, W, D, weights; padding=missing)) == typeof(expected)
 
 expected = [2.3, 3.3, 4.3, missing, missing];
-@test map(clean, rolling(F, W, D, weights; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(rolling(F, W, D, weights; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, rolling(F, W, D, weights; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(rolling(F, W, D, weights; padding=missing, atend=true)) == typeof(expected)
 
 
 

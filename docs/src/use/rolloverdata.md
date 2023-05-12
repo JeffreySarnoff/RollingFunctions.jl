@@ -37,7 +37,7 @@ The result    𝑅 is of length   𝑅ᴺ
 ##### specify padding to be at the end of the result
 
 - _here is the way to do that_
-   - rolling(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = <value>, padlast = true)
-   - rolling(function, data, width; padding = missing, padlast = true)
+   - rolling(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = <value>, atend = true)
+   - rolling(function, data, width; padding = missing, atend = true)
 - this will fill the final result values with the padding value
   - pads these values(result[n-pad_nindices+1], .., result[n])

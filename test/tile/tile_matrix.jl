@@ -30,8 +30,8 @@ expected = [
     15 9
     missing missing];
 
-@test map(clean, tiling(F, S, M; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(tiling(F, S, M; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, tiling(F, S, M; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(tiling(F, S, M; padding=missing, atend=true)) == typeof(expected)
 
 
 D₁ = [1, 2, 3, 4, 5]

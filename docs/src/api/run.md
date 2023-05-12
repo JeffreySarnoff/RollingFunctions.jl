@@ -6,7 +6,7 @@ running(window_func, datavec, width)
 
 running(window_func, datavec, width; padding)
 
-running(window_func, datavec, width; padding, padlast)
+running(window_func, datavec, width; padding, atend)
 ```
 
 #### enhanced forms allow 2, 3, or 4 distinct data vectors
@@ -18,7 +18,7 @@ running(window_func, datavec1, datavec2, width)
 
 running(window_func, datavec1, datavec2, datavec3, width; padding)
 
-running(window_func, datavec1, datavec2, datavec3, datavec4, width; padding, padlast)
+running(window_func, datavec1, datavec2, datavec3, datavec4, width; padding, atend)
 ```
 
 #### given a matrix, the function is applied to each column
@@ -29,7 +29,7 @@ running(window_func, datamat, width)
 
 running(window_func, datamat, width; padding)
 
-running(window_func, datamat, width; padding, padlast)
+running(window_func, datamat, width; padding, atend)
 ```
 
 

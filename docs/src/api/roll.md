@@ -7,7 +7,7 @@
 ```
 const AV  = AbstractVector
 const PVD = nopadding # padding[value]_default
-const PLD = false # padlast_default
+const PLD = false # atend_default
 ```
 
 #### these are the three foundational forms that roll
@@ -19,7 +19,7 @@ rolling(fn1, width, data1::V;
         padding=PVD) where {V<:AV}
 
 rolling(fn1, width, data1::V;
-        padding=PVD, padlast=PLD) where {V<:AV}
+        padding=PVD, atend=PLD) where {V<:AV}
 ```
 
 #### enhanced forms allow two or three distinct data vectors
@@ -33,7 +33,7 @@ rolling(fn2, width, data1::V, data2::V;
         padding=PVD) where {V<:AV}
 
 rolling(fn2, width, data1::V, data2::V;
-        padding=PVD, padlast=PLD) where {V<:AV}
+        padding=PVD, atend=PLD) where {V<:AV}
 ```
 
 ```
@@ -43,7 +43,7 @@ rolling(fn3, width, data1::V, data2::V, data3::V;
         padding=PVD) where {V<:AV}
 
 rolling(fn3, width, data1::V, data2::V, data3::V;
-        padding=PVD, padlast=PLD) where {V<:AV}
+        padding=PVD, atend=PLD) where {V<:AV}
 ```
 
 
@@ -55,7 +55,7 @@ rolling(fn1, datamat, width)
 
 rolling(fn1, datamat, width; padding)
 
-rolling(fn1, datamat, width; padding, padlast)
+rolling(fn1, datamat, width; padding, atend)
 ```
 
 

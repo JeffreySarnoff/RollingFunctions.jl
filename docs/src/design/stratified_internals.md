@@ -25,11 +25,11 @@
 #### unweighted rolling
 
 ```
-function rolling(fn1, width, data; padding, padlast)
+function rolling(fn1, width, data; padding, atend)
 
     if padding === nopadding
        basic_rolling(fn1, width, data)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn1, width, data, padding)
     else
        padfinal_rolling(fn1, width, data, padding)
@@ -41,11 +41,11 @@ end
 #### weighted rolling
 
 ```
-function rolling(fn1, width, data, weights; padding, padlast)
+function rolling(fn1, width, data, weights; padding, atend)
 
     if padding === nopadding
        basic_rolling(fn1, width, data, weights)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn1, width, data, weights, padding)
     else
        padfinal_rolling(fn1, width, data, weights, padding)
@@ -76,11 +76,11 @@ end
 
 ```
 function rolling(fn2, width, data1, data2; 
-                padding, padlast)
+                padding, atend)
 
     if padding === nopadding
        basic_rolling(fn2, width, data1, data2)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn2, width, data1, data2, padding)
     else
        padfinal_rolling(fn2, width, data1, data2, padding)
@@ -91,12 +91,12 @@ end
 
 ```
 function rolling(fn2, width, data1, data2, weights1, weights2;
-                 padding, padlast)
+                 padding, atend)
 
     if padding === nopadding
        basic_rolling(fn2, width, data1, data2,
                                 weights1, weights2)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn2, width, data1, data2, 
                                    weights1, weights2, padding)
     else

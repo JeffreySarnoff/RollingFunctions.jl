@@ -25,7 +25,7 @@ The result  𝑅 is of length   𝑅ᴺ,   𝑅ᴺ = length(𝐷𝑎𝑡𝑎) - 
 - this will fill the initial result values with the padding value
   - pads these values(result[1], .., result[pad_nindices])
 
-- rolling(function, data, width; padding = missing, padlast = true)
+- rolling(function, data, width; padding = missing, atend = true)
 - this will fill the final result values with the padding value
   - pads these values(result[n-pad_nindices+1], .., result[n])
 

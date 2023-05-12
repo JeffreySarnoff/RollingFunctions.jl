@@ -47,22 +47,22 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="rolling-is-built-from-three-internal-functions" class="level2">
 <h2 class="anchored" data-anchor-id="rolling-is-built-from-three-internal-functions"><code>rolling</code> is built from three internal functions</h2>
-<pre><code>function rolling(fn1, width, data; padding, padlast)
+<pre><code>function rolling(fn1, width, data; padding, atend)
 
     if padding === nopadding
        basic_rolling(fn1, width, data)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn1, width, data, padding)
     else
        padfinal_rolling(fn1, width, data, padding)
     end
 
 end</code></pre>
-<pre><code>function rolling(fn1, width, data, weights; padding, padlast)
+<pre><code>function rolling(fn1, width, data, weights; padding, atend)
 
     if padding === nopadding
        basic_rolling(fn1, width, data, weights)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn1, width, data, weights, padding)
     else
        padfinal_rolling(fn1, width, data, weights, padding)
@@ -117,11 +117,11 @@ end</code></pre>
 <li>There are similar implementations for functions of 2, 3 arguments.</li>
 </ul>
 <pre><code>function rolling(fn2, width, data1, data2; 
-                padding, padlast)
+                padding, atend)
 
     if padding === nopadding
        basic_rolling(fn2, width, data1, data2)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn2, width, data1, data2, padding)
     else
        padfinal_rolling(fn2, width, data1, data2, padding)
@@ -129,12 +129,12 @@ end</code></pre>
 
 end</code></pre>
 <pre><code>function rolling(fn2, width, data1, data2, weights1, weights2;
-                 padding, padlast)
+                 padding, atend)
 
     if padding === nopadding
        basic_rolling(fn2, width, data1, data2,
                                 weights1, weights2)
-    elseif !padlast
+    elseif !atend
        padfirst_rolling(fn2, width, data1, data2, 
                                    weights1, weights2, padding)
     else

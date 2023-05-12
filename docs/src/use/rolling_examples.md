@@ -86,7 +86,7 @@ julia> rolled
 ### Give me the real values first, pad to the end.
 
 ```
-rolled = rolling(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = zero(eltype(𝐷𝑎𝑡𝑎), padlast=true);
+rolled = rolling(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛; padding = zero(eltype(𝐷𝑎𝑡𝑎), atend=true);
 julia> rolled
 5-element Vector{Int64}:
  10

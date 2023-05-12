@@ -11,6 +11,6 @@ expected = [missing, 2.3];
 @test typeof(tiling(F, W, D, weights; padding=missing)) == typeof(expected)
 
 expected = [2.3, missing];
-@test map(clean, tiling(F, W, D, weights; padding=missing, padlast=true)) == map(clean, expected)
-@test typeof(tiling(F, W, D, weights; padding=missing, padlast=true)) == typeof(expected)
+@test map(clean, tiling(F, W, D, weights; padding=missing, atend=true)) == map(clean, expected)
+@test typeof(tiling(F, W, D, weights; padding=missing, atend=true)) == typeof(expected)
 
