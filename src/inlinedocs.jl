@@ -8,14 +8,15 @@
 - rolling(func, width, data; padding, atend=false)
 
 ```
-rolling(    (a)->fn(a),     width, adata)
-rolling(  (a,b)->fn(a,b),   width, adata, bdata)
-rolling((a,b,c)->fn(a,b,c), width, adata, bdata, cdata)
+rolling(      (a)->fn(a),       width, adata)
+rolling(    (a,b)->fn(a,b),     width, adata, bdata)
+rolling(  (a,b,c)->fn(a,b,c),   width, adata, bdata, cdata)
+rolling((a,b,c,d)->fn(a,b,c,d), width, adata, bdata, cdata, ddata)
 
 rolling(row->fn(row), width, datamatrix)
 rolling(row->fn(row), width, datamatrix; padding, atend=false)
 ```
-The data is given as 1, 2, or 3 vectors or as a matrix.
+The data is given as 1, 2, 3, or 4 vectors or as a matrix.
 
 With padding, there will be width-1 padded values.
 
