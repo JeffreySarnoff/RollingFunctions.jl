@@ -41,7 +41,6 @@ using VectorizedStatistics
 using KahanSummation: sum_kbn
 using AccurateArithmetic: sum_oro
 
-include("inlinedocs.jl")
 
 include("support/types.jl")
 include("support/exceptions.jl")
@@ -71,6 +70,7 @@ include("run/run_weighted_vectors.jl")
 # include("run/run_matrix.jl")
 include("run/run_stats.jl")
 
+include("inlinedocs.jl")
 
 end # RollingFunctions
 
