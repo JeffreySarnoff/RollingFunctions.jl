@@ -101,7 +101,7 @@ function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (n, nc))
 
-    weights = reshape(repeat(ᵛʷweight, nc), (width, nc))
+    weights = reshape(repeat(ᵛʷweights, nc), (width, nc))
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
     taper_idxs = 1:width-1

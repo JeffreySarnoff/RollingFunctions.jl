@@ -35,9 +35,8 @@ const unweighted = Unweighted()
 isunwieghted(x) = x === unweighted
 isweighted(x) = x !== unweighted
 
-const Weighting = Union{Unweighted,AbstractWeights{T}} where {T}
-const TupOfWeights = NTuple{N,Weighting} where {N}
-const SeqOfWeights = Tuple{<:Weighting} where {N}
+const TupOfWeights = NTuple{N,AbstractWeights} where {N}
+const SeqOfWeights = Tuple{<:AbstractWeights} where {N}
 
 const WeightVector = AbstractWeights{T} where {T}
 const WeightMatrix = AbstractVector{AbstractWeights{T}} where {T}

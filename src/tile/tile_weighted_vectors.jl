@@ -1,6 +1,6 @@
 
 function basic_tiling(func::Function, width::Width,
-    data1::AbstractVector{T}, weight::Weighting{T}) where {T}
+    data1::AbstractVector{T}, weight::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
@@ -8,7 +8,7 @@ function basic_tiling(func::Function, width::Width,
 end
 
 function basic_tiling(func::Function, width::Width,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::Weighting{T}, weight2::Weighting{T}) where {T}
+    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::AbstractWeights{T}, weight2::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -19,7 +19,7 @@ end
 
 function basic_tiling(func::Function, width::Width,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}) where {T}
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -31,7 +31,7 @@ function basic_tiling(func::Function, width::Width,
 end
 
 function basic_tiling(func::Function, width::Width,
-    data1::AbstractVector{T}, weight::Weighting{W}) where {T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -40,7 +40,7 @@ function basic_tiling(func::Function, width::Width,
 end
 
 function basic_tiling(func::Function, width::Width,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -52,7 +52,7 @@ end
 
 function basic_tiling(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}) where {T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -76,7 +76,7 @@ end
 # pad first
 
 function padfirst_tiling(func::Function, width::Width, data1::AbstractVector{T},
-    weight::Weighting{T}, padding) where {T}
+    weight::AbstractWeights{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
@@ -84,7 +84,7 @@ function padfirst_tiling(func::Function, width::Width, data1::AbstractVector{T},
 end
 
 function padfirst_tiling(func::Function, width::Width,
-    data1::AbstractVector{T}, weight::Weighting{W}, padding) where {T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -93,7 +93,7 @@ function padfirst_tiling(func::Function, width::Width,
 end
 
 function padfirst_tiling(func::Function, width::Width,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}, padding) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -105,7 +105,7 @@ end
 
 function padfirst_tiling(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -131,7 +131,7 @@ end
 # pad final
 
 function padfinal_tiling(func::Function, width::Width, data1::AbstractVector{T},
-    weight::Weighting{T}, padding) where {T}
+    weight::AbstractWeights{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
@@ -139,7 +139,7 @@ function padfinal_tiling(func::Function, width::Width, data1::AbstractVector{T},
 end
 
 function padfinal_tiling(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, padding) where {T}
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -149,7 +149,7 @@ function padfinal_tiling(func::Function, width::Width, data1::AbstractVector{T},
 end
 
 function padfinal_tiling(func::Function, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::Weighting{T}, weight2::Weighting{T}, weight3::Weighting{T}, padding) where {T}
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}, padding) where {T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -162,7 +162,7 @@ end
 
 
 function padfinal_tiling(func::Function, width::Width,
-    data1::AbstractVector{T}, weight::Weighting{W}, padding) where {T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -171,7 +171,7 @@ function padfinal_tiling(func::Function, width::Width,
 end
 
 function padfinal_tiling(func::Function, width::Width,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::Weighting{W1}, weight2::Weighting{W2}, padding) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -183,7 +183,7 @@ end
 
 function padfinal_tiling(func::Function, width::Width,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::Weighting{W1}, weight2::Weighting{W2}, weight3::Weighting{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
