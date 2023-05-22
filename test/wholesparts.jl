@@ -13,10 +13,10 @@ function testwholesparts(n, width, slide)
 end
 
 n, width, slide = 1000, 25, 1;
-@test wholesparts(n, width, slide) == testwholesparts(n, width, slide)
+@test wholesparts(n, width, slide) .== testwholesparts(n, width, slide)
 n, width, slide = 1000, 25, 25;
-@test wholesparts(n, width, slide) == testwholesparts(n, width, slide)
+@test wholesparts(n, width, slide) .== testwholesparts(n, width, slide)
 n, width, slide = 1000, 25, 17;
-@test wholesparts(n, width, slide) == testwholesparts(n, width, slide)
+@test wholesparts(n, width, slide) .== testwholesparts(n, width, slide)
 n, width, slide = 1000, 25, 31;
-@test wholesparts(n, width, slide) == testwholesparts(n, width, slide)
+@test wholesparts(n, width, slide) .== testwholesparts(n, width, slide)
