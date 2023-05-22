@@ -44,6 +44,8 @@ const WeightMatrix = AbstractVector{AbstractWeights{T}} where {T}
 
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
+const ViewOfVectors = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:Vector{AbstractVector{T}}}
+const ViewOfViewedVectors = SubArray{SubArray{T, 1, Vector{T}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true}, 1, Vector{SubArray{T, 1, Vector{T}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true}}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true} where {T}
 const ViewOfMatrix = SubArray{T,2,M,Tuple{Base.Slice{Base.OneTo{Int64}},Base.Slice{Base.OneTo{Int64}}},true} where {T,M<:AbstractMatrix{T}}
 
 const ViewOfWeightVector = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
