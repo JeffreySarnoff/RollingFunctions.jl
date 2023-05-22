@@ -35,12 +35,12 @@ M2 = Float64.(M)
 F = sum
 S = 3
 
-wweights = ProbabilityWeights([0.1,0.2,0.7])
-mweights = hcat(wweights, wweights)
+weightvector = ProbabilityWeights([0.1,0.2,0.7])
+weightmatrix = repeat([weightvector], 2)
 
 expected = [  2.6 3.4
               3.6 2.4
               4.6 1.4 ]
-@test isapprox(running(F, S, M2, wweights), expected)
+@test isapprox(running(F, S, M2, weightvector), expected)
 
-@test isapprox(running(F, S, M, wweights), expected)
+@test isapprox(running(F, S, M, weightmatrix), expected)
