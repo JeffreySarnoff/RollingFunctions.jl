@@ -13,10 +13,10 @@ function testwholesparts(n, width, slide)
 end
 
 n, width, slide = 1000, 25, 1;
-@test Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide))
+@test all(Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide)))
 n, width, slide = 1000, 25, 25;
-@test Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide))
+@test all(Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide)))
 n, width, slide = 1000, 25, 17;
-@test Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide))
+@test all(Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide)))
 n, width, slide = 1000, 25, 31;
-@test Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide))
+@test all(Tuple(wholesparts(n, width, slide)) .== Tuple(testwholesparts(n, width, slide)))
