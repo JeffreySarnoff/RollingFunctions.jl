@@ -11,12 +11,24 @@ wweights = ProbabilityWeights([0.1,0.2,0.7])
 mweights = hcat(wweights, wweights)
 
 expected = [
-    6 12
-    9 9
-    12 6];
+     1  5
+     3  9
+     6 12
+     9  9
+    12  6
+];
 
 @test running(F, S, M) == expected
-@test typeof(running(F, S, M)) == typeof(expected)
+
+expected = [
+     6  12
+     9   9
+    12   6
+     9   3
+     5   1
+];
+
+@test running(F, S, M; atend=true) == expected
 
 
 D₁ = [1, 2, 3, 4, 5]

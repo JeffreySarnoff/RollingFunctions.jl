@@ -59,15 +59,15 @@ end
 
 # weighted
 
-function taperfirst(func::F, width::Width, data::AbstractMatrix{T}, weights::Weighting{W}) where {T, W, F<:Function}
+function taperfirst(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+    ᵛʷweight = W === typ ? asview(weights) : asview([typ(x) for x in weight])
 
     taperfirst(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function taperfinal(func::F, width::Width, data::AbstractMatrix{T}, weights::Weighting{W}) where {T, W, F<:Function}
+function taperfinal(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
