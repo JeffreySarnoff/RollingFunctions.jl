@@ -63,19 +63,21 @@ function taperfirst(func::F, width::Width, data::AbstractMatrix{T}, weight::Weig
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+    ᵛʷweights = reshape(repeat(ᵛʷweight, ncols(ᵛʷdata)), (width, ncols(ᵛʷdata)))
 
-    taperfirst(func, width, ᵛʷdata, ᵛʷweight)
+    taperfirst(func, width, ᵛʷdata, ᵛʷweights)
 end
 
 function taperfinal(func::F, width::Width, data::AbstractMatrix{T}, weight::Weighting{W}) where {T, W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
+    ᵛʷweights = reshape(repeat(ᵛʷweight, ncols(ᵛʷdata)), (width, ncols(ᵛʷdata)))
 
-    taperfinal(func, width, ᵛʷdata, ᵛʷweight)
+    taperfinal(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T,F<:Function}
+function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     nc = ncols(ᵛʷdata)
     rettype = rts(func, (T,))
@@ -95,7 +97,7 @@ function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweight)
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -103,7 +105,7 @@ function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
     results
 end
 
-function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T,F<:Function}
+function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     rettype = rts(func, (T,))
 
@@ -114,12 +116,12 @@ function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
     results = Matrix{rettype}(undef, size(ᵛʷdata))
 
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[idx:n, :]) .* normalize(ᵛʷweight[n:-1:idx]))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[idx:n, :]) .* normalize(ᵛʷweights[n:-1:idx]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-width+1
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweight)
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
