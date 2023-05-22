@@ -45,7 +45,7 @@ include("support/types.jl")
 include("support/exceptions.jl")
 include("support/utils.jl")
 
-include("support/tapers.jl")
+# include("support/tapers.jl")
 
 include("roll/roll.jl")
 include("roll/roll_vectors.jl")
