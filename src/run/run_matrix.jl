@@ -49,7 +49,7 @@ function taperfinal(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-width+1
-        @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -117,7 +117,7 @@ function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-width+1
-        @views results[idx, :] = map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* weights)
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* weights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
