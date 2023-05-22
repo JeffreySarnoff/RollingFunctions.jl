@@ -101,12 +101,24 @@ function running(func::F, width::Width,
 end
 
 function running(func::F, width::Width,
-    data1::AbstractMatrix{T}, weight1::AbstractWeights{W};
-    atend=false) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weight::W;
+    atend=false) where {T,W<:AbstractWeights,F<:Function}
+    check_weights(length(weight), width)
     if !atend
-        taperfirst(func, width, data1, weight1)
+        taperfirst(func, width, data, weight)
     else
-        taperfinal(func, width, data1, weight1)
+        taperfinal(func, width, data, weight)
+    end
+end
+
+function running(func::F, width::Width,
+    data::AbstractMatrix{T}, weights::VW;
+    atend=false) where {T,W<:AbstractVector{AbstractWeights},F<:Function}
+    check_weights(length(weights[1]), width)
+    if !atend
+        taperfirst(func, width, data, weights)
+    else
+        taperfinal(func, width, data, weights)
     end
 end
 

@@ -64,7 +64,7 @@ function taperfirst(func::F, width::Width,
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
-    ᵛʷweights = asview(fill([ᵛʷweight], ncols(ᵛʷdata)))
+    ᵛʷweights = asview(repeat([ᵛʷweight], ncols(ᵛʷdata)))
 
     taperfirst(func, width, ᵛʷdata, ᵛʷweights)
 end
@@ -83,7 +83,7 @@ function taperfinal(func::F, width::Width,
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
-    ᵛʷweights = asview(fill([ᵛʷweight], ncols(ᵛʷdata)))
+    ᵛʷweights = asview(repeat([ᵛʷweight], ncols(ᵛʷdata)))
 
     taperfinal(func, width, ᵛʷdata, ᵛʷweights)
 end
@@ -99,13 +99,13 @@ end
 
 # views as arguments
 
-function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedVectors{T}) where {T,F<:Function}
+function taperfirst(func::F, width::Width, 
+                    ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     nc = ncols(ᵛʷdata)
     rettype = rts(func, (T,))
     results = Matrix{rettype}(undef, (n, nc))
 
-    weights = reshape(repeat(ᵛʷweights, nc), (width, nc))
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
     taper_idxs = 1:width-1
@@ -127,7 +127,7 @@ function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
     results
 end
 
-function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedVectors{T}) where {T,F<:Function}
+function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     rettype = rts(func, (T,))
 

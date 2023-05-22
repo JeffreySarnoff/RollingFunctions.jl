@@ -1,11 +1,9 @@
 D₁ = [1, 2, 3, 4, 5];
 D₂ = [5, 4, 3, 2, 1];
 M = hcat(D₁, D₂);
+M2 = Float64.(M)
 F = sum;
 S = 3;
-
-wweights = ProbabilityWeights([0.1,0.2,0.7])
-mweights = hcat(wweights, wweights)
 
 expected = [
      1  5
@@ -27,10 +25,30 @@ expected = [
 
 @test running(F, S, M; atend=true) == expected
 
+pweight = ProbabilityWeights([0.1,0.2,0.7])
+vweight = Vector(pweight)
 
-expected = [  2.6 3.4
-              3.6 2.4
-              4.6 1.4 ]
-@test isapprox(running(F, S, M2, weightvector), expected)
+pweights = vcat(repeat([pweight], 2))
+vweights = map(Vector, pweights)
 
-@test isapprox(running(F, S, M, weightmatrix), expected)
+expected = [
+     1.0  5.0
+     3.0  9.0
+     6.0 12.0
+     9.0  9.0
+    12.0  6.0
+];
+
+@test running(F, S, M2, pweight)  == expected
+@test running(F, S, M2, pweights) == expected
+
+expected = [
+     1.0  5.0
+     3.0  9.0
+     6.0 12.0
+     9.0  9.0
+    12.0  6.0
+];
+
+@test running(F, S, M2, pweight; atend=true)  == expected
+@test running(F, S, M2, pweights; atend=true) == expected
