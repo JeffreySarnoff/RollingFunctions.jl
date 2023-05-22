@@ -1,6 +1,3 @@
-clean(x) = x
-clean(x::Missing) = Missing
-
 intvec = collect(1:10);
 floatvec = collect(1.0:10.0);
 intmat = hcat(intvec, reverse(intvec));

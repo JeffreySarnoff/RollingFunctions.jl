@@ -1,6 +1,3 @@
-clean(x) = x
-clean(x::Missing) = Missing
-
 data1 = collect(1.0f0:16.0f0)
 data2 = reverse(data1)
 

@@ -1,6 +1,3 @@
-clean(x) = x
-clean(x::Missing) = Missing
-
 F = sum;
 W = 3;
 D = [1, 2, 3, 4, 5];

@@ -4,6 +4,9 @@ using StatsBase
 using LinearAlgebra
 using Test
 
+clean(x) = x
+clean(x::Missing) = Missing
+
 include("wholesparts.jl")
 
 include("roll/roll.jl")

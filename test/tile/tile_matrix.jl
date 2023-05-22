@@ -1,6 +1,3 @@
-clean(x) = x
-clean(x::Missing) = Missing
-
 D₁ = [1, 2, 3, 4, 5, 6, 7];
 D₂ = [7, 6, 5, 4, 3, 2, 1];
 M = hcat(D₁, D₂);

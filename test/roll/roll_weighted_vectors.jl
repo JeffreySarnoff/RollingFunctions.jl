@@ -1,6 +1,3 @@
-clean(x) = x
-clean(x::Missing) = Missing
-
 F = sum;
 W = 3;
 weights = ProbabilityWeights([0.2, 0.3, 0.5]);

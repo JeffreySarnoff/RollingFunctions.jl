@@ -77,9 +77,11 @@ end
 
 function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
+    nc = ncols(ᵛʷdata)
     rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (n, ncols(ᵛʷdata)))
+    results = Matrix{rettype}(undef, (n, nc))
 
+    weights = reshape(repeat(ᵛʷweight, nc), (width, nc))
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
     taper_idxs = 1:width-1
@@ -88,7 +90,7 @@ function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
 
     ilow = 1
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:idx, :]) .* normalize(ᵛʷweight[1:idx]))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:idx, :]) .* normalize(ᵛʷweights[1:idx,:]))
     end
 
     ilow, ihigh = 1, width
