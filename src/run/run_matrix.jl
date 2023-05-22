@@ -10,7 +10,6 @@ function taperfirst(func::F, width::Width, data::AbstractMatrix{T}) where {T,F<:
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (n, ncols(ᵛʷdata)))
 
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
@@ -55,7 +54,7 @@ function taperfinal(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<
         ihigh = ihigh + 1
     end
 
-   results
+    results
 end
 
 # weighted
