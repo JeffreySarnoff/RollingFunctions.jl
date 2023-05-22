@@ -88,12 +88,12 @@ function taperfirst(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
 
     ilow = 1
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:idx, :]) .* normalize(weight[1:idx]))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:idx, :]) .* normalize(ᵛʷweight[1:idx]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* weight)
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -112,12 +112,12 @@ function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweig
     results = Matrix{rettype}(undef, size(ᵛʷdata))
 
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[idx:n, :]) .* normalize(weight[n:-1:idx]))
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[idx:n, :]) .* normalize(ᵛʷweight[n:-1:idx]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-width+1
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* weight)
+        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
