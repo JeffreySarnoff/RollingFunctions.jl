@@ -112,7 +112,7 @@ function running(func::F, width::Width,
 end
 
 function running(func::F, width::Width,
-    data::AbstractMatrix{T}, weights::VW;
+    data::AbstractMatrix{T}, weights::W;
     atend=false) where {T,W<:AbstractVector{AbstractWeights},F<:Function}
     check_weights(length(weights[1]), width)
     if !atend
