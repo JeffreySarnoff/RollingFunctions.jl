@@ -64,29 +64,32 @@ function taperfirst(func::F, width::Width,
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
-    ᵛʷweights = reshape(repeat(ᵛʷweight, ncols(ᵛʷdata)), (width, ncols(ᵛʷdata)))
+    ᵛʷweights = asview(fill([ᵛʷweight], ncols(ᵛʷdata)))
 
     taperfirst(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfirst(func::F, width::Width, data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W}}) where {T, W, F<:Function}
-    typ = promote_type(T, W)
+function taperfirst(func::F, width::Width, 
+                    data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
+    typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweights = W === typ ? asview(map(asview, Vector.(weights))) : asview(map(asview, [typ(x) for x in Vector.(weights)]))
+    ᵛʷweights = W1 === typ ? asview(Vector.(weights)) : asview([typ(x) for x in Vector.(weights)])
 
     taperfirst(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfinal(func::F, width::Width, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T, W, F<:Function}
-    typ = promote_type(T, W)
+function taperfinal(func::F, width::Width,
+                    data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
+    typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
-    ᵛʷweights = reshape(repeat(ᵛʷweight, ncols(ᵛʷdata)), (width, ncols(ᵛʷdata)))
+    ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
+    ᵛʷweights = asview(fill([ᵛʷweight], ncols(ᵛʷdata)))
 
     taperfinal(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfinal(func::F, width::Width, data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W}}) where {T, W, F<:Function}
+function taperfinal(func::F, width::Width,
+                    data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweights = W === typ ? asview(map(asview, Vector.(weights))) : asview(map(asview, [typ(x) for x in Vector.(weights)]))

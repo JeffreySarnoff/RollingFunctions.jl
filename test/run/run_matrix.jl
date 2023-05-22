@@ -28,16 +28,6 @@ expected = [
 @test running(F, S, M; atend=true) == expected
 
 
-D₁ = [1, 2, 3, 4, 5]
-D₂ = [5, 4, 3, 2, 1]
-M = hcat(D₁, D₂)
-M2 = Float64.(M)
-F = sum
-S = 3
-
-weightvector = ProbabilityWeights([0.1,0.2,0.7])
-weightmatrix = repeat([weightvector], 2)
-
 expected = [  2.6 3.4
               3.6 2.4
               4.6 1.4 ]
