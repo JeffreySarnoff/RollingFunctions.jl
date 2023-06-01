@@ -2,15 +2,14 @@
 - nrows
 - ncols
 
-- rts  (r[eturned] t[ype]s)
-- nrts (length(rts))
-
-- FixTwo
-- FixThree
-
 - isview
 - asview
 - viewall
+
+- rts  (r[eturned] t[ype]s)
+
+- FixTwo
+- FixThree
 
 - commontype
 
@@ -21,15 +20,32 @@
 
 """
     nrows(x)
-count the rows of x
+
+count the rows of `x`
 """
 nrows
 
 """
     ncols(x)
-count the columns of x
+
+count the columns of `x`
 """
 ncols
+
+"""
+    isview(x)
+
+predicate to determine if `x` is some sort of view
+"""
+isview
+
+"""
+    asview(x)
+
+provides `x` as a view
+- if `x` is a view, returns x
+"""
+asview
 
 nrows(x::AbstractVector) = length(x)
 nrows(x::AbstractArray) = size(x)[1]
@@ -39,14 +55,24 @@ ncols(x::AbstractVector) = 1
 ncols(x::AbstractArray) = size(x)[2]
 ncols(x) = isempty(size(x)) ? 1 : size(x)[2]
 
+# views
+
+@inline viewall(data::A) where {T,A<:AbstractArray{T,1}} = view(data, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,2}} = view(data, :, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,3}} = view(data, :, :, :)
+@inline viewall(data::A) where {T,A<:AbstractArray{T,4}} = view(data, :, :, :, :)
+
+@inline isview(data) = isa(data, SubArray)
+@inline asview(data) = isview(data) ? data : viewall(data)
+
+@inline asviewtype(::Type{T}, dta) where {T} =
+    eltype(dta) === T ? asview(dta) : asview([T(x) for x in dta])
+
 # returned types (rough) and tally(returned types)
 # more specific when `typs` are provided
 
 @inline rts(fn) = Base.return_types(fn)[max(1, end - 1)]
 @inline rts(fn, typs) = Base.return_types(fn, typs)[max(1, end - 1)]
-
-@inline nrts(fn) = max(1, length(rts(fn).parameters))
-@inline nrts(fn, typs) = max(1, length(rts(fn, typs).parameters))
 
 # FixTwo
 
@@ -96,24 +122,6 @@ end
 
 (f::FixThree)(w) = f.f(f.x, f.y, f.z, w)
 
-# views
-
-@inline isview(data) = isa(data, SubArray)
-@inline asview(data) = isview(data) ? data : viewall(data)
-
-@inline viewall(data::A) where {T,A<:AbstractArray{T,1}} = view(data, :)
-@inline viewall(data::A) where {T,A<:AbstractArray{T,2}} = view(data, :, :)
-@inline viewall(data::A) where {T,A<:AbstractArray{T,3}} = view(data, :, :, :)
-@inline viewall(data::A) where {T,A<:AbstractArray{T,4}} = view(data, :, :, :, :)
-
-@inline isview(x::Unweighted) = true
-@inline asview(x::Unweighted) = x
-@inline viewall(x::Unweighted) = x
-
-@inline asviewtype(::Type{T}, dta) where {T} =
-        eltype(dta) === T ? asview(dta) : asview([T(x) for x in dta])
-
-
 # commontype from within a Union
 
 union_types(x::Union) = (x.a, union_types(x.b)...)
@@ -139,20 +147,6 @@ function fills(filler::T1, data::AbstractVector{T2}) where {T1,T2}
 end
 
 # number of values to be obtained
-
-"""
-    nrolling(nseq, width)
-
-length obtained from seq with width as the window size
-"""
-nrolling(nseq, width) = nseq - width + 1
-
-"""
-    nimputed_rolling(nseq, width)
-
-count of values to be imputed from seq with width as the window size
-"""
-nimputed_rolling(nseq, width) = width - 1
 
 """
     nrunning(nseq, width)
@@ -185,22 +179,6 @@ ntiling(nseq, width, tile) =
             div(nseq - width - 1, tile)
         end
 
-"""
-    nimputed_tiling(nseq, width, tile)
-
-count of values to be imputed from seq with
-width as the window size and tile as the tiling step
-"""
-nimputed_tiling(nseq, width) = !iszero(rem(nseq, width)) ? 1 : 0
-
-function nimputed_tiling(nseq, width, tile)
-    if width == tile
-        rem(nseq, width)
-    else # width > tile
-        nseq_atmost = rolling_parts(nseq, tile) * tile
-        rolling_parts(nseq_atmost, width)
-    end
-end
 
 function wholesparts(n, width, slide)
     if n < width

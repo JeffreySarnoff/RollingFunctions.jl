@@ -1,11 +1,10 @@
 #=
+    empty_error
     width_error
-    tile_error
-    trimwidth_error
-    trimtile_error
+    size_error
     weights_error
     lengths_error
-
+    maxlength_error
 =#
 struct EmptyError <: Exception
     msg::String
@@ -15,7 +14,7 @@ struct WidthError <: Exception
     msg::String
 end
 
-struct TileError <: Exception
+struct SizeError <: Exception
     msg::String
 end
 
@@ -27,7 +26,7 @@ struct LengthsError <: Exception
     msg::String
 end
 
-struct LengthGteError <: Exception
+struct MaxLengthError <: Exception
     msg::String
 end
 
@@ -37,14 +36,8 @@ check_empty(sequence) =
 check_width(seqlength::Int, windowwidth::Width) =
     ((windowwidth > seqlength) || (iszero(seqlength))) && width_error(seqlength, windowwidth)
 
-check_trimwidth(seqlength::Int, windowwidth::Width) =
-    windowwidth > (seqlength - windowwidth + 1) && trimwidth_error(seqlength, windowwidth)
-
-check_tile(seqlength::Int, tilewidth::Width) =
-    ((tilewidth > seqlength) || (iszero(seqlength))) && tile_error(seqlength, tilewidth)
-
-check_tilewidth(seqlength::Int, tilewidth::Width) =
-    tilewidth > (seqlength - windowwidth + 1) && tilewidth_error(seqlength, tilewidth)
+check_size(size1::NTuple{2,Int}, size2::NTuple{2,Int}) =
+    (size1 == size2 || size_error(size1, size2)
 
 check_weights(nweights::Int, windowwidth::Width) =
     (nweights == windowwidth) || weights_error(nweights, windowwidth)
@@ -61,8 +54,9 @@ check_weights(nweights::NTuple{N,Int}, windowwidth::Width) where {N} =
 check_lengths(ndata, nweights) =
     (ndata === nweights) || lengths_error(ndata, nweights)
 
-check_length_gte(many, some) =
-    (many >= some) || length_gte_error(many, some)
+check_maxlength(some, many) =
+    (some <= many) || maxlength_error(some, many)
+
 
 function empty_error(sequence)
     str = string("Sequence must be nonempty.")
@@ -76,21 +70,9 @@ function width_error(seqlength::Int, windowwidth::Width)
     throw(err)
 end
 
-function trimwidth_error(seqlength::Int, windowwidth::Width)
-    str = string("Bad window width (", windowwidth, ") for trimmed length (", seqlength, ").")
-    err = WidthError(str)
-    throw(err)
-end
-
-function tile_error(seqlength::Int, tilewidth::Width)
-    str = string("Bad tile width (", tilewidth, ") for length (", seqlength, ").")
-    err = TileError(str)
-    throw(err)
-end
-
-function trimtile_error(seqlength::Int, tilewidth::Width)
-    str = string("Bad tile width (", tilewidth, ") for trimmed length (", seqlength, ").")
-    err = TileError(str)
+function size_error(size1, size2)
+    str = string("sizes must be equal: $(size1) != $(size2)")
+    err = SizeError(str)
     throw(err)
 end
 
@@ -111,8 +93,8 @@ function lengths_error(ndata, nweights)
     throw(err)
 end
 
-function length_gte_error(many, some)
-    str = string("result must be at least as long as the data !($many >= $some).")
-    err = LengthGteError(str)
+function maxlength_error(some, many)
+    str = "result (length=$(many)) must be at least as long as the data (length=$(many))."
+    err = MaxLengthError(str)
     throw(err)
 end

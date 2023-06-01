@@ -54,7 +54,7 @@ end
 
 
 function taperfirst!(result, func::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
-    check_length_gte(length(result), length(data))
+    check_minlength(length(result), length(data))
     ntapers = width - 1
     result[1:width-1] .= (func(data[1:i]) for i = 1:ntapers)
     result
@@ -62,7 +62,7 @@ end
 
 function taperfinal!(result, func::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
     n = length(data)
-    check_length_gte(length(result), n)
+    check_minlength(length(result), n)
     m = n - width + 2
     result[m:n] .= (func(data[i:n]) for i = m:n)
 
