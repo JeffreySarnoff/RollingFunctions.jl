@@ -261,37 +261,7 @@ function basic_rolling(func::Function, width::Width,
     basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function basic_rolling(func::Function, width::Width, 
-                       ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}) where {T}
-    n = nrows(ᵛʷdata)
-    nvalues = rolling_wholes(n, width)
-    # there are 1 or more columns, each holds `n` values
-    rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(eachrow(results))
-        @views results[idx, :] .= map(func, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
 # pad the dropped indicies with a given padding value
-
-function padfirst_rolling(func::Function, width::Width,
-                          data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
-    nc = ncols(data)
-    wlen_ncols = (length(weight), nc)
-    w = reshape(repeat(weight, nc), wlen_ncols)
-
-    ᵛʷdata = asview(data)
-    ᵛʷweight = asview(w)
-
-    padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
-end
 
 function padfirst_rolling(func::Function, width::Width, 
                           data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
