@@ -263,46 +263,6 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, width::Width, 
-                          data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
-    typ = promote_type(T, W)
-    nc = ncols(data)
-    wlen_ncols = (length(weight), nc)
-    w = reshape(repeat(weight, nc), wlen_ncols)
-
-    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W === typ ? asview(w) : asview([typ(x) for x in w])
-
-    padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
-end
-
-function padfirst_rolling(func::Function, width::Width, 
-                          ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
-    n = nrows(ᵛʷdata)
-    nvalues = rolling_wholes(n, width)
-    rettype = Union{typeof(padding),rts(func, (T,))}
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
-
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    # this is the padding_width
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
-
-    results = Matrix{Union{typeof(padding),rettype}}(undef, size(ᵛʷdata))
-    results[padding_idxs, :] .= padding
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in width:n
-        @views results[idx, :] .= map(func, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-
-
 # pad the last entries, move windowed data back to the first entries
 
 function padfinal_rolling(func::Function, width::Width,
