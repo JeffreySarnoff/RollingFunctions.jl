@@ -37,7 +37,7 @@ check_width(seqlength::Int, windowwidth::Width) =
     ((windowwidth > seqlength) || (iszero(seqlength))) && width_error(seqlength, windowwidth)
 
 check_size(size1::NTuple{2,Int}, size2::NTuple{2,Int}) =
-    (size1 == size2 || size_error(size1, size2)
+    (size1 == size2) || size_error(size1, size2)
 
 check_weights(nweights::Int, windowwidth::Width) =
     (nweights == windowwidth) || weights_error(nweights, windowwidth)
