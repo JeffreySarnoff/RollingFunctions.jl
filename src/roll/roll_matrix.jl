@@ -238,7 +238,7 @@ end
 
 function basic_rolling(func::Function, width::Width,
                        data::AbstractMatrix{T}, 
-                       weights::Vector{A} where {T, A<:AbstractWeights{T}}) where {T}
+                       weights::Vector{A}) where {T, A<:AbstractWeights{T}}
     check_size((width, ncols(data)), (length(weights), length(weights[1])))
     nc = ncols(data)
     ᵛʷdata = asview(data)
