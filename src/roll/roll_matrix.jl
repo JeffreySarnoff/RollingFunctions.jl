@@ -103,11 +103,8 @@ end
     results = newmatrix(rettype, (nvalues, colcount))
 
     ilow, ihigh = 1, width
-    @inbounds @views for idx in eachindex(eachrow(results))
-        weighted = ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights
-        mapped = mapslices(F, weighted; dims=1)
-        flatted = Iterators.flatten(mapped) 
-        results[ilow, :] .= flatted
+    @inbounds for idx in eachindex(eachrow(results))
+        results[ilow, :] .= map(F, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
