@@ -1,14 +1,14 @@
 
-function basic_rolling(func::Function, width::Integer,
-    data1::AbstractVector{T}, weight::AbstractWeights{T}) where {T}
+function basic_rolling(func::F, width::Integer,
+    data1::AbstractVector{T}, weight::AbstractWeights{T}) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
     basic_rolling(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function basic_rolling(func::Function, width::Integer,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::AbstractWeights{T}) where {T}
+function basic_rolling(func::F, width::Integer,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::AbstractWeights{T}) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -16,8 +16,8 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight1)
 end
 
-function basic_rolling(func::Function, width::Integer,
-    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::AbstractWeights{T}, weight2::AbstractWeights{T}) where {T}
+function basic_rolling(func::F, width::Integer,
+    data1::AbstractVector{T}, data2::AbstractVector{T}, weight1::AbstractWeights{T}, weight2::AbstractWeights{T}) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -26,9 +26,9 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function basic_rolling(func::Function, width::Integer,
+function basic_rolling(func::F, width::Integer,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::AbstractWeights{T}) where {T}
+    weight1::AbstractWeights{T}) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -37,9 +37,9 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight1, ᵛʷweight1)
 end
 
-function basic_rolling(func::Function, width::Integer,
+function basic_rolling(func::F, width::Integer,
     data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}) where {T}
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -50,7 +50,7 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
-function basic_rolling(func::Function, width::Integer,
+function basic_rolling(func::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -59,7 +59,7 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function basic_rolling(func::Function, width::Integer,
+function basic_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -70,7 +70,7 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function basic_rolling(func::Function, width::Integer,
+function basic_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -84,26 +84,17 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
 end
 
-function basic_rolling(func::Function, width::Integer,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
-    typ = promote_type(T, W)
-    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
-
-    basic_rolling(func, width, ᵛʷdata1, ᵛʷweight)
-end
-
 # pad first
 
-function padfirst_rolling(func::Function, width::Integer, data1::AbstractVector{T},
-    weight::AbstractWeights{T}, padding) where {T}
+function padfirst_rolling(func::F, width::Integer, data1::AbstractVector{T},
+    weight::AbstractWeights{T}, padding) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
     padfirst_rolling(func, width, ᵛʷdata1, ᵛʷweight, padding)
 end
 
-function padfirst_rolling(func::Function, width::Integer,
+function padfirst_rolling(func::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -112,7 +103,7 @@ function padfirst_rolling(func::Function, width::Integer,
     padfirst_rolling(func, width, ᵛʷdata1, ᵛʷweight, padding)
 end
 
-function padfirst_rolling(func::Function, width::Integer,
+function padfirst_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -123,7 +114,7 @@ function padfirst_rolling(func::Function, width::Integer,
     padfirst_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
 end
 
-function padfirst_rolling(func::Function, width::Integer,
+function padfirst_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -138,28 +129,18 @@ function padfirst_rolling(func::Function, width::Integer,
 end
 
 
-function padfirst_rolling(func::Function, width::Integer,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}, padding) where {T,W}
-    typ = promote_type(T, W)
-    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
-
-    padfirst_rolling(func, width, ᵛʷdata1, ᵛʷweight, padding)
-end
-
-
 # pad final
 
-function padfinal_rolling(func::Function, width::Integer, data1::AbstractVector{T},
-    weight::AbstractWeights{T}, padding) where {T}
+function padfinal_rolling(func::F, width::Integer, data1::AbstractVector{T},
+    weight::AbstractWeights{T}, padding) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
     padfinal_rolling(func, width, ᵛʷdata1, ᵛʷweight, padding)
 end
 
-function padfinal_rolling(func::Function, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
-    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, padding) where {T}
+function padfinal_rolling(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, padding) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -168,8 +149,8 @@ function padfinal_rolling(func::Function, width::Integer, data1::AbstractVector{
     padfinal_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
 end
 
-function padfinal_rolling(func::Function, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}, padding) where {T}
+function padfinal_rolling(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}, padding) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -181,7 +162,7 @@ function padfinal_rolling(func::Function, width::Integer, data1::AbstractVector{
 end
 
 
-function padfinal_rolling(func::Function, width::Integer,
+function padfinal_rolling(func::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -190,7 +171,7 @@ function padfinal_rolling(func::Function, width::Integer,
     padfinal_rolling(func, width, ᵛʷdata1, ᵛʷweight, padding)
 end
 
-function padfinal_rolling(func::Function, width::Integer,
+function padfinal_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -201,7 +182,7 @@ function padfinal_rolling(func::Function, width::Integer,
     padfinal_rolling(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
 end
 
-function padfinal_rolling(func::Function, width::Integer,
+function padfinal_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -219,8 +200,8 @@ end
 
 # basic_rolling implementations
 
-function basic_rolling(func::Function, width::Integer,
-    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function basic_rolling(func::F, width::Integer,
+    ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}) where {T, F<:Function}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
@@ -240,8 +221,8 @@ function basic_rolling(func::Function, width::Integer,
     results
 end
 
-function basic_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T}
+function basic_rolling(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {T, F<:Function}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
@@ -262,8 +243,8 @@ function basic_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{
     results
 end
 
-function basic_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T}
+function basic_rolling(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {T, F<:Function}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
@@ -287,7 +268,7 @@ end
 
 # pad first implementations
 
-function padfirst_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+function padfirst_rolling(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T, F<:Function}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
@@ -312,8 +293,8 @@ function padfirst_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVect
     results
 end
 
-function padfirst_rolling(func::Function, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
-    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, padding) where {T}
+function padfirst_rolling(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, padding) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷweight1 = asview(weight1)
@@ -343,8 +324,8 @@ function padfirst_rolling(func::Function, width::Integer, data1::AbstractVector{
     results
 end
 
-function padfirst_rolling(func::Function, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
-    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}, padding) where {T}
+function padfirst_rolling(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+    weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}, padding) where {T, F<:Function}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
     ᵛʷdata3 = asview(data3)
@@ -379,8 +360,8 @@ end
 
 # pad final implementations
 
-function padfinal_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{T},
-    ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
+    ᵛʷweight::ViewOfWeights{T}, padding) where {T, F<:Function}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight), width)
@@ -405,8 +386,8 @@ function padfinal_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVect
     results
 end
 
-function padfinal_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {T, F<:Function}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
@@ -432,8 +413,8 @@ function padfinal_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVect
     results
 end
 
-function padfinal_rolling(func::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
-    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {T}
+function padfinal_rolling(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+    ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {T, F<:Function}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)

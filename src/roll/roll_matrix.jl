@@ -114,12 +114,13 @@ end
 
 function basic_rolling(func::F, width::Integer,
                        data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T, W, F<:Function}
+    colcount = ncols(data)
     typ = promote_type(T, W)
-
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = T === typ ? asview(weight) : asview([typ(x) for x in weight])
+    vweight = Vector{typ}(weight)
+    ᵛʷweights = asview(reshape(repeat(vweight, colcount), (length(vweight), colcount)))
 
-    basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
+    basic_rolling(func, width, ᵛʷdata, ᵛʷweights)
 end
 
 basic_rolling(func::F, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}) where {T, F<:Function} =
