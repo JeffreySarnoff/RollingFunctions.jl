@@ -114,7 +114,7 @@ function taperfirst(fn::F, width::Integer,
 
     ilow = 1
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(fn, ᵛʷdata[ilow:idx, :]) .* normalize(ᵛʷweights[1:idx,:]))
+        @views results[idx, :] .= map(fn, ᵛʷdata[ilow:idx, :] .* normalize(ᵛʷweights[1:idx,:]))
     end
 
     ilow, ihigh = 1, width
