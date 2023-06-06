@@ -133,14 +133,14 @@ function rolling(fn::F, width::Integer,
 end
 
 function rolling(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weight1::VectorOfVectors{W};
+    data::AbstractMatrix{T}, weights::VectorOfVectors{W};
     padding=nopadding, atend=false) where {T,W,F<:Function}
     if isnopadding(padding)
-        basic_rolling(fn, width, data1, weight1)
+        basic_rolling(fn, width, data, weights)
     elseif !atend
-        padfirst_rolling(fn, width, data1, weight1, padding)
+        padfirst_rolling(fn, width, data, weights, padding)
     else
-        padfinal_rolling(fn, width, data1, weight1, padding)
+        padfinal_rolling(fn, width, data, weights, padding)
     end
 end
 
