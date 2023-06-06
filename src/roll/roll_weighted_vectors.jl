@@ -60,7 +60,7 @@ function basic_rolling(func::F, width::Integer,
 end
 
 function basic_rolling(func::F, width::Integer,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {T1,T2,W1,W2, F<:Function}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -72,7 +72,7 @@ end
 
 function basic_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {T1,T2,T3,W1,W2,W3, F<:Function}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -95,7 +95,7 @@ function padfirst_rolling(func::F, width::Integer, data1::AbstractVector{T},
 end
 
 function padfirst_rolling(func::F, width::Integer,
-    data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -104,7 +104,7 @@ function padfirst_rolling(func::F, width::Integer,
 end
 
 function padfirst_rolling(func::F, width::Integer,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2, F<:Function}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -116,7 +116,7 @@ end
 
 function padfirst_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3, F<:Function}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -163,7 +163,7 @@ end
 
 
 function padfinal_rolling(func::F, width::Integer,
-    data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -172,7 +172,7 @@ function padfinal_rolling(func::F, width::Integer,
 end
 
 function padfinal_rolling(func::F, width::Integer,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, padding) where {T1,T2,W1,W2, F<:Function}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -184,7 +184,7 @@ end
 
 function padfinal_rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}, padding) where {T1,T2,T3,W1,W2,W3, F<:Function}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
