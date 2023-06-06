@@ -96,7 +96,7 @@ end
 end
 
 @inline function basic_rolling(func::F, width::Integer, 
-                       ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}) where {T, F<:Function}
+                       ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T, F<:Function}
     rowcount, colcount = size(ᵛʷdata)
     nvalues = rolling_wholes(rowcount, width)
     rettype = rts(func, (T,))
@@ -104,7 +104,7 @@ end
 
     ilow, ihigh = 1, width
     @inbounds for idx in eachindex(eachrow(results))
-        @views results[idx, :] .= map(func, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight)
+        @views results[ilow, :] .= Iterators.flatten(mapslices(F, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights; dims=1))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
