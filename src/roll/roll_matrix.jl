@@ -104,7 +104,7 @@ end
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        results[ilow, :] .= mapcols(fn, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights)
+        results[ilow, :] = vec(mapcols(fn, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
