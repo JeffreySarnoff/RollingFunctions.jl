@@ -28,7 +28,7 @@ function vvmatrix(vv::AAV) where {T, AV<:AbstractVector{T}, AAV<:AbstractVector{
     mat
 end
 
-vvmatrix(vv:AWV) where {T, AW<:AbstractWeights, AWV<:AbstractVector{AW}} =
+vvmatrix(vv::AWV) where {T, AW<:AbstractWeights, AWV<:AbstractVector{AW}} =
     vvmatrix(map(Vector, vv))
 
 
