@@ -33,8 +33,10 @@ ispadding(x) = x !== nopadding
 const TupOfWeights = NTuple{N,AbstractWeights} where {N}
 const SeqOfWeights = Tuple{<:AbstractWeights} where {N}
 
+const VectorOfVectors = AbstractVector{<:AbstractVector{T}} where {T}
+
 const WeightVector = AbstractWeights{T} where {T}
-const VectorOfWeightVectors = AbstractVector{AbstractWeights{T}} where {T}
+const VectorOfVectors = AbstractVector{AbstractWeights{T}} where {T}
 
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
@@ -44,5 +46,5 @@ const ViewOfViewedWeights = SubArray{SubArray{T, 1, W, Tuple{Base.Slice{Base.One
 const ViewOfMatrix = SubArray{T,2,M,Tuple{Base.Slice{Base.OneTo{Int64}},Base.Slice{Base.OneTo{Int64}}},true} where {T,M<:AbstractMatrix{T}}
 
 const ViewOfWeightVector = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
-const ViewOfVectorOfWeightVectors = SubArray{W, 1, Vector{W}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true} where {W<:AbstractWeights}
+const ViewOfVectorOfVectors = SubArray{W, 1, Vector{W}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true} where {W<:AbstractWeights}
 

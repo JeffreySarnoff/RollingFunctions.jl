@@ -46,11 +46,13 @@ F = sum
 S = 3
 
 wweights = ProbabilityWeights([0.1,0.2,0.7])
-mweights = hcat(wweights, wweights)
+vweights = [wweights, wweights]
 
 expected = [  2.6 3.4
               3.6 2.4
               4.6 1.4 ]
+
 @test isapprox(rolling(F, S, M2, wweights), expected)
 
-@test isapprox(rolling(F, S, M, wweights), expected)
+@test isapprox(rolling(F, S, M2, vweights), expected)
+
