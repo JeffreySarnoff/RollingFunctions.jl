@@ -1,21 +1,7 @@
-const VectorOfNTuples = AbstractVector{<:NTuple}
-const VectorOfTuples = AbstractVector{<:Tuple}
-const VectorOfVectors = AbstractVector{<:AbstractVector}
-const VectorOfWeights = AbstractVector{<:AbstractWeights}
-
-const TupleOfNTuples = Tuple{Vararg{NTuple}}
-const TupleOfTuples = Tuple{Vararg{Tuple}}
-const TupleOfVectors = Tuple{Vararg{AbstractVector}}
-const TupleOfWeights = Tuple{Vararg{AbstractWeights}}
-
-const NTupleOfTuples = NTuple{N,Tuple} where {N}
-const NTupleOfVectors = NTuple{N, AbstractVector} where {N}
-const NTupleOfWeights = NTuple{N, AbstractWeights} where {N}
-
-const AkoNTuples = Union{VectorOfNTuples,NTupleOfTuples}
-const AkoTuples = Union{VectorOfTuples,TupleOfTuples}
-const AkoVectors = Union{VectorOfVectors,TupleOfVectors}
-const AkoWeights = Union{VectorOfWeights,TupleOfWeights}
+struct NoPadding end
+const nopadding = NoPadding()
+isnopadding(x) = x === nopadding
+ispadding(x) = x !== nopadding
 
 const Sequence = Union{AbstractVector{T},NTuple{N,T}} where {N,T}
 seq(x::AbstractVector{T}) where {T} = x
@@ -23,20 +9,10 @@ seq(x::NTuple{N,T}) where {N,T} = x
 
 const Multisequence = Union{Tuple{<:Sequence},AbstractVector{<:Sequence}}
 
-const Width = Union{Int32,Int64}
-
-struct NoPadding end
-const nopadding = NoPadding()
-isnopadding(x) = x === nopadding
-ispadding(x) = x !== nopadding
-
-const TupOfWeights = NTuple{N,AbstractWeights} where {N}
-const SeqOfWeights = Tuple{<:AbstractWeights} where {N}
-
-const VectorOfVectors = AbstractVector{<:AbstractVector{T}} where {T}
-
-const WeightVector = AbstractWeights{T} where {T}
-const VectorOfVectors = AbstractVector{AbstractWeights{T}} where {T}
+const VectorOfNTuples = AbstractVector{<:NTuple}
+const VectorOfTuples = AbstractVector{<:Tuple}
+const VectorOfVectors = AbstractVector{<:AbstractVector}
+const VectorOfWeights = AbstractVector{<:AbstractWeights}
 
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
