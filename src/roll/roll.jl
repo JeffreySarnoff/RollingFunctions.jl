@@ -133,6 +133,18 @@ function rolling(fn::F, width::Integer,
 end
 
 function rolling(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weight1::VectorOfVectors{W};
+    padding=nopadding, atend=false) where {T,W,F<:Function}
+    if isnopadding(padding)
+        basic_rolling(fn, width, data1, weight1)
+    elseif !atend
+        padfirst_rolling(fn, width, data1, weight1, padding)
+    else
+        padfinal_rolling(fn, width, data1, weight1, padding)
+    end
+end
+
+function rolling(fn::F, width::Integer,
     data::Tuple{<:AbstractArray}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {W,F<:Function}
     if isnopadding(padding)
