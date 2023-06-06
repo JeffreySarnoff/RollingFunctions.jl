@@ -1,15 +1,15 @@
 #=
-     taperfirst(func::F, width, ::Matrix)
-     taperfinal(func::F, width, ::Matrix)
+     taperfirst(fn::F, width, ::Matrix)
+     taperfinal(fn::F, width, ::Matrix)
 
-     taperfirst(func::F, width, ::Matrix, weight)
-     taperfinal(func::F, width, ::Matrix, weight)
+     taperfirst(fn::F, width, ::Matrix, weight)
+     taperfinal(fn::F, width, ::Matrix, weight)
 =#
 
-function taperfirst(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
+function taperfirst(fn::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    rettype = rts(func, (T,))
+    rettype = rts(fn, (T,))
 
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
@@ -19,12 +19,12 @@ function taperfirst(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F
 
     ilow = 1
     @inbounds for idx in taper_idxs
-       @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:idx, :]))
+       @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[ilow:idx, :]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -32,10 +32,10 @@ function taperfirst(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F
     results
 end
 
-function taperfinal(func::F, width::Integer, data::AbstractMatrix{T}) where {T, F<:Function}
+function taperfinal(fn::F, width::Integer, data::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
-    rettype = rts(func, (T,))
+    rettype = rts(fn, (T,))
 
     # only completed width coverings are fully resolvable
     # the last (width - 1) values are to be tapered
@@ -44,12 +44,12 @@ function taperfinal(func::F, width::Integer, data::AbstractMatrix{T}) where {T, 
     results = Matrix{rettype}(undef, size(ᵛʷdata))
 
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[idx:n, :]))
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[idx:n, :]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-width+1
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]))
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[ilow:ihigh, :]))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -59,51 +59,51 @@ end
 
 # weighted
 
-function taperfirst(func::F, width::Integer, 
+function taperfirst(fn::F, width::Integer, 
                     data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
     ᵛʷweights = asview(repeat([ᵛʷweight], ncols(ᵛʷdata)))
 
-    taperfirst(func, width, ᵛʷdata, ᵛʷweights)
+    taperfirst(fn, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfirst(func::F, width::Integer, 
+function taperfirst(fn::F, width::Integer, 
                     data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweights = W1 === typ ? asview(Vector.(weights)) : asview([typ(x) for x in Vector.(weights)])
 
-    taperfirst(func, width, ᵛʷdata, ᵛʷweights)
+    taperfirst(fn, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfinal(func::F, width::Integer,
+function taperfinal(fn::F, width::Integer,
                     data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
     ᵛʷweights = asview(repeat([ᵛʷweight], ncols(ᵛʷdata)))
 
-    taperfinal(func, width, ᵛʷdata, ᵛʷweights)
+    taperfinal(fn, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfinal(func::F, width::Integer,
+function taperfinal(fn::F, width::Integer,
                     data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweights = W === typ ? asview(map(asview, Vector.(weights))) : asview(map(asview, [typ(x) for x in Vector.(weights)]))
 
-    taperfinal(func, width, ᵛʷdata, ᵛʷweights)
+    taperfinal(fn, width, ᵛʷdata, ᵛʷweights)
 end
 
 # views as arguments
 
-function taperfirst(func::F, width::Integer, 
+function taperfirst(fn::F, width::Integer, 
                     ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     nc = ncols(ᵛʷdata)
-    rettype = rts(func, (T,))
+    rettype = rts(fn, (T,))
     results = Matrix{rettype}(undef, (n, nc))
 
     # only completed width coverings are fully resolvable
@@ -114,12 +114,12 @@ function taperfirst(func::F, width::Integer,
 
     ilow = 1
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:idx, :]) .* normalize(ᵛʷweights[1:idx,:]))
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[ilow:idx, :]) .* normalize(ᵛʷweights[1:idx,:]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweights)
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -127,9 +127,9 @@ function taperfirst(func::F, width::Integer,
     results
 end
 
-function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
+function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
-    rettype = rts(func, (T,))
+    rettype = rts(fn, (T,))
 
     # only completed width coverings are fully resolvable
     # the last (width - 1) values are to be tapered
@@ -138,12 +138,12 @@ function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷwe
     results = Matrix{rettype}(undef, size(ᵛʷdata))
 
     @inbounds for idx in taper_idxs
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[idx:n, :]) .* normalize(ᵛʷweights[n:-1:idx]))
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[idx:n, :]) .* normalize(ᵛʷweights[n:-1:idx]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:n-width+1
-        @views results[idx, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweights)
+        @views results[idx, :] .= map(fn, eachcol(ᵛʷdata[ilow:ihigh, :]) .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end

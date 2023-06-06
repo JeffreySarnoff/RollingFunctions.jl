@@ -1,70 +1,70 @@
-function taperfirst(func::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
+function taperfirst(fn::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
     ntapers = width - 1
-    (func(data[1:i]) for i = 1:ntapers)
+    (fn(data[1:i]) for i = 1:ntapers)
 end
 
-function taperfinal(func::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
+function taperfinal(fn::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
     n = length(data)
     m = n - width + 2
-    (func(data[i:n]) for i = m:n)
+    (fn(data[i:n]) for i = m:n)
 end
 
-function taperfirst(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
+function taperfirst(fn::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
     ntapers = width - 1
-    (func(data[1:i,]) for i = 1:ntapers)
+    (fn(data[1:i,]) for i = 1:ntapers)
 end
 
-function taperfinal(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
+function taperfinal(fn::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
     n = length(data)
     m = n - width + 2
-    (func(data[i:n]) for i = m:n)
+    (fn(data[i:n]) for i = m:n)
 end
 
-function taperfirst(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}) where {T,F<:Function}
+function taperfirst(fn::F, width::Integer, ᵛʷdata::ViewOfVector{T}) where {T,F<:Function}
     ntapers = width - 1
-    (func(ᵛʷdata[1:i]) for i = 1:ntapers)
+    (fn(ᵛʷdata[1:i]) for i = 1:ntapers)
 end
 
-function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}) where {T,F<:Function}
+function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfVector{T}) where {T,F<:Function}
     n = length(data)
     m = n - width + 2
-    (func(ᵛʷdata[i:n]) for i = m:n)
+    (fn(ᵛʷdata[i:n]) for i = m:n)
 end
 
-function taperfirst(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{W}) where {T,W,F<:Function}
+function taperfirst(fn::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{W}) where {T,W,F<:Function}
     ntapers = width - 1
-    (func(ᵛʷdata[1:i] .* ᵛʷweigths[1:i]) for i = 1:ntapers)
+    (fn(ᵛʷdata[1:i] .* ᵛʷweigths[1:i]) for i = 1:ntapers)
 end
-function taperfirst(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}) where {T,F<:Function}
+function taperfirst(fn::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}) where {T,F<:Function}
     ntapers = width - 1
-    (func(ᵛʷdata[1:i] .* ᵛʷweigths[1:i]) for i = 1:ntapers)
+    (fn(ᵛʷdata[1:i] .* ᵛʷweigths[1:i]) for i = 1:ntapers)
 end
 
-function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{W}) where {T,W,F<:Function}
+function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{W}) where {T,W,F<:Function}
     n = length(data)
     m = n - width + 2
-    (func(ᵛʷdata[i:n] .* ᵛʷweigths[1:i]) for i = m:n)
+    (fn(ᵛʷdata[i:n] .* ᵛʷweigths[1:i]) for i = m:n)
 end
 
-function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}) where {T,F<:Function}
+function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfVector{T}, ᵛʷweights::ViewOfWeights{T}) where {T,F<:Function}
     n = length(data)
     m = n - width + 2
-    (func(ᵛʷdata[i:n] .* ᵛʷweigths[1:i]) for i = m:n)
+    (fn(ᵛʷdata[i:n] .* ᵛʷweigths[1:i]) for i = m:n)
 end
 
 
-function taperfirst!(result, func::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
+function taperfirst!(result, fn::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
     check_minlength(length(result), length(data))
     ntapers = width - 1
-    result[1:width-1] .= (func(data[1:i]) for i = 1:ntapers)
+    result[1:width-1] .= (fn(data[1:i]) for i = 1:ntapers)
     result
 end
 
-function taperfinal!(result, func::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
+function taperfinal!(result, fn::F, width::Integer, data::AbstractVector{T}) where {T,F<:Function}
     n = length(data)
     check_minlength(length(result), n)
     m = n - width + 2
-    result[m:n] .= (func(data[i:n]) for i = m:n)
+    result[m:n] .= (fn(data[i:n]) for i = m:n)
 
     result
 end

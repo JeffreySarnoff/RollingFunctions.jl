@@ -1,11 +1,11 @@
 """
-    rolling(func, width, data; padding=nopadding, atend=false)
+    rolling(fn, width, data; padding=nopadding, atend=false)
 
 `rolling` repeatedly moves the window one index forward.
 
-- rolling(func, width, data)
-- rolling(func, width, data; padding)
-- rolling(func, width, data; padding, atend=false)
+- rolling(fn, width, data)
+- rolling(fn, width, data; padding)
+- rolling(fn, width, data; padding, atend=false)
 
 ```
 rolling(      (a)->fn(a),       width, adata)
@@ -47,7 +47,7 @@ as if they were zipped together (simultaneously).
 """ windows_with_vectors
 
 """
-    running(func, width, data)
+    running(fn, width, data)
 
 `running` repeatedly moves the window one index forward.
 
@@ -70,13 +70,13 @@ See also: [`weighted`](@ref), [`weighted_running`](@ref),
 running
 
 """
-    tiling(func, width, data; padding=nopadding, atend=false)
+    tiling(fn, width, data; padding=nopadding, atend=false)
 
 `tiling` repeatedly moves the window just beyond its current end.
 
-- tiling(func, width, data)
-- tiling(func, width, data; padding)
-- tiling(func, width, data; padding, atend=false)
+- tiling(fn, width, data)
+- tiling(fn, width, data; padding)
+- tiling(fn, width, data; padding, atend=false)
 
 ```
 tiling(    (a)->fn(a),     width, adata)
@@ -106,10 +106,10 @@ Weights may be used with `running`, `rolling`, or `tiling`.
 The function signatures' positional arguments are extended
      by giving the weights as the last positional argument[s].
 
-`rolling(func, width, data, weights; padding=nopadding, atend=false)`
+`rolling(fn, width, data, weights; padding=nopadding, atend=false)`
 
 Where two data sources are used, two weights must be used.
-`rolling(func, width, data1, data2, weights1, weights2)`
+`rolling(fn, width, data1, data2, weights1, weights2)`
 
 The weights are `StatsBase.Weights`; generally one wants normalized weights.
 

@@ -805,11 +805,11 @@ window.addEventListener("pageshow", (_event) => {
   }
 });
 
-function throttle(func, wait) {
+function throttle(fn, wait) {
   let waiting = false;
   return function () {
     if (!waiting) {
-      func.apply(this, arguments);
+      fn.apply(this, arguments);
       waiting = true;
       setTimeout(function () {
         waiting = false;
@@ -818,6 +818,6 @@ function throttle(func, wait) {
   };
 }
 
-function nexttick(func) {
-  return setTimeout(func, 0);
+function nexttick(fn) {
+  return setTimeout(fn, 0);
 }

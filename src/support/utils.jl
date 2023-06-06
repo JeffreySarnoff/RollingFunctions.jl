@@ -77,7 +77,8 @@ ncols(x) = isempty(size(x)) ? 1 : size(x)[2]
 @inline rts(fn, typs) = Base.return_types(fn, typs)[max(1, end - 1)]
 
 # mapcols
-mapcols(func::F, data::AbstractMatrix) where {F<:Function} = mapslices(func, data; dims=1)
+
+mapcols(fn::F, data::AbstractMatrix) where {F<:Function} = mapslices(fn, data; dims=1)
 
 # FixTwo
 
