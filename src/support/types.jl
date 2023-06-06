@@ -14,6 +14,11 @@ const VectorOfTuples = AbstractVector{<:Tuple}
 const VectorOfVectors = AbstractVector{<:AbstractVector}
 const VectorOfWeights = AbstractVector{<:AbstractWeights}
 
+const TupleOfNTuples = Tuple{Vararg{NTuple}}
+const TupleOfTuples = Tuple{Vararg{Tuple}}
+const TupleOfVectors = Tuple{Vararg{AbstractVector}}
+const TupleOfWeights = Tuple{Vararg{AbstractWeights}}
+
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
 const ViewOfVectors = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:Vector{AbstractVector{T}}}
