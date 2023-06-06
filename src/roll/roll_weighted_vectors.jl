@@ -51,7 +51,7 @@ function basic_rolling(func::F, width::Integer,
 end
 
 function basic_rolling(func::F, width::Integer,
-    data1::AbstractVector{T}, weight::AbstractWeights{W}) where {T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W}) where {T,W, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
