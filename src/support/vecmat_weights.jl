@@ -11,7 +11,7 @@ function vmatrix(v::AbstractVector, ncols::Integer)
     mat
 end
 
-vmatrix(v::AbstractWeights, ncols::Integer} =
+vmatrix(v::AbstractWeights, ncols::Integer) =
     vmatrix(map(Vector, vv), ncols)
 
 """
