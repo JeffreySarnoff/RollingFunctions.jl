@@ -136,13 +136,13 @@ function basic_rolling(func::Function, width::Integer,
     basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-basic_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}) =
+basic_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}) where {T} =
     basic_rolling(func, width, data, asview(Vector(weight))) 
 
-basic_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}) =
+basic_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}) where {T} =
     basic_rolling(func, width, asview(data), weight)
 
-basic_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}) =
+basic_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}) where {T} =
     basic_rolling(func, width, asview(data), asview(Vector(weight)))
 
 #
@@ -201,13 +201,13 @@ function padfirst_rolling(func::Function, width::Integer,
     padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight, padding)
 end
 
-padfirst_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}, padding) =
+padfirst_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}, padding) where {T} =
     padfirst_rolling(func, width, data, asview(Vector(weight)), padding) 
 
-padfirst_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}, padding) =
+padfirst_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}, padding) where {T} =
     padfirst_rolling(func, width, asview(data), weight, padding)
 
-padfirst_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}, padding) =
+padfirst_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}, padding) where {T} =
     padfirst_rolling(func, width, asview(data), asview(Vector(weight)), padding)
 
 #
@@ -269,13 +269,13 @@ function padlast_rolling(func::Function, width::Integer,
     padlast_rolling(func, width, ᵛʷdata, ᵛʷweight, padding)
 end
 
-padlast_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}, padding) =
+padlast_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}, padding) where {T} =
     padlast_rolling(func, width, data, asview(Vector(weight)), padding) 
 
-padlast_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}, padding) =
+padlast_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}, padding) where {T} =
     padlast_rolling(func, width, asview(data), weight, padding)
 
-padlast_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}, padding) =
+padlast_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}, padding) where {T} =
     padlast_rolling(func, width, asview(data), asview(Vector(weight)), padding)
 
 
