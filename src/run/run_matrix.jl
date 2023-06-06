@@ -6,7 +6,7 @@
      taperfinal(func::F, width, ::Matrix, weight)
 =#
 
-function taperfirst(func::F, width::Width, data::AbstractMatrix{T}) where {T,F<:Function}
+function taperfirst(func::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     rettype = rts(func, (T,))
@@ -32,7 +32,7 @@ function taperfirst(func::F, width::Width, data::AbstractMatrix{T}) where {T,F<:
     results
 end
 
-function taperfinal(func::F, width::Width, data::AbstractMatrix{T}) where {T, F<:Function}
+function taperfinal(func::F, width::Integer, data::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     rettype = rts(func, (T,))
@@ -59,7 +59,7 @@ end
 
 # weighted
 
-function taperfirst(func::F, width::Width, 
+function taperfirst(func::F, width::Integer, 
                     data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
@@ -69,7 +69,7 @@ function taperfirst(func::F, width::Width,
     taperfirst(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfirst(func::F, width::Width, 
+function taperfirst(func::F, width::Integer, 
                     data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
@@ -78,7 +78,7 @@ function taperfirst(func::F, width::Width,
     taperfirst(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfinal(func::F, width::Width,
+function taperfinal(func::F, width::Integer,
                     data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
@@ -88,7 +88,7 @@ function taperfinal(func::F, width::Width,
     taperfinal(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function taperfinal(func::F, width::Width,
+function taperfinal(func::F, width::Integer,
                     data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
@@ -99,7 +99,7 @@ end
 
 # views as arguments
 
-function taperfirst(func::F, width::Width, 
+function taperfirst(func::F, width::Integer, 
                     ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     nc = ncols(ᵛʷdata)
@@ -127,7 +127,7 @@ function taperfirst(func::F, width::Width,
     results
 end
 
-function taperfinal(func::F, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
+function taperfinal(func::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     rettype = rts(func, (T,))
 

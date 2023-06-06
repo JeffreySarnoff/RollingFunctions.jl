@@ -1,5 +1,5 @@
 
-function rolling(func::F, data1::AbstractVector{T1}, width::Width;
+function rolling(func::F, data1::AbstractVector{T1}, width::Integer;
     padding=nopadding, atend=false) where {T1,F<:Function}
     
     Base.depwarn(
@@ -17,7 +17,7 @@ function rolling(func::F, data1::AbstractVector{T1}, width::Width;
     end
 end
 
-function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Width;
+function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Integer;
     padding=nopadding, atend=false) where {T1,T2,F<:Function}
     
     Base.depwarn(
@@ -35,7 +35,7 @@ function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     end
 end
 
-function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, width::Width;
+function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, width::Integer;
     padding=nopadding, atend=false) where {T1,T2,T3,F<:Function}
 
     Base.depwarn(
@@ -53,7 +53,7 @@ function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     end
 end
 
-function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4}, width::Width;
+function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4}, width::Integer;
     padding=nopadding, atend=false) where {T1,T2,T3,T4,F<:Function}
 
     Base.depwarn(
@@ -65,7 +65,7 @@ function rolling(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
 end
 
 
-function running(func::F, data1::AbstractVector{T1}, width::Width) where {T1,F<:Function}
+function running(func::F, data1::AbstractVector{T1}, width::Integer) where {T1,F<:Function}
     
     Base.depwarn(
         "The function `running` has changed. You are using a deprecated call signature. " *
@@ -76,7 +76,7 @@ function running(func::F, data1::AbstractVector{T1}, width::Width) where {T1,F<:
     basic_running(func, width, data1)
 end
 
-function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Width) where {T1,T2,F<:Function}
+function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, width::Integer) where {T1,T2,F<:Function}
     
     Base.depwarn(
         "The function `running` has changed. You are using a deprecated call signature. " *
@@ -87,7 +87,7 @@ function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     basic_running(func, width, data1, data2)
 end
 
-function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, width::Width) where {T1,T2,T3,F<:Function}
+function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, width::Integer) where {T1,T2,T3,F<:Function}
 
     Base.depwarn(
         "The function `running` has changed. You are using a deprecated call signature. " *
@@ -98,7 +98,7 @@ function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     basic_running(func, width, data1, data2, data3)
 end
 
-function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4}, width::Width) where {T1,T2,T3,T4,F<:Function}
+function running(func::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3}, data4::AbstractVector{T4}, width::Integer) where {T1,T2,T3,T4,F<:Function}
 
     Base.depwarn(
         "The function `running` with 4 data vectors is unsupported.

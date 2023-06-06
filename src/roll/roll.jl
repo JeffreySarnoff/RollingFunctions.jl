@@ -6,7 +6,7 @@
 =#
 
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T};
     padding=nopadding, atend=false) where {T,F<:Function}
     if isnopadding(padding)
@@ -18,7 +18,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2};
     padding=nopadding, atend=false) where {T1,T2,F<:Function}
     if isnopadding(padding)
@@ -30,7 +30,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
     padding=nopadding, atend=false) where {T1,T2,T3,F<:Function}
     if isnopadding(padding)
@@ -42,7 +42,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractMatrix{T};
     padding=nopadding, atend=false) where {T,F<:Function}
     if isnopadding(padding)
@@ -56,7 +56,7 @@ end
 
 # with weights
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {T,W,F<:Function}
     if isnopadding(padding)
@@ -68,7 +68,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2},
     weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {T1,T2,W,F<:Function}
@@ -81,7 +81,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2};
     padding=nopadding, atend=false) where {T1,T2,W1,W2,F<:Function}
@@ -94,7 +94,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {T1,T2,T3,W,F<:Function}
@@ -107,7 +107,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3};
     padding=nopadding, atend=false) where {T1,T2,T3,W1,W2,W3,F<:Function}
@@ -120,7 +120,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data1::AbstractMatrix{T}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {T,W,F<:Function}
     if isnopadding(padding)
@@ -132,7 +132,7 @@ function rolling(func::F, width::Width,
     end
 end
 
-function rolling(func::F, width::Width,
+function rolling(func::F, width::Integer,
     data::Tuple{<:AbstractArray}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {W,F<:Function}
     if isnopadding(padding)

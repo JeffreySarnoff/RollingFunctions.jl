@@ -1,6 +1,6 @@
 # taper first
 
-function taperfirst(func::F, width::Width, data1::AbstractVector{T},
+function taperfirst(func::F, width::Integer, data1::AbstractVector{T},
     weight::AbstractWeights{T}) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
@@ -8,7 +8,7 @@ function taperfirst(func::F, width::Width, data1::AbstractVector{T},
     taperfirst(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function taperfirst(func::F, width::Width,
+function taperfirst(func::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}) where {F<:Function,T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -17,7 +17,7 @@ function taperfirst(func::F, width::Width,
     taperfirst(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function taperfirst(func::F, width::Width,
+function taperfirst(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {F<:Function,T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -28,7 +28,7 @@ function taperfirst(func::F, width::Width,
     taperfirst(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function taperfirst(func::F, width::Width,
+function taperfirst(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {F<:Function,T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -43,7 +43,7 @@ function taperfirst(func::F, width::Width,
 end
 
 
-function taperfirst(func::F, width::Width,
+function taperfirst(func::F, width::Integer,
     data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {F<:Function,T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -55,7 +55,7 @@ end
 
 # taper final
 
-function taperfinal(func::F, width::Width, data1::AbstractVector{T},
+function taperfinal(func::F, width::Integer, data1::AbstractVector{T},
     weight::AbstractWeights{T}) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
@@ -63,7 +63,7 @@ function taperfinal(func::F, width::Width, data1::AbstractVector{T},
     taperfinal(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function taperfinal(func::F, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
+function taperfinal(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
     weight1::AbstractWeights{T}, weight2::AbstractWeights{T}) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -73,7 +73,7 @@ function taperfinal(func::F, width::Width, data1::AbstractVector{T}, data2::Abst
     taperfinal(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function taperfinal(func::F, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+function taperfinal(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -86,7 +86,7 @@ function taperfinal(func::F, width::Width, data1::AbstractVector{T}, data2::Abst
 end
 
 
-function taperfinal(func::F, width::Width,
+function taperfinal(func::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}) where {F<:Function,T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -95,7 +95,7 @@ function taperfinal(func::F, width::Width,
     taperfinal(func, width, ᵛʷdata1, ᵛʷweight)
 end
 
-function taperfinal(func::F, width::Width,
+function taperfinal(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {F<:Function,T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
@@ -106,7 +106,7 @@ function taperfinal(func::F, width::Width,
     taperfinal(func, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
 end
 
-function taperfinal(func::F, width::Width,
+function taperfinal(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {F<:Function,T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
@@ -124,7 +124,7 @@ end
 
 # taper first implementations
 
-function taperfirst(func::F, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
+function taperfirst(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
     n = length(ᵛʷdata1)
     check_width(n, width)
     check_weights(length(ᵛʷweight1), width)
@@ -149,7 +149,7 @@ function taperfirst(func::F, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷwei
     results
 end
 
-function taperfirst(func::F, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T},
+function taperfirst(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
     weight1::AbstractWeights{T}, weight2::AbstractWeights{T}) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -178,7 +178,7 @@ function taperfirst(func::F, width::Width, data1::AbstractVector{T}, data2::Abst
     results
 end
 
-function taperfirst(func::F, width::Width, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
+function taperfirst(func::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
     weight1::AbstractWeights{T}, weight2::AbstractWeights{T}, weight3::AbstractWeights{T}) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷdata2 = asview(data2)
@@ -215,7 +215,7 @@ end
 # taper final implementations
 
 
-function taperfinal(func::F, width::Width, ᵛʷdata1::ViewOfVector{T},
+function taperfinal(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
                     ᵛʷweight::ViewOfWeights{T}) where {F<:Function,T}
     n = length(ᵛʷdata1)
     check_width(n, width)
@@ -244,7 +244,7 @@ function taperfinal(func::F, width::Width, ᵛʷdata1::ViewOfVector{T},
 end
 
 
-function taperfinal(func::F, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
+function taperfinal(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {F<:Function,T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2))
     check_width(n, width)
@@ -271,7 +271,7 @@ function taperfinal(func::F, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
     results
 end
 
-function taperfinal(func::F, width::Width, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
+function taperfinal(func::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}) where {F<:Function,T}
     n = min(length(ᵛʷdata1), length(ᵛʷdata2), length(ᵛʷdata3))
     check_width(n, width)

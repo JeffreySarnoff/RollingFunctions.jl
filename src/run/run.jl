@@ -5,7 +5,7 @@
             taperfirst=nopadding, atend=false)
 =#
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T}; atend=false) where {T,F<:Function}
     if !atend
         taperfirst(func, width, data1)
@@ -14,7 +14,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2};
     atend=false) where {T1,T2,F<:Function}
     if !atend
@@ -24,7 +24,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3};
     atend=false) where {T1,T2,T3,F<:Function}
     if !atend
@@ -34,7 +34,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractMatrix{T};
     atend=false) where {T,F<:Function}
     if !atend
@@ -46,7 +46,7 @@ end
 
 # with weights
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T}, weight1::AbstractWeights{W};
     atend=false) where {T,W,F<:Function}
     if !atend
@@ -56,7 +56,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, 
     weight1::AbstractWeights{W}; 
     atend=false) where {T1,T2,W,F<:Function}
@@ -67,7 +67,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2};
     atend=false) where {T1,T2,W1,W2,F<:Function}
@@ -78,7 +78,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W};
     atend=false) where {T1,T2,T3,W,F<:Function}
@@ -89,7 +89,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
     weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3};
     atend=false) where {T1,T2,T3,W1,W2,W3,F<:Function}
@@ -100,7 +100,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data::AbstractMatrix{T}, weight::W;
     atend=false) where {T,W<:AbstractWeights,F<:Function}
     check_weights(length(weight), width)
@@ -111,7 +111,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data::AbstractMatrix{T}, weights::W;
     atend=false) where {T,W<:AbstractVector{<:AbstractWeights},F<:Function}
     check_weights(length(weights[1]), width)
@@ -122,7 +122,7 @@ function running(func::F, width::Width,
     end
 end
 
-function running(func::F, width::Width,
+function running(func::F, width::Integer,
     data::Tuple{<:AbstractArray}, weight1::AbstractWeights{W};
     atend=false) where {W,F<:Function}
     if !atend

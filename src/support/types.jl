@@ -30,16 +30,11 @@ const nopadding = NoPadding()
 isnopadding(x) = x === nopadding
 ispadding(x) = x !== nopadding
 
-struct Unweighted end
-const unweighted = Unweighted()
-isunwieghted(x) = x === unweighted
-isweighted(x) = x !== unweighted
-
 const TupOfWeights = NTuple{N,AbstractWeights} where {N}
 const SeqOfWeights = Tuple{<:AbstractWeights} where {N}
 
 const WeightVector = AbstractWeights{T} where {T}
-const WeightMatrix = AbstractVector{AbstractWeights{T}} where {T}
+const VectorOfWeightVectors = AbstractVector{AbstractWeights{T}} where {T}
 
 const ViewOfWeights = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
 const ViewOfVector = SubArray{T,1,V,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,V<:AbstractVector{T}}
@@ -49,5 +44,5 @@ const ViewOfViewedWeights = SubArray{SubArray{T, 1, W, Tuple{Base.Slice{Base.One
 const ViewOfMatrix = SubArray{T,2,M,Tuple{Base.Slice{Base.OneTo{Int64}},Base.Slice{Base.OneTo{Int64}}},true} where {T,M<:AbstractMatrix{T}}
 
 const ViewOfWeightVector = SubArray{T,1,A,Tuple{Base.Slice{Base.OneTo{Int64}}},true} where {T,A<:AbstractWeights}
-const ViewOfWeightMatrix = SubArray{W, 1, Vector{W}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true} where {W<:AbstractWeights}
+const ViewOfVectorOfWeightVectors = SubArray{W, 1, Vector{W}, Tuple{Base.Slice{Base.OneTo{Int64}}}, true} where {W<:AbstractWeights}
 

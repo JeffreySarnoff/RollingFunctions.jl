@@ -8,7 +8,7 @@
      padfinal_tiling(func::Function, width, ::Matrix, weight; padding)
 =#
 
-function basic_tiling(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
+function basic_tiling(func::Function, width::Integer, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = ntiling(n, width)
@@ -29,7 +29,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_tiling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
+function padfirst_tiling(func::Function, width::Integer, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = ntiling(n, width)
@@ -55,7 +55,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_tiling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
+function padfinal_tiling(func::Function, width::Integer, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = ntiling(n, width)
@@ -81,14 +81,14 @@ end
 
 # weighted
 
-function basic_tiling(func::Function, width::Width, data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
+function basic_tiling(func::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
     ᵛʷdata = asview(data)
     ᵛʷweight = asview(weight)
     basic_tiling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
 
-function basic_tiling(func::Function, width::Width, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+function basic_tiling(func::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -96,7 +96,7 @@ function basic_tiling(func::Function, width::Width, data::AbstractMatrix{T}, wei
     basic_tiling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function basic_tiling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function basic_tiling(func::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     # there are 1 or more columns, each holds `n` values
@@ -115,7 +115,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_tiling(func::Function, width::Width, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+function padfirst_tiling(func::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -123,7 +123,7 @@ function padfirst_tiling(func::Function, width::Width, data::AbstractMatrix{T}, 
     padfirst_tiling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfirst_tiling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
+function padfirst_tiling(func::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}
@@ -151,7 +151,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_tiling(func::Function, width::Width, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+function padfinal_tiling(func::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -159,7 +159,7 @@ function padfinal_tiling(func::Function, width::Width, data::AbstractMatrix{T}, 
     padfinal_tiling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_tiling(func::Function, width::Width, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
+function padfinal_tiling(func::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(func, (T,))}

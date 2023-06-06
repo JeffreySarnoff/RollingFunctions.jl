@@ -44,8 +44,7 @@ using AccurateArithmetic: sum_oro
 include("support/types.jl")
 include("support/exceptions.jl")
 include("support/utils.jl")
-
-# include("support/tapers.jl")
+include("support/vecmat_weights.jl")
 
 include("roll/roll.jl")
 include("roll/roll_vectors.jl")

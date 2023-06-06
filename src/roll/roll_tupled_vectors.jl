@@ -8,7 +8,7 @@
      padfinal_tupled_rolling(func::Function, width, ::Tuple, weight; padding, atend)
 =#
 
-function basic_tupled_rolling(func::Function, width::Width, data::TupleOfVectors)
+function basic_tupled_rolling(func::Function, width::Integer, data::TupleOfVectors)
     check_empty(data)
     check_width(minimum(map(length, data)), width)
 
@@ -36,7 +36,7 @@ end
 # pad the dropped indicies at the start with a given padding value
 # do not move the windowed data
 
-function padfirst_tupled_rolling(func::Function, width::Width, data::TupleOfVectors, padding)
+function padfirst_tupled_rolling(func::Function, width::Integer, data::TupleOfVectors, padding)
     check_empty(data)
     check_width(minimum(map(length, data)), width)
 
@@ -70,7 +70,7 @@ end
 # pad the dropped indicies at the end with a given padding value
 # move windowed data back into the first entries
 
-function padfinal_tupled_rolling(func::Function, width::Width, data::TupleOfVectors, padding)
+function padfinal_tupled_rolling(func::Function, width::Integer, data::TupleOfVectors, padding)
     check_empty(data)
     check_width(minimum(map(length, data)), width)
 
@@ -105,7 +105,7 @@ end
 # with weightings
 #
 
-function basic_tupled_rolling(func::Function, width::Width, data::TupleOfVectors, weights::TupleOfWeights)
+function basic_tupled_rolling(func::Function, width::Integer, data::TupleOfVectors, weights::TupleOfWeights)
     check_empty(data)
     check_empty(weights)
     check_width(minimum(map(length, data)), width)
@@ -138,7 +138,7 @@ end
 # pad the dropped indicies at the start with a given padding value
 # do not move the windowed data
 
-function padfirst_tupled_rolling(func::Function, width::Width, data::TupleOfVectors, weights::TupleOfWeights, padding)
+function padfirst_tupled_rolling(func::Function, width::Integer, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
     check_width(minimum(map(length, data)), width)
@@ -176,7 +176,7 @@ end
 # pad the dropped indicies at the end with a given padding value
 # move windowed data back into the first entries
 
-function padfinal_tupled_rolling(func::Function, width::Width, data::TupleOfVectors, weights::TupleOfWeights, padding)
+function padfinal_tupled_rolling(func::Function, width::Integer, data::TupleOfVectors, weights::TupleOfWeights, padding)
     check_empty(data)
     check_empty(weights)
     check_width(minimum(map(length, data)), width)

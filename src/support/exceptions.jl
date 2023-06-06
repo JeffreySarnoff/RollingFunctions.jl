@@ -33,22 +33,22 @@ end
 check_empty(sequence) =
     isempty(sequence) && empty_error(sequence)
 
-check_width(seqlength::Int, windowwidth::Width) =
+check_width(seqlength::Int, windowwidth::Integer) =
     ((windowwidth > seqlength) || (iszero(seqlength))) && width_error(seqlength, windowwidth)
 
 check_size(size1::NTuple{2,Int}, size2::NTuple{2,Int}) =
     (size1 == size2) || size_error(size1, size2)
 
-check_weights(nweights::Int, windowwidth::Width) =
+check_weights(nweights::Int, windowwidth::Integer) =
     (nweights == windowwidth) || weights_error(nweights, windowwidth)
 
-check_weights(nweights1::Int, nweights2::Int, windowwidth::Width) =
+check_weights(nweights1::Int, nweights2::Int, windowwidth::Integer) =
     (nweights1 === nweights2 == windowwidth) || weights_error(length(weights1), windowwidth)
 
-check_weights(nweights1::Int, nweights2::Int, nweights3::Int, windowwidth::Width) =
+check_weights(nweights1::Int, nweights2::Int, nweights3::Int, windowwidth::Integer) =
     (nweights1 === nweights2 === nweights3 == windowwidth) || weights_error(length(weights1), windowwidth)
 
-check_weights(nweights::NTuple{N,Int}, windowwidth::Width) where {N} =
+check_weights(nweights::NTuple{N,Int}, windowwidth::Integer) where {N} =
     (all(windowwidth .== nweights)) || weights_error("all length.(weights) must equal windowwidth")
 
 check_lengths(ndata, nweights) =
@@ -64,7 +64,7 @@ function empty_error(sequence)
     throw(err)
 end
 
-function width_error(seqlength::Int, windowwidth::Width)
+function width_error(seqlength::Int, windowwidth::Integer)
     str = string("Bad window width (", windowwidth, ") for length (", seqlength, ").")
     err = WidthError(str)
     throw(err)
@@ -76,7 +76,7 @@ function size_error(size1, size2)
     throw(err)
 end
 
-function weights_error(nweighting::Int, windowwidth::Width)
+function weights_error(nweighting::Int, windowwidth::Integer)
     str = string("Bad weights length (", nweighting, ") != for window length (", windowwidth, ").")
     err = WeightsError(str)
     throw(err)

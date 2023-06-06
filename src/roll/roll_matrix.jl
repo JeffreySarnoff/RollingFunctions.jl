@@ -12,7 +12,7 @@
      padfinal_rolling(func::Function, width, ::Matrix, ::Vector{AbstractWeights}; padding)
 =#
 
-function basic_rolling(func::Function, width::Width, data::AbstractMatrix{T}) where {T}
+function basic_rolling(func::Function, width::Integer, data::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
@@ -32,7 +32,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
+function padfirst_rolling(func::Function, width::Integer, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
@@ -60,7 +60,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, width::Width, data::AbstractMatrix{T}, padding) where {T}
+function padfinal_rolling(func::Function, width::Integer, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
@@ -87,36 +87,34 @@ end
 
 # weighted
 
-function basic_rolling(func::Function, width::Width,
+function basic_rolling(func::Function, width::Integer,
                        data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
-    nc = ncols(data)
+    colcount = ncols(data)
+    mweights = reshape(repeat(Vector(weight), colcount), (length(weight), colcount))
+
+    basic_rolling(func, width, data, mweights)
+end
+
+function basic_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weights::VectorOfWeightVectors{T}) where {T}
+    mweights = vvmatrix(weights)
+    basic_rolling(func, width, data, mweights)
+end
+
+@inline function basic_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T}
     ᵛʷdata = asview(data)
-    wlen_ncols = (length(weight), nc)
-    w = reshape(repeat(weight, nc), wlen_ncols)
-    ᵛʷweight = asview(weight)
+    ᵛʷweights = asview(weights)
 
-    basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
+    basic_rolling(func, width, ᵛʷdata, ᵛʷweights)
 end
 
-function basic_rolling(func::Function, width::Width,
-    data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
-    typ = promote_type(T, W)
-    nc = ncols(data)
-    wlen_ncols = (length(weight), nc)
-    w = reshape(repeat(weight, nc), wlen_ncols)
-    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W === typ ? asview(w) : asview([typ(x) for x in w])
-
-    basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
-end
-
-function basic_rolling(func::Function, width::Width, 
+@inline function basic_rolling(func::Function, width::Integer, 
                        ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}) where {T}
-    n = nrows(ᵛʷdata)
-    nvalues = rolling_wholes(n, width)
-    # there are 1 or more columns, each holds `n` values
+    rowcount, colcount = size(ᵛʷdata)
+    nvalues = rolling_wholes(rowcount, width)
     rettype = rts(func, (T,))
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
+    results = newmatrix(rettype, (nvalues, colcount))
 
     ilow, ihigh = 1, width
     @inbounds for idx in eachindex(eachrow(results))
@@ -128,47 +126,59 @@ function basic_rolling(func::Function, width::Width,
     results
 end
 
-# pad the dropped indicies with a given padding value
-
-function padfirst_rolling(func::Function, width::Width,
-                          data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
-    nc = ncols(data)
-    wlen_ncols = (length(weight), nc)
-    w = reshape(repeat(weight, nc), wlen_ncols)
-
-    ᵛʷdata = asview(data)
-    ᵛʷweight = asview(w)
-
-    padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
-end
-
-function padfirst_rolling(func::Function, width::Width, 
-                          data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+function basic_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
-    nc = ncols(data)
-    wlen_ncols = (length(weight), nc)
-    w = reshape(repeat(weight, nc), wlen_ncols)
 
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W === typ ? asview(w) : asview([typ(x) for x in w])
+    ᵛʷweight = T === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
+    basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfirst_rolling(func::Function, width::Width, 
-                          ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
-    n = nrows(ᵛʷdata)
-    nvalues = rolling_wholes(n, width)
-    rettype = Union{typeof(padding),rts(func, (T,))}
-    results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
+basic_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}) =
+    basic_rolling(func, width, data, asview(Vector(weight))) 
 
-    # only completed width coverings are resolvable
-    # the first (width - 1) values are unresolved wrt func
-    # this is the padding_width
-    padding_width = width - 1
-    padding_idxs = 1:padding_width
+basic_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}) =
+    basic_rolling(func, width, asview(data), weight)
 
-    results = Matrix{Union{typeof(padding),rettype}}(undef, size(ᵛʷdata))
+basic_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}) =
+    basic_rolling(func, width, asview(data), asview(Vector(weight)))
+
+#
+# pad the start (first observations) with a given padding value
+#
+
+function padfirst_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weight::AbstractWeights{T}, padding) where {T}
+    colcount = ncols(data)
+    mweights = reshape(repeat(Vector(weight), colcount), (length(weight), colcount))
+
+    padfirst_rolling(func, width, data, mweights, padding)
+end
+
+function padfirst_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weights::VectorOfWeightVectors{T}, padding) where {T}
+    mweights = vvmatrix(weights)
+    padfirst_rolling(func, width, data, mweights, padding)
+end
+
+@inline function padfirst_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weights::AbstractMatrix{T}, padding) where {T}
+    ᵛʷdata = asview(data)
+    ᵛʷweights = asview(weights)
+
+    padfirst_rolling(func, width, ᵛʷdata, ᵛʷweights, padding)
+end
+
+@inline function padfirst_rolling(func::Function, width::Integer, 
+                       ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T}
+    rowcount, colcount = size(ᵛʷdata)
+    nvalues = rolling_wholes(rowcount, width)
+    rettype = rts(func, (T,))
+    results = newmatrix(rettype, size(ᵛʷdata))
+
+    padding_idxs = 1:(width - 1)
     results[padding_idxs, :] .= padding
 
     ilow, ihigh = 1, width
@@ -181,10 +191,106 @@ function padfirst_rolling(func::Function, width::Width,
     results
 end
 
+function padfirst_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weight::AbstractWeights{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+
+    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
+    ᵛʷweight = T === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight, padding)
+end
+
+padfirst_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}, padding) =
+    padfirst_rolling(func, width, data, asview(Vector(weight)), padding) 
+
+padfirst_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}, padding) =
+    padfirst_rolling(func, width, asview(data), weight, padding)
+
+padfirst_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}, padding) =
+    padfirst_rolling(func, width, asview(data), asview(Vector(weight)), padding)
+
+#
+# pad the end (last observations) with a given padding value
+#
+
+function padlast_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weight::AbstractWeights{T}, padding) where {T}
+    colcount = ncols(data)
+    mweights = reshape(repeat(Vector(weight), colcount), (length(weight), colcount))
+
+    padlast_rolling(func, width, data, mweights, padding)
+end
+
+function padlast_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weights::VectorOfWeightVectors{T}, padding) where {T}
+    mweights = vvmatrix(weights)
+    padlast_rolling(func, width, data, mweights, padding)
+end
+
+@inline function padlast_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weights::AbstractMatrix{T}, padding) where {T}
+    ᵛʷdata = asview(data)
+    ᵛʷweights = asview(weights)
+
+    padlast_rolling(func, width, ᵛʷdata, ᵛʷweights, padding)
+end
+
+@inline function padlast_rolling(func::Function, width::Integer, 
+                       ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T}
+    rowcount, colcount = size(ᵛʷdata)
+    nvalues = rolling_wholes(rowcount, width)
+    rettype = rts(func, (T,))
+    results = newmatrix(rettype, size(ᵛʷdata))
+
+    padding_width = width - 1
+    padding_idxs = (n-padding_width):n
+
+    results = Matrix{rettype}(undef, size(ᵛʷdata))
+    results[padding_idxs, :] .= padding
+
+    ilow, ihigh = 1, width
+    @inbounds for idx in 1:n-padding_width
+        @views results[idx, :] = map(func, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweight)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padlast_rolling(func::Function, width::Integer,
+                       data::AbstractMatrix{T}, weight::AbstractWeights{W}, padding) where {T,W}
+    typ = promote_type(T, W)
+
+    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
+    ᵛʷweight = T === typ ? asview(weight) : asview([typ(x) for x in weight])
+
+    padlast_rolling(func, width, ᵛʷdata, ᵛʷweight, padding)
+end
+
+padlast_rolling(func::Function, width::Integer, data::ViewOfMatrix{T}, weight::AbstractWeights{T}, padding) =
+    padlast_rolling(func, width, data, asview(Vector(weight)), padding) 
+
+padlast_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfMatrix{T}, padding) =
+    padlast_rolling(func, width, asview(data), weight, padding)
+
+padlast_rolling(func::Function, width::Integer, data::Matrix{T}, weight::ViewOfWeights{T}, padding) =
+    padlast_rolling(func, width, asview(data), asview(Vector(weight)), padding)
+
+
+
+
+#=
+
+
+
+
+
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, width::Width,
+function padfinal_rolling(func::Function, width::Integer,
                           data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
     nc = ncols(data)
     wlen_ncols = (length(weight), nc)
@@ -196,7 +302,7 @@ function padfinal_rolling(func::Function, width::Width,
     padfinal_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_rolling(func::Function, width::Width,
+function padfinal_rolling(func::Function, width::Integer,
                           data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     nc = ncols(data)
@@ -209,7 +315,7 @@ function padfinal_rolling(func::Function, width::Width,
     padfinal_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_rolling(func::Function, width::Width, 
+function padfinal_rolling(func::Function, width::Integer, 
                           ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolled(n, width)
@@ -236,7 +342,7 @@ end
 
 # weighted with vector of weights
 
-function basic_rolling(func::Function, width::Width,
+function basic_rolling(func::Function, width::Integer,
                        data::AbstractMatrix{T}, 
                        weights::Vector{A}) where {T, A<:AbstractWeights{T}}
     check_size((width, ncols(data)), (length(weights), length(weights[1])))
@@ -249,7 +355,7 @@ function basic_rolling(func::Function, width::Width,
     basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function basic_rolling(func::Function, width::Width,
+function basic_rolling(func::Function, width::Integer,
     data::AbstractMatrix{T}, weight::Vector{AbstractWeights{W}}) where {T,W}
     typ = promote_type(T, W)
     nc = ncols(data)
@@ -261,7 +367,7 @@ function basic_rolling(func::Function, width::Width,
     basic_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function basic_rolling(func::Function, width::Width, 
+function basic_rolling(func::Function, width::Integer, 
                        ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
@@ -281,7 +387,7 @@ end
 
 # pad the dropped indicies with a given padding value
 
-function padfirst_rolling(func::Function, width::Width,
+function padfirst_rolling(func::Function, width::Integer,
                           data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
     nc = ncols(data)
     wlen_ncols = (length(weight), nc)
@@ -293,7 +399,7 @@ function padfirst_rolling(func::Function, width::Width,
     padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfirst_rolling(func::Function, width::Width, 
+function padfirst_rolling(func::Function, width::Integer, 
                           data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     nc = ncols(data)
@@ -306,7 +412,7 @@ function padfirst_rolling(func::Function, width::Width,
     padfirst_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfirst_rolling(func::Function, width::Width, 
+function padfirst_rolling(func::Function, width::Integer, 
                           ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
@@ -335,7 +441,7 @@ end
 
 # pad the last entries, move windowed data back to the first entries
 
-function padfinal_rolling(func::Function, width::Width,
+function padfinal_rolling(func::Function, width::Integer,
                           data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
     nc = ncols(data)
     wlen_ncols = (length(weight), nc)
@@ -347,7 +453,7 @@ function padfinal_rolling(func::Function, width::Width,
     padfinal_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_rolling(func::Function, width::Width,
+function padfinal_rolling(func::Function, width::Integer,
                           data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     typ = promote_type(T, W)
     nc = ncols(data)
@@ -360,7 +466,7 @@ function padfinal_rolling(func::Function, width::Width,
     padfinal_rolling(func, width, ᵛʷdata, ᵛʷweight)
 end
 
-function padfinal_rolling(func::Function, width::Width, 
+function padfinal_rolling(func::Function, width::Integer, 
                           ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = nrolled(n, width)
@@ -385,3 +491,4 @@ function padfinal_rolling(func::Function, width::Width,
     results
 end
 
+=#
