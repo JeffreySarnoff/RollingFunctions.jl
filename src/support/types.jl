@@ -11,8 +11,8 @@ const Multisequence = Union{Tuple{<:Sequence},AbstractVector{<:Sequence}}
 
 const VectorOfNTuples = AbstractVector{<:NTuple}
 const VectorOfTuples = AbstractVector{<:Tuple}
-const VectorOfVectors = AbstractVector{<:AbstractVector}
-const VectorOfWeights = AbstractVector{<:AbstractWeights}
+const VectorOfVectors = AbstractVector{<:AbstractVector{T}} where {T}
+const VectorOfWeights = AbstractVector{<:AbstractWeights{T}} where {T}
 
 const TupleOfNTuples = Tuple{Vararg{NTuple}}
 const TupleOfTuples = Tuple{Vararg{Tuple}}
