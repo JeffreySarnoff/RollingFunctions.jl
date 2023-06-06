@@ -103,8 +103,8 @@ end
     results = newmatrix(rettype, (nvalues, colcount))
 
     ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(eachrow(results))
-        results[ilow, :] .= map(F, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights))
+    @inbounds for idx in 1:nvalues
+        results[ilow, :] .= map(func, eachcol(ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights))
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
