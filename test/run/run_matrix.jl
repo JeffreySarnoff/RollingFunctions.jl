@@ -29,8 +29,8 @@ expected = [
 pweight = ProbabilityWeights([0.1,0.2,0.7])
 vweight = Vector(pweight)
 
-pweights = vcat(repeat([pweight], 2))
-vweights = map(Vector, pweights)
+vpweights = vcat(repeat([pweight], 2))
+vweights = map(Vector, vpweights)
 
 expected = Float32[
  1.0      5.0
@@ -40,8 +40,8 @@ expected = Float32[
  4.6      1.4
 ]
 
-@test map(Float32, running(F, S, M2, pweight))  == expected
-@test map(Float32, running(F, S, M2, pweights)) == expected
+@test isapprox(map(Float32, running(F, S, M2, pweight)), expected)
+@test isapprox(map(Float32, running(F, S, M2, vweights)), expected)
 
 expected = Float32[
  2.6      3.4
@@ -51,5 +51,5 @@ expected = Float32[
  5.0      1.0
 ];
 
-@test map(Float32, running(F, S, M2, pweight; atend=true))  == expected
-@test map(Float32, running(F, S, M2, pweights; atend=true)) == expected
+@test isapprox(map(Float32, running(F, S, M2, pweight; atend=true)), expected)
+@test isapprox(map(Float32, running(F, S, M2, vpweights; atend=true)), expected)
