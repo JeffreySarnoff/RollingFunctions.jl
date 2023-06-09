@@ -32,7 +32,7 @@ vweight = Vector(pweight)
 pweights = vcat(repeat([pweight], 2))
 vweights = map(Vector, pweights)
 
-expected = [
+expected = Float32[
  1.0      5.0
  1.66667  4.33333
  2.6      3.4
@@ -40,18 +40,10 @@ expected = [
  4.6      1.4
 ]
 
-@test running(F, S, M2, pweight)  == expected
-@test running(F, S, M2, pweights) == expected
+@test map(Float32, running(F, S, M2, pweight))  == expected
+@test map(Float32, running(F, S, M2, pweights)) == expected
 
-expected = [
-     1.0  5.0
-     3.0  9.0
-     6.0 12.0
-     9.0  9.0
-    12.0  6.0
-];
-
-expected = [
+expected = Float32[
  2.6      3.4
  3.6      2.4
  4.6      1.4
@@ -59,5 +51,5 @@ expected = [
  5.0      1.0
 ];
 
-@test running(F, S, M2, pweight; atend=true)  == expected
-@test running(F, S, M2, pweights; atend=true) == expected
+@test map(Float32, running(F, S, M2, pweight; atend=true))  == expected
+@test map(Float32, running(F, S, M2, pweights; atend=true)) == expected
