@@ -104,18 +104,23 @@ function taperfirst(fn::F, width::Integer,
     rettype = rts(fn, (T,))
     results = Matrix{rettype}(undef, size(ᵛʷdata))
 
+    vwweights = asview(Base.stack(map(Vector, ᵛʷweights),dims=2))
+
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
     taper_idxs = 1:width-1
 
     ilow = 1
     @inbounds for idx in taper_idxs
-        @views results[idx, :] = map(fn, vec(ᵛʷdata[ilow:idx, :]) .* normalize(vec(ᵛʷweights[1:idx,:])))
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:idx, :] .* mapnormalize1(vwweights[1:idx,:]))
     end
+
+    sz = (length(ᵛʷweights[1]), length(ᵛʷweights))
+    vwweights = asview(reshape(collect(Iterators.flatten(ᵛʷweights)),sz))
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:nrows(ᵛʷdata)
-        @views results[idx, :] = map(fn, vec(ᵛʷdata[ilow:ihigh, :]) .* vec(ᵛʷweights))
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:ihigh, :] .* vwweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -124,22 +129,23 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
-    n = nrows(ᵛʷdata)
+    nr = nrows(ᵛʷdata)
     rettype = rts(fn, (T,))
+    results = Matrix{rettype}(undef, size(ᵛʷdata))
+
+    vwweights = asview(Base.stack(map(Vector, ᵛʷweights),dims=2))
 
     # only completed width coverings are fully resolvable
     # the last (width - 1) values are to be tapered
-    taper_idxs = n-width+2:n
-
-    results = Matrix{rettype}(undef, size(ᵛʷdata))
+    taper_idxs = nr-width+2:nr
 
     @inbounds for idx in taper_idxs
-        @views results[idx, :] = map(fn, ᵛʷdata[idx:n, :] .* normalize(ᵛʷweights[n:-1:idx]))
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[idx:nr, :] .* mapnormalize1(vwweights[nr:-1:idx]))
     end
 
     ilow, ihigh = 1, width
-    @inbounds for idx in 1:n-width+1
-        @views results[idx, :] = map(fn, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights)
+    @inbounds for idx in 1:nr-width+1
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:ihigh, :] .* vwweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end

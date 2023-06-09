@@ -13,6 +13,10 @@
 - FixTwo
 - FixThree
 
+- normalize1
+- mapslices1
+- mapnormalize1
+
 - commontype
 
 - oneormore
@@ -127,6 +131,29 @@ struct FixThree{F,T} <: Function
 end
 
 (f::FixThree)(w) = f.f(f.x, f.y, f.z, w)
+
+# normalize
+
+"""
+   normalize1
+
+does `normalize(x, 1)`
+"""
+normalize1 = Base.Fix2(normalize, 1)
+
+"""
+   mapslices1
+
+does `mapslices(fn, x; dims=1)`
+"""
+mapslices1(fn, x) = mapslices(fn, x; dims=1)
+
+"""
+   mapnormalize1
+
+does `mapslices(normalize1, x; dims=1)`
+"""
+mapnormalize1(x) = mapslices1(normalize1, x)
 
 # commontype from within a Union
 
