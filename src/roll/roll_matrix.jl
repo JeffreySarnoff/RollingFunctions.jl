@@ -74,9 +74,9 @@ end
 # weighted
 
 function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T, F<:Function}
+                       data::AbstractMatrix{T}, weighting::AbstractWeights{T}) where {T, F<:Function}
     colcount = ncols(data)
-    mweights = reshape(repeat(Vector(weight), colcount), (length(weight), colcount))
+    mweights = vmatrix(weighting, colcount)
 
     basic_rolling(fn, width, data, mweights)
 end
@@ -84,6 +84,7 @@ end
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T, F<:Function}
     mweights = vmatrix(weights)
+
     basic_rolling(fn, width, data, mweights)
 end
 
