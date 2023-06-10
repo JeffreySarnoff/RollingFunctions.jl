@@ -41,7 +41,7 @@ expected = Float32[
 ]
 
 @test isapprox(map(Float32, running(F, S, M2, pweight)), expected)
-@test isapprox(map(Float32, running(F, S, M2, vweights)), expected)
+@test isapprox(map(Float32, running(F, S, M2, vpweights)), expected)
 
 expected = Float32[
  2.6      3.4

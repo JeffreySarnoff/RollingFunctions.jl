@@ -98,13 +98,16 @@ function taperfinal(fn::F, width::Integer,
 end
 
 # views as arguments
-
 function taperfirst(fn::F, width::Integer, 
                     ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
+    vwweights = asview(Base.stack(map(Vector, ᵛʷweights),dims=2))
+    taperfirst(fn, width, ᵛʷdata, vweights)
+end
+
+function taperfirst(fn::F, width::Integer, 
+                    ᵛʷdata::ViewOfMatrix{T}, vwweights::ViewOfMatrix{T}) where {T,F<:Function}
     rettype = rts(fn, (T,))
     results = Matrix{rettype}(undef, size(ᵛʷdata))
-
-    vwweights = asview(Base.stack(map(Vector, ᵛʷweights),dims=2))
 
     # only completed width coverings are fully resolvable
     # the first (width - 1) values are to be tapered
