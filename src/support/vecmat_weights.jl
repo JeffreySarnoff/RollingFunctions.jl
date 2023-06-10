@@ -1,4 +1,21 @@
 """
+    retype(::Type{NewT}, v::AbstractVector{T})
+    retype(::Type{NewT}, m::AbstractMatrix{T})
+    retype(::Type{NewT}, vv::AbstractVector{<:AbstractVector{T}})
+
+provides
+- Vector{NewT}(v)
+- Matrix{NewT}(m)
+- Vector{<:Vector{NewT}}(vv)
+"""
+@inline retype(::Type{T}, v::AbstractVector{T}) where {T} = v
+@inline retype(::Type{NewT}, v::AbstractVector{T}) where {NewT, T} = Vector{NewT}(v)
+@inline retype(::Type{T}, m::AbstractMatrix{T}) where {T} = m
+@inline retype(::Type{NewT}, m::AbstractMatrix{T}) where {NewT,T} = Matrix{NewT}(m)
+@inline retype(::Type{T}, vv::AbstractVector{<:AbstractVector{T}}) where {T} = vv
+@inline retype(::Type{NewT}, vv::AbstractVector{<:AbstractVector{T}}) where {NewT, T} = (Vector{NewT}).(vv)
+
+"""
     vmatrix(vector, n_columns)
     vmatrix(vector_of_vectors)
     vmatrix(::Type{T}, ..)
@@ -20,19 +37,11 @@ end
 end
 
 @inline function vmatrix(::Type{T}, v::AbstractVector, ncolumns::Integer) where {T<:Number}
-    if T === eltype(v)
-        vmatrix(v, ncolumns)
-    else
-        vmatrix(Vector{T}(v), ncolumns)
-    end
+    vmatrix(retype(T, v), ncolumns)
 end
 
 @inline function vmatrix(::Type{T}, vv::AbstractVector{<:AbstractVector}) where {T<:Number}
-    if T === eltype(vv[1])
-        vmatrix(vv)
-    else
-        vmatrix(map(x->Vector{T}(x), vv), ncolumns)
-    end
+    vmatrix(retype(T,vv))
 end
 
 

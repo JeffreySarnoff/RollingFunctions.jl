@@ -5,6 +5,10 @@
             padfirst=nopadding, atend=false)
 =#
 
+# --------------
+# §1: unweighted
+# --------------
+
 
 function rolling(fn::F, width::Integer,
     data1::AbstractVector{T};
@@ -54,7 +58,9 @@ function rolling(fn::F, width::Integer,
     end
 end
 
-# with weights
+# ----------------
+# §2: with weights
+# ----------------
 
 function rolling(fn::F, width::Integer,
     data1::AbstractVector{T}, weight1::AbstractWeights{W};
@@ -124,8 +130,8 @@ function rolling(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {T,W,F<:Function}
     typ = promote_type(T,W)
-    vdata = typ === T ? view(data1, :,:) : view(Matrix{typ}(data1), :, :)
-    vweights = typ === W ? view()
+    #vdata = typ === T ? view(data1, :,:) : view(Matrix{typ}(data1), :, :)
+    #vweights = typ === W ? view(weight1, :) : 
     weights = vmatrix(map(typ, weight1), ncols(data1))
     if typ === T
         weights = vmatrix(map(typ, weight1), ncols(data1))
