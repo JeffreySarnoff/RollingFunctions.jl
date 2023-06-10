@@ -137,6 +137,7 @@ function rolling(fn::F, width::Integer,
         weights = vmatrix(map(typ, weight1), ncols(data1))
     else
         weights = vmatrix(Vector(weight1), ncols(data1))
+    end
     if isnopadding(padding)
         basic_rolling(fn, width, data1, weight1)
     elseif !atend
