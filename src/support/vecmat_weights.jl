@@ -16,6 +16,7 @@ provides
 @inline retype(::Type{NewT}, vv::AbstractVector{<:AbstractVector{T}}) where {NewT, T} = (Vector{NewT}).(vv)
 
 """
+    vmatrix(matrix)
     vmatrix(vector, n_columns)
     vmatrix(vector_of_vectors)
     vmatrix(::Type{T}, ..)
@@ -27,7 +28,12 @@ provides a Matrix
 if the first argument is a numeric type
 - the resultant Matrix has that same `eltype`
 
-"""
+""" vmatrix
+
+vmatrix(m::AbstractMatrix{T}) where {T} = m
+vmatrix(::Type{T}, m::AbstractMatrix{T}) where {T} = m
+vmatrix(::Type{NewT}, m::AbstractMatrix{T}) where {NewT,T} = Matrix{NewT}(m)
+
 @inline function vmatrix(v::AbstractVector, ncolumns::Integer)
     Base.stack(repeat([v], ncolumns))
 end
@@ -57,6 +63,11 @@ provides the view of a Matrix
 if the first argument is a numeric type
 - the resultant Matrix has that same `eltype`
 """
+
+viewmatrix(m::AbstractMatrix{T}) where {T} = viewall(m, :, :)
+viewmatrix(::Type{T}, m::AbstractMatrix{T}) where {T} = view(m, :, :)
+viewmatrix(::Type{NewT}, m::AbstractMatrix{T}) where {NewT,T} = view(vmatrix(NewT, m), :, :)
+
 @inline function viewmatrix(v::AbstractVector, ncolumns::Integer)
     view(vmatrix(v, ncolumns), :, :)
 end
