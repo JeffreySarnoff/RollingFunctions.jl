@@ -70,7 +70,7 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer, 
-                    data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights) where {T, F<:Function}
+                    data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights}) where {T, F<:Function}
     typ = promote_type(T, eltype(weights[1]))
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweights = W1 === typ ? asview(Vector.(weights)) : asview([typ(x) for x in Vector.(weights)])
