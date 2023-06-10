@@ -123,6 +123,14 @@ end
 function rolling(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {T,W,F<:Function}
+    typ = promote_type(T,W)
+    vdata = typ === T ? view(data1, :,:) : view(Matrix{typ}(data1), :, :)
+    vweights = typ === W ? view()
+    weights = vmatrix(map(typ, weight1), ncols(data1))
+    if typ === T
+        weights = vmatrix(map(typ, weight1), ncols(data1))
+    else
+        weights = vmatrix(Vector(weight1), ncols(data1))
     if isnopadding(padding)
         basic_rolling(fn, width, data1, weight1)
     elseif !atend
