@@ -1,35 +1,18 @@
 """
     vmatrix(vector, n_columns)
+    vmatrix(vector_of_vectors)
 
-provides a Matrix where the source `vector` is replicated in each of the `n_columns`
+provides a Matrix
+- where the source `vector` is replicated in each of the `n_columns`
+- where each vector in the vector_of_vectors is a column
 """
-function vmatrix(v::AbstractVector, ncols::Integer)
-    mat = newmatrix(eltype(v), (length(v), ncols))
-    @inbounds for colidx in 1:ncols
-        mat[:,colidx] .= v
-    end
-    mat
+@inline function vmatrix(v::AbstractVector, ncolumns::Integer)
+    Base.stack(repeat([v], ncolumns))
 end
 
-vmatrix(v::AbstractWeights, ncols::Integer) =
-    vmatrix(map(Vector, vv), ncols)
-
-"""
-    vvmatrix(vector_of_vectors)
-
-provides a Matrix constructed from the source `vector_of_vectors` as columns
-"""
-function vvmatrix(vv::AAV) where {T, AV<:AbstractVector{T}, AAV<:AbstractVector{AV}}
-    ncols = length(vv)
-    mat = newmatrix(eltype(first(vv)), (length(first(vv)), ncols))
-    @inbounds for colidx in 1:ncols
-        mat[:,colidx] .= vv[colidx]
-    end
-    mat
+@inline function vmatrix(vv::AbstractVector{<:AbstractVector})
+    Base.stack(vv)
 end
-
-vvmatrix(vv::AWV) where {T, AW<:AbstractWeights{T}, AWV<:AbstractVector{AW}} =
-    vvmatrix(map(Vector, vv))
 
 
 """
