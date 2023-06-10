@@ -150,12 +150,16 @@ end
 function rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W};
     padding=nopadding, atend=false) where {T,W,F<:Function}
+    typ = promote_type(T,W)
+    datavalues = vmatrix(typ, data)
+    weightings = vmatrix(typ, weights)
+
     if isnopadding(padding)
-        basic_rolling(fn, width, data, weights)
+        basic_rolling(fn, width, datavalues, weightings)
     elseif !atend
-        padfirst_rolling(fn, width, data, weights, padding)
+        padfirst_rolling(fn, width, datavalues, weightings, padding)
     else
-        padfinal_rolling(fn, width, data, weights, padding)
+        padfinal_rolling(fn, width, datavalues, weightings, padding)
     end
 end
 
