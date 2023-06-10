@@ -101,7 +101,7 @@ end
 function taperfirst(fn::F, width::Integer, 
                     ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     vwweights = asview(Base.stack(map(Vector, ᵛʷweights),dims=2))
-    taperfirst(fn, width, ᵛʷdata, vweights)
+    taperfirst(fn, width, ᵛʷdata, vwweights)
 end
 
 function taperfirst(fn::F, width::Integer, 
