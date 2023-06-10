@@ -118,8 +118,8 @@ function taperfirst(fn::F, width::Integer,
         @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:idx, :] .* mapnormalize1(vwweights[1:idx,:]))
     end
 
-    sz = (length(ᵛʷweights[1]), length(ᵛʷweights))
-    vwweights = asview(reshape(collect(Iterators.flatten(ᵛʷweights)),sz))
+#    sz = (length(ᵛʷweights[1]), length(ᵛʷweights))
+#    vwweights = asview(reshape(collect(Iterators.flatten(ᵛʷweights)),sz))
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:nrows(ᵛʷdata)
