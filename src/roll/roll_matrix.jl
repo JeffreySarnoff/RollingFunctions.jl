@@ -98,23 +98,32 @@ end
 
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T, W, F<:Function}
+    if isa(T, Integer)
+        return basic_rolling(fn, width, Matrix{W}(data), weighting)
+    end
+  
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
-
     basic_rolling(fn, width, data, mweights)
 end
 
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T, W, F<:Function}
+    if isa(T, Integer)
+        return basic_rolling(fn, width, Matrix{W}(data), weighting)
+    end
+  
     mweights = Matrix{T}(vmatrix(weights))
-
     basic_rolling(fn, width, data, mweights)
 end
 
 @inline function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T, W, F<:Function}
-    mweights = Matrix{T}(weights)
+    if isa(T, Integer)
+        return basic_rolling(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(weights)
     basic_rolling(fn, width, data, weights)
 end
 
@@ -164,6 +173,10 @@ end
 
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
+    if isa(T, Integer)
+        return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
+    end
+
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
 
@@ -172,15 +185,21 @@ end
 
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    mweights = Matrix{T}(vmatrix(weights))
+    if isa(T, Integer)
+        return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(vmatrix(weights))
     padfirst_rolling(fn, width, data, mweights)
 end
 
 @inline function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    mweights = Matrix{T}(weights)
+    if isa(T, Integer)
+        return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(weights)
     padfirst_rolling(fn, width, data, weights)
 end
 
@@ -239,23 +258,32 @@ end
 
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
+    if isa(T, Integer)
+        return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
+    end
+
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
-
     padfinal_rolling(fn, width, data, mweights)
 end
 
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
+    if isa(T, Integer)
+        return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
+    end
+    
     mweights = Matrix{T}(vmatrix(weights))
-
     padfinal_rolling(fn, width, data, mweights)
 end
 
 @inline function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    mweights = Matrix{T}(weights)
+    if isa(T, Integer)
+        return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(weights)
     padfinal_rolling(fn, width, data, weights)
 end
 

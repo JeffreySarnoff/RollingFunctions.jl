@@ -87,8 +87,11 @@ function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, wei
     basic_tiling(fn, width, ᵛʷdata, ᵛʷweight)
 end
 
-
 function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+    if isa(T, Integer)
+        return basic_tiling(fn, width, Matrix{W}(data), weighting)
+    end
+
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -116,6 +119,10 @@ end
 # pad the dropped indicies with a given padding value
 
 function padfirst_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+    if isa(T, Integer)
+        return padfirst_tiling(fn, width, Matrix{W}(data), weighting)
+    end
+
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -148,10 +155,13 @@ function padfirst_tiling(fn::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T
     results
 end
 
-
 # pad the last entries, move windowed data back to the first entries
 
 function padfinal_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
+    if isa(T, Integer)
+        return padfinal_tiling(fn, width, Matrix{W}(data), weighting)
+    end
+
     typ = promote_type(T, W)
     ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])

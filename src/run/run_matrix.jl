@@ -84,23 +84,32 @@ end
 
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
+    if isa(T, Integer)
+        return taperfirst(fn, width, Matrix{W}(data), weighting)
+    end
+
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
-
     taperfirst(fn, width, data, mweights)
 end
 
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    mweights = Matrix{T}(vmatrix(weights))
+    if isa(T, Integer)
+        return taperfirst(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(vmatrix(weights))
     taperfirst(fn, width, data, mweights)
 end
 
 @inline function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    mweights = Matrix{T}(weights)
+    if isa(T, Integer)
+        return taperfirst(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(weights)
     taperfirst(fn, width, data, weights)
 end
 
@@ -157,43 +166,33 @@ end
 
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
+    if isa(T, Integer)
+        return taperfinal(fn, width, Matrix{W}(data), weighting)
+    end
+
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
-
     taperfinal(fn, width, data, mweights)
 end
 
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    mweights = Matrix{T}(vmatrix(weights))
+    if isa(T, Integer)
+        return taperfinal(fn, width, Matrix{W}(data), weighting)
+    end
 
+    mweights = Matrix{T}(vmatrix(weights))
     taperfinal(fn, width, data, mweights)
 end
 
 @inline function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
+    if isa(T, Integer)
+        return taperfinal(fn, width, Matrix{W}(data), weighting)
+    end
+
     mweights = Matrix{T}(weights)
-
     taperfinal(fn, width, data, weights)
-end
-
-function taperfinal(fn::F, width::Integer,
-                    data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
-    typ = promote_type(T, W1)
-    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweight = W1 === typ ? asview(weight) : asview([typ(x) for x in weight])
-    ᵛʷweights = asview(repeat([ᵛʷweight], ncols(ᵛʷdata)))
-
-    taperfinal(fn, width, ᵛʷdata, ᵛʷweights)
-end
-
-function taperfinal(fn::F, width::Integer,
-                    data::AbstractMatrix{T}, weights::Vector{<:AbstractWeights{W,W1}}) where {T, W, W1, F<:Function}
-    typ = promote_type(T, W)
-    ᵛʷdata = T === typ ? asview(data) : asview([typ(x) for x in data])
-    ᵛʷweights = W === typ ? asview(map(asview, Vector.(weights))) : asview(map(asview, [typ(x) for x in Vector.(weights)]))
-
-    taperfinal(fn, width, ᵛʷdata, ᵛʷweights)
 end
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
