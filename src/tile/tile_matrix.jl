@@ -94,12 +94,6 @@ function basic_tiling(fn::F, width::Integer,
 end
 
 function basic_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfWeights{T}) where {T,F<:Function}
-    mweights = vmatrix(weighting)
-    basic_tiling(fn, width, data, mweights)
-end
-
-function basic_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
     mweights = vmatrix(weighting)
     basic_tiling(fn, width, data, mweights)
@@ -121,17 +115,6 @@ function basic_tiling(fn::F, width::Integer,
 
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
-    basic_tiling(fn, width, data, mweights)
-end
-
-function basic_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
-    if T <: Integer
-        T2 = eltype(weighting)
-        return basic_tiling(fn, width, Matrix{T2}(data), weighting)
-    end
-
-    mweights = Matrix{T}(vmatrix(weighting))
     basic_tiling(fn, width, data, mweights)
 end
 
