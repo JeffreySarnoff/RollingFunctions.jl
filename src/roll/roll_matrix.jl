@@ -84,12 +84,12 @@ function basic_rolling(fn::F, width::Integer,
 end
 
 function basic_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
+                       data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T, W, F<:Function}
     if T <: Integer
         T2 = eltype(eltype(weighting))
-        return taperfinal(fn, width, Matrix{T2}(data), vmatrix(weighting))
+        return basic_rolling(fn, width, Matrix{T2}(data), vmatrix(weighting)
     end
-
+  
     mweights = Matrix{T}(vmatrix(weighting))
     basic_rolling(fn, width, data, mweights)
 end
@@ -117,16 +117,6 @@ function basic_rolling(fn::F, width::Integer,
   
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
-    basic_rolling(fn, width, data, mweights)
-end
-
-function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T, W, F<:Function}
-    if T <: Integer
-        return basic_rolling(fn, width, Matrix{W}(data), weighting)
-    end
-  
-    mweights = Matrix{T}(vmatrix(weighting))
     basic_rolling(fn, width, data, mweights)
 end
 
