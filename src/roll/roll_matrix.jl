@@ -71,13 +71,26 @@ function padfinal_rolling(fn::F, width::Integer, data::AbstractMatrix{T}, paddin
     results
 end
 
+#
 # weighted
+#
 
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weighting::AbstractWeights{T}) where {T, F<:Function}
     colcount = ncols(data)
     mweights = vmatrix(weighting, colcount)
 
+    basic_rolling(fn, width, data, mweights)
+end
+
+function basic_rolling(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
+    if T <: Integer
+        T2 = eltype(eltype(weighting))
+        return taperfinal(fn, width, Matrix{T2}(data), vmatrix(weighting))
+    end
+
+    mweights = Matrix{T}(vmatrix(weighting))
     basic_rolling(fn, width, data, mweights)
 end
 

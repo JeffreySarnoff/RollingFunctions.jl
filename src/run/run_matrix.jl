@@ -94,6 +94,17 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
+    if T <: Integer
+        T2 = eltype(eltype(weighting))
+        return taperfirst(fn, width, Matrix{T2}(data), weighting)
+    end
+
+    mweights = Matrix{T}(vmatrix(weighting))
+    taperfirst(fn, width, data, mweights)
+end
+
+function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         return taperfirst(fn, width, Matrix{W}(data), weighting)
@@ -172,6 +183,17 @@ function taperfinal(fn::F, width::Integer,
 
     colcount = ncols(data)
     mweights = vmatrix(Vector{T}(weighting), colcount)
+    taperfinal(fn, width, data, mweights)
+end
+
+function taperfinal(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
+    if T <: Integer
+        T2 = eltype(eltype(weighting))
+        return taperfinal(fn, width, Matrix{T2}(data), weighting)
+    end
+
+    mweights = Matrix{T}(vmatrix(weighting))
     taperfinal(fn, width, data, mweights)
 end
 
