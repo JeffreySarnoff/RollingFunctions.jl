@@ -87,7 +87,7 @@ function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T, W, F<:Function}
     if T <: Integer
         T2 = eltype(eltype(weighting))
-        return basic_rolling(fn, width, Matrix{T2}(data), vmatrix(weighting)
+        return basic_rolling(fn, width, Matrix{T2}(data), vmatrix(weighting))
     end
   
     mweights = Matrix{T}(vmatrix(weighting))
