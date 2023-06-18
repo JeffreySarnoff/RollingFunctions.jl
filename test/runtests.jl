@@ -1,5 +1,5 @@
 using RollingFunctions
-using RollingFunctions: nopadding, innertype
+import RollingFunctions as RF
 using Statistics
 using StatsBase
 using LinearAlgebra
