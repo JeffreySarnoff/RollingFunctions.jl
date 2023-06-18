@@ -4,11 +4,6 @@ data2 = reverse(data1)
 fn = sum
 width = 8
 tile = 8
-padding = nopadding
-atend = false
-
-
-
 
 intvec = collect(1:10);
 floatvec = collect(1.0:10.0);
