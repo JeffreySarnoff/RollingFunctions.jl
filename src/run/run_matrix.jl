@@ -59,6 +59,79 @@ end
 
 # weighted
 
+function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weighting::AbstractWeights{T}) where {T,F<:Function}
+    colcount = ncols(data)
+    mweights = vmatrix(weighting, colcount)
+
+    taperfirst(fn, width, data, mweights)
+end
+
+function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T,F<:Function}
+    mweights = vmatrix(weights)
+
+    taperfirst(fn, width, data, mweights)
+end
+
+@inline function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T,F<:Function}
+    ᵛʷdata = asview(data)
+    ᵛʷweights = asview(weights)
+
+    taperfirst(fn, width, ᵛʷdata, ᵛʷweights)
+end
+
+function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
+    colcount = ncols(data)
+    mweights = vmatrix(Vector{T}(wieghting), colcount)
+
+    taperfirst(fn, width, data, mweights)
+end
+
+function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
+    mweights = Matrix{T}(vmatrix(weights))
+
+    taperfirst(fn, width, data, mweights)
+end
+
+@inline function taperfirst(fn::F, width::Integer,
+    data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
+    mweights = Matrix{T}(weights)
+
+    taperfirst(fn, width, data, weights)
+end
+
+unction taperfirst(fn::F, width::Integer, 
+                    ᵛʷdata::ViewOfMatrix{T}, vwweights::ViewOfMatrix{T}) where {T,F<:Function}
+    rettype = rts(fn, (T,))
+    results = Matrix{rettype}(undef, size(ᵛʷdata))
+
+    # only completed width coverings are fully resolvable
+    # the first (width - 1) values are to be tapered
+    taper_idxs = 1:width-1
+
+    ilow = 1
+    @inbounds for idx in taper_idxs
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:idx, :] .* mapnormalize1(vwweights[1:idx,:]))
+    end
+
+#    sz = (length(ᵛʷweights[1]), length(ᵛʷweights))
+#    vwweights = asview(reshape(collect(Iterators.flatten(ᵛʷweights)),sz))
+
+    ilow, ihigh = 1, width
+    @inbounds for idx in width:nrows(ᵛʷdata)
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:ihigh, :] .* vwweights)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+#=
 function taperfirst(fn::F, width::Integer, 
                     data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
@@ -131,6 +204,7 @@ function taperfirst(fn::F, width::Integer,
 
     results
 end
+=#
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
     nr = nrows(ᵛʷdata)
