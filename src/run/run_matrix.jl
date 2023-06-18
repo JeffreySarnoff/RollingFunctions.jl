@@ -104,7 +104,7 @@ end
     taperfirst(fn, width, data, weights)
 end
 
-unction taperfirst(fn::F, width::Integer, 
+function taperfirst(fn::F, width::Integer, 
                     ᵛʷdata::ViewOfMatrix{T}, vwweights::ViewOfMatrix{T}) where {T,F<:Function}
     rettype = rts(fn, (T,))
     results = Matrix{rettype}(undef, size(ᵛʷdata))
@@ -151,7 +151,7 @@ function taperfirst(fn::F, width::Integer,
 
     taperfirst(fn, width, ᵛʷdata, ᵛʷweights)
 end
-
+=#
 function taperfinal(fn::F, width::Integer,
                     data::AbstractMatrix{T}, weight::AbstractWeights{W,W1}) where {T, W, W1, F<:Function}
     typ = promote_type(T, W1)
@@ -170,7 +170,7 @@ function taperfinal(fn::F, width::Integer,
 
     taperfinal(fn, width, ᵛʷdata, ᵛʷweights)
 end
-
+#=
 # views as arguments
 function taperfirst(fn::F, width::Integer, 
                     ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfViewedWeights{T}) where {T,F<:Function}
