@@ -109,7 +109,7 @@ end
 function basic_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(weighting)
+        T2 = innertype(weighting)
         return basic_tiling(fn, width, Matrix{T2}(data), weighting)
     end
 
@@ -121,7 +121,7 @@ end
 function basic_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return basic_tiling(fn, width, Matrix{T2}(data), weighting)
     end
 
@@ -132,7 +132,8 @@ end
 @inline function basic_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
-        return basic_tiling(fn, width, Matrix{W}(data), weighting)
+        T2 = innertype(weighting)
+        return basic_tiling(fn, width, Matrix{T2}(data), weighting)
     end
 
     mweights = Matrix{T}(weighting)
@@ -186,7 +187,7 @@ end
 function padfirst_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}, padding) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(weighting)
+        T2 = innertype(weighting)
         return padfirst_tiling(fn, width, Matrix{T2}(data), weighting, padding)
     end
 
@@ -199,7 +200,7 @@ end
 function padfirst_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}, padding) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return padfirst_tiling(fn, width, Matrix{T2}(data),weighting, padding)
     end
 
@@ -208,9 +209,10 @@ function padfirst_tiling(fn::F, width::Integer,
 end
 
 @inline function padfirst_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T},weighting::AbstractMatrix{W}, padding) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{W}, padding) where {T,W,F<:Function}
     if T <: Integer
-        return padfirst_tiling(fn, width, Matrix{W}(data),weighting, padding)
+        T2 = innertype(weighting)
+        return padfirst_tiling(fn, width, Matrix{T2}(data),weighting, padding)
     end
 
     padfirst_tiling(fn, width, data, Matrix{T}(weighting), padding)
@@ -219,7 +221,7 @@ end
 function padfirst_tiling(fn::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
-    rettype = Union{typeof(padding),rts(fn, (T,))}
+    rettype = Union{typeof(padding), rts(fn, (T,))}
     results = Matrix{rettype}(undef, (nvalues, ncols(ᵛʷdata)))
 
     # only completed width coverings are resolvable
@@ -271,7 +273,7 @@ end
 function padfinal_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}, padding) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(weighting)
+        T2 = innertype(weighting)
         return padfinal_tiling(fn, width, Matrix{T2}(data), weighting, padding)
     end
 
@@ -284,7 +286,7 @@ end
 function padfinal_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T},weighting::VectorOfVectors{W}, padding) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return padfinal_tiling(fn, width, Matrix{T2}(data), weighting, padding)
     end
 
@@ -295,17 +297,17 @@ end
 @inline function padfinal_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T},weighting::AbstractMatrix{W}, padding) where {T,W,F<:Function}
     if T <: Integer
-        return padfinal_tiling(fn, width, Matrix{W}(data),weighting, padding)
+        T2 = innertype(weighting)
+        return padfinal_tiling(fn, width, Matrix{T2}(data), weighting, padding)
     end
 
     padfinal_tiling(fn, width, data, Matrix{T}(weighting), padding)
 end
 
-
 function padfinal_tiling(fn::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
-    rettype = Union{typeof(padding),rts(fn, (T,))}
+    rettype = Union{typeof(padding), rts(fn, (T,))}
 
     # only completed width coverings are resolvable
     # the first (width - 1) values are unresolved wrt fn

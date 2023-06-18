@@ -85,7 +85,8 @@ end
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     if T <: Integer
-        return taperfirst(fn, width, Matrix{W}(data), weighting)
+        T2 = innertype(weighting)
+        return taperfirst(fn, width, Matrix{T2}(data), weighting)
     end
 
     colcount = ncols(data)
@@ -96,7 +97,7 @@ end
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return taperfirst(fn, width, Matrix{T2}(data), weighting)
     end
 
@@ -107,7 +108,8 @@ end
 @inline function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
-        return taperfirst(fn, width, Matrix{W}(data), weighting)
+        T2 = innertype(weighting)
+        return taperfirst(fn, width, Matrix{T2}(data), weighting)
     end
 
     mweights = Matrix{T}(weighting)
@@ -115,7 +117,7 @@ end
 end
 
 function taperfirst(fn::F, width::Integer, 
-                    ᵛʷdata::ViewOfMatrix{T}, vwweights::ViewOfMatrix{T}) where {T,F<:Function}
+                    ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
     rettype = rts(fn, (T,))
     results = Matrix{rettype}(undef, size(ᵛʷdata))
 
@@ -125,12 +127,12 @@ function taperfirst(fn::F, width::Integer,
 
     ilow = 1
     @inbounds for idx in taper_idxs
-        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:idx, :] .* mapnormalize1(vwweights[1:idx,:]))
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:idx, :] .* mapnormalize1(ᵛʷweights[1:idx, :]))
     end
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:nrows(ᵛʷdata)
-        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:ihigh, :] .* vwweights)
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata[ilow:ihigh, :] .* ᵛʷweights)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
@@ -168,7 +170,8 @@ end
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     if T <: Integer
-        return taperfinal(fn, width, Matrix{W}(data), weighting)
+        T2 = innertype(weighting)
+        return taperfinal(fn, width, Matrix{T2}(data), weighting)
     end
 
     colcount = ncols(data)
@@ -179,7 +182,7 @@ end
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return taperfinal(fn, width, Matrix{T2}(data), weighting)
     end
 
@@ -190,7 +193,8 @@ end
 @inline function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
-        return taperfinal(fn, width, Matrix{W}(data), weighting)
+        T2 = innertype(weighting)
+        return taperfinal(fn, width, Matrix{T2}(data), weighting)
     end
 
     mweights = Matrix{T}(weighting)

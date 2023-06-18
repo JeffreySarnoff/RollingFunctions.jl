@@ -62,7 +62,7 @@ provides the view of a Matrix
 
 if the first argument is a numeric type
 - the resultant Matrix has that same `eltype`
-"""
+""" viewmatrix
 
 viewmatrix(m::AbstractMatrix{T}) where {T} = viewall(m, :, :)
 viewmatrix(::Type{T}, m::AbstractMatrix{T}) where {T} = view(m, :, :)
@@ -97,12 +97,28 @@ end
     newmatrix(::Type, nrows, ncolumns)
 
 provides an unintialized Matrix of given `Type` and `size`
-"""
+""" newmatrix
 
 @inline newmatrix(::Type{T}, size::Tuple{I,I}) where {T<:Number, I<:Integer} = 
     Matrix{T}(undef, size)
 
 @inline newmatrix(::Type{T}, nrows::I, ncolumns::I) where {T<:Number, I<:Integer} =
    newmatrix(T, (nrows, ncolumns))
+
+
+"""
+    innertype(x)
+
+provides the innermost eltype of x (the scalar type underlying x)
+""" innertype
+
+@inline innertype(@nospecialize(x::AbstractVector{<:Number})) = eltype(x)
+@inline innertype(@nospecialize(x::AbstractMatrix{<:Number})) = eltype(x)
+@inline innertype(@nospecialize(x::AbstractVector{<:AbstractVector{<:Number}})) = eltype(eltype(x))
+@inline innertype(@nospecialize(x::AbstractMatrix{<:AbstractVector{<:Number}})) = eltype(eltype(x))
+
+@inline innertype(@nospecialize(x::AbstractWeights{<:Number})) = eltype(x)
+@inline innertype(@nospecialize(x::AbstractVector{AbstractWeights{<:Number}})) = eltype(eltype(x))
+@inline innertype(@nospecialize(x::AbstractMatrix{AbstractWeights{<:Number}})) = eltype(eltype(x))
 
 

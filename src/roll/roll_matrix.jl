@@ -86,7 +86,7 @@ end
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T, W, F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return basic_rolling(fn, width, Matrix{T2}(data), vmatrix(weighting))
     end
   
@@ -189,7 +189,7 @@ end
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return padfirst_rolling(fn, width, Matrix{T2}(data), weighting)
     end
 
@@ -274,7 +274,7 @@ end
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        T2 = eltype(eltype(weighting))
+        T2 = innertype(weighting)
         return padfinal_rolling(fn, width, Matrix{T2}(data), weighting)
     end
     
