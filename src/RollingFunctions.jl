@@ -39,7 +39,6 @@ using StatsBase: kurtosis, mad, sem, skewness, variation,
 using VectorizedStatistics
 
 using KahanSummation: sum_kbn
-using AccurateArithmetic: sum_oro
 
 include("support/types.jl")
 include("support/exceptions.jl")
