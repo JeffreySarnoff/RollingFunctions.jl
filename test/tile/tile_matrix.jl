@@ -44,6 +44,9 @@ mweights = hcat(wweights, wweights)
 expected = [  2.6 3.4
               3.6 2.4
               4.6 1.4 ]
-@test isapprox(tiling(F, S, M2, wweights), expected)
 
+@test isapprox(tiling(F, S, M2, wweights), expected)
 @test isapprox(tiling(F, S, M, wweights), expected)
+
+@test isapprox(tiling(F, S, M2, mweights), expected)
+@test isapprox(tiling(F, S, M, mweights), expected)
