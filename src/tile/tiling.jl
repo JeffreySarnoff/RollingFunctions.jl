@@ -132,6 +132,34 @@ function tiling(fn::F, width::Integer,
 end
 
 function tiling(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weight1::AbstractMatrix{T};
+    padding=nopadding, atend=false) where {T,F<:Function}
+    if isnopadding(padding)
+        basic_tiling(fn, width, data1, weight1)
+    elseif !atend
+        padfirst_tiling(fn, width, data1, weight1, padding)
+    else
+        padfinal_tiling(fn, width, data1, weight1, padding)
+    end
+end
+
+function tiling(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weight1::AbstractMatrix{W};
+    padding=nopadding, atend=false) where {T,W,F<:Function}
+    if T<:Integer
+        return tiling(fn, width, Matrix{W}(data1), weight1; padding, atend)
+    end
+    if isnopadding(padding)
+        basic_tiling(fn, width, data1, weight1)
+    elseif !atend
+        padfirst_tiling(fn, width, data1, weight1, padding)
+    else
+        padfinal_tiling(fn, width, data1, weight1, padding)
+    end
+end
+
+
+function tiling(fn::F, width::Integer,
     data::Tuple{<:AbstractArray}, weight1::AbstractWeights{W};
     padding=nopadding, atend=false) where {W,F<:Function}
     if isnopadding(padding)
