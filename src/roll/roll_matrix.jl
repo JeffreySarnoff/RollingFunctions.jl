@@ -189,7 +189,8 @@ end
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
+        T2 = eltype(eltype(weighting))
+        return padfirst_rolling(fn, width, Matrix{T2}(data), weighting)
     end
 
     mweights = Matrix{T}(vmatrix(weighting))
@@ -273,7 +274,8 @@ end
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
-        return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
+        T2 = eltype(eltype(weighting))
+        return padfinal_rolling(fn, width, Matrix{T2}(data), weighting)
     end
     
     mweights = Matrix{T}(vmatrix(weighting))
