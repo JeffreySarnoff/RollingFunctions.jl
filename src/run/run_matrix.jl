@@ -85,7 +85,7 @@ end
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     taperfirst(fn, width, data, mweights)
 end
@@ -158,7 +158,7 @@ end
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     taperfinal(fn, width, data, mweights)
 end

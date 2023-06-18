@@ -99,7 +99,7 @@ end
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T, W, F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     basic_rolling(fn, width, data, mweights)
 end
@@ -165,7 +165,7 @@ end
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     padfirst_rolling(fn, width, data, mweights)
 end
@@ -240,7 +240,7 @@ end
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     padfinal_rolling(fn, width, data, mweights)
 end

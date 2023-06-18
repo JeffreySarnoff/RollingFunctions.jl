@@ -108,7 +108,7 @@ end
 function basic_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     basic_tiling(fn, width, data, mweights)
 end
@@ -175,7 +175,7 @@ end
 function padfirst_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     padfirst_tiling(fn, width, data, mweights)
 end
@@ -251,7 +251,7 @@ end
 function padfinal_tiling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
     colcount = ncols(data)
-    mweights = vmatrix(Vector{T}(wieghting), colcount)
+    mweights = vmatrix(Vector{T}(weighting), colcount)
 
     padfinal_tiling(fn, width, data, mweights)
 end
