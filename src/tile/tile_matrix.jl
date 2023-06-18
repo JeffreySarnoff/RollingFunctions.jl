@@ -26,8 +26,9 @@ function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}) whe
     results
 end
 
-
+#
 # pad the dropped indicies with a given padding value
+#
 
 function padfirst_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
@@ -53,7 +54,9 @@ function padfirst_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, 
     results
 end
 
+#
 # pad the last entries, move windowed data back to the first entries
+#
 
 function padfinal_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, padding) where {T}
     ᵛʷdata = asview(data)
@@ -79,7 +82,9 @@ function padfinal_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, 
     results
 end
 
+#
 # weighted
+#
 
 function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{T}) where {T}
     ᵛʷdata = asview(data)

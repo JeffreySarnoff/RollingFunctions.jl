@@ -133,13 +133,13 @@ end
 
 function tiling(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weights::AbstractVector{<:AbstractWeights};
-    padding=nopadding, atend=false) where {T,W,F<:Function}
+    padding=nopadding, atend=false) where {T,F<:Function}
     tiling(fn, width, data1, vmatrix(weights); padding, atend)
 end
 
 function tiling(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weights::AbstractVector{<:AbstractVector};
-    padding=nopadding, atend=false) where {T,W,F<:Function}
+    padding=nopadding, atend=false) where {T,F<:Function}
     tiling(fn, width, data1, vmatrix(weights); padding, atend)
 end
 
