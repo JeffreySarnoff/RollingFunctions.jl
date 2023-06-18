@@ -84,7 +84,7 @@ end
 
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return taperfirst(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -95,7 +95,7 @@ end
 
 function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return taperfirst(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -105,7 +105,7 @@ end
 
 @inline function taperfirst(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return taperfirst(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -166,7 +166,7 @@ end
 
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return taperfinal(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -177,7 +177,7 @@ end
 
 function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return taperfinal(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -187,7 +187,7 @@ end
 
 @inline function taperfinal(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return taperfinal(fn, width, Matrix{W}(data), weighting)
     end
 

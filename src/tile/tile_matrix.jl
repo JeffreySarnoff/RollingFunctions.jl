@@ -88,7 +88,7 @@ function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, wei
 end
 
 function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
-    if isa(T, Integer)
+    if T <: Integer
         return basic_tiling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -119,7 +119,7 @@ end
 # pad the dropped indicies with a given padding value
 
 function padfirst_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
-    if isa(T, Integer)
+    if T <: Integer
         return padfirst_tiling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -158,7 +158,7 @@ end
 # pad the last entries, move windowed data back to the first entries
 
 function padfinal_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
-    if isa(T, Integer)
+    if T <: Integer
         return padfinal_tiling(fn, width, Matrix{W}(data), weighting)
     end
 

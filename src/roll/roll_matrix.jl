@@ -98,7 +98,7 @@ end
 
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T, W, F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return basic_rolling(fn, width, Matrix{W}(data), weighting)
     end
   
@@ -109,7 +109,7 @@ end
 
 function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T, W, F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return basic_rolling(fn, width, Matrix{W}(data), weighting)
     end
   
@@ -119,7 +119,7 @@ end
 
 @inline function basic_rolling(fn::F, width::Integer,
                        data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T, W, F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return basic_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -173,7 +173,7 @@ end
 
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -185,7 +185,7 @@ end
 
 function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -195,7 +195,7 @@ end
 
 @inline function padfirst_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -258,7 +258,7 @@ end
 
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
@@ -269,7 +269,7 @@ end
 
 function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
     end
     
@@ -279,7 +279,7 @@ end
 
 @inline function padfinal_rolling(fn::F, width::Integer,
     data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
-    if isa(T, Integer)
+    if T <: Integer
         return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
