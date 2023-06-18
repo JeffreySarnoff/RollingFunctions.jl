@@ -89,7 +89,7 @@ end
 
 function basic_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     if T <: Integer
-        return basic_tiling(fn, width, Matrix{W}(data), weighting)
+        return basic_tiling(fn, width, Matrix{W}(data), weight)
     end
 
     typ = promote_type(T, W)
@@ -120,7 +120,7 @@ end
 
 function padfirst_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     if T <: Integer
-        return padfirst_tiling(fn, width, Matrix{W}(data), weighting)
+        return padfirst_tiling(fn, width, Matrix{W}(data), weight)
     end
 
     typ = promote_type(T, W)
@@ -159,7 +159,7 @@ end
 
 function padfinal_tiling(fn::Function, width::Integer, data::AbstractMatrix{T}, weight::AbstractWeights{W}) where {T,W}
     if T <: Integer
-        return padfinal_tiling(fn, width, Matrix{W}(data), weighting)
+        return padfinal_tiling(fn, width, Matrix{W}(data), weight)
     end
 
     typ = promote_type(T, W)
