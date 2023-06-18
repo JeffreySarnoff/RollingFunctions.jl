@@ -2,8 +2,8 @@
      taperfirst(fn::F, width, ::Matrix)
      taperfinal(fn::F, width, ::Matrix)
 
-     taperfirst(fn::F, width, ::Matrix, weights)
-     taperfinal(fn::F, width, ::Matrix, weights)
+     taperfirst(fn::F, width, ::Matrix, weighting)
+     taperfinal(fn::F, width, ::Matrix, weighting)
 =#
 
 function taperfirst(fn::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
@@ -68,16 +68,16 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T,F<:Function}
-    mweights = vmatrix(weights)
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    mweights = vmatrix(weighting)
 
     taperfirst(fn, width, data, mweights)
 end
 
 @inline function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{T}) where {T,F<:Function}
     ᵛʷdata = asview(data)
-    ᵛʷweights = asview(weights)
+    ᵛʷweights = asview(weighting)
 
     taperfirst(fn, width, ᵛʷdata, ᵛʷweights)
 end
@@ -94,23 +94,23 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         return taperfirst(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(vmatrix(weights))
+    mweights = Matrix{T}(vmatrix(weighting))
     taperfirst(fn, width, data, mweights)
 end
 
 @inline function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
         return taperfirst(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(weights)
-    taperfirst(fn, width, data, weights)
+    mweights = Matrix{T}(weighting)
+    taperfirst(fn, width, data, weighting)
 end
 
 function taperfirst(fn::F, width::Integer, 
@@ -150,16 +150,16 @@ function taperfinal(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T,F<:Function}
-    mweights = vmatrix(weights)
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    mweights = vmatrix(weighting)
 
     taperfinal(fn, width, data, mweights)
 end
 
 @inline function taperfinal(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{T}) where {T,F<:Function}
     ᵛʷdata = asview(data)
-    ᵛʷweights = asview(weights)
+    ᵛʷweights = asview(weighting)
 
     taperfinal(fn, width, ᵛʷdata, ᵛʷweights)
 end
@@ -176,23 +176,23 @@ function taperfinal(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         return taperfinal(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(vmatrix(weights))
+    mweights = Matrix{T}(vmatrix(weighting))
     taperfinal(fn, width, data, mweights)
 end
 
 @inline function taperfinal(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
         return taperfinal(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(weights)
-    taperfinal(fn, width, data, weights)
+    mweights = Matrix{T}(weighting)
+    taperfinal(fn, width, data, weighting)
 end
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}

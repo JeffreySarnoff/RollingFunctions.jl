@@ -82,16 +82,16 @@ function basic_rolling(fn::F, width::Integer,
 end
 
 function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T, F<:Function}
-    mweights = vmatrix(weights)
+                       data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T, F<:Function}
+    mweights = vmatrix(weighting)
 
     basic_rolling(fn, width, data, mweights)
 end
 
 @inline function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T, F<:Function}
+                       data::AbstractMatrix{T}, weighting::AbstractMatrix{T}) where {T, F<:Function}
     ᵛʷdata = asview(data)
-    ᵛʷweights = asview(weights)
+    ᵛʷweights = asview(weighting)
 
     basic_rolling(fn, width, ᵛʷdata, ᵛʷweights)
 end
@@ -108,23 +108,23 @@ function basic_rolling(fn::F, width::Integer,
 end
 
 function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T, W, F<:Function}
+                       data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T, W, F<:Function}
     if T <: Integer
         return basic_rolling(fn, width, Matrix{W}(data), weighting)
     end
   
-    mweights = Matrix{T}(vmatrix(weights))
+    mweights = Matrix{T}(vmatrix(weighting))
     basic_rolling(fn, width, data, mweights)
 end
 
 @inline function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T, W, F<:Function}
+                       data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T, W, F<:Function}
     if T <: Integer
         return basic_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(weights)
-    basic_rolling(fn, width, data, weights)
+    mweights = Matrix{T}(weighting)
+    basic_rolling(fn, width, data, weighting)
 end
 
 @inline function basic_rolling(fn::F, width::Integer, 
@@ -157,16 +157,16 @@ function padfirst_rolling(fn::F, width::Integer,
 end
 
 function padfirst_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T,F<:Function}
-    mweights = vmatrix(weights)
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    mweights = vmatrix(weighting)
 
     padfirst_rolling(fn, width, data, mweights)
 end
 
 @inline function padfirst_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{T}) where {T,F<:Function}
     ᵛʷdata = asview(data)
-    ᵛʷweights = asview(weights)
+    ᵛʷweights = asview(weighting)
 
     padfirst_rolling(fn, width, ᵛʷdata, ᵛʷweights)
 end
@@ -184,23 +184,23 @@ function padfirst_rolling(fn::F, width::Integer,
 end
 
 function padfirst_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(vmatrix(weights))
+    mweights = Matrix{T}(vmatrix(weighting))
     padfirst_rolling(fn, width, data, mweights)
 end
 
 @inline function padfirst_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
         return padfirst_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(weights)
-    padfirst_rolling(fn, width, data, weights)
+    mweights = Matrix{T}(weighting)
+    padfirst_rolling(fn, width, data, weighting)
 end
 
 function padfirst_rolling(fn::F, width::Integer,
@@ -242,16 +242,16 @@ function padfinal_rolling(fn::F, width::Integer,
 end
 
 function padfinal_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{T}) where {T,F<:Function}
-    mweights = vmatrix(weights)
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    mweights = vmatrix(weighting)
 
     padfinal_rolling(fn, width, data, mweights)
 end
 
 @inline function padfinal_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{T}) where {T,F<:Function}
     ᵛʷdata = asview(data)
-    ᵛʷweights = asview(weights)
+    ᵛʷweights = asview(weighting)
 
     padfinal_rolling(fn, width, ᵛʷdata, ᵛʷweights)
 end
@@ -268,23 +268,23 @@ function padfinal_rolling(fn::F, width::Integer,
 end
 
 function padfinal_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
     end
     
-    mweights = Matrix{T}(vmatrix(weights))
+    mweights = Matrix{T}(vmatrix(weighting))
     padfinal_rolling(fn, width, data, mweights)
 end
 
 @inline function padfinal_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weights::AbstractMatrix{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
     if T <: Integer
         return padfinal_rolling(fn, width, Matrix{W}(data), weighting)
     end
 
-    mweights = Matrix{T}(weights)
-    padfinal_rolling(fn, width, data, weights)
+    mweights = Matrix{T}(weighting)
+    padfinal_rolling(fn, width, data, weighting)
 end
 
 function padfinal_rolling(fn::F, width::Integer,
