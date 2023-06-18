@@ -15,49 +15,58 @@ floatvec = collect(1.0:10.0);
 intmat = hcat(intvec, reverse(intvec));
 floatmat = hcat(floatvec, reverse(floatvec));
 
-width = 7
+width = 3
 fn = sum
 
 result = tiling(fn, width, intvec)
-expected = [28, 35, 42, 49]
+expected = [6, 15, 24]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, floatvec)
-expected = [28.0, 35.0, 42.0, 49.0]
+expected = map(Float64, expected)
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, intmat)
-expected = [28 49; 35 42; 42 35; 49 28]
+expected = [
+             6 27
+            15 18
+            24  9
+           ]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, floatmat)
-expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0]
+expected = map(Float64, expected)
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 # pad first
 
 result = tiling(fn, width, intvec; padding = missing)
-expected = [missing, missing, missing, missing, missing, missing, 28, 35, 42, 49]
+expected = [missing, 6, 15, 24]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, floatvec; padding = missing)
-expected = [missing, missing, missing, missing, missing, missing, 28.0, 35.0, 42.0, 49.0]
+expected = map(x->ismissing(x) ? x : Float64(x), expected)
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, intmat; padding = missing)
-expected = [missing missing; missing missing; missing missing; missing missing; missing missing; missing missing; 28 49; 35 42; 42 35; 49 28]
-  
+expected = [
+            missing    missing
+             6         27
+            15         18
+            24          9
+        ]
+
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, floatmat; padding = missing)
-expected = [missing missing; missing missing; missing missing; missing missing; missing missing; missing missing; 28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0]
+expected = map(x -> ismissing(x) ? x : Float64(x), expected)
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
@@ -65,22 +74,27 @@ expected = [missing missing; missing missing; missing missing; missing missing; 
 # pad last
 
 result = tiling(fn, width, intvec; padding = 0, atend=true)
-expected = [28, 35, 42, 49, 0, 0, 0, 0, 0, 0]
+expected = [6, 15, 24, 0]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, floatvec; padding = 0.0, atend=true)
-expected = [28.0, 35.0, 42.0, 49.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+expected = map(x -> ismissing(x) ? x : Float64(x), expected)
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, intmat; padding = 0, atend=true)
-expected = [28 49; 35 42; 42 35; 49 28; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0]
+expected = [
+            6 27
+            15 18
+            24  9
+            0  0
+        ]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
 result = tiling(fn, width, floatmat; padding = 0.0, atend=true)
-expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0]
+expected = map(x -> ismissing(x) ? x : Float64(x), expected)
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 

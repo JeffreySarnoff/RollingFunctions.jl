@@ -2,7 +2,7 @@
     unweighted running
 
     running(fn, width, data...; 
-            taperfirst=nopadding, atend=false)
+            =nopadding, atend=false)
 =#
 
 function running(fn::F, width::Integer,

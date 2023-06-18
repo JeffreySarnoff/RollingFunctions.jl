@@ -7,69 +7,95 @@ width = 7
 fn = sum
 
 result = running(fn, width, intvec)
-expected = [28, 35, 42, 49]
+expected = [1, 3, 6, 10, 15, 21, 28, 35, 42, 49]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 result = running(fn, width, floatvec)
-expected = [28.0, 35.0, 42.0, 49.0]
+expected = Float64[1, 3, 6, 10, 15, 21, 28, 35, 42, 49]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 result = running(fn, width, intmat)
-expected = [28 49; 35 42; 42 35; 49 28]
+expected = [
+            1  10
+            3  19
+            6  27
+            10  34
+            15  40
+            21  45
+            28  49
+            35  42
+            42  35
+            49  28]
 @test result == expected
 @test typeof(result) == typeof(expected)
 
 result = running(fn, width, floatmat)
-expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0]
+expected = map(Float64, expected)
 @test result == expected
 @test typeof(result) == typeof(expected)
 
-# pad first
+# taper first
 
-result = running(fn, width, intvec; padding = missing)
-expected = [missing, missing, missing, missing, missing, missing, 28, 35, 42, 49]
+result = running(fn, width, intvec; atend = false)
+expected = [1, 3, 6, 10, 15, 21, 28, 35, 42, 49]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = running(fn, width, floatvec; padding = missing)
-expected = [missing, missing, missing, missing, missing, missing, 28.0, 35.0, 42.0, 49.0]
+result = running(fn, width, floatvec; atend = false)
+expected = map(Float64, expected)
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = running(fn, width, intmat; padding = missing)
-expected = [missing missing; missing missing; missing missing; missing missing; missing missing; missing missing; 28 49; 35 42; 42 35; 49 28]
-  
+result = running(fn, width, intmat; atend = false)
+expected = [
+             1  10
+             3  19
+             6  27
+            10  34
+            15  40
+            21  45
+            28  49
+            35  42
+            42  35
+            49  28
+        ]
+@test result == expected
+
+result = running(fn, width, floatmat; atend = false)
+expected = map(Float64, expected)
+@test result == expected
+
+# taper last
+
+result = running(fn, width, intvec; atend=true)
+expected =  [ 28, 35, 42, 49, 45, 40, 34, 27, 19, 10]
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
-result = running(fn, width, floatmat; padding = missing)
-expected = [missing missing; missing missing; missing missing; missing missing; missing missing; missing missing; 28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0]
+result = running(fn, width, floatvec; atend=true)
+expected = map(Float64, expected)
 @test map(clean, result) == map(clean, expected)
 @test typeof(result) == typeof(expected)
 
+result = running(fn, width, intmat; atend=true)
+expected = [
+            28  49
+            35  42
+            42  35
+            49  28
+            45  21
+            40  15
+            34  10
+            27   6
+            19   3
+            10   1
+        ]
+@test result == expected
 
-# pad last
-
-result = running(fn, width, intvec; padding = 0, atend=true)
-expected = [28, 35, 42, 49, 0, 0, 0, 0, 0, 0]
-@test map(clean, result) == map(clean, expected)
-@test typeof(result) == typeof(expected)
-
-result = running(fn, width, floatvec; padding = 0.0, atend=true)
-expected = [28.0, 35.0, 42.0, 49.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-@test map(clean, result) == map(clean, expected)
-@test typeof(result) == typeof(expected)
-
-result = running(fn, width, intmat; padding = 0, atend=true)
-expected = [28 49; 35 42; 42 35; 49 28; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0]
-@test map(clean, result) == map(clean, expected)
-@test typeof(result) == typeof(expected)
-
-result = running(fn, width, floatmat; padding = 0.0, atend=true)
-expected = [28.0 49.0; 35.0 42.0; 42.0 35.0; 49.0 28.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0; 0.0 0.0]
-@test map(clean, result) == map(clean, expected)
-@test typeof(result) == typeof(expected)
+result = running(fn, width, floatmat; atend=true)
+expected = map(Float64, expected)
+@test result == expected
 
 
