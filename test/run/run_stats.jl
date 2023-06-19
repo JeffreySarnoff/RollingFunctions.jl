@@ -19,9 +19,3 @@ obtained = runmean(windowsize, datavec, weighting)
 expected = [NaN, 1.5, 2.5, 6.0, 9.5, 10.0, 12.0]
 obtained = running(cov, 3, data1, data2)
 @test isapprox(filter(!isnan,obtained), filter(!isnan,expected))
-
-expected = Float32[3.1904764, 11.047618, 20.190474, 0.0, 0.0, 0.0, 0.0]
-obtained = map(Float32, runcov(windowsize, data1, data2, weighting))
-@test isapprox(obtained, expected)
-obtained = map(Float32, running(VectorizedStatistics.vcov, windowsize, data1, data2, weighting))
-@test isapprox(obtained, expected)

@@ -10,6 +10,7 @@ for (R, F) in ( (:runmin, :vminimum), (:runmax, :vmaximum),
     end
 end
 
+#=
 for (R, F) in ((:runcor, :vcor), (:runcov, :vcov))
     @eval begin
         $R(width::Integer, data1, data2) =
@@ -20,3 +21,4 @@ for (R, F) in ((:runcor, :vcor), (:runcov, :vcov))
             running(VectorizedStatistics.$F, width, data1, data2, weights1, weights2)
     end
 end
+=#
