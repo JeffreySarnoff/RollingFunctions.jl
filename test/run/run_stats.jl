@@ -23,5 +23,5 @@ obtained = running(cov, 3, data1, data2)
 expected = Float32[3.1904764, 11.047618, 20.190474, 0.0, 0.0, 0.0, 0.0]
 obtained = map(Float32, runcov(windowsize, data1, data2, weighting))
 @test isapprox(obtained, expected)
-obtained = map(Float32, runcov(windowsize, data1, data2, weighting, weighting))
+obtained = map(Float32, running(VectorizedStatistics.vcov, windowsize, data1, data2, weighting))
 @test isapprox(obtained, expected)
