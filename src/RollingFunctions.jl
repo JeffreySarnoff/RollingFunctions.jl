@@ -47,6 +47,23 @@ using VectorizedStatistics
 
 using KahanSummation: sum_kbn
 
+#=
+partition(xs n, [step]) Group values into n-tuples.
+
+imap(fn, xs[, ys[, zs ..]]) Iterate over values of a function applied to successive values from one or more iterators.
+julia> for i in imap(+, [1,2,3], [4,5,6])
+            @show i
+       end
+i = 5
+i = 7
+i = 9
+
+takenth Iterate through every n'th element of xs
+
+ivec Iterate over xs but do not preserve shape information.
+=#
+using IterTools: imap, partition, ivec, takenth
+
 include("support/types.jl")
 include("support/exceptions.jl")
 include("support/utils.jl")
