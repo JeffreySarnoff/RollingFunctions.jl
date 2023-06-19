@@ -15,9 +15,10 @@ See: [`rolling`](@ref),
 rolling(fn, width, data; padding=nopadding)
     rolling(fn, width, data; padding, atend=false) 
 
-rolling() applies `fn` (a summarizing or condensing function)
-to the elements within the current window, in appearance order;
-and advances the window ([start:finish]) by one ([start+1:finish+1]).
+`rolling` applies a summarizing or condensing function (fn)
+to all elements within the current window (seen simulataneously);
+then advances the window ([start:finish]) by one ([start+1:finish+1])
+to apply fn over the elements covered by the new window ...
 
 - rolling(fn, width, data)
 - rolling(fn, width, data; padding)
@@ -40,91 +41,76 @@ See also: [`tiling`](@ref),
      
 """ rolling
 
-#=
-
-rolling(      (a)->fn(a),       width, adata)
-rolling(    (a,b)->fn(a,b),     width, adata, bdata)
-rolling(  (a,b,c)->fn(a,b,c),   width, adata, bdata, cdata)
-rolling((a,b,c,d)->fn(a,b,c,d), width, adata, bdata, cdata, ddata)
-
-rolling(row->fn(row), width, datamatrix)
-rolling(row->fn(row), width, datamatrix; padding)
-rolling(row->fn(row), width, datamatrix; padding, atend)
-
-The data is given as 1, 2, 3, or 4 vectors or as a matrix.
-
-With padding, there will be width-1 padded values.
-=#
-
 """
-    tiling(fn, width, data; padding=nopadding, atend=false)
+    tiling(fn, window_width, data_seq)
 
-`tiling` repeatedly moves the window just beyond its current end.
+tiling(fn, width, data; padding=nopadding)
+    tiling(fn, width, data; padding, atend=false) 
+
+`tiling` applies a summarizing or condensing function (fn)
+to all elements within the current window (seen simulataneously);
+then advances the window ([start:finish]) by the window_width
+ ([start+width:finish+width]), skipping over the prior window, 
+to apply fn over the elements covered by the new window ...
 
 - tiling(fn, width, data)
 - tiling(fn, width, data; padding)
 - tiling(fn, width, data; padding, atend=false)
 
-```
-tiling(    (a)->fn(a),     width, adata)
-tiling(  (a,b)->fn(a,b),   width, adata, bdata)
-tiling((a,b,c)->fn(a,b,c), width, adata, bdata, cdata)
+**arguments**
 
-tiling(row->fn(row), width, datamatrix)
-tiling(row->fn(row), width, datamatrix; padding, atend=false)
-```
-The data is given as 1, 2, or 3 vectors or as a matrix.
+- fn <: Function:   summarizes, condenses windowed data
+- width::Integer:   window breadth, counts covered elements.
+- data_seq::Vector: the data over which the window moves.
 
-With padding, there will be 0 (if an exact fit) or 1 padded value.
+keywords (optional)
+- padding::Any=nopadding: the value place as filler.
+- atend::Bool=false:     where to place the padding.
 
 See also: [`rolling`](@ref),
           [`running`](@ref),
           [`padding`](@ref), 
           [`atend`](@ref)
-
-""" tiling
+     
+"""
+tiling
 
 """
-    running(fn, width, data)
+    running(fn, window_width, data_seq)
 
-`running` repeatedly moves the window one index forward.
+running(fn, width, data; atend=false) 
 
-`running` tapers the width as it nears the end of the data.
-- there is no padding, tapered results are used instead.
+`running` applies a summarizing or condensing function (fn)
+to all elements within the current window (seen simulataneously);
+then advances the window ([start:finish]) by one ([start+1:finish+1])
+to apply fn over the elements covered by the new window ...
 
-```
-running(    (a)->fn(a),     width, adata)
-running(  (a,b)->fn(a,b),   width, adata, bdata)
-running((a,b,c)->fn(a,b,c), width, adata, bdata, cdata)
+`running` differs from `rolling`. When rolling() one may pad
+values that otherwise would be dropped to obtain a result
+of length that matches expectation or convienience.
 
-running(row->fn(row), width, datamatrix)
-```
-The data is given as 1, 2, or 3 vectors or as a matrix.
+Running() provides replacements for those dropped values
+by tapering the width of the window as it moves from the start
+[as it moves to the end] of the data sequence (see atend).
+
+- running(fn, width, data)
+- running(fn, width, data; atend=false)
+
+**arguments**
+
+- fn <: Function:   summarizes, condenses windowed data
+- width::Integer:   window breadth, counts covered elements.
+- data_seq::Vector: the data over which the window moves.
+
+keywords (optional)
+- atend::Bool=false:     where to place the padding.
 
 See also: [`rolling`](@ref),
           [`tiling`](@ref),
-          [`tapering`](@ref)
-
-""" running
-
+          [`atend`](@ref)
+     
 """
-    tapering
-  
-  By definition, applying a windowed function over data
-  will result in fewer items than are in the original data.
-  
-  `tapering` is a way to add the dropped items using the data itself.
-  
-  By default, tapered values are placed at the start of the result.
-  - the tapered values are placed at the lowest indices
-  To place tapered values at the start of the result, set `atend=true`.
-  - the tapered values are placed at the highest indices
-  
-  See also: [`rolling`](@ref),
-            [`tiling`](@ref),
-            [`running`](@ref)
-  
-""" tapering
+running
 
 """
     padding
@@ -165,7 +151,21 @@ See also: [`rolling`](@ref),
 """ atend
 
 
+
 #=
+
+rolling(      (a)->fn(a),       width, adata)
+rolling(    (a,b)->fn(a,b),     width, adata, bdata)
+rolling(  (a,b,c)->fn(a,b,c),   width, adata, bdata, cdata)
+rolling((a,b,c,d)->fn(a,b,c,d), width, adata, bdata, cdata, ddata)
+
+rolling(row->fn(row), width, datamatrix)
+rolling(row->fn(row), width, datamatrix; padding)
+rolling(row->fn(row), width, datamatrix; padding, atend)
+
+The data is given as 1, 2, 3, or 4 vectors or as a matrix.
+
+With padding, there will be width-1 padded values.
 
 """
     windows_with_matrices
