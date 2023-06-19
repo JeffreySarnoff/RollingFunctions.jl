@@ -7,6 +7,7 @@ export rolling, tiling, running,
        rollsum, rollmean, rollvar, rollstd, 
        rollcor, rollcov
 
+#=
 export rolling, running, tiling
 
        rollmin, rollmax,             # min, max
@@ -29,6 +30,7 @@ export rolling, running, tiling
        # with two data vectors
        rollcor, rollcov,
        runcor, runcov
+=#
 
 using LinearAlgebra: normalize
 
