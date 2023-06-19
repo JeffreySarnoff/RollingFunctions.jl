@@ -160,6 +160,8 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     check_width(n, width)
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), width)
 
+    nvalues = rolling_wholes(n, width)
+    
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, n)
