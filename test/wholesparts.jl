@@ -1,4 +1,4 @@
-
+import RollingFunctions: wholes, parts, wholesparts
 
 function testwholesparts(n, width, slide)
     nwindows = 0
