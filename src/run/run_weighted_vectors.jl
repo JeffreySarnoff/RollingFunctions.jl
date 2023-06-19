@@ -161,7 +161,7 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     check_weights(length(ᵛʷweight1), length(ᵛʷweight2), width)
 
     nvalues = rolling_wholes(n, width)
-    
+
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T}, Vector{T}))
     results = Vector{rettype}(undef, n)
@@ -171,7 +171,7 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     end
 
     ilow, ihigh = 1, width
-    @inline for idx in 1:nvalues-tapering_width
+    @inline for idx in 1:nvalues-(width - 1)
         @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
@@ -204,7 +204,7 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     end
 
     ilow, ihigh = 1, width
-    @inline for idx in 1:nvalues-tapering_width
+    @inline for idx in 1:nvalues-(width - 1)
         @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
