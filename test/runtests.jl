@@ -1,6 +1,7 @@
 using RollingFunctions
 import RollingFunctions as RF
 using Statistics
+using VectorizedStatistics
 using StatsBase
 using LinearAlgebra
 using Test
