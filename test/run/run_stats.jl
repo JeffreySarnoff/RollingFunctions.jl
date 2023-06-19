@@ -24,3 +24,4 @@ expected = Float32[0.999406, 0.987553, 0.999818, 0.0, 0.0, 0.0, 0.0]
 obtained = map(Float32, runcor(windowsize, data1, data2, weighting))
 @test isapprox(obtained, expected)
 obtained = map(Float32, runcor(windowsize, data1, data2, weighting, weighting))
+@test isapprox(obtained, expected)
