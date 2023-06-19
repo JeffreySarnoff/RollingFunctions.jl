@@ -21,7 +21,7 @@ obtained = running(cov, 3, data1, data2)
 @test isapprox(filter(!isnan,obtained), filter(!isnan,expected))
 
 expected = Float32[0.999406, 0.987553, 0.999818, 0.0, 0.0, 0.0, 0.0]
-obtained = map(Float32, runcor(windowsize, data1, data2, weighting))
+obtained = map(Float32, runcov(windowsize, data1, data2, weighting))
 @test isapprox(obtained, expected)
-obtained = map(Float32, runcor(windowsize, data1, data2, weighting, weighting))
+obtained = map(Float32, runcov(windowsize, data1, data2, weighting, weighting))
 @test isapprox(obtained, expected)
