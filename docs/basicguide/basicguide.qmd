@@ -1,0 +1,10 @@
+## Introducing RollingFunctions V1
+
+```julia
+using RollingFunctions
+using UnicodePlots
+
+datavector = map(x->trunc(16*cbrt(exp(x))), 1.0f0:12.0f0);
+
+scatterplot(1:12,datavector)
+```
