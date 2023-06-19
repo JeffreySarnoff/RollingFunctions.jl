@@ -29,7 +29,7 @@ and advances the window ([start:finish]) by one ([start+1:finish+1]).
 - width::Integer:   window breadth, counts covered elements.
 - data_seq::Vector: the data over which the window moves.
 
-*keyword args*
+keywords (optional)
 - padding::Any=nopadding: the value place as filler.
 - atend::Bool=false:     where to place the padding.
 
@@ -40,7 +40,8 @@ See also: [`tiling`](@ref),
      
 """ rolling
 
-```
+#=
+
 rolling(      (a)->fn(a),       width, adata)
 rolling(    (a,b)->fn(a,b),     width, adata, bdata)
 rolling(  (a,b,c)->fn(a,b,c),   width, adata, bdata, cdata)
@@ -49,18 +50,11 @@ rolling((a,b,c,d)->fn(a,b,c,d), width, adata, bdata, cdata, ddata)
 rolling(row->fn(row), width, datamatrix)
 rolling(row->fn(row), width, datamatrix; padding)
 rolling(row->fn(row), width, datamatrix; padding, atend)
-```
 
 The data is given as 1, 2, 3, or 4 vectors or as a matrix.
 
 With padding, there will be width-1 padded values.
-
-See also: [`tiling`](@ref),
-          [`running`](@ref),
-          [`padding`](@ref), 
-          [`atend`](@ref)
-     
-""" rolling
+=#
 
 """
     tiling(fn, width, data; padding=nopadding, atend=false)
