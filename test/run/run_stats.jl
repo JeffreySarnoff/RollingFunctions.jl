@@ -1,9 +1,8 @@
+datavec = collect(1.0f0:5.0f0)
+weighting = AnalyticWeights(normalize([1.0f0, 2.0f0, 4.0f0]))
 windowsize = 3
+
 @test runmean(windowsize, datavec) == Float32[2.0, 3.0, 4.0]
-#=
-julia> runmean(windowsize, datavec)
-ERROR: MethodError: no method matching running(::typeof(VectorizedStatistics.vmean), ::Int64, ::Vector{Float32}; padding::RollingFunctions.NoPadding, atend::Bool)
-=#
 
 expected = [2.0f0, 3.0f0, 4.0f0]
 obtained = running(mean, 3, datavec)

@@ -5,7 +5,14 @@ using Base: @kwdef
 export rolling, tiling, running,
        rollmin, rollmax, rollextrema,
        rollsum, rollmean, rollvar, rollstd, 
-       rollcor, rollcov
+       rollcor, rollcov,
+       tilemin, tilemax, tileextrema,
+       tilesum, tilemean, tilevar, tilestd,
+       tilecor, tilecov,
+       runmin, runmax, runextrema,
+       runsum, runmean, runvar, runstd, 
+       runcor, runcov
+
 
 #=
 export rolling, running, tiling
