@@ -2,13 +2,13 @@ module RollingFunctions
 
 using Base: @kwdef
 
-export rolling, tiling, running, wholesparts, wholes, parts,
-       fast_normalize_weights, normalize_weights,
-       # functions using VectorizedStatistics
-       rollmin, rollmax, rollmean, rollsum,
-       rollvar, rollstd, rollcor, rollcov
+export rolling, tiling, running,
+       rollmin, rollmax, rollextrema,
+       rollsum, rollmean, rollvar, rollstd, 
+       rollcor, rollcov
 
-export rolling,
+export rolling, running, tiling
+
        rollmin, rollmax,             # min, max
        rollmean, rollmedian,          # mean, median
        rollvar, rollstd,             # variance, standard deviation

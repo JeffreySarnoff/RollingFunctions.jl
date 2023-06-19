@@ -1,4 +1,4 @@
-
+windowsize = 3
 @test runmean(windowsize, datavec) == Float32[2.0, 3.0, 4.0]
 #=
 julia> runmean(windowsize, datavec)

@@ -1,5 +1,6 @@
 for T1 in (:T, :(Union{Missing,T}))
     for (R, F) in ((:tilemin, :vminimum), (:tilemax, :vmaximum),
+        (:tileextrema, :vextrema),
         (:tilemean, :vmean), (:tilesum, :vsum),
         (:tilevar, :vvar), (:tilestd, :vstd))
         @eval begin
