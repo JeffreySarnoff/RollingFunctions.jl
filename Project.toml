@@ -14,8 +14,6 @@ VectorizedStatistics = "3b853605-1c98-4422-8364-4bd93ee0529e"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 KahanSummation = "8e2b3108-d4c1-50be-a7a2-16352aec75c3"
 Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
-FastBroadcast = "7034ab61-46d4-4ed7-9d0f-46aef9175898"
-Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
@@ -24,11 +22,9 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 test = ["Test"]
 
 [compat]
-FastBroadcast = "0.2, 0.3, 0.4"
 KahanSummation = "0.3, 0.4"
 Statistics = "1.7"
 StatsBase = "0.33, 0.34, 0.35, 0.36"
 VectorizedStatistics = "0.5, 0.6, 0.7"
 Tables = "1.10"
-Documenter = "0.26, 0.27, 0.28, 0.29, 0.30, 0.31"
 julia = "1.9"
