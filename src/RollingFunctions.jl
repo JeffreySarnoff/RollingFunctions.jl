@@ -1,7 +1,5 @@
 module RollingFunctions
 
-using Base: @kwdef
-
 export rolling, tiling, running,
        rollmin, rollmax, rollextrema,
        rollsum, rollmean, rollvar, rollstd, 
