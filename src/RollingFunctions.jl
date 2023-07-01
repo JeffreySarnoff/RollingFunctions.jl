@@ -44,9 +44,7 @@ using StatsBase: mean, median, std, var, cor, cov,
        AbstractWeights, Weights,
        FrequencyWeights, AnalyticWeights, ProbabilityWeights
 
-using VectorizedStatistics, TableTransforms
-
-using KahanSummation: sum_kbn
+using VectorizedStatistics
 
 include("support/types.jl")
 include("support/exceptions.jl")

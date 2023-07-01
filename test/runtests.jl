@@ -1,8 +1,8 @@
 using RollingFunctions
 import RollingFunctions as RF
-using VectorizedStatistics
-using StatsBase
 using LinearAlgebra
+using StatsBase
+using VectorizedStatistics
 using Test
 
 clean(x) = x
