@@ -37,13 +37,14 @@ export rolling, running, tiling
        runcor, runcov
 =#
 
-using LinearAlgebra: normalize
+using LinearAlgebra: norm, normalize
 
-using Statistics: mean, median, std, var, cor, cov
-using StatsBase: kurtosis, mad, sem, skewness, variation,
+using StatsBase: mean, median, std, var, cor, cov,
+       kurtosis, mad, sem, skewness, variation,
        AbstractWeights, Weights,
        FrequencyWeights, AnalyticWeights, ProbabilityWeights
-using VectorizedStatistics
+
+using VectorizedStatistics, TableTransforms
 
 using KahanSummation: sum_kbn
 
