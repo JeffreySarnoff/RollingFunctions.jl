@@ -118,7 +118,7 @@ function taperfirst(fn::F, width::Integer,
     taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
 end
 
-function taperfirst(fn::F, width::Integer, data1::AbstractMatrix{T}, weighting::Vector{<:AbstractWeights{T}}; padding=nopadding) where {T}
+function taperfirst(fn::F, width::Integer, data1::AbstractMatrix{T}, weighting::Vector{<:AbstractWeights{T}}; padding=nopadding) where {T,F<:Function}
     println("\n\n\t found it \n\n")
 end
 
