@@ -2,23 +2,23 @@ module RollingFunctions
 
 export rolling, tiling, running,
        rollmin, rollmax, rollextrema,
-       rollsum, rollmean, rollvar, rollstd, 
+       rollmean, rollmedian,
+       rollsum, rollvar, rollstd,
        rollcor, rollcov,
        tilemin, tilemax, tileextrema,
-       tilesum, tilemean, tilevar, tilestd,
+       tilemean, tilemedian,
+       tilesum, tilevar, tilestd,
        tilecor, tilecov,
        runmin, runmax, runextrema,
-       runsum, runmean, runvar, runstd, 
+       runmean, runmedian,
+       runsum, runvar, runstd, 
        runcor, runcov
 
 
 #=
 export rolling, running, tiling
 
-       rollmin, rollmax,             # min, max
-       rollmean, rollmedian,          # mean, median
-       rollvar, rollstd,             # variance, standard deviation
-       rollskewness, rollkurtosis,    # skewness, kurtosis
+      rollskewness, rollkurtosis,    # skewness, kurtosis
        rollsem,                       # standard error of the mean
        rollmad,                       # mean absolute deviation
        rollmad_normalized,            # mean absolute deviation for normal data
@@ -36,6 +36,8 @@ export rolling, running, tiling
        rollcor, rollcov,
        runcor, runcov
 =#
+
+using Base: @constprop, @propagate_inbounds, @_inline_meta
 
 using LinearAlgebra: norm, normalize
 
