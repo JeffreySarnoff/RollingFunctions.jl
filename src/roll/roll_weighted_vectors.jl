@@ -161,7 +161,6 @@ function padfinal_rolling(fn::F, width::Integer, data1::AbstractVector{T}, data2
     padfinal_rolling(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
 end
 
-
 function padfinal_rolling(fn::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}, padding) where {T,W, F<:Function}
     typ = promote_type(T, W)
