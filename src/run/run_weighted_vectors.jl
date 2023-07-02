@@ -201,7 +201,7 @@ function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷwei
 
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T},))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = fn(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end])
@@ -232,7 +232,7 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
 
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = fn(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end])
@@ -265,7 +265,7 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
 
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = fn(ᵛʷdata1[1:idx].* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end],ᵛʷdata3[1:idx] .* ᵛʷweight3[end-idx+1:end])
@@ -331,7 +331,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
@@ -362,7 +362,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
     tapering_idxs = n-tapering_width-1:n
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    result = Vector{Union{typeof(tapering),rettype}}(undef, n)
     results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
@@ -390,7 +390,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
     tapering_idxs = n-tapering_width-1:n
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(tapering),rettype}}(undef, n)
+    result = Vector{Union{typeof(tapering),rettype}}(undef, n)
     results[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width

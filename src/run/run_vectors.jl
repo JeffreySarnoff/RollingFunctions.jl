@@ -119,7 +119,7 @@ function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}) where {F
 
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T},))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = fn(ᵛʷdata1[1:idx])
@@ -146,7 +146,7 @@ function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
 
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx])
@@ -173,7 +173,7 @@ function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
 
     taper_idxs = 1:n-nvalues
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
         @views results[idx] = fn(ᵛʷdata1[1:idx], ᵛʷdata2[1:idx], ᵛʷdata3[1:idx])
@@ -237,7 +237,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}) where {F
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
@@ -264,7 +264,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
     end
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
@@ -291,7 +291,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
     end
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, n)
+    result = Vector{rettype}(undef, n)
     # results[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
