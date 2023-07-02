@@ -6,8 +6,32 @@
      taperfinal(fn::F, width, ::Matrix, weighting)
 =#
 
-function taperfirst(fn::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:Function}
-    ᵛʷdata = asview(data)
+
+function taperfirst(fn::F, width::Integer, data1::AbstractMatrix{T}; padding=nopadding) where {F<:Function,T}
+    ᵛʷdata1 = asview(data1)
+    result = taperfirst(fn, width, ᵛʷdata1)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, padding)
+    end
+end
+
+function taperfirstpadded(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, padding) where {T,F<:Function}
+    result = taperfirst(fn, width, ᵛʷdata)
+    for c = 1:ncols(result)
+        for r = 1:nrows(result)
+            if !isnan(result[r,c])
+                break
+            else
+                result[r,c] = padding
+            end
+        end
+    end
+    result
+end
+
+function taperfirst(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     rettype = rts(fn, (T,))
 
@@ -30,6 +54,30 @@ function taperfirst(fn::F, width::Integer, data::AbstractMatrix{T}) where {T,F<:
     end
 
     results
+end
+
+
+function taperfinal(fn::F, width::Integer, data1::AbstractMatrix{T}; padding=nopadding) where {F<:Function,T}
+    ᵛʷdata1 = asview(data1)
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, padding)
+    end
+end
+
+function taperfinalpadded(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, padding) where {T,F<:Function}
+    result = taperfinal(fn, width, ᵛʷdata)
+    for c = 1:ncols(result)
+        for r = nrows(result):-1:1
+            if !isnan(result[r,c])
+                break
+            else
+                result[r,c] = padding
+            end
+        end
+    end
+    result
 end
 
 function taperfinal(fn::F, width::Integer, data::AbstractMatrix{T}) where {T, F<:Function}
@@ -60,26 +108,33 @@ end
 # weighted
 
 function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::AbstractWeights{T}) where {T,F<:Function}
+    data1::AbstractMatrix{T}, weighting::AbstractWeights{T};
+    padding=nopadding) where {T,F<:Function}
+    ᵛʷdata1 = asview(data1)
     colcount = ncols(data)
     mweights = vmatrix(weighting, colcount)
+    ᵛʷmweights = asview(mweights)
 
-    taperfirst(fn, width, data, mweights)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷmweights, padding)
+    end
 end
 
 function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
-    mweights = vmatrix(weighting)
+    data::AbstractMatrix{T}, weighting::VectorOfVectors{T};
+    padding=nopadding) where {T,F<:Function}
+    ᵛʷdata1 = asview(data1)
+    colcount = ncols(data)
+    mweights = vmatrix(weighting, colcount)
+    ᵛʷmweights = asview(mweights)
 
-    taperfirst(fn, width, data, mweights)
-end
-
-@inline function taperfirst(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::AbstractMatrix{T}) where {T,F<:Function}
-    ᵛʷdata = asview(data)
-    ᵛʷweights = asview(weighting)
-
-    taperfirst(fn, width, ᵛʷdata, ᵛʷweights)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷmweights, padding)
+    end
 end
 
 function taperfirst(fn::F, width::Integer,
