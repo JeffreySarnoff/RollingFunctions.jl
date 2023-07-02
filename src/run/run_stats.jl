@@ -26,7 +26,7 @@ for (R, F) in ((:runcor, :vcor), (:runcov, :vcov))
             end
             result
         end
-        function $R(width::Integer, data1, data2, weights1, weights2) =
+        function $R(width::Integer, data1, data2, weights1, weights2; padding = zero(eltype(data1)))
             result = running(VectorizedStatistics.$F, width, data1, data2, weights1, weights2)
             if padding != nopadding
                 result[1] = padding
