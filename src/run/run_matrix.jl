@@ -123,7 +123,7 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::VectorOfVectors{T};
+    data1::AbstractMatrix{T}, weighting::VectorOfWeights{T};
     padding=nopadding) where {T,F<:Function}
     ᵛʷdata1 = asview(data1)
     colcount = ncols(data1)
@@ -150,7 +150,7 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
+    data1::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return taperfirst(fn, width, Matrix{T2}(data1), weighting)
