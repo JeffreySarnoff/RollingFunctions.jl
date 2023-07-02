@@ -224,11 +224,95 @@ end
     taperfirst(fn, width, data1, weighting)
 end
 
-
 #
 # taper the last (most recent) values
 #
 
+function taperfinal(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weighting::AbstractWeights{T};
+    padding=nopadding) where {T,F<:Function}
+    ᵛʷdata1 = asview(data1)
+    colcount = ncols(data1)
+    mweights = vmatrix(weighting, colcount)
+    ᵛʷmweights = asview(mweights)
+
+    taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+end
+
+function taperfinal(fn::F, width::Integer, data1::AbstractMatrix{T}, weighting::Vector{<:AbstractWeights{T}}; padding=nopadding) where {T,F<:Function}
+    ᵛʷdata1 = asview(data1)
+    colcount = ncols(data1)
+    check_lengths(colcount, length(weighting))
+    mweights = vmatrix(weighting)
+    ᵛʷmweights = asview(mweights)
+
+    taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+end
+
+function taperfinal(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weighting::AbstractMatrix{T};
+    padding=nopadding) where {T,F<:Function}
+    ᵛʷdata1 = asview(data1)
+    colcount = ncols(data1)
+    check_lengths(colcount, ncols(weighting))
+    check_width(width, nrows(weighting))
+    ᵛʷmweights = asview(weighting)
+
+    taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+end
+
+function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfMatrix{T}, ᵛʷmweights::ViewOfMatrix{T}; padding) where {T, F<:Function}
+    if padding == nopadding
+        basic_taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights)
+    else
+        padded_taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights, padding)
+    end
+end
+
+#= =#
+
+function basic_taperfinal(fn::F, width::Integer, 
+                    ᵛʷdata1::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
+    rettype = rts(fn, (T,))
+    results = Matrix{rettype}(undef, size(ᵛʷdata1))
+
+    # only completed width coverings are fully resolvable
+    # the first (width - 1) values are to be tapered
+    nr = nrows(ᵛʷdata1)
+    taper_idxs = nr-width+2:nr
+
+    ilow = 1
+    @inbounds for idx in taper_idxs
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:idx, :] .* mapnormalize1(ᵛʷweights[1:idx, :]))
+    end
+
+    ilow, ihigh = 1, width
+    @inbounds for idx in width:nrows(ᵛʷdata1)
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:ihigh, :] .* ᵛʷweights)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padded_taperfinal(fn::F, width::Integer, 
+                    ᵛʷdata1::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}, padding) where {T,F<:Function}
+    result = basic_taperfinal(fn, width, ᵛʷdata1, ᵛʷweights)
+    for c = 1:ncols(result)
+        for r = nrows(result):-1:1
+            if !isnan(result[r,c])
+                break
+            else
+                result[r,c] = padding
+            end
+        end
+    end
+    result
+end
+
+
+#=
 function taperfinal(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weighting::AbstractWeights{T}) where {T,F<:Function}
     colcount = ncols(data1)
@@ -308,3 +392,4 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfMatrix{T}, ᵛʷwei
 
     results
 end
+=#
