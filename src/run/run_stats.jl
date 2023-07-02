@@ -19,6 +19,7 @@ for (R, F) in ((:runskewness, :skewness), (:runkurtosis, :kurtosis))
         function $R(width::Integer, data1, weights; padding= nopadding, atend= false)
             running($F, width, data1, weights; padding, atend)
         end
+    end
 end
 
 for (R, F) in ((:runcor, :vcor), (:runcov, :vcov))

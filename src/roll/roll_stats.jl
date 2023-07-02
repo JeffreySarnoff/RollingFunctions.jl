@@ -19,6 +19,7 @@ for (R, F) in ((:rollskewness, :skewness), (:rollkurtosis, :kurtosis))
         function $R(width::Integer, data1, weights; padding= nopadding, atend=false)
             rolling($F, width, data1, weights; padding, atend)
         end
+    end
 end
 
 for (R, F) in ((:rollcor, :vcor), (:rollcov, :vcov))
