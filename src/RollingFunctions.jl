@@ -73,18 +73,5 @@ include("run/run_stats.jl")
 include("inlinedocs.jl")
 include("deprecated.jl")
 
-using PrecompileTools
-
-@setup_workload begin
-  data = rand(25)
-  winsize = 5
-  fns = [sum, vsum, mean, vmean, vmedian, vminimum, vmaximum, vstd, vvar]
-  for fn in fns
-       r1 = rolling(fn, winsize, data)
-       r2 = running(fn, winsize, data)
-       r3 = tiling(fn, winsize, data)
-  end
-end
-
 end # RollingFunctions
 
