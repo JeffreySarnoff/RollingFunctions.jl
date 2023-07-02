@@ -153,16 +153,16 @@ function basic_rolling(fn::Function, width::Integer,
     nvalues = rolling_wholes(n, width)
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh])
+    @inbounds for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function basic_rolling(fn::Function, width::Integer,
@@ -173,16 +173,16 @@ function basic_rolling(fn::Function, width::Integer,
     nvalues = rolling_wholes(n, width)
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
+    @inbounds for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function basic_rolling(fn::Function, width::Integer,
@@ -193,16 +193,16 @@ function basic_rolling(fn::Function, width::Integer,
     nvalues = rolling_wholes(n, width)
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
+    @inbounds for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function basic_rolling(fn::Function, width::Integer,
@@ -214,16 +214,16 @@ function basic_rolling(fn::Function, width::Integer,
     nvalues = rolling_wholes(n, width)
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inbounds for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
+    @inbounds for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 # padfirst_rolling implementation
@@ -238,17 +238,17 @@ function padfirst_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 # padfirst implementation
@@ -263,17 +263,17 @@ function padfirst_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector
     
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfirst_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, padding) where {T}
@@ -286,17 +286,17 @@ function padfirst_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfirst_rolling(fn::Function, width::Integer, 
@@ -312,17 +312,17 @@ function padfirst_rolling(fn::Function, width::Integer,
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inbounds for idx in width:n
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 # padfinal_rolling implementation
@@ -337,18 +337,18 @@ function padfinal_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfinal_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, padding) where {T}
@@ -361,18 +361,18 @@ function padfinal_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfinal_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, padding) where {T}
@@ -385,18 +385,18 @@ function padfinal_rolling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfinal_rolling(fn::Function, width::Integer, 
@@ -412,17 +412,17 @@ function padfinal_rolling(fn::Function, width::Integer,
 
     padding_idxs = n-width:n
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result = Vector{Union{typeof(padding),rettype}}(undef, n)
+    result[padding_idxs] .= padding
 
     nvalues = rolling_wholes(n, width)
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh], ᵛʷdata2[ilow:ihigh], ᵛʷdata3[ilow:ihigh], ᵛʷdata4[ilow:ihigh])
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 

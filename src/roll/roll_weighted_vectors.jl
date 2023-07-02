@@ -211,13 +211,13 @@ function basic_rolling(fn::F, width::Integer,
     result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inline for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+    @inline for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function basic_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
@@ -233,13 +233,13 @@ function basic_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷ
     result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inline for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+    @inline for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function basic_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
@@ -256,13 +256,13 @@ function basic_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷ
     result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inline for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+    @inline for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 # pad first implementations
@@ -280,16 +280,16 @@ function padfirst_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, �
 
     rettype = rts(fn, (Vector{T},))
     result = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inline for idx in width:n
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfirst_rolling(fn::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
@@ -311,16 +311,16 @@ function padfirst_rolling(fn::F, width::Integer, data1::AbstractVector{T}, data2
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
     result = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues-padding_width
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfirst_rolling(fn::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
@@ -344,16 +344,16 @@ function padfirst_rolling(fn::F, width::Integer, data1::AbstractVector{T}, data2
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
     result = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues-padding_width
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 
@@ -373,16 +373,16 @@ function padfinal_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
 
     rettype = rts(fn, (Vector{T},))
     result = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfinal_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
@@ -400,16 +400,16 @@ function padfinal_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, �
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
     result = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function padfinal_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
@@ -428,14 +428,14 @@ function padfinal_rolling(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, �
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
     result = Vector{Union{typeof(padding),rettype}}(undef, n)
-    results[padding_idxs] .= padding
+    result[padding_idxs] .= padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end

@@ -204,17 +204,17 @@ function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷwei
     result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
-        @views results[idx] = fn(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end])
+        @views result[idx] = fn(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end])
     end
 
     ilow, ihigh = 1, width
     @inline for idx in width:n
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
@@ -235,17 +235,17 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
-        @views results[idx] = fn(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end])
+        @views result[idx] = fn(ᵛʷdata1[1:idx] .* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end])
     end
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues-(width - 1)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
@@ -268,17 +268,17 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     result = Vector{rettype}(undef, n)
 
     @inbounds for idx in taper_idxs
-        @views results[idx] = fn(ᵛʷdata1[1:idx].* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end],ᵛʷdata3[1:idx] .* ᵛʷweight3[end-idx+1:end])
+        @views result[idx] = fn(ᵛʷdata1[1:idx].* ᵛʷweight1[end-idx+1:end], ᵛʷdata2[1:idx] .* ᵛʷweight2[end-idx+1:end],ᵛʷdata3[1:idx] .* ᵛʷweight3[end-idx+1:end])
     end
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues-(width - 1)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 
@@ -335,17 +335,17 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
 
     ilow, ihigh = 1, width
     @inbounds for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
     taper_idxs = ilow:n
     @inbounds for idx in taper_idxs
-        @views results[idx] = fn(ᵛʷdata1[idx:end] .* normalize(ᵛʷweight[end-idx+1:end]))
+        @views result[idx] = fn(ᵛʷdata1[idx:end] .* normalize(ᵛʷweight[end-idx+1:end]))
     end
 
-    results
+    result
 end
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
@@ -363,16 +363,16 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
     result = Vector{Union{typeof(tapering),rettype}}(undef, n)
-    results[tapering_idxs] .= tapering
+    result[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
@@ -391,14 +391,14 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
     result = Vector{Union{typeof(tapering),rettype}}(undef, n)
-    results[tapering_idxs] .= tapering
+    result[tapering_idxs] .= tapering
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + 1
         ihigh = ihigh + 1
     end
 
-    results
+    result
 end

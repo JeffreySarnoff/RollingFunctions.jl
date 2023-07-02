@@ -208,16 +208,16 @@ function basic_tiling(fn::Function, width::Integer,
     nvalues = ntiling(n, width)
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inline for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
+    @inline for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 function basic_tiling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
@@ -230,16 +230,16 @@ function basic_tiling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T},
     nvalues = ntiling(n, width)
 
     rettype = rts(fn, (Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inline for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+    @inline for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 function basic_tiling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T},
@@ -252,16 +252,16 @@ function basic_tiling(fn::Function, width::Integer, ᵛʷdata1::ViewOfVector{T},
     nvalues = ntiling(n, width)
 
     rettype = rts(fn, (Vector{T}, Vector{T}, Vector{T}))
-    results = Vector{rettype}(undef, nvalues)
+    result = Vector{rettype}(undef, nvalues)
 
     ilow, ihigh = 1, width
-    @inline for idx in eachindex(results)
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+    @inline for idx in eachindex(result)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 
@@ -279,18 +279,18 @@ function padfirst_tiling(fn::Function, width::Integer,
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
+    result = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
-    results[1] = padding
+    result[1] = padding
 
     ilow, ihigh = 1, width
     @inline for idx in 2:nvalues+1
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 function padfirst_tiling(fn::Function, width::Integer,
@@ -307,18 +307,18 @@ function padfirst_tiling(fn::Function, width::Integer,
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
+    result = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
-    results[1] = padding
+    result[1] = padding
 
     ilow, ihigh = 1, width
     @inline for idx in 2:nvalues+1
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 function padfirst_tiling(fn::Function, width::Integer,
@@ -336,18 +336,18 @@ function padfirst_tiling(fn::Function, width::Integer,
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
+    result = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
 
-    results[1] = padding
+    result[1] = padding
 
     ilow, ihigh = 1, width
     @inline for idx in 2:nvalues+1
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 # padfinal_tiling implementation
@@ -364,18 +364,18 @@ function padfinal_tiling(fn::Function, width::Integer,
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
+    result = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
-    results[end] = padding
+    result[end] = padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 function padfinal_tiling(fn::Function, width::Integer,
@@ -392,18 +392,18 @@ function padfinal_tiling(fn::Function, width::Integer,
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
+    result = Vector{Union{typeof(padding),rettype}}(undef, nvalues+1)
 
-    results[end] = padding
+    result[end] = padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
 function padfinal_tiling(fn::Function, width::Integer,
@@ -421,17 +421,17 @@ function padfinal_tiling(fn::Function, width::Integer,
     end
 
     rettype = rts(fn, (Vector{T},))
-    results = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
+    result = Vector{Union{typeof(padding),rettype}}(undef, nvalues)
 
-    results[end] = padding
+    result[end] = padding
 
     ilow, ihigh = 1, width
     @inline for idx in 1:nvalues
-        @views results[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
+        @views result[idx] = fn(ᵛʷdata1[ilow:ihigh] .* ᵛʷweight1, ᵛʷdata2[ilow:ihigh] .* ᵛʷweight2, ᵛʷdata3[ilow:ihigh] .* ᵛʷweight3)
         ilow = ilow + width
         ihigh = ihigh + width
     end
 
-    results
+    result
 end
 
