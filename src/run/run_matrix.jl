@@ -177,7 +177,7 @@ end
 function padded_taperfirst(fn::F, width::Integer, 
                     ᵛʷdata1::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}, padding) where {T,F<:Function}
     result = basic_taperfirst(fn, width, ᵛʷdata1, ᵛʷweights)
-    for c = eachcol(result)
+    for c = 1:ncols(result)
         for r = 1:nrows(result)
             if !isnan(result[r,c])
                 break
