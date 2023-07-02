@@ -53,6 +53,7 @@ then advances the window ([start:finish]) by the window_width
  ([start+width:finish+width]), skipping over the prior window, 
 to apply fn over the elements covered by the new window ...
 
+
 - tiling(fn, width, data)
 - tiling(fn, width, data; padding)
 - tiling(fn, width, data; padding, atend=false)
@@ -72,8 +73,7 @@ See also: [`rolling`](@ref),
           [`padding`](@ref), 
           [`atend`](@ref)
      
-"""
-tiling
+""" tiling
 
 """
     running(fn, window_width, data_seq)
@@ -149,8 +149,6 @@ See also: [`rolling`](@ref),
           [`padding`](@ref)
 
 """ atend
-
-
 
 #=
 
