@@ -4,37 +4,31 @@ export rolling, tiling, running,
        rollmin, rollmax, rollextrema,
        rollmean, rollmedian,
        rollsum, rollvar, rollstd,
+       rollskewness, rollkurtosis,
        rollcor, rollcov,
        tilemin, tilemax, tileextrema,
        tilemean, tilemedian,
        tilesum, tilevar, tilestd,
+       tileskewness, tilekurtosis,
        tilecor, tilecov,
        runmin, runmax, runextrema,
        runmean, runmedian,
-       runsum, runvar, runstd, 
+       runsum, runvar, runstd,
+       runskewness, runkurtosis,
        runcor, runcov
 
 
 #=
-export rolling, running, tiling
+old version also exports
 
-      rollskewness, rollkurtosis,    # skewness, kurtosis
        rollsem,                       # standard error of the mean
        rollmad,                       # mean absolute deviation
        rollmad_normalized,            # mean absolute deviation for normal data
        rollvariation,                 # coefficient of variation
-       running,                       #      tapering versions
-       runmin, runmax,               # min, max
-       runmean, runmedian,            # mean, median
-       runvar, runstd,               # variance, standard deviation
-       runskewness, runkurtosis,      # skewness, kurtosis
        runsem,                        # standard error of the mean
        runmad,                        # mean absolute deviation
        runmad_normalized,             # mean absolute deviation for normal data
        runvariation,                  # coefficient of variation
-       # with two data vectors
-       rollcor, rollcov,
-       runcor, runcov
 =#
 
 using Base: @constprop, @propagate_inbounds, @_inline_meta
@@ -58,7 +52,6 @@ include("roll/roll_vectors.jl")
 include("roll/roll_weighted_vectors.jl")
 include("roll/roll_matrix.jl")
 include("roll/roll_stats.jl")
-include("roll/roll_tupled_vectors.jl")
 
 include("tile/tiling.jl")
 include("tile/tile_vectors.jl")

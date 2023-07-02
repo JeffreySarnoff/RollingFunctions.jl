@@ -169,16 +169,3 @@ function tiling(fn::F, width::Integer,
         padfinal_tiling(fn, width, data1, weight1, padding)
     end
 end
-
-
-function tiling(fn::F, width::Integer,
-    data::Tuple{<:AbstractArray}, weight1::AbstractWeights{W};
-    padding=nopadding, atend=false) where {W,F<:Function}
-    if isnopadding(padding)
-        basic_tiling(fn, width, data, weight1)
-    elseif !atend
-        padfirst_tiling(fn, width, data, weight1, padding)
-    else
-        padfinal_tiling(fn, width, data, weight1, padding)
-    end
-end

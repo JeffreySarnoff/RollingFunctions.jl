@@ -163,16 +163,3 @@ function rolling(fn::F, width::Integer,
         padfinal_rolling(fn, width, datavalues, weightings, padding)
     end
 end
-
-function rolling(fn::F, width::Integer,
-    data::Tuple{<:AbstractArray}, weight1::AbstractWeights{W};
-    padding=nopadding, atend=false) where {W,F<:Function}
-    if isnopadding(padding)
-        basic_rolling(fn, width, data, weight1)
-    elseif !atend
-        padfirst_rolling(fn, width, data, weight1, padding)
-    else
-        padfinal_rolling(fn, width, data, weight1, padding)
-    end
-end
-

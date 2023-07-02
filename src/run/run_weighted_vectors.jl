@@ -1,36 +1,52 @@
 # taper first
 
 function taperfirst(fn::F, width::Integer, data1::AbstractVector{T},
-    weight::AbstractWeights{T}) where {F<:Function,T}
+    weight::AbstractWeights{T};
+    padding=nopadding) where {F<:Function,T}
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
-    taperfirst(fn, width, ᵛʷdata1, ᵛʷweight)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1, ᵛʷweight)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷweight, padding)
+    end
 end
 
 function taperfirst(fn::F, width::Integer,
-    data1::AbstractVector{T}, weight::AbstractWeights{W}) where {F<:Function,T,W}
+    data1::AbstractVector{T}, weight::AbstractWeights{W};
+    padding=nopadding) where {F<:Function,T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    taperfirst(fn, width, ᵛʷdata1, ᵛʷweight)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1, ᵛʷweight)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷweight, padding)
+    end
 end
 
 function taperfirst(fn::F, width::Integer,
-    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}) where {F<:Function,T1,T2,W1,W2}
+    data1::AbstractVector{T1}, data2::AbstractVector{T2}, weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2};
+    padding=nopadding) where {F<:Function,T1,T2,W1,W2}
     typ = promote_type(T1, T2, W1, W2)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
     ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
 
-    taperfirst(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+    end
 end
 
 function taperfirst(fn::F, width::Integer,
     data1::AbstractVector{T1}, data2::AbstractVector{T2}, data3::AbstractVector{T3},
-    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3}) where {F<:Function,T1,T2,T3,W1,W2,W3}
+    weight1::AbstractWeights{W1}, weight2::AbstractWeights{W2}, weight3::AbstractWeights{W3};
+    padding=nopadding) where {F<:Function,T1,T2,T3,W1,W2,W3}
     typ = promote_type(T1, T2, T3, W1, W2, W3)
     ᵛʷdata1 = T1 === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷdata2 = T2 === typ ? asview(data2) : asview([typ(x) for x in data2])
@@ -39,17 +55,11 @@ function taperfirst(fn::F, width::Integer,
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
     ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
 
-    taperfirst(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
-end
-
-
-function taperfirst(fn::F, width::Integer,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {F<:Function,T,W}
-    typ = promote_type(T, W)
-    ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
-    ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
-
-    taperfirst(fn, width, ᵛʷdata1, ᵛʷweight)
+    if padding == nopadding
+        taperfirst(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    else
+        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+    end
 end
 
 
@@ -60,7 +70,11 @@ function taperfinal(fn::F, width::Integer, data1::AbstractVector{T},
     ᵛʷdata1 = asview(data1)
     ᵛʷweight = asview(weight)
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷweight)
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1, ᵛʷweight)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷweight, padding)
+    end
 end
 
 function taperfinal(fn::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T},
@@ -70,7 +84,11 @@ function taperfinal(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     ᵛʷweight1 = asview(weight1)
     ᵛʷweight2 = asview(weight2)
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+    end
 end
 
 function taperfinal(fn::F, width::Integer, data1::AbstractVector{T}, data2::AbstractVector{T}, data3::AbstractVector{T},
@@ -82,9 +100,12 @@ function taperfinal(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     ᵛʷweight2 = asview(weight2)
     ᵛʷweight3 = asview(weight3)
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+    end
 end
-
 
 function taperfinal(fn::F, width::Integer,
     data1::AbstractVector{T}, weight::AbstractWeights{W}) where {F<:Function,T,W}
@@ -92,7 +113,11 @@ function taperfinal(fn::F, width::Integer,
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷweight)
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1, ᵛʷweight)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷweight, padding)
+    end
 end
 
 function taperfinal(fn::F, width::Integer,
@@ -103,7 +128,11 @@ function taperfinal(fn::F, width::Integer,
     ᵛʷweight1 = W1 === typ ? asview(weight1) : asview([typ(x) for x in weight1])
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2, padding)
+    end
 end
 
 function taperfinal(fn::F, width::Integer,
@@ -117,12 +146,51 @@ function taperfinal(fn::F, width::Integer,
     ᵛʷweight2 = W2 === typ ? asview(weight2) : asview([typ(x) for x in weight2])
     ᵛʷweight3 = W3 === typ ? asview(weight3) : asview([typ(x) for x in weight3])
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
-end
+    if padding == nopadding
+        taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    else
+        taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
+    endend
 
 # IMPLEMENTATIONS
 
-# taper first implementations
+# taperfirst implementations
+
+function taperfirstpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
+    result = taperfirst(fn, width, ᵛʷdata1, ᵛʷweight1)
+    for i = eachindex(result)
+        if !isnan(result[i])
+            break
+        else
+            result[i] = padding
+        end
+    end
+    result
+end
+
+function taperfirstpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {F<:Function,T}
+    result = taperfirst(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    for i = eachindex(result)
+        if !isnan(result[i])
+            break
+        else
+            result[i] = padding
+        end
+    end
+    result
+end
+
+function taperfirstpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {F<:Function,T}
+    result = taperfirst(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    for i = eachindex(result)
+        if !isnan(result[i])
+            break
+        else
+            result[i] = padding
+        end
+    end
+    result
+end
 
 function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
     n = length(ᵛʷdata1)
@@ -216,6 +284,41 @@ end
 
 # taper final implementations
 
+function taperfinalpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
+    result = taperfinal(fn, width, ᵛʷdata1, ᵛʷweight1)
+    for i = length(result):-1:1
+        if !isnan(result[i])
+            break
+        else
+            result[i] = padding
+        end
+    end
+    result
+end
+
+function taperfinalpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, padding) where {F<:Function,T}
+    result = taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷweight1, ᵛʷweight2)
+    for i = length(result):-1:1
+        if !isnan(result[i])
+            break
+        else
+            result[i] = padding
+        end
+    end
+    result
+end
+
+function taperfinalpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T}, ᵛʷdata3::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}, ᵛʷweight3::ViewOfWeights{T}, padding) where {F<:Function,T}
+    result = taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
+    for i = length(result):-1:1
+        if !isnan(result[i])
+            break
+        else
+            result[i] = padding
+        end
+    end
+    result
+end
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
                     ᵛʷweight::ViewOfWeights{T}) where {F<:Function,T}
@@ -244,7 +347,6 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T},
 
     results
 end
-
 
 function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdata2::ViewOfVector{T},
     ᵛʷweight1::ViewOfWeights{T}, ᵛʷweight2::ViewOfWeights{T}) where {F<:Function,T}
