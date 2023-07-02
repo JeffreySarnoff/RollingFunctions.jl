@@ -115,11 +115,7 @@ function taperfirst(fn::F, width::Integer,
     mweights = vmatrix(weighting, colcount)
     ᵛʷmweights = asview(mweights)
 
-    if padding == nopadding
-        taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
-    else
-        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷmweights, padding)
-    end
+    taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
 end
 
 function taperfirst(fn::F, width::Integer,
@@ -127,9 +123,26 @@ function taperfirst(fn::F, width::Integer,
     padding=nopadding) where {T,F<:Function}
     ᵛʷdata1 = asview(data1)
     colcount = ncols(data1)
-    mweights = vmatrix(weighting, colcount)
+    check_lengths(colcount, length(weighting))
+    mweights = vmatrix(weighting)
     ᵛʷmweights = asview(mweights)
 
+    taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+end
+
+function taperfirst(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weighting::AbstractMatrix{T};
+    padding=nopadding) where {T,F<:Function}
+    ᵛʷdata1 = asview(data1)
+    colcount = ncols(data1)
+    check_lengths(colcount, ncols(weighting))
+    check_width(width, nrows(weighting))
+    ᵛʷmweights = asview(weighting)
+
+    taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+end
+
+function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfMatrix{T}, ᵛʷmweights::ViewOfMatrix{T}; padding) where {T}
     if padding == nopadding
         taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
     else
@@ -138,7 +151,8 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::AbstractWeights{W}) where {T,W,F<:Function}
+    data1::AbstractMatrix{T}, weighting::AbstractWeights{W};
+    padding=nopadding) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return taperfirst(fn, width, Matrix{T2}(data1), weighting)
@@ -161,7 +175,8 @@ function taperfirst(fn::F, width::Integer,
 end
 
 @inline function taperfirst(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::AbstractMatrix{W}) where {T,W,F<:Function}
+    data1::AbstractMatrix{T}, weighting::AbstractMatrix{W};
+    padding=nopadding) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return taperfirst(fn, width, Matrix{T2}(data1), weighting)
