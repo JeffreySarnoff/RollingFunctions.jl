@@ -1,6 +1,6 @@
 # RollingFunctions.jl
 
-> The current version is [0.9.9](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.9)
+> The current version is [0.9.95](https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.95)
 
 This describes an unreleased work-in-process version of RollingFunctions.
 
@@ -47,6 +47,7 @@ This describes an unreleased work-in-process version of RollingFunctions.
 
 [![Dev Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
 [![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 -----
 ### works with integers, floats, and missings
