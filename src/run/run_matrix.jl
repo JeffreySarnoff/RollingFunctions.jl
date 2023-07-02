@@ -144,11 +144,51 @@ end
 
 function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfMatrix{T}, ᵛʷmweights::ViewOfMatrix{T}; padding) where {T, F<:Function}
     if padding == nopadding
-        taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
+        basic_taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
     else
-        taperfirstpadded(fn, width, ᵛʷdata1, ᵛʷmweights, padding)
+        padded_taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights, padding)
     end
 end
+
+function basic_taperfirst(fn::F, width::Integer, 
+                    ᵛʷdata1::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
+    rettype = rts(fn, (T,))
+    results = Matrix{rettype}(undef, size(ᵛʷdata1))
+
+    # only completed width coverings are fully resolvable
+    # the first (width - 1) values are to be tapered
+    taper_idxs = 1:width-1
+
+    ilow = 1
+    @inbounds for idx in taper_idxs
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:idx, :] .* mapnormalize1(ᵛʷweights[1:idx, :]))
+    end
+
+    ilow, ihigh = 1, width
+    @inbounds for idx in width:nrows(ᵛʷdata1)
+        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:ihigh, :] .* ᵛʷweights)
+        ilow = ilow + 1
+        ihigh = ihigh + 1
+    end
+
+    results
+end
+
+function padded_taperfirst(fn::F, width::Integer, 
+                    ᵛʷdata1::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}, padding) where {T,F<:Function}
+    result = basic_taperfirst(fn, width, ᵛʷdata1, ᵛʷweights)
+    for c = eachcol(result)
+        for r = 1:nrows(result)
+            if !isnan(result[r,c])
+                break
+            else
+                result[r,c] = padding
+            end
+        end
+    end
+    result
+end
+
 
 function taperfirst(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weighting::AbstractWeights{W};
@@ -186,29 +226,6 @@ end
     taperfirst(fn, width, data1, weighting)
 end
 
-function taperfirst(fn::F, width::Integer, 
-                    ᵛʷdata1::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T,F<:Function}
-    rettype = rts(fn, (T,))
-    results = Matrix{rettype}(undef, size(ᵛʷdata1))
-
-    # only completed width coverings are fully resolvable
-    # the first (width - 1) values are to be tapered
-    taper_idxs = 1:width-1
-
-    ilow = 1
-    @inbounds for idx in taper_idxs
-        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:idx, :] .* mapnormalize1(ᵛʷweights[1:idx, :]))
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in width:nrows(ᵛʷdata1)
-        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:ihigh, :] .* ᵛʷweights)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
 
 #
 # taper the last (most recent) values
