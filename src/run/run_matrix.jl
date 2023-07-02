@@ -142,7 +142,7 @@ function taperfirst(fn::F, width::Integer,
     taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
 end
 
-function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfMatrix{T}, ᵛʷmweights::ViewOfMatrix{T}; padding) where {T}
+function taperfirst(fn::F, width::Integer, ᵛʷdata1::ViewOfMatrix{T}, ᵛʷmweights::ViewOfMatrix{T}; padding) where {T, F<:Function}
     if padding == nopadding
         taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
     else
