@@ -281,9 +281,8 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
     result
 end
 
-
 # taper final implementations
-
+#=
 function taperfinalpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
     result = taperfinal(fn, width, ᵛʷdata1, ᵛʷweight1)
     for i = length(result):-1:1
@@ -402,3 +401,4 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
 
     result
 end
+=#
