@@ -17,12 +17,13 @@ rolling(fn, width, data; padding=nopadding)
 
 `rolling` applies a summarizing or condensing function (fn)
 to all elements within the current window (seen simulataneously);
-then advances the window ([start:finish]) by one ([start+1:finish+1])
+then advances the window ([start:finish]) by **one index** ([start+1:finish+1])
 to apply fn over the elements covered by the new window ...
 
 - rolling(fn, width, data)
 - rolling(fn, width, data; padding)
-- rolling(fn, width, data; padding, atend=false)
+- rolling(fn, width, data; atend)
+- rolling(fn, width, data; padding, atend)
 
 **arguments**
 
@@ -49,14 +50,14 @@ tiling(fn, width, data; padding=nopadding)
 
 `tiling` applies a summarizing or condensing function (fn)
 to all elements within the current window (seen simulataneously);
-then advances the window ([start:finish]) by the window_width
+then advances the window ([start:finish]) by the **window_width**
  ([start+width:finish+width]), skipping over the prior window, 
 to apply fn over the elements covered by the new window ...
 
-
 - tiling(fn, width, data)
 - tiling(fn, width, data; padding)
-- tiling(fn, width, data; padding, atend=false)
+- tiling(fn, width, data; atend)
+- tiling(fn, width, data; padding, atend)
 
 **arguments**
 
@@ -78,11 +79,12 @@ See also: [`rolling`](@ref),
 """
     running(fn, window_width, data_seq)
 
-running(fn, width, data; atend=false) 
+running(fn, width, data; padding=nopadding)
+    running(fn, width, data; padding, atend=false)
 
 `running` applies a summarizing or condensing function (fn)
 to all elements within the current window (seen simulataneously);
-then advances the window ([start:finish]) by one ([start+1:finish+1])
+then advances the window ([start:finish]) by **one index** ([start+1:finish+1])
 to apply fn over the elements covered by the new window ...
 
 `running` differs from `rolling`. When rolling() one may pad
@@ -94,6 +96,7 @@ by tapering the width of the window as it moves from the start
 [as it moves to the end] of the data sequence (see atend).
 
 - running(fn, width, data)
+- running(fn, width, data; atend=false)
 - running(fn, width, data; atend=false)
 
 **arguments**
@@ -109,8 +112,7 @@ See also: [`rolling`](@ref),
           [`tiling`](@ref),
           [`atend`](@ref)
      
-"""
-running
+""" running
 
 """
     padding
