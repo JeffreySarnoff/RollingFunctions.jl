@@ -150,7 +150,8 @@ function taperfinal(fn::F, width::Integer,
         taperfinal(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3)
     else
         taperfinalpadded(fn, width, ᵛʷdata1, ᵛʷdata2, ᵛʷdata3, ᵛʷweight1, ᵛʷweight2, ᵛʷweight3, padding)
-    endend
+    end
+end
 
 # IMPLEMENTATIONS
 
@@ -282,7 +283,7 @@ function taperfirst(fn::F, width::Integer, data1::AbstractVector{T}, data2::Abst
 end
 
 # taper final implementations
-#=
+
 function taperfinalpadded(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷweight1::ViewOfWeights{T}) where {F<:Function,T}
     result = taperfinal(fn, width, ᵛʷdata1, ᵛʷweight1)
     for i = length(result):-1:1
@@ -401,4 +402,7 @@ function taperfinal(fn::F, width::Integer, ᵛʷdata1::ViewOfVector{T}, ᵛʷdat
 
     result
 end
-=#
+
+
+
+
