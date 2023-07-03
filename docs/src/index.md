@@ -2,9 +2,13 @@
 
 ----
 
-#### This package makes it easy to summarize windowed data.
+#### This package makes it easy for you
 
-#### A function is applied to successive data subsequences.
+- to summarize data
+- to abstract from meaningful context
+- to reify subsumed information
+
+##### A function is applied to successive data subsequences.
 
 ----
 
