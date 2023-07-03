@@ -157,7 +157,7 @@ See also: [`rolling`](@ref),
 
 """ atend
 
-"""
+@doc"""
     windows over weighted data
 
 `rolling`, `tiling`, and `running` all provide data weighting.
@@ -168,22 +168,14 @@ The functions for weighted data follow the unweighted function signatures.
 Weighting for a data vector is given as one of the subtypes of StatsBase.AbstractWeights
 
 To use `myweights::Vector{<:Real}` as weights
+
 - scale the values so they sum to 1.0 (or a few eps less than 1.0)
-    - `myweights1 = LinearAlgebra.normalize(myweights, 1)`
+    - `myweights1 = LinearAlgebra.normalize(myweights, 1)` (ok)
+    - `myweights1 = safeweights(myweights1)` (better)
 - convert the values to StatsBase.AnalyticWeights
     - `weighting = AnalyticWeights(myweights1)`
 
--- use this function to ensure your weights are well behaved
-```julia
-function refineweights(weights)
-    while sum(weights) > 1
-        mxval, mxidx = findmax(myweights1)
-        mxval = prevfloat(mxval)
-        weights[mxidx] = prevfloat(mxval)
-    end
-    weights
-end
-```
+----
 
 See also: [`rolling`](@ref),
           [`tiling`](@ref),

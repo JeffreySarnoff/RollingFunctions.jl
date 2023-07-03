@@ -122,3 +122,28 @@ provides the innermost eltype of x (the scalar type underlying x)
 @inline innertype(@nospecialize(x::AbstractMatrix{AbstractWeights{<:Number}})) = eltype(eltype(x))
 
 
+const scalebypow = 5/16
+
+function safeweights(weights::AbstractVector{T}) where {T}
+    s = sum(weights)
+    neps = ceil(Int, length(weights)^T(scalebypow))
+    hibound = one(T)
+    lobound = prevfloat(highbound, neps)
+
+    if !(lobound <= s <= hibound)
+        weights = LinearAlgebra.normalize(weights, 1)
+        s = sum(weights)
+        while s > hibound
+            val, idx = findmax(map(abs,weights))
+            weights[idx] = copysign(prevfloat(val), weights[idx])
+            s = sum(weights)
+        end
+        while s < lobound
+            val, idx = findmin(map(abs,weights))
+            weights[idx] = copysign(nextfloat(val), weights[idx])
+            s = sum(weights)
+        end
+    end
+
+    weights
+end

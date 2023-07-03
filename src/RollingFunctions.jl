@@ -17,6 +17,7 @@ export rolling, tiling, running,
        runskewness, runkurtosis,
        runcor, runcov
 
+export safeweights
 
 #=
 old version also exports
