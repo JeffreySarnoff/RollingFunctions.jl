@@ -80,8 +80,7 @@ function taperfinalpadded(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}, pad
     result
 end
 
-function taperfinal(fn::F, width::Integer, data::AbstractMatrix{T}) where {T, F<:Function}
-    ᵛʷdata = asview(data)
+function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewOfMatrix{T}) where {T, F<:Function}
     n = nrows(ᵛʷdata)
     rettype = rts(fn, (T,))
 
