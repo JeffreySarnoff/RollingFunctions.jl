@@ -73,8 +73,9 @@ See also: [`weighted`](@ref),
           [`rolling`](@ref),
           [`running`](@ref),
           [`padding`](@ref), 
-          [`atend`](@ref)
-     
+          [`atend`](@ref),
+          [`datastreams`](@ref)
+
 """ tiling
 
 """
@@ -113,8 +114,9 @@ See also: [`weighted`](@ref),
           [`rolling`](@ref),
           [`tiling`](@ref),
           [`padding`](@ref),
-          [`atend`](@ref)
-     
+          [`atend`](@ref),
+          [`datastreams`](@ref)
+
 """ running
 
 """
@@ -157,7 +159,7 @@ See also: [`rolling`](@ref),
 
 """ atend
 
-@doc"""
+"""
     windows over weighted data
 
 `rolling`, `tiling`, and `running` all provide data weighting.
@@ -181,6 +183,7 @@ See also: [`rolling`](@ref),
           [`tiling`](@ref),
           [`running`](@ref),
           [`safeweights`](@ref),
+          [`datastreams`](@ref),
           [`StatsBase.AnalyticWeights`](@ref),
           [`StatsBase.ProbabilityWeights`](@ref),
           [`StatsBase.Weights`](@ref)
