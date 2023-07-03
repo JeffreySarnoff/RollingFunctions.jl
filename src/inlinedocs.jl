@@ -194,39 +194,6 @@ See also: [`rolling`](@ref),
 
 """ weighted
 
-
-
-
-    are the same as 
-    rolling(fn, width, data; padding=nopadding)
-    rolling(fn, width, data; padding, atend=false) 
-
-`rolling` applies a summarizing or condensing function (fn)
-to all elements within the current window (seen simulataneously);
-then advances the window ([start:finish]) by **one index** ([start+1:finish+1])
-to apply fn over the elements covered by the new window ...
-
-- rolling(fn, width, data)
-- rolling(fn, width, data; padding)
-- rolling(fn, width, data; atend)
-- rolling(fn, width, data; padding, atend)
-
-**arguments**
-
-- fn <: Function:   summarizes, condenses windowed data
-- width::Integer:   window breadth, counts covered elements.
-- data_seq::Vector: the data over which the window moves.
-
-keywords (optional)
-- padding::Any=nopadding: the value place as filler.
-- atend::Bool=false:     where to place the padding.
-
-See also: [`rolling`](@ref),
-          [`tiling`](@ref),
-          [`running`](@ref)
-
-""" weighted
-
 #=
 
 rolling(      (a)->fn(a),       width, adata)
