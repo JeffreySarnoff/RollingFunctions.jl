@@ -126,36 +126,36 @@ See also: [`weighted`](@ref),
 
 """
     padding
+
+By definition, applying a windowed function over data
+will result in fewer items than are in the original data.
+To add the missing items, select a padding value using
+the `padding` keyword argument e.g. `padding=missing`.
+
+By default, padding is applied at the begining of the result.
+- by default, the padding value is placed at the lowest indices
+To apply padding at the end of the result, set `atend=true`.
+- that way the padding value is placed at the highest indices
  
- By definition, applying a windowed function over data
- will result in fewer items than are in the original data.
- To add the missing items, select a padding value using
- the `padding` keyword argument e.g. `padding=missing`.
- 
- By default, padding is applied at the begining of the result.
- - padding value is placed at the lowest indices
- To apply padding at the end of the result, set `atend=true`.
- - padding value is placed at the highest indices
- 
- See also: [`rolling`](@ref),
-           [`tiling`](@ref),
-           [`running`](@ref),
-           [`atend`](@ref)
- 
+See also: [`rolling`](@ref),
+          [`tiling`](@ref),
+          [`running`](@ref),
+          [`atend`](@ref)
+
 """ padding
 
 """
     atend
-  
-  `atend` is a keyword argument that defaults to `false`.
-  - additional value[s] are placed at the start of the results.
-  using `atend = true`
-  - additional value[s] are placed at the end (highest indices).
-  
-  By default, padding is applied at the begining of the result.
-  - the padding value is placed at the lowest indices
-  To apply padding at the end of the result, set `atend=true`.
-  - the padding value is placed at the highest indices
+
+`atend` is a keyword argument that defaults to `false`.
+- additional value[s] are placed at the start of the results.
+using `atend = true`
+- additional value[s] are placed at the end (highest indices).
+
+By default, padding is applied at the begining of the result.
+- the padding value is placed at the lowest indices
+To apply padding at the end of the result, set `atend=true`.
+- the padding value is placed at the highest indices
 
 See also: [`rolling`](@ref),
           [`tiling`](@ref),
@@ -165,7 +165,7 @@ See also: [`rolling`](@ref),
 """ atend
 
 """
-    windows over weighted data
+    apply functions over windows into weighted data
 
 `rolling`, `tiling`, and `running` all provide data weighting.
 
