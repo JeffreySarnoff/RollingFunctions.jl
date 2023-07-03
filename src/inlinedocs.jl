@@ -180,69 +180,28 @@ To use `myweights::Vector{<:Real}` as weights
 See also: [`rolling`](@ref),
           [`tiling`](@ref),
           [`running`](@ref),
+          [`safeweights`](@ref),
           [`StatsBase.AnalyticWeights`](@ref),
           [`StatsBase.ProbabilityWeights`](@ref),
           [`StatsBase.Weights`](@ref)
 
 """ weighted
 
-#=
-
-rolling(      (a)->fn(a),       width, adata)
-rolling(    (a,b)->fn(a,b),     width, adata, bdata)
-rolling(  (a,b,c)->fn(a,b,c),   width, adata, bdata, cdata)
-rolling((a,b,c,d)->fn(a,b,c,d), width, adata, bdata, cdata, ddata)
-
-rolling(row->fn(row), width, datamatrix)
-rolling(row->fn(row), width, datamatrix; padding)
-rolling(row->fn(row), width, datamatrix; padding, atend)
-
-The data is given as 1, 2, 3, or 4 vectors or as a matrix.
-
-With padding, there will be width-1 padded values.
-
 """
-    windows_with_matrices
+    safeweights(<:AbstractVector{T})::AbstractVector{T}
 
-Rolling (running, tiling) a windowed function over a matrix
-rolls (runs, tiles) that function over windows on each column
-independently.
+ensures that the sum of the weights
+- does not exceed 1
+- approaches or is equal to 1
 
-""" windows_with_matrices
+`one(T) >=` __`safesum`__ `> prevfloat(one(T), k)`
+- safesum = sum(safeweights(weights))
+- k <= ceil(1 + log10(wlength) + wlength^(5/16))
+- wlength = length(weights)
 
-"""
-    windows_with_vectors
+See also: [`weighted`](@ref)
 
-Rolling (running, tiling) a windowed function over 2,3,[4] vectors
-rolls (runs, tiles) that n-ary function over windows on the n vectors
-as if they were zipped together (simultaneously).
-
-""" windows_with_vectors
-
-"""
-    weighted
-
-Windowed data may be weighted before the window function is applied.
-
-Weights may be used with `running`, `rolling`, or `tiling`.
-The function signatures' positional arguments are extended
-     by giving the weights as the last positional argument[s].
-
-`rolling(fn, width, data, weights; padding=nopadding, atend=false)`
-
-Where two data sources are used, two weights must be used.
-`rolling(fn, width, data1, data2, weights1, weights2)`
-
-The weights are `StatsBase.Weights`; generally one wants normalized weights.
-
-Use `fast_normalize_weights(weights)` or `normalize_weights(weights)`. 
-
-`length(weights) == width` is a requirement
-
-"""
-weighted
-
-=#
+""" safeweights
 
 # end of inline docs
 
