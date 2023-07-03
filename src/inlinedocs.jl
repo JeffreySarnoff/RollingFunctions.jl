@@ -25,21 +25,22 @@ to apply fn over the elements covered by the new window ...
 - rolling(fn, width, data; atend)
 - rolling(fn, width, data; padding, atend)
 
-**arguments**
-
+arguments
 - fn <: Function:   summarizes, condenses windowed data
 - width::Integer:   window breadth, counts covered elements.
 - data_seq::Vector: the data over which the window moves.
 
-keywords (optional)
+keywords
 - padding::Any=nopadding: the value place as filler.
 - atend::Bool=false:     where to place the padding.
 
-See also: [`tiling`](@ref),
+See also: [`weighted`](@ref),
+          [`tiling`](@ref),
           [`running`](@ref),
           [`padding`](@ref), 
-          [`atend`](@ref)
-     
+          [`atend`](@ref),
+          [`datastreams`](@ref)
+
 """ rolling
 
 """
@@ -59,17 +60,17 @@ to apply fn over the elements covered by the new window ...
 - tiling(fn, width, data; atend)
 - tiling(fn, width, data; padding, atend)
 
-**arguments**
-
+arguments
 - fn <: Function:   summarizes, condenses windowed data
 - width::Integer:   window breadth, counts covered elements.
 - data_seq::Vector: the data over which the window moves.
 
-keywords (optional)
+keywords
 - padding::Any=nopadding: the value place as filler.
 - atend::Bool=false:     where to place the padding.
 
-See also: [`rolling`](@ref),
+See also: [`weighted`](@ref),
+          [`rolling`](@ref),
           [`running`](@ref),
           [`padding`](@ref), 
           [`atend`](@ref)
@@ -99,17 +100,19 @@ by tapering the width of the window as it moves from the start
 - running(fn, width, data; atend=false)
 - running(fn, width, data; atend=false)
 
-**arguments**
-
+arguments
 - fn <: Function:   summarizes, condenses windowed data
 - width::Integer:   window breadth, counts covered elements.
 - data_seq::Vector: the data over which the window moves.
 
-keywords (optional)
+keywords
+- padding::Any=nopadding: the value place as filler.
 - atend::Bool=false:     where to place the padding.
 
-See also: [`rolling`](@ref),
+See also: [`weighted`](@ref),
+          [`rolling`](@ref),
           [`tiling`](@ref),
+          [`padding`](@ref),
           [`atend`](@ref)
      
 """ running
@@ -129,6 +132,7 @@ See also: [`rolling`](@ref),
  
  See also: [`rolling`](@ref),
            [`tiling`](@ref),
+           [`running`](@ref),
            [`atend`](@ref)
  
 """ padding
@@ -148,9 +152,80 @@ See also: [`rolling`](@ref),
 
 See also: [`rolling`](@ref),
           [`tiling`](@ref),
+          [`running`](@ref),
           [`padding`](@ref)
 
 """ atend
+
+"""
+    windows over weighted data
+
+`rolling`, `tiling`, and `running` all provide data weighting.
+
+The functions for weighted data follow the unweighted function signatures.
+- the weighting is given after the data, as the last positional arg
+
+Weighting for a data vector is given as one of the subtypes of StatsBase.AbstractWeights
+
+To use `myweights::Vector{<:Real}` as weights
+- scale the values so they sum to 1.0 (or a few eps less than 1.0)
+    - `myweights1 = LinearAlgebra.normalize(myweights, 1)`
+- convert the values to StatsBase.AnalyticWeights
+    - `weighting = AnalyticWeights(myweights1)`
+
+-- use this function to ensure your weights are well behaved
+```julia
+function refineweights(weights)
+    while sum(weights) > 1
+        mxval, mxidx = findmax(myweights1)
+        mxval = prevfloat(mxval)
+        weights[mxidx] = prevfloat(mxval)
+    end
+    weights
+end
+```
+
+See also: [`rolling`](@ref),
+          [`tiling`](@ref),
+          [`running`](@ref),
+          [`StatsBase.AnalyticWeights`](@ref),
+          [`StatsBase.ProbabilityWeights`](@ref),
+          [`StatsBase.Weights`](@ref)
+
+""" weighted
+
+
+
+
+    are the same as 
+    rolling(fn, width, data; padding=nopadding)
+    rolling(fn, width, data; padding, atend=false) 
+
+`rolling` applies a summarizing or condensing function (fn)
+to all elements within the current window (seen simulataneously);
+then advances the window ([start:finish]) by **one index** ([start+1:finish+1])
+to apply fn over the elements covered by the new window ...
+
+- rolling(fn, width, data)
+- rolling(fn, width, data; padding)
+- rolling(fn, width, data; atend)
+- rolling(fn, width, data; padding, atend)
+
+**arguments**
+
+- fn <: Function:   summarizes, condenses windowed data
+- width::Integer:   window breadth, counts covered elements.
+- data_seq::Vector: the data over which the window moves.
+
+keywords (optional)
+- padding::Any=nopadding: the value place as filler.
+- atend::Bool=false:     where to place the padding.
+
+See also: [`rolling`](@ref),
+          [`tiling`](@ref),
+          [`running`](@ref)
+
+""" weighted
 
 #=
 
