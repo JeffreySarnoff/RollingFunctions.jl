@@ -1,7 +1,7 @@
 """
     RollingFunctions.jl
 
-Apply functions through windows that advance over data.
+Apply functions over windows that advance through data.
 
 See: [`rolling`](@ref),
      [`tiling`](@ref),
