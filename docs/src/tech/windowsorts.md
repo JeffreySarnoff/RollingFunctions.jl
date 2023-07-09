@@ -9,6 +9,26 @@
 | session  | content obtained    | activities |
 |          |                     |            |
 
+#### the kinds of positional skip
+
+- fixed
+- expanding
+- dynamic
+
+`https://materialize.com/docs/transform-data/patterns/temporal-filters/`
+
+period [step] --  before a new window begins
+- (number of indices / amount of time / count of occurances / activity)
+
+
+Tumbling windows are what we call windows when their duration equals their period (the amount of time before a new window begins). This creates fixed-size, contiguous, non-overlapping time intervals where each record belongs to exactly one interval.
+
+Hopping windows are windows whose duration is an integer multiple of their period. This creates fixed-size windows that may overlap, with records belonging to multiple windows.
+
+Sliding windows are windows whose period approaches the limit of 0. This creates fixed-size windows that appear to slide continuously forward in time. Records may belong to more than one interval.
+
+
+
 count-based, delta-based, time-based, punctuation-based
 
 rolling weighted expanding windows

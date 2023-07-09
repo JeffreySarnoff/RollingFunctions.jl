@@ -1,13 +1,63 @@
 # RollingFunctions.jl
 
-### Roll a [weighted] function or run a statistic along windowed data.
+### Roll functions and  run statistics along windowed data.
 
 
-#### Copyright © 2017-2023 by Jeffrey Sarnoff.  Released under the MIT License.
+#### data sequences
+- _as provided_
+    - ≺ apply ≻(win_fn, win_width, seq)
+- _with weights_
+   - ≺ apply ≻(win_fn, win_width, seq, weights)
+
+#### multisequences (up to 3 of equal lengths)
+
+|                   | |                                      |
+|:------------------|-|:-------------------|
+| multisequence     | | ≺ apply ≻(fn, width, ...) |
+|                   |&nbsp; |                                      |
+| _as provided_     |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |...                    |
+|                   | |(seq1, seq2)       |
+|                   | |(seq1, seq2, seq3) |
+|                   | |                                      |
+| _shared weights_  | |...                         |
+|                   | |(seq1, seq2, weights)       |
+|                   | |(seq1, seq2, seq3, weights) |
+|                   | |                                      |
+|                   | |                                      |
+| _unique weights_  | |...                         |
+|                   | |(seq1, seq2, [weights1, weights2])       |
+|                   | |(seq1, seq2, seq3, [weights1, weights2, weights3]) |
+|                   | |                                      |
 
 
-[![Dev Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
-[![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)
+
+----
+
+##### Copyright © 2017-2023 by Jeffrey Sarnoff <&nbsp;github.com/JeffreySarnoff&nbsp;>.
+
+[![Dev Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
+[![License: MIT](https://img.shields.io/badge/License-MIT-navy.svg)](https://opensource.org/licenses/MIT)&nbsp;&nbsp;&nbsp;
+
+[![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)&nbsp;&nbsp;&nbsp;
+
+## Philosophy and Purpose
+
+This package provides a way for rolling and for running a functional window over data.  Data is conveyed either as a vector or as a means of obtaining a vector from a matrix or 3D array or other data structure (e.g. dataframes, timeseries).  Windows move over the data.  One may use unweighted windows or windows wherein each position carries weight. Weighted windows apply the weight sequence through the window as it moves over the data.
+
+When a window is provided with weights, the weights ~should~ must be normalized. We provide an algorithmically safe normalizing function that you may rely upon. Adding the sequence of normalized values one to the next obtains 1.0 or a value very slightly less than 1.0 -- their sum will not exceed unity.
+_I do not know how to augment something already whole while respecting its integrity._
+
+When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's span.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.
+
+This software exists to simpilfy some of what you create and to faciliate some of the work you do. 
+
+Some who use it insightfully share the best of that. Others write words that smile. 
+
+All of this is expressed through the design of RollingFunctions.
+
+----
+----
+
 
 ### (see below for information on the next version [search for "unreleased"])
 
@@ -59,10 +109,10 @@ julia> weights = normalize([1.0f0, 2.0f0, 4.0f0])
  0.43643576
  0.8728715 
  
-julia> result = rollmean(data, windowsize, weights); print(result)
+julia> result = rollmean(data, windowsize, wt); print(result)
 Float32[1.23657, 1.74574, 2.25492]
 
-julia> result = rollmean(data, windowsize, weights; padding=missing); print(result)
+julia> result = rollmean(data, windowsize, wt; padding=missing); print(result)
 Union{Missing,Float32}[missing, missing, 1.23657, 1.74574, 2.25492]
 ```
 
@@ -86,7 +136,7 @@ julia> using LinearAlgebra: normalize
 
 julia> weights = normalize([1.0f0, 2.0f0, 4.0f0]);
  
-julia> result = runmean(data, windowsize, weights); print(result)
+julia> result = runmean(data, windowsize, wt); print(result)
 Float32[1.0, 1.11803, 1.23657, 1.74574, 2.25492]
 ```
 
@@ -106,23 +156,23 @@ Some of these use a limit value for running over vec of length 1.
 
 ### works with functions over 1, 2, 3 or 4 data vectors
 - `rolling(function, data1, data2, windowsize)`
-- `rolling(function, data1, data2, windowsize, weights)`  (weights apply to both data vectors)
-- `rolling(function, data1, data2, windowsize, weights1, weights2)`
+- `rolling(function, data1, data2, windowsize, wt)`  (weights apply to both data vectors)
+- `rolling(function, data1, data2, windowsize, wt1, wt2)`
 
 - `rolling(function, data1, data2, data3, windowsize)`
-- `rolling(function, data1, data2, data3, windowsize, weights)`  (weights apply to all data vectors)
-- `rolling(function, data1, data2, data3, windowsize, weights1, weights2, weights3)`
+- `rolling(function, data1, data2, data3, windowsize, wt)`  (weights apply to all data vectors)
+- `rolling(function, data1, data2, data3, windowsize, wt1, wt2, wt3)`
 
 - `running(function, data1, data2, data3, data4, windowsize)`
-- `running(function, data1, data2, data3, data4, windowsize, weights)`  (weights apply to all data vectors)
-- `running(function, data1, data2, data3, data4, windowsize, weights1, weights2, weights3, weights4)`
+- `running(function, data1, data2, data3, data4, windowsize, wt)`  (weights apply to all data vectors)
+- `running(function, data1, data2, data3, data4, windowsize, wt1, wt2, wt3, wt4)`
 
 !! CHANGE ME !!
 Many statistical functions of two or more vector variables are not well defined for vectors of length 1. 
 To run these functions and get an initial tapered value that is well defined, supply the desired value as `firstresult`.
 
 - `running(function, data1, data2, windowsize, firstresult)`
-- `running(function, data1, data2, windowsize, weights, firstresult)`  (weights apply to both data vectors)
+- `running(function, data1, data2, windowsize, wt, firstresult)`  (weights apply to both data vectors)
 
 ## Philosophy and Purpose
 

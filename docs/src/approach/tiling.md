@@ -28,7 +28,7 @@ keywords
 - padding::Any=nopadding: the value place as filler.
 - atend::Bool=false:     where to place the padding.
 
-See also: [`padding`](@ref), 
-          [`atend`](@ref),
+See also: [`padding`](padding.md), 
+          [`atend`](atend.md),
           [`weighted`](weighted.md),
           [`datastreams`](datastreams.md)
