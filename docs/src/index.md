@@ -23,20 +23,14 @@ __characterize__
 - contrast
 
 ##### in three different ways
-
-[__Rolling__](approach/rolling.md)
-
-[__Tiling__](approach/tiling.md)
-
-[__Running__](approach/running.md)
+- [__rolling__](approach/rolling.md)
+- [__tiling__](approach/tiling.md)
+- [__running__](approach/running.md)
 
 ##### optionally specifying
-
-[__weights__](approach/weighted.md)
-
-[__padding__](approach/padding.md)
-
-[__pad placement__](approach/atend.md)
+- [__weights__](approach/weighted.md)
+- [__padding__](approach/padding.md)
+- [__pad placement__](approach/atend.md)
 
 ##### with these data sequences
-[__datastreams__](approach/datastreams.md)
+- [__datastreams__](approach/datastreams.md)
