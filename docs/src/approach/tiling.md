@@ -31,6 +31,4 @@ keywords
 See also: [`padding`](@ref), 
           [`atend`](@ref),
           [`weighted`](weighted.md),
-          [`rolling`](rolling.md),
-          [`running`](running.md),
           [`datastreams`](datastreams.md)

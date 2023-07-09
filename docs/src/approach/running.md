@@ -34,6 +34,4 @@ keywords
 
 See also: [`atend`](atend.md),
           [`weighted`](weighted.md),
-          [`rolling`](rolling.md),
-          [`tiling`](tiling.md),
           [`datastreams`](datastreams.md)

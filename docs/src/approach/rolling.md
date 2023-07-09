@@ -32,7 +32,5 @@ beyond the end of the data_seq, basic `rolling` is complete.
 See also: [`padding`](padding.md), 
           [`atend`](atend.md),
           [`weighted`](weighted.md),
-          [`tiling`](tiling.md),
-          [`running`](running.md),
           [`datastreams`](datastreams.md)
 
