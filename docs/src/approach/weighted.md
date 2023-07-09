@@ -20,8 +20,5 @@ To use `myweights::Vector{<:Real}` as weights
 ----
 
 See also: [`safeweights`](safeweights.md),
-          [`rolling`](rolling.md),
-          [`tiling`](tiling.md),
-          [`running`](running.md),
           [`datastreams`](datastreams.md)
 

@@ -41,6 +41,8 @@ makedocs(
             "running" => "api/running.md",
         ],
         "Technical Reference" => Any[
+            "approach" => "design/approach.md",
+            "structure" => "design/structure.md",
             "windowing math" => "tech/windowmath.md",
         ],
         "References" => "references.md",
