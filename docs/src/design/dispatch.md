@@ -1,13 +1,38 @@
-##### __Positional Signatures__
+#### __Simplifying Dispatch__
 
-###### _each approach subsumes 64 signatures_
+----
+##### unweighted and weighted
 
-- With 2 keyword args, there are 4 positional signatures (one for each state shown in [approach](approach.md)).
-- With the 4 data configurations that becomes 4x4 = 16 signatures.
-- With the 3 ways to weight + unweighted this gives 16x4 = 64 signatures.
+```
+<approach>(windowed_fn, window_width, data_seq;
+                    padding=pad, atend=true)
 
-###### _enfolding signatures_
+<approach>(windowed_fn, window_width, data_seq, weighting;
+                    padding=pad, atend=true)
+```
+----
 
+#### unpadded, padded at start, padded at end
+##### _unweighted_
+```
+<approach>(windowed_fn, window_width, data_seq)
 
+<approach>(windowed_fn, window_width, data_seq,
+                    padding)
 
+<approach>(windowed_fn, window_width, data_seq,
+                    padding, atend)
+```
+
+##### _weighted_
+
+```
+<approach>(windowed_fn, window_width, data_seq, weighting)
+
+<approach>(windowed_fn, window_width, data_seq, weighting,
+                    padding)
+
+<approach>(windowed_fn, window_width, data_seq, weighting,
+                    padding, atend)
+```
 

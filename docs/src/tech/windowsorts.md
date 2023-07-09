@@ -1,3 +1,42 @@
+
+#### the kinds of window extent
+
+| quantity | extent given by     | utilizes   |
+|:---------|:--------------------|:-----------|
+| span     | index separation    | positions  |
+| duration | elapsed time        | timestamps |
+| count    | tally of occurances | events     |
+| session  | content obtained    | activities |
+|          |                     |            |
+
+count-based, delta-based, time-based, punctuation-based
+
+rolling weighted expanding windows
+
+event-time, processing-time
+
+
+#### the modes of window advancement
+
+A window that covers <first, last> advances to <last, last+(last-first)>.
+
+A window moves by advancing its start by jump and covering its extent
+
+- Each window has a fixed or dynamic or expanding extent
+- Each window has a fixed or dynamic or expanding jump
+
+| name    | increment | overlap     | gap         |
+|:--------|:----------|:------------|:------------|
+| slide   | fixed     | extent-1    | none        |
+| tile    | fixed     | none        | none        |
+| tumble  | fixed     | no          | gapless     |
+| overlap | fixed     | no          | gapless     |
+| hop     | fixed     | extent-jump | jump-extent |
+| session | dynamic   | no          | no          |
+
+
+
+Every windows has a width (span). The width 
 There are two distinct sorts of windows that are taken over data: _rolling_ and _tiled_.  
 
 - Rolling windows advance step-by-step over the data

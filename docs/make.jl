@@ -23,31 +23,31 @@ makedocs(
             "Rolling over windowed data" => "use/rolloverdata.md",
             "Rolling examples (basic)" => "use/rolling_examples.md",
             "Running over windowed data" => "use/runoverdata.md",
-            "Running examples (basic)" => "use/running_examples.md",
+            "Running examples (basic)" => "use/running_examples.md"
         ],
         "Introduction" => Any[
             "Roll over vectors (padding)" => "intro/padding.md",
             "Roll over matricies (basics)" => "intro/matrix_rolling.md",
             "Roll over matrices (padding)" => "intro/matrix_padding.md",
             "Roll over multicolumn data (basics)" => "intro/multicolumn_rolling.md",
-            "Roll over multicolumn data (padding)" => "intro/multicolumn_padding.md",
-           # "Windowed Data"=>"intro/windoweddata.md",
-           # "Running over Windows"=>"intro/running.md",
-           # "Stepping over Data"=>"intro/stepping.md",
+            "Roll over multicolumn data (padding)" => "intro/multicolumn_padding.md"
         ],
         "API" => Any[
             "rolling" => "api/rolling.md",
             "tiling" => "api/tiling.md",
-            "running" => "api/running.md",
+            "running" => "api/running.md"
         ],
         "Technical Reference" => Any[
             "approach" => "design/approach.md",
-            "dispatch" => "design/dispatch.md",
-            "structure" => "design/structure.md",
-            "windowing math" => "tech/windowmath.md",
+            "structure"=> "design/structure.md",
+            "signatures"=> "design/signatures.md",
+            "dispatch"=> "design/dispatch.md",
+            "patterns" => "design/patterns.md",
+            "comprehensive windowing" => "tech/windowsorts.md",
+            "windowing math" => "tech/windowmath.md"
         ],
         "References" => "references.md",
-        "Thanks" => "thanks.md",
+        "Thanks" => "thanks.md"
     ]
 )
 
