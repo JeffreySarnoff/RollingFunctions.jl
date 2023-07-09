@@ -36,8 +36,9 @@ makedocs(
            # "Stepping over Data"=>"intro/stepping.md",
         ],
         "API" => Any[
-            "roll" => "api/roll.md",
-            "run" => "api/run.md",
+            "rolling" => "api/rolling.md",
+            "tiling" => "api/tiling.md",
+            "running" => "api/running.md",
         ],
         "Technical Reference" => Any[
             "windowing math" => "tech/windowmath.md",

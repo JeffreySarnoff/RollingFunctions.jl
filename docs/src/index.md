@@ -1,26 +1,11 @@
-## RollingFunctions.jl
-
 ### Apply functions over windows that advance through data.
-----
 
-|                                               |
-|:----------------------------------------------|
-| Copyright © 2017-2023 by Jeffrey Sarnoff      |
-| github.com/JeffreySarnoff/RollingFunctions.jl |
-
-
-##### RollingFunctions makes it easy to
+|                                                       |
+|:-----------------------------------------------------:|
+| RollingFunctions.jl © 2017-2023 by Jeffrey Sarnoff    |
+|                                                       |
 
 
-__abstract__
-- summarize
-- aggregate
-- combine
-
-__characterize__
-- examine
-- compare
-- contrast
 
 ##### in three different ways
 - [__rolling__](approach/rolling.md)
@@ -34,3 +19,13 @@ __characterize__
 
 ##### with these data sequences
 - [__datastreams__](approach/datastreams.md)
+
+
+#### some approaches
+
+|   analyze        |    synthesize    |
+|:-----------------|:-----------------|
+| summarize        | aggregate        |
+| condense         | combine          |
+| test             | sample           |
+|                  |                  |
