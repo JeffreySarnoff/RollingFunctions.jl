@@ -42,6 +42,7 @@ makedocs(
         ],
         "Technical Reference" => Any[
             "approach" => "design/approach.md",
+            "dispatch" => "design/dispatch.md",
             "structure" => "design/structure.md",
             "windowing math" => "tech/windowmath.md",
         ],
