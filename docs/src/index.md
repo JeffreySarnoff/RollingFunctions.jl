@@ -8,17 +8,21 @@
 | Copyright © 2017-2023 by Jeffrey Sarnoff      |
 | github.com/JeffreySarnoff/RollingFunctions.jl |
 
-----
 
-#### This package makes it easy for you
+##### This package makes it easy to
 
-- to condense evolving data
-    - by summarizing over subsequences
-- to glean connective meaning
-    - contextually sequenced abstractions
-- to reify subsumed information
+__map__
+- normalize
+- weight
+- transform
 
-##### A function is applied to successive data subsequences.
+__abstract__
+- summarize
+- condense
+
+__characterize__
+- compare
+- contrast
 
 ----
 
