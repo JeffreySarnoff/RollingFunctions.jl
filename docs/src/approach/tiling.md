@@ -1,8 +1,8 @@
 ```
-    tiling(fn, window_width, data_seq)
+    tiling(tiling_fn, window_width, data_seq)
 
-tiling(fn, width, data; padding=nopadding)
-    tiling(fn, width, data; padding, atend=false) 
+tiling(tiling_fn, window_width, data_seq; padding=nopadding)
+    tiling(tiling_fn, window_width, data_seq; padding, atend=false) 
 ```
 
 `tiling` applies a summarizing or condensing function (fn)

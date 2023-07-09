@@ -1,8 +1,7 @@
 ```
-    running(fn, window_width, data_seq)
+    running(running_fn, window_width, data_seq)
 
-running(fn, width, data; padding=nopadding)
-    running(fn, width, data; padding, atend=false)
+running(running_fn, window_width, data_seq; atend=false)
 ```
 
 `running` applies a summarizing or condensing function (fn)
@@ -33,8 +32,8 @@ arguments
 keywords
 - atend::Bool=false:  where to place the tapering.
 
-See also: [`atend`](@ref),
-          [`weighted`](@ref),
-          [`rolling`](@ref),
-          [`tiling`](@ref),
-          [`datastreams`](@ref)
+See also: [`atend`](atend.md),
+          [`weighted`](weighted.md),
+          [`rolling`](rolling.md),
+          [`tiling`](tiling.md),
+          [`datastreams`](datastreams.md)
