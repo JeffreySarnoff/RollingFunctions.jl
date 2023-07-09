@@ -13,10 +13,10 @@ ensures that the sum of the weights
 ----
 
 __note:__ This normalization is not the same as calling
-`LinearAlgebra.normalize(weights)`, as that divides
+`LinearAlgebra.normalize(weights)`; that divides
 each weight by their 2-norm (the sqrt of the sum of squares).
 If your application expects weights to be normalized using
-something other the 1-norm, do it yourself.
+something other the 1-norm, do the normalization yourself.
 
 ----
 
