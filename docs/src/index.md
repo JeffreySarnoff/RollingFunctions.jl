@@ -11,16 +11,14 @@
 
 ##### RollingFunctions makes it easy to
 
-__map__
-- normalize
-- weight
-- transform
 
 __abstract__
 - summarize
-- condense
+- aggregate
+- combine
 
 __characterize__
+- examine
 - compare
 - contrast
 
