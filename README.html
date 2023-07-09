@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Untitled</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.line-block{white-space: pre-line;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.bn { color: #40a070; } /* BaseN */
+code span.fl { color: #40a070; } /* Float */
+code span.ch { color: #4070a0; } /* Char */
+code span.st { color: #4070a0; } /* String */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.ot { color: #007020; } /* Other */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.fu { color: #06287e; } /* Function */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #880000; } /* Constant */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #19177c; } /* Variable */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.op { color: #666666; } /* Operator */
+code span.bu { } /* BuiltIn */
+code span.ex { } /* Extension */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.at { color: #7d9029; } /* Attribute */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <style>
+  
+  /* ---
+   * fixDefault.css - A fix to default Pandoc's CSS to be 
+   *    correctly displayed on a VS Code preview window,
+   *    and nicely printed on [digital] paper
+   *
+   * Ramon Solano <ramon.solano@gmail.com>
+   *
+   * usage: 
+   *    pandoc ... -H fixDefault.css ...
+   *
+   * V 1.0, Jul/2021
+   * --- 
+   */
+  
+  body {
+  	font-family: inherit;
+  	font-size: inherit;
+  	color: inherit;
+  }
+  
+  @media print {
+  	html,body {
+  		font-size: 10pt;
+  	}
+  	@page  {  
+  		size: auto;
+  	} 
+  }
+  
+  </style>
+  <style>
+  
+  /* ---
+   * article.css - A beautiful css to complement Pandoc's own
+   *
+   * Provides:
+   *    - Article-style title and headers
+   *    - Images and tables centered
+   *    - New `<aside>` env (right side)
+   *
+   * Ramon Solano <ramon.solano@gmail.com>
+   *
+   * usage: 
+   *    pandoc ... -H article.css ...
+   * 
+   * V1.0, Jul/2021
+   * ---
+   */
+  
+  body {
+  	max-width: 40em;
+     word-wrap: break-word; 
+  }
+  
+  header p {
+  	text-align: center;
+  }
+  header p.subtitle {
+  	font-size: 1.2em;
+  	line-height: 1.1em;
+  	margin: 0.5em 2em 2em;
+  /* 
+  	 margin-top: 0.5em;
+  	 margin-bottom: 2em;
+   */
+  }
+  header p.author {
+  	font-size: 1.1em;
+  	line-height: 0.5em;
+  	font-variant-caps: small-caps;
+  }
+  header p.date {
+  	font-size: 0.95em;
+  	margin: 3em;
+  }
+  
+  header h1 {
+  	 line-height: 1em;
+  	 margin-bottom: 0em;
+  }
+  /* abstract header */
+  h3:first-child, #abstract {
+  	font-size: 1.2em;
+  	text-align: center;
+  	margin: 0.5em ;
+  }
+  
+  /* abstract paragraph */
+  h3:first-child + p, #abstract + p {
+  	font-size: 0.9em;
+  	margin: 0em 4em;
+  	margin-bottom: 3em;
+  }
+  
+  h1 {
+    font-size: 1.6em;
+  }
+  h2 {
+    font-size: 1.3em;
+  }
+  h3 {
+    font-size: 1.1em;
+    font-style: italic;
+  }
+  h1, h2, h3, h4 {
+    margin-top: 0.95em;
+    margin-bottom: 0.80em;
+  }
+  
+  /* Justify and hyphenate all paragraphs */
+  p {
+    text-align: justify;
+  }
+      
+  /* center tables */
+  table {
+  	display: table;
+  	width: auto;
+  	margin-left: auto;
+  	margin-right: auto;
+  }
+  table caption {
+  	font-size: 0.95em;
+  }
+  
+  /* centered figures  */
+  figure {
+    text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  figcaption {
+    font-size: 0.95em;
+  }
+  
+  /* lists: increase left margins */
+  ul, ol {
+    padding: 0 0 0 3em;
+  }    
+  
+  /* new style: objects (figures, text) right side */
+  aside {
+    font-size: 0.9em;
+    width: 33%;
+    padding: 0 0 0 .8em;
+    margin: 1em 0 1em 1em;
+    float: right;
+  }
+  aside > *:first-child {
+    margin-top: 0;
+  }
+  aside > *:last-child {
+    margin-bottom: 0;
+  }
+  
+  pre {
+    font-size: 0.87em;
+    line-height: 1.2em;
+    border: 1px solid #cccccc;
+    background: #f5f2f0;
+    padding: .7em;   
+  }
+  
+  :not(pre) > code[class*="sourceCode"],
+  pre[class*="sourceCode"] {
+    background: #f5f2f0;
+  }
+  
+  code {
+    color: #92000c;
+    font-size: .9em;
+  }
+  
+  pre code {
+    color: unset;
+  }
+  
+  a {
+    color: #0050a0;
+  }
+  
+  </style>
+</head>
+<body>
+<h1 id="rollingfunctions.jl">RollingFunctions.jl</h1>
+<h3 id="roll-functions-and-run-statistics-along-windowed-data.">Roll functions and run statistics along windowed data.</h3>
+<hr />
+<h5 id="copyright-2017-2023-by-jeffrey-sarnoff-github.comjeffreysarnoff.">Copyright © 2017-2023 by Jeffrey Sarnoff &lt; github.com/JeffreySarnoff &gt;.</h5>
+<p><a href="https://JeffreySarnoff.github.io/RollingFunctions.jl/dev"><img src="https://img.shields.io/badge/docs-dev-blue.svg" alt="Dev Documentation" /></a>    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-navy.svg" alt="License: MIT" /></a>   </p>
+<p><a href="https://pkgs.genieframework.com?packages=RollingFunctions&amp;startdate=2015-12-30&amp;enddate=2040-12-31"><img src="https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions" alt="Package Downloads" /></a>   </p>
+<h2 id="philosophy-and-purpose">Philosophy and Purpose</h2>
+<p><em>This package provides a way for rolling, tiling, and running a functional window over data.</em></p>
+<p>Data is conveyed either as a vector, a matrix of column vectors, or as 2..3 coordinated vectors. With the covariance function, two coordinated vectors are processed using the current window position somewhat like this <code>map(cov, window_on_seq1, window_on_seq2)</code>.</p>
+<p>Data may be obtained from other <code>Tables.jl</code> compatible data structures (e.g. dataframes, timeseries) and from similarly read compatible files (e.g using CSV.read, either with a .csv file or, for example, using CSV.jl and SQLite.jl together).</p>
+<p>Windows move over the data. One may use unweighted windows or windows where a specific weight is associated with each position (index offset into the window). The weights are applied the same way every time the window advances; they are multiplied 1-to-1 over each subsequence that becomes visible <em>through the window</em> as the window moves.</p>
+<p>This software exists to simpilfy and to facilitate.</p>
+<p>RollingFunctions welcomes contributors and celebrates PRs.</br> Some users share insights. Others write words that smile.</p>
+<p>All of this is from the design of RollingFunctions.</p>
+<hr />
+<h2 id="capabilities">Capabilities</h2>
+<blockquote>
+<p><strong>≺ apply ≻   ∈   { rolling, tiling, running }</strong></p>
+</blockquote>
+<h4 id="data-sequences">data sequences</h4>
+<ul>
+<li><em>as provided</em>
+<ul>
+<li>≺ apply ≻(win_fn, win_width, seq)</li>
+</ul></li>
+<li><em>with weights</em>
+<ul>
+<li>≺ apply ≻(win_fn, win_width, seq, weights)</li>
+</ul></li>
+</ul>
+<h4 id="data-matrixcolumns-are-independent-sequences">data matrix(columns are independent sequences)</h4>
+<ul>
+<li><em>as provided</em>
+<ul>
+<li>≺ apply ≻(win_fn, win_width, data_matrix)</li>
+</ul></li>
+<li><em>with shared weights</em>
+<ul>
+<li>≺ apply ≻(win_fn, win_width, data_matrix, weights)</li>
+</ul></li>
+<li><em>with unique weights</em>
+<ul>
+<li>≺ apply ≻(win_fn, win_width, data_matrix, weight_matrix)</li>
+</ul></li>
+</ul>
+<h4 id="multisequences-up-to-3-of-equal-lengths">multisequences (up to 3 of equal lengths)</h4>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">multisequence</td>
+<td></td>
+<td style="text-align: left;">≺ apply ≻(fn, width, …)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td> </td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>as provided</em></td>
+<td>      </td>
+<td style="text-align: left;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;">(seq1, seq2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;">(seq1, seq2, seq3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><em>shared weights</em></td>
+<td></td>
+<td style="text-align: left;">…</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;">(seq1, seq2, weights)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;">(seq1, seq2, seq3, weights)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><em>unique weights</em></td>
+<td></td>
+<td style="text-align: left;">…</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;">(seq1, seq2, [weights1, weights2])</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;">(seq1, seq2, seq3, [weights1, weights2, weights3])</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<hr />
+<h3 id="see-below-for-information-on-the-next-version-search-for-unreleased">(see below for information on the next version [search for “unreleased”])</h3>
+<table style="width:7%;">
+<colgroup>
+<col style="width: 6%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>### works with integers, floats, and missings</td>
+</tr>
+<tr class="even">
+<td>### works with unweighted data - data that is a simple vector - data that is a CartesianIndexed vector</td>
+</tr>
+<tr class="odd">
+<td>### works with weights - weights given as a simple vector - weights given as a kind of StatsBase.AbstractWeights</td>
+</tr>
+<tr class="even">
+<td>### applies functions (1-arg, .., 4-args) - applied over unweighted or weighted data</td>
+</tr>
+<tr class="odd">
+<td>### works with data matrices - same 1-arg function applied to each column</td>
+</tr>
+<tr class="even">
+<td>### reasonable uses - with a simple vector - with a DataFrame column - with a TimeSeries column - with your own function</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rolling-a-function-over-data">Rolling a function over data</h2>
+<p>With <code>ndata = length(data)</code>, using a window of length <code>windowsize</code>, rolling a function results in a vector of <code>ndata - windowsize + 1</code> elements. So there will be obtained <code>windowsize - 1</code> fewer values than there are data values. All exported functions named with the prefix <strong><code>roll</code></strong> behave this way <strong>unless</strong> the keyword <code>padding</code> is given with the value to use for padding (e.g. <code>missing</code>). Using <code>padding</code> will fill the initial <code>windowsize - 1</code> values with that padding value; the result will match the length of the data.</p>
+<pre class="sourceCode julia" id="cb1"><code class="sourceCode julia"><a class="sourceLine" id="cb1-1" data-line-number="1">julia&gt; data = collect(<span class="fl">1.0</span>f0:<span class="fl">5.0</span>f0); print(data)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="dt">Float32</span>[<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>, <span class="fl">5.0</span>]</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">julia&gt; windowsize = <span class="fl">3</span>;</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">julia&gt; result = rollmean(data, windowsize); print(result)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="dt">Float32</span>[<span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>]</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">julia&gt; result = rollmean(data, windowsize; padding=missing); print(result)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="dt">Union</span>{Missing, <span class="dt">Float32</span>}[missing, missing, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>]</a></code></pre>
+<pre class="sourceCode julia" id="cb2"><code class="sourceCode julia"><a class="sourceLine" id="cb2-1" data-line-number="1">julia&gt; weights = normalize([<span class="fl">1.0</span>f0, <span class="fl">2.0</span>f0, <span class="fl">4.0</span>f0])</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="fl">3</span>-element <span class="dt">Array</span>{<span class="dt">Float32</span>,<span class="fl">1</span>}:</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"> <span class="fl">0.21821788</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"> <span class="fl">0.43643576</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"> <span class="fl">0.8728715</span> </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"> </a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">julia&gt; result = rollmean(data, windowsize, wt); print(result)</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="dt">Float32</span>[<span class="fl">1.23657</span>, <span class="fl">1.74574</span>, <span class="fl">2.25492</span>]</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">julia&gt; result = rollmean(data, windowsize, wt; padding=missing); print(result)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="dt">Union</span>{Missing,<span class="dt">Float32</span>}[missing, missing, <span class="fl">1.23657</span>, <span class="fl">1.74574</span>, <span class="fl">2.25492</span>]</a></code></pre>
+<h2 id="running-a-function-over-data">Running a function over data</h2>
+<p>To obtain the same number of output data values as are given, the initial <code>windowsize - 1</code> values output must be generated outside of the rolling behavior. This is accomplished by tapering the needed values – using the same function, rolling it over successively smaller window sizes. All exported functions named with the prefix <strong><code>run</code></strong> behave this way.</p>
+<pre class="sourceCode julia" id="cb3"><code class="sourceCode julia"><a class="sourceLine" id="cb3-1" data-line-number="1">julia&gt; using RollingFunctions</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">julia&gt; data = collect(<span class="fl">1.0</span>f0:<span class="fl">5.0</span>f0); print(data)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="dt">Float32</span>[<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>, <span class="fl">5.0</span>]</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">julia&gt; windowsize = <span class="fl">3</span>;</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">julia&gt; result = runmean(data, windowsize); print(result)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="dt">Float32</span>[<span class="fl">1.0</span>, <span class="fl">1.5</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>]</a></code></pre>
+<pre class="sourceCode julia" id="cb4"><code class="sourceCode julia"><a class="sourceLine" id="cb4-1" data-line-number="1">julia&gt; using RollingFunctions</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">julia&gt; using LinearAlgebra: normalize</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">julia&gt; weights = normalize([<span class="fl">1.0</span>f0, <span class="fl">2.0</span>f0, <span class="fl">4.0</span>f0]);</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"> </a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">julia&gt; result = runmean(data, windowsize, wt); print(result)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="dt">Float32</span>[<span class="fl">1.0</span>, <span class="fl">1.11803</span>, <span class="fl">1.23657</span>, <span class="fl">1.74574</span>, <span class="fl">2.25492</span>]</a></code></pre>
+<h3 id="rolling-stats">rolling stats</h3>
+<ul>
+<li><code>rollmin</code>, <code>rollmax</code>, <code>rollmean</code>, <code>rollmedian</code></li>
+<li><code>rollvar</code>, <code>rollstd</code>, <code>rollsem</code>, <code>rollmad</code>, <code>rollmad_normalized</code></li>
+<li><code>rollskewness</code>, <code>rollkurtosis</code>, <code>rollvariation</code></li>
+<li><code>rollcor</code>, <code>rollcov</code> (over two data vectors)</li>
+</ul>
+<h3 id="running-stats">running stats</h3>
+<ul>
+<li><code>runmin</code>, <code>runmax</code>, <code>runmean</code>, <code>runmedian</code></li>
+<li><code>runvar</code>, <code>runstd</code>, <code>runsem</code>, <code>runmad</code>, <code>runmad_normalized</code></li>
+<li><code>runskewness</code>, <code>runkurtosis</code>, <code>runvariation</code></li>
+<li><code>runcor</code>, <code>runcov</code> (over two data vectors)</li>
+</ul>
+<p>Some of these use a limit value for running over vec of length 1.</p>
+<h3 id="works-with-functions-over-1-2-3-or-4-data-vectors">works with functions over 1, 2, 3 or 4 data vectors</h3>
+<ul>
+<li><code>rolling(function, data1, data2, windowsize)</code></li>
+<li><code>rolling(function, data1, data2, windowsize, wt)</code> (weights apply to both data vectors)</li>
+<li><p><code>rolling(function, data1, data2, windowsize, wt1, wt2)</code></p></li>
+<li><code>rolling(function, data1, data2, data3, windowsize)</code></li>
+<li><code>rolling(function, data1, data2, data3, windowsize, wt)</code> (weights apply to all data vectors)</li>
+<li><p><code>rolling(function, data1, data2, data3, windowsize, wt1, wt2, wt3)</code></p></li>
+<li><code>running(function, data1, data2, data3, data4, windowsize)</code></li>
+<li><code>running(function, data1, data2, data3, data4, windowsize, wt)</code> (weights apply to all data vectors)</li>
+<li><p><code>running(function, data1, data2, data3, data4, windowsize, wt1, wt2, wt3, wt4)</code></p></li>
+</ul>
+<p>!! CHANGE ME !! Many statistical functions of two or more vector variables are not well defined for vectors of length 1. To run these functions and get an initial tapered value that is well defined, supply the desired value as <code>firstresult</code>.</p>
+<ul>
+<li><code>running(function, data1, data2, windowsize, firstresult)</code></li>
+<li><code>running(function, data1, data2, windowsize, wt, firstresult)</code> (weights apply to both data vectors)</li>
+</ul>
+<h2 id="philosophy-and-purpose-1">Philosophy and Purpose</h2>
+<p>This package provides a way for rolling and for running a functional window over data. Data is conveyed either as a vector or as a means of obtaining a vector from a matrix or 3D array or other data structure (e.g. dataframes, timeseries). Windows move over the data. One may use unweighted windows or windows wherein each position carries weight. Weighted windows apply the weight sequence through the window as it moves over the data.</p>
+<p>When a window is provided with weights, the weights <sub>should</sub> must be normalized. We provide an algorithmically safe normalizing function that you may rely upon. Adding the sequence of normalized values one to the next obtains 1.0 or a value very slightly less than 1.0 – their sum will not exceed unity. <em>I do not know how to augment something already whole while respecting its integrity.</em></p>
+<p>When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window’s width. This requires that the weights themselves be tapered along with the determinative function that is rolled. In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.</p>
+<p>This software exists to simpilfy some of what you create and to faciliate some of the work you do.</p>
+<p>Some who use it insightfully share the best of that. Others write words that smile.</p>
+<p>All of this is expressed through the design of RollingFunctions.</p>
+<h2 id="section">—-</h2>
+<h2 id="this-describes-the-unreleased-next-version-of-rollingfunctions.">This describes the unreleased next version of RollingFunctions.</h2>
+<blockquote>
+<p>The unreleased version is <a href="https://github.com/JeffreySarnoff/RollingFunctions.jl/tree/v0.9.95">0.9.95</a></p>
+</blockquote>
+<h4 id="copyright-2017-2023-by-jeffrey-sarnoff.-released-under-the-mit-license.">Copyright © 2017-2023 by Jeffrey Sarnoff. Released under the MIT License.</h4>
+<p><a href="https://JeffreySarnoff.github.io/RollingFunctions.jl/dev"><img src="https://img.shields.io/badge/docs-stable-blue.svg" alt="Dev Documentation" /></a>    <a href="https://pkgs.genieframework.com?packages=RollingFunctions&amp;startdate=2015-12-30&amp;enddate=2040-12-31"><img src="https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions" alt="Package Downloads" /></a> <a href="https://github.com/JuliaTesting/Aqua.jl"><img src="https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg" alt="Aqua QA" /></a></p>
+<h2 id="symbology">symbology</h2>
+<pre><code>(&#39;⦃&#39;, &#39;⦄&#39;, &#39;⦑&#39;, &#39;⦒&#39;, &#39;⧼&#39;, &#39;⧽&#39;),
+(&#39;⦂&#39;, &#39;⧂&#39;, (&#39;⧜&#39;, &#39;⧝&#39;, &#39;⧞&#39;))
+(&#39;⏦&#39;, &#39;⏖&#39;, &#39;⏔&#39;,)
+(&#39;⩫&#39;,&#39;⤳&#39;, &#39;⥂&#39;, &#39;⥃&#39;, &#39;⥄&#39;)</code></pre>
+<h2 id="terminology">terminology</h2>
+<ul>
+<li><code>data</code>: information provided as if sampling from a stream
+<ul>
+<li><code>data sequence</code>: a finite discrete data source with each datum sequentially given</li>
+<li><code>multidata sequence</code>: a data sequence where each value is itself a small sequence</li>
+</ul></li>
+</ul>
+<h2 id="process-through-windows-onto-data">process through windows onto data</h2>
+<h3 id="rolling">rolling</h3>
+<ul>
+<li>advances your window over the data in successive steps</li>
+<li>provides as many results as are completely available
+<ul>
+<li>often the result has fewer values than the data holds</li>
+</ul></li>
+</ul>
+<h4 id="padded-rolling">padded rolling</h4>
+<ul>
+<li>completes the result with copies of any one padding value
+<ul>
+<li>the result is padded at the start or at the end</li>
+</ul></li>
+</ul>
+<h3 id="tiling">tiling</h3>
+<ul>
+<li>advances your window of the data in strides that match the window width</li>
+<li>provides as many results as are completely available
+<ul>
+<li>the result has fewer values than the data holds</li>
+<li></li>
+</ul></li>
+</ul>
+</body>
+</html>

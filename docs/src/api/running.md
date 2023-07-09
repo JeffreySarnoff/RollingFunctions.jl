@@ -33,4 +33,13 @@ running(window_fn, datamat, width; padding, atend)
 ```
 
 
-
+When __running__ with a weighted window, 
+special considerations apply. 
+The initial (first, second ..) values are determined 
+using a tapering of the weighted window's span.
+This requires that the weights themselves
+be tapered along with the determinative function that is rolled.
+In this case, the weight subsequence is normalized
+(sums to one(T)), and that reweighting is used with the
+foreshortened window to taper that which rolls.
+_see the docs_

@@ -2,12 +2,66 @@
 
 ### Roll functions and  run statistics along windowed data.
 
+----
+
+##### Copyright © 2017-2023 by Jeffrey Sarnoff <&nbsp;github.com/JeffreySarnoff&nbsp;>.
+
+[![Dev Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
+[![License: MIT](https://img.shields.io/badge/License-MIT-navy.svg)](https://opensource.org/licenses/MIT)&nbsp;&nbsp;&nbsp;
+
+[![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)&nbsp;&nbsp;&nbsp;
+
+## Philosophy and Purpose
+
+_This package provides a way for rolling, tiling,
+and running a functional window over data._
+
+Data is conveyed either as a vector, a matrix of column vectors,
+or as 2..3 coordinated vectors. With the covariance function,
+two coordinated vectors are processed using the current window
+position somewhat like this `map(cov, window_on_seq1, window_on_seq2)`.
+
+Data may be obtained from other `Tables.jl` compatible data structures
+(e.g. dataframes, timeseries) and from similarly read compatible files
+(e.g using CSV.read, either with a .csv file or, for example, 
+ using CSV.jl and SQLite.jl together).
+
+Windows move over the data.  One may use unweighted windows or 
+windows where a specific weight is associated with each position
+(index offset into the window).  The weights are applied 
+the same way every time the window advances; they are 
+multiplied 1-to-1 over each subsequence that becomes visible
+_through the window_ as the window moves.
+
+
+This software exists to simpilfy and to facilitate.
+
+RollingFunctions welcomes contributors and celebrates PRs.</br>
+Some users share insights. Others write words that smile.
+
+All of this is from the design of RollingFunctions.
+
+
+----
+
+## Capabilities
+
+> __≺ apply ≻ &nbsp; ∈ &nbsp; {&nbsp;rolling, tiling, running&nbsp;}__
+
 
 #### data sequences
 - _as provided_
     - ≺ apply ≻(win_fn, win_width, seq)
 - _with weights_
    - ≺ apply ≻(win_fn, win_width, seq, weights)
+
+#### data matrix(columns are independent sequences)
+- _as provided_
+    - ≺ apply ≻(win_fn, win_width, data_matrix)
+- _with shared weights_
+   - ≺ apply ≻(win_fn, win_width, data_matrix, weights)
+- _with unique weights_
+   - ≺ apply ≻(win_fn, win_width, data_matrix, weight_matrix)
 
 #### multisequences (up to 3 of equal lengths)
 
@@ -29,34 +83,11 @@
 |                   | |(seq1, seq2, seq3, [weights1, weights2, weights3]) |
 |                   | |                                      |
 
+----
 
 
 ----
 
-##### Copyright © 2017-2023 by Jeffrey Sarnoff <&nbsp;github.com/JeffreySarnoff&nbsp;>.
-
-[![Dev Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://JeffreySarnoff.github.io/RollingFunctions.jl/dev)&nbsp;&nbsp;&nbsp;
-[![License: MIT](https://img.shields.io/badge/License-MIT-navy.svg)](https://opensource.org/licenses/MIT)&nbsp;&nbsp;&nbsp;
-
-[![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)&nbsp;&nbsp;&nbsp;
-
-## Philosophy and Purpose
-
-This package provides a way for rolling and for running a functional window over data.  Data is conveyed either as a vector or as a means of obtaining a vector from a matrix or 3D array or other data structure (e.g. dataframes, timeseries).  Windows move over the data.  One may use unweighted windows or windows wherein each position carries weight. Weighted windows apply the weight sequence through the window as it moves over the data.
-
-When a window is provided with weights, the weights ~should~ must be normalized. We provide an algorithmically safe normalizing function that you may rely upon. Adding the sequence of normalized values one to the next obtains 1.0 or a value very slightly less than 1.0 -- their sum will not exceed unity.
-_I do not know how to augment something already whole while respecting its integrity._
-
-When running with a weighted window, the initial (first, second ..) values are determined using a tapering of the weighted window's span.  This requires that the weights themselves be tapered along with the determinative function that is rolled.  In this case, the weight subsequence is normalized (sums to one(T)), and that reweighting is used with the foreshortened window to taper that which rolls.
-
-This software exists to simpilfy some of what you create and to faciliate some of the work you do. 
-
-Some who use it insightfully share the best of that. Others write words that smile. 
-
-All of this is expressed through the design of RollingFunctions.
-
-----
-----
 
 
 ### (see below for information on the next version [search for "unreleased"])
