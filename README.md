@@ -61,10 +61,12 @@ And we are on _discourse_</br>
 
 ----
 
+
+----
+
 ## Capabilities
 
-
-### ≺ apply ≻&nbsp; ∈&nbsp; {&nbsp;rolling, tiling, running&nbsp;}
+### ≺ apply ≻ { rolling, tiling, running }
 
 #### keywords (optional)
  - __padding__ = nopadding (omit padding) [_or use this value_]
@@ -85,30 +87,25 @@ And we are on _discourse_</br>
 - _with unique weights_
    - ≺ apply ≻(win_fn, win_width, data_matrix, weight_matrix)
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_(Each data matrix column is independent; all functions are unary.)_
+ _(each data matrix column is independent -- use unary functions)_
 
-### multisequences (2..Nseq seqs of equal length; use binary..multiary functions)
+|                   |   |      signature                       |
+|:------------------|---|:-------------------------------------|
+| multisequence     |   | ≺ apply ≻(fn, width, _`rest`_...)    |
+|                   |   |                                      |
+| _unweighted_      |   | _rest_                               |
+|                   |   |(seq1, seq2)                          |
+|                   |   |(seq1, ..,  seqNseq)                  |
+|                   |   |                                      |
+| _shared weights_  |   | _rest_                               |
+|                   |   |(seq1, seq2, weights)                 |
+|                   |   |(seq1, .., seqNseq, weights)          |
+|                   |   |                                      |
+| _unique weights_  |   | _rest_                               |
+|                   |   |(seq1, seq2, [weights1, weights2])    |
+|                   |   |(seq1, .., seqNseq, [weights1, .., weightsNseq]) |
+|                   |   |                                       |
 
-|                   | |                                      |
-|:------------------|-|:-------------------|
-| multisequence     | | ≺ apply ≻(fn, width, _`rest`_...) |
-|                   |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  |                                      |
-| _as provided_     |  | _rest_                  |
-|                   | |(seq1, seq2)       |
-|                   | |(seq1, ..,  seqNseq) |
-|                   | |                                      |
-| _shared weights_  | | _rest_                       |
-|                   | |(seq1, seq2, weights)       |
-|                   | |(seq1, .., seqNseq, weights) |
-|                   | |                                      |
-|                   | |                                      |
-| _unique weights_  | | _rest_                        |
-|                   | |(seq1, seq2, [weights1, weights2])       |
-|                   | |(seq1, .., seqNseq, [weights1, .., weightsNseq]) |
-|                   | |                                      |
-
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_(Nseq, the maximum number of coordinated sequences, is >= 3.)_
-
-----
+  _(the maximum number of sequences, Nseq >= 3)_
 
 ----
