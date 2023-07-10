@@ -94,7 +94,7 @@ function basic_tiling(fn::F, width::Integer,
 end
 
 function basic_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{T}) where {T,F<:Function}
     mweights = vmatrix(weighting)
     basic_tiling(fn, width, data, mweights)
 end
@@ -119,7 +119,7 @@ function basic_tiling(fn::F, width::Integer,
 end
 
 function basic_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return basic_tiling(fn, width, Matrix{T2}(data), weighting)
@@ -170,7 +170,7 @@ function padfirst_tiling(fn::F, width::Integer,
 end
 
 function padfirst_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T},weighting::VectorOfVectors{T}, padding) where {T,F<:Function}
+    data::AbstractMatrix{T},weighting::VectorVectors{T}, padding) where {T,F<:Function}
     mweights = vmatrix(weighting)
 
     padfirst_tiling(fn, width, data, mweights, paddomg)
@@ -198,7 +198,7 @@ function padfirst_tiling(fn::F, width::Integer,
 end
 
 function padfirst_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}, padding) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{W}, padding) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return padfirst_tiling(fn, width, Matrix{T2}(data),weighting, padding)
@@ -256,7 +256,7 @@ function padfinal_tiling(fn::F, width::Integer,
 end
 
 function padfinal_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T},weighting::VectorOfVectors{T}, padding) where {T,F<:Function}
+    data::AbstractMatrix{T},weighting::VectorVectors{T}, padding) where {T,F<:Function}
     mweights = vmatrix(weighting)
 
     padfinal_tiling(fn, width, data, mweights, paddomg)
@@ -284,7 +284,7 @@ function padfinal_tiling(fn::F, width::Integer,
 end
 
 function padfinal_tiling(fn::F, width::Integer,
-    data::AbstractMatrix{T},weighting::VectorOfVectors{W}, padding) where {T,W,F<:Function}
+    data::AbstractMatrix{T},weighting::VectorVectors{W}, padding) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return padfinal_tiling(fn, width, Matrix{T2}(data), weighting, padding)

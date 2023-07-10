@@ -332,7 +332,7 @@ function taperfinal(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    data1::AbstractMatrix{T}, weighting::VectorVectors{T}) where {T,F<:Function}
     mweights = vmatrix(weighting)
 
     taperfinal(fn, width, data1, mweights)
@@ -359,7 +359,7 @@ function taperfinal(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
+    data1::AbstractMatrix{T}, weighting::VectorVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return taperfinal(fn, width, Matrix{T2}(data1), weighting)

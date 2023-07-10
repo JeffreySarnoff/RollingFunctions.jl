@@ -84,7 +84,7 @@ function basic_rolling(fn::F, width::Integer,
 end
 
 function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T, W, F<:Function}
+                       data::AbstractMatrix{T}, weighting::VectorVectors{W}) where {T, W, F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return basic_rolling(fn, width, Matrix{T2}(data), vmatrix(weighting))
@@ -95,7 +95,7 @@ function basic_rolling(fn::F, width::Integer,
 end
 
 function basic_rolling(fn::F, width::Integer,
-                       data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T, F<:Function}
+                       data::AbstractMatrix{T}, weighting::VectorVectors{T}) where {T, F<:Function}
     mweights = vmatrix(weighting)
 
     basic_rolling(fn, width, data, mweights)
@@ -160,7 +160,7 @@ function padfirst_rolling(fn::F, width::Integer,
 end
 
 function padfirst_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{T}) where {T,F<:Function}
     mweights = vmatrix(weighting)
 
     padfirst_rolling(fn, width, data, mweights)
@@ -187,7 +187,7 @@ function padfirst_rolling(fn::F, width::Integer,
 end
 
 function padfirst_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return padfirst_rolling(fn, width, Matrix{T2}(data), weighting)
@@ -246,7 +246,7 @@ function padfinal_rolling(fn::F, width::Integer,
 end
 
 function padfinal_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{T}) where {T,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{T}) where {T,F<:Function}
     mweights = vmatrix(weighting)
 
     padfinal_rolling(fn, width, data, mweights)
@@ -272,7 +272,7 @@ function padfinal_rolling(fn::F, width::Integer,
 end
 
 function padfinal_rolling(fn::F, width::Integer,
-    data::AbstractMatrix{T}, weighting::VectorOfVectors{W}) where {T,W,F<:Function}
+    data::AbstractMatrix{T}, weighting::VectorVectors{W}) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return padfinal_rolling(fn, width, Matrix{T2}(data), weighting)
