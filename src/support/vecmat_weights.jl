@@ -105,22 +105,23 @@ provides an unintialized Matrix of given `Type` and `size`
 @inline newmatrix(::Type{T}, nrows::I, ncolumns::I) where {T<:Number, I<:Integer} =
    newmatrix(T, (nrows, ncolumns))
 
-
 """
     innertype(x)
 
 provides the innermost eltype of x (the scalar type underlying x)
 """ innertype
 
-@inline innertype(@nospecialize(x::AbstractVector{<:Number})) = eltype(x)
-@inline innertype(@nospecialize(x::AbstractMatrix{<:Number})) = eltype(x)
-@inline innertype(@nospecialize(x::AbstractVector{<:AbstractVector{<:Number}})) = eltype(eltype(x))
-@inline innertype(@nospecialize(x::AbstractMatrix{<:AbstractVector{<:Number}})) = eltype(eltype(x))
+@inline innertype(@nospecialize(x)) = eltype(x)
+
+@inline innertype(@nospecialize(x::Number)) = typeof(x)
 
 @inline innertype(@nospecialize(x::AbstractWeights{<:Number})) = eltype(x)
-@inline innertype(@nospecialize(x::AbstractVector{AbstractWeights{<:Number}})) = eltype(eltype(x))
-@inline innertype(@nospecialize(x::AbstractMatrix{AbstractWeights{<:Number}})) = eltype(eltype(x))
+@inline innertype(@nospecialize(x::AbstractVector{<:Number})) = eltype(x)
+@inline innertype(@nospecialize(x::AbstractMatrix{<:Number})) = eltype(x)
 
+@inline innertype(@nospecialize(x::AbstractVector{<:AbstractWeights{<:Number}})) = eltype(eltype(x))
+@inline innertype(@nospecialize(x::AbstractVector{<:AbstractVector{<:Number}}))  = eltype(eltype(x))
+@inline innertype(@nospecialize(x::AbstractVector{<:AbstractMatrix{<:Number}}))  = eltype(eltype(x))
 
 const scalebypow = 5/16
 
