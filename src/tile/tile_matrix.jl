@@ -140,7 +140,7 @@ end
     basic_tiling(fn, width, data,weighting)
 end
 
-function basic_tiling(fn::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}) where {T}
+function basic_tiling(fn::Function, width::Integer, ᵛʷdata::ViewMatrix{T}, ᵛʷweight::ViewMatrix{T}) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     # there are 1 or more columns, each holds `n` values
@@ -218,7 +218,7 @@ end
     padfirst_tiling(fn, width, data, Matrix{T}(weighting), padding)
 end
 
-function padfirst_tiling(fn::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T}
+function padfirst_tiling(fn::Function, width::Integer, ᵛʷdata::ViewMatrix{T}, ᵛʷweight::ViewMatrix{T}, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding), rts(fn, (T,))}
@@ -304,7 +304,7 @@ end
     padfinal_tiling(fn, width, data, Matrix{T}(weighting), padding)
 end
 
-function padfinal_tiling(fn::Function, width::Integer, ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix, padding) where {T}
+function padfinal_tiling(fn::Function, width::Integer, ᵛʷdata::ViewMatrix{T}, ᵛʷweight::ViewOfMatrix, padding) where {T}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding), rts(fn, (T,))}

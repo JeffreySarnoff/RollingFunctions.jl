@@ -65,7 +65,7 @@ function basic_tiling(fn::Function, width::Integer,
 end
 
 function basic_tiling(fn::Function, width::Integer,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
+    data1::ViewMatrix{T}, weight::ViewOfWeights{W}) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])
@@ -119,7 +119,7 @@ end
 
 
 function padfirst_tiling(fn::Function, width::Integer,
-    data1::ViewOfMatrix{T}, weight::ViewOfWeights{W}, padding) where {T,W}
+    data1::ViewMatrix{T}, weight::ViewOfWeights{W}, padding) where {T,W}
     typ = promote_type(T, W)
     ᵛʷdata1 = T === typ ? asview(data1) : asview([typ(x) for x in data1])
     ᵛʷweight = W === typ ? asview(weight) : asview([typ(x) for x in weight])

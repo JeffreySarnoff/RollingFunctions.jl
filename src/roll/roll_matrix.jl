@@ -131,7 +131,7 @@ end
 end
 
 @inline function basic_rolling(fn::F, width::Integer, 
-                       ᵛʷdata::ViewOfMatrix{T}, ᵛʷweights::ViewOfMatrix{T}) where {T, F<:Function}
+                       ᵛʷdata::ViewMatrix{T}, ᵛʷweights::ViewMatrix{T}) where {T, F<:Function}
     rowcount, colcount = size(ᵛʷdata)
     nvalues = rolling_wholes(rowcount, width)
     rettype = rts(fn, (T,))
@@ -208,7 +208,7 @@ end
 end
 
 function padfirst_rolling(fn::F, width::Integer,
-    ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T,F<:Function}
+    ᵛʷdata::ViewMatrix{T}, ᵛʷweight::ViewOfWeights{T}) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     nvalues = rolling_wholes(n, width)
     rettype = Union{typeof(padding),rts(fn, (T,))}
@@ -293,7 +293,7 @@ end
 end
 
 function padfinal_rolling(fn::F, width::Integer,
-    ᵛʷdata::ViewOfMatrix{T}, ᵛʷweight::ViewOfMatrix{T}, padding) where {T,F<:Function}
+    ᵛʷdata::ViewMatrix{T}, ᵛʷweight::ViewMatrix{T}, padding) where {T,F<:Function}
     n = nrows(ᵛʷdata)
     nvalues = nrolled(n, width)
     rettype = Union{typeof(padding),rts(fn, (T,))}
