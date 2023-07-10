@@ -109,10 +109,10 @@ function taperfirst(fn::F, width::Integer,
     padding=nopadding) where {F<:Function,T}
     colcount = ncols(data1)
     check_width(width, length(weighting))
+    mweights = vmatrix(weighting, ncols(data1))
+    ᵛʷmweights = asview(mweights)
 
     ᵛʷdata1 = asview(data1)
-    vmatrix(weighting, colcount)
-    ᵛʷmweights = asview(mweights)
 
     if padding == nopadding
         taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights)
@@ -121,7 +121,7 @@ function taperfirst(fn::F, width::Integer,
     end
 end
 
-function taperfirst(fn::F, width::Integer,
+#= function taperfirst(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weighting::AbstractWeights{T};
     padding=nopadding) where {T,F<:Function}
     ᵛʷdata1 = asview(data1)
@@ -129,7 +129,7 @@ function taperfirst(fn::F, width::Integer,
     ᵛʷmweights = asview(mweights)
 
     taperfirst(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
-end
+end =#
 
 function taperfirst(fn::F, width::Integer, 
     data1::AbstractMatrix{T}, weighting::VectorOfVectors{T};
@@ -256,14 +256,16 @@ function taperfinal(fn::F, width::Integer,
     taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
 end
 
-function taperfinal(fn::F, width::Integer, data1::AbstractMatrix{T}, weighting::Vector{<:AbstractWeights{T}}; padding=nopadding) where {T,F<:Function}
-    ᵛʷdata1 = asview(data1)
-    colcount = ncols(data1)
-    check_lengths(colcount, length(weighting))
-    mweights = vmatrix(weighting)
-    ᵛʷmweights = asview(mweights)
+function taperfinal(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weighting::VectorOfWeights{W};
+    padding=nopadding) where {T,W,F<:Function}
+    if T <: Integer
+        T2 = innertype(weighting)
+        return taperfinal(fn, width, Matrix{T2}(data1), weighting)
+    end
 
-    taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+    mweights = Matrix{T}(vmatrix(weighting))
+    taperfinal(fn, width, data1, mweights)
 end
 
 function taperfinal(fn::F, width::Integer,
