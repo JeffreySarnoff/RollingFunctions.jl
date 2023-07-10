@@ -25,9 +25,12 @@
 ### Data
 
 Data is conveyed either as a vector, a matrix of column vectors,
-or as 2..3 coordinated vectors. With the covariance function,
-two coordinated vectors are processed using the current window
-position somewhat like this `map(cov, window_on_seq1, window_on_seq2)`.
+or as some coordinated vectors.
+
+With the covariance function,
+two vectors are processed within the current window
+like this
+- `map(cov, window_over_seq1, window_over_seq2)`&nbsp;&nbsp;_(the windows are identical)_
 
 Data may be obtained from other `Tables.jl` compatible data structures
 (e.g. dataframes, timeseries) and from similarly read compatible files
@@ -63,6 +66,10 @@ And we are on _discourse_</br>
 
 ### ≺ apply ≻&nbsp; ∈&nbsp; {&nbsp;rolling, tiling, running&nbsp;}
 
+#### keywords (optional)
+ - __padding__ = nopadding (omit padding) [_or use this value_]
+ - __atend__ = false (_pad the start_) [_true, pad the end_]
+
 
 ### data sequences
 - _as provided_
@@ -80,23 +87,22 @@ And we are on _discourse_</br>
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_(Each data matrix column is independent; all functions are unary.)_
 
-
 ### multisequences (2..Nseq seqs of equal length; use binary..multiary functions)
 
 |                   | |                                      |
 |:------------------|-|:-------------------|
-| multisequence     | | ≺ apply ≻(fn, width, _rest_...) |
+| multisequence     | | ≺ apply ≻(fn, width, _`rest`_...) |
 |                   |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  |                                      |
-| _as provided_     | _rest_ |                  |
+| _as provided_     |  | _rest_                  |
 |                   | |(seq1, seq2)       |
 |                   | |(seq1, ..,  seqNseq) |
 |                   | |                                      |
-| _shared weights_  | _rest_ |                        |
+| _shared weights_  | | _rest_                       |
 |                   | |(seq1, seq2, weights)       |
 |                   | |(seq1, .., seqNseq, weights) |
 |                   | |                                      |
 |                   | |                                      |
-| _unique weights_  | _rest_ |                        |
+| _unique weights_  | | _rest_                        |
 |                   | |(seq1, seq2, [weights1, weights2])       |
 |                   | |(seq1, .., seqNseq, [weights1, .., weightsNseq]) |
 |                   | |                                      |
