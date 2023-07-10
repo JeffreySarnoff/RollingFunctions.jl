@@ -214,7 +214,7 @@ function taperfirst(fn::F, width::Integer,
 end
 
 function taperfirst(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::VectorOfWeights{W}) where {T,W,F<:Function}
+    data1::AbstractMatrix{T}, weighting::VectorWeights{W}) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
         return taperfirst(fn, width, Matrix{T2}(data1), weighting)
@@ -252,7 +252,7 @@ function taperfinal(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer,
-    data1::AbstractMatrix{T}, weighting::VectorOfWeights{W};
+    data1::AbstractMatrix{T}, weighting::VectorWeights{W};
     padding=nopadding) where {T,W,F<:Function}
     if T <: Integer
         T2 = innertype(weighting)
