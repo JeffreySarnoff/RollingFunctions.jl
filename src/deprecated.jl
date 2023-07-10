@@ -8,7 +8,7 @@ function rolling(fn::F, data1::AbstractVector{T1}, width::Integer;
         :rolling,
     )
 
-    if hasnopaddingpadding)
+    if hasnopadding(padding)
         basic_rolling(fn, width, data1)
     elseif !atend
         padfirst_rolling(fn, width, data1; padding)
@@ -26,7 +26,7 @@ function rolling(fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, wi
         :rolling,
     )
 
-    if hasnopaddingpadding)
+    if hasnopadding(padding)
         basic_rolling(fn, width, data1, data2)
     elseif !atend
         padfirst_rolling(fn, width, data1, data2; padding)
@@ -44,7 +44,7 @@ function rolling(fn::F, data1::AbstractVector{T1}, data2::AbstractVector{T2}, da
         :rolling,
     )
 
-    if hasnopaddingpadding)
+    if hasnopadding(padding)
         basic_rolling(fn, width, data1, data2, data3)
     elseif !atend
         padfirst_rolling(fn, width, data1, data2, data3; padding)
