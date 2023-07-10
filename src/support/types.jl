@@ -1,7 +1,7 @@
 struct NoPadding end
 const nopadding = NoPadding()
 
-hasnopadding((x) = x === nopadding
+hasnopadding(x) = x === nopadding
 haspadding(x) = x !== nopadding
 
 const VectorOfNTuples = AbstractVector{<:NTuple}
