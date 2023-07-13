@@ -1,37 +1,46 @@
 ```
-    running(running_fn, window_width, data_seq)
+running(running_fn, window_width, data_seq)
 
-running(running_fn, window_width, data_seq; atend=false)
+running(fn, width, data; padding=nopadding)
+running(fn, width, data; padding, atend=false)
 ```
 
-`running` applies a summarizing or condensing function (fn)
-to all elements within the current window (seen simulataneously);
-then advances the window ([start:finish]) by **one index** ([start+1:finish+1])
-to apply fn over the elements covered by the new window ...
+`running` a function over windowed data repeatedly
+applies that function to each overlapping data subsequence
+that the moving window provides.  The length of
+each subsequence is given by the width of the window.
 
-`running` differs from `rolling`. When rolling() one may pad
-values that otherwise would be dropped to obtain a result
-of length that matches expectation or convienience.
+The function is applied as if it gathers the data spanned
+and consumes it all at once. 
+The function is one that summarizes, condeneses,
+abstracts, characterizes, or explores 
+subsequences shown by the moving window.
 
-Running() provides replacements for those dropped values
-by tapering the width of the window as it moves from the start
-[as it moves to the end] of the data sequence (see atend).
+While the window is fully contained within the data,
+each step (one roll) increments the indices of the current window:
+`(start:finish)  ↦  (start+1:finish+1)`.
+When advancing the window would carry the end of the window
+beyond the end of the data, `running` uses __tapering__.
 
-
-|                                               |
-|:----------------------------------------------|
-|    running(fn, width, data)                   |
-|    running(fn, width, data; atend)            |
-||                                              |
+To fill in the results where the window would be incomplete
+(where there is less data remaining than the window width),
+the function is applied to successively fewer data values.
+For functions that are undefined over a single value
+(e.g. skewness, covariance), the result of the final taper
+will be NaN unless you specify a `padding` value.
 
 arguments
-- fn <: Function:     summarizes, condenses windowed data
-- width::Integer:     window breadth, counts covered elements.
-- data_seq::Vector:   the data over which the window moves.
+- fn::Function:     summarizes, condenses windowed data
+- width::Integer:   window breadth, counts covered elements.
+- data::Vector:     the data over which the window moves.
 
 keywords
-- atend::Bool=false:  where to place the tapering.
+- padding::Any=nopadding: the value place as filler.
+- atend::Bool=false:      where to place the padding.
 
-See also: [`atend`](atend.md),
+See also: [`padding`](padding.md), 
+          [`atend`](atend.md),
           [`weighted`](weighted.md),
           [`datastreams`](datastreams.md)
+
+

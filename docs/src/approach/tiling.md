@@ -1,34 +1,44 @@
 ```
-    tiling(tiling_fn, window_width, data_seq)
+tiling(tiling_fn, window_width, data_seq)
 
-tiling(tiling_fn, window_width, data_seq; padding=nopadding)
-    tiling(tiling_fn, window_width, data_seq; padding, atend=false) 
+tiling(fn, width, data; padding=nopadding)
+tiling(fn, width, data; padding, atend=false)
 ```
 
-`tiling` applies a summarizing or condensing function (fn)
-to all elements within the current window (seen simulataneously);
-then advances the window ([start:finish]) by the **window_width**
- ([start+width:finish+width]), skipping over the prior window, 
-to apply fn over the elements covered by the new window ...
+`tiling` a function over windowed data repeatedly
+applies that function to each adjacent data subsequence
+that the moving window provides.  The length of
+each subsequence is given by the width of the window.
 
-|                                               |
-|:----------------------------------------------|
-|    tiling(fn, width, data)                    |
-|    tiling(fn, width, data; padding)           |
-|    tilling(fn, width, data; atend)            |
-|    tiling(fn, width, data; padding, atend)    |
-|                                               |
+The function is applied as if it gathers the data spanned
+and consumes it all at once. 
+The function is one that summarizes, condeneses,
+abstracts, characterizes, or explores contiguous
+subsequences shown by the moving window.
+
+While the window is fully contained within the data,
+each step (one tile) increments the indices of the current window:
+`(start:finish)  ↦  (start+width:finish+width) == (finish+1:finish+width)`.
+When advancing the window would carry the end of the window
+beyond the end of the data, `tiling` is complete.
+
+With N data values and a window of width W (W<=N),
+the result from tiling will have no more than
+`div(N, W)` values. There will be `rem(N, W)` left over (untiled)
+values. Using the keyword `padding`, will pad the first or final (atend=true)
+return value when `rem(N, W) != 0`.
 
 arguments
-- fn <: Function:   summarizes, condenses windowed data
+- fn::Function:     summarizes, condenses windowed data
 - width::Integer:   window breadth, counts covered elements.
-- data_seq::Vector: the data over which the window moves.
+- data::Vector:     the data over which the window moves.
 
 keywords
 - padding::Any=nopadding: the value place as filler.
-- atend::Bool=false:     where to place the padding.
+- atend::Bool=false:      where to place the padding.
 
 See also: [`padding`](padding.md), 
           [`atend`](atend.md),
           [`weighted`](weighted.md),
           [`datastreams`](datastreams.md)
+

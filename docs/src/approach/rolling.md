@@ -1,5 +1,3 @@
-
-
 ```
 rolling(rolling_fn, window_width, data_seq)
 
@@ -8,7 +6,7 @@ rolling(fn, width, data; padding, atend=false)
 ```
 
 `rolling` a function over windowed data repeatedly
-applies that function to each data subsequence
+applies that function to each overlapping data subsequence
 that the moving window provides.  The length of
 each subsequence is given by the width of the window.
 
@@ -33,7 +31,7 @@ W divides N exactly.  To get a result of length N,
 use the keyword `padding`.
 
 arguments
-- fn <: Function:   summarizes, condenses windowed data
+- fn::Function:   summarizes, condenses windowed data
 - width::Integer:   window breadth, counts covered elements.
 - data::Vector:     the data over which the window moves.
 
