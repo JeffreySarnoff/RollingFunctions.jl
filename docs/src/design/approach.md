@@ -4,7 +4,7 @@ The core design develops each approach in the same way.
 This simplifies development, mitigates unexpected corner cases,
 and improves reliability.
 
-At present, there are three approachs: 
+There are three approachs: 
 [`running`](..\approach\running.md), 
 [`tiling`](..\approach\tiling.md), and 
 [`rolling`](..\approach\rolling.md).
@@ -13,11 +13,10 @@ We use two keyword arguments, both are optional:
 [`padding`](..\approach\padding.md), and 
 [`atend`](..\approach\atend.md).
 
-This allows four call states for each approach
+This allows three call states for each approach
 ```
 <approach>(windowed_fn, window_width, data_seq)
 <approach>(windowed_fn, window_width, data_seq; padding=pad)
-<approach>(windowed_fn, window_width, data_seq; atend=true)
 <approach>(windowed_fn, window_width, data_seq; padding=pad, atend=true)
 ```
 

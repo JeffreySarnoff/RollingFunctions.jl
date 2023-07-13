@@ -1,10 +1,18 @@
-_references_
-
+### links
 
 [wavefront (moving and tumbling windows)](https://docs.wavefront.com/query_language_windows_trends.html#how-moving-windows-are-different-from-tumbling-windows)
 
 [ksqldb (windowed aggregation)](https://docs.ksqldb.io/en/latest/concepts/time-and-windows-in-ksqldb-queries/#windows-in-sql-queries)
 
+[survey of window types](https://link.springer.com/content/pdf/10.1007/s00778-022-00778-6.pdf)
+
+[in-order sliding-window aggregation](https://arxiv.org/pdf/2009.13768)
+
+[efficient incremental computation of aggregations](https://hal-lirmm.ccsd.cnrs.fr/lirmm-03359490/file/PBA_KDD_21.pdf)
+
+[tutorial: sliding-window aggregation algorithms](http://hirzels.com/martin/papers/debs17-tutorial.pdf)
+
+### citations
 
 | [VGT2023]   |                                                |
 |:------------|:-----------------------------------------------|

@@ -1,3 +1,0 @@
-(Windowed Data)
-
-

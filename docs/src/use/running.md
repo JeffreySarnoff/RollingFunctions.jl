@@ -41,5 +41,3 @@ result
 
 Using a width of s over data with r rows results in r - s + 1 values.
 - to obtain values, use padding or tapering
-
-
