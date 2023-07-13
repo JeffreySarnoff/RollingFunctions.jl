@@ -252,6 +252,21 @@ function taperfinal(fn::F, width::Integer,
 end
 
 function taperfinal(fn::F, width::Integer,
+    data1::AbstractMatrix{T}, weighting::AbstractWeights{W};
+    padding=nopadding) where {T,W,F<:Function}
+    if T <: Integer
+        T2 = innertype(weighting)
+        return taperfinal(fn, width, Matrix{T2}(data1), weighting)
+    end
+    ᵛʷdata1 = asview(data1)
+    colcount = ncols(data1)
+    mweights = vmatrix(weighting, colcount)
+    ᵛʷmweights = asview(mweights)
+
+    taperfinal(fn, width, ᵛʷdata1, ᵛʷmweights; padding)
+end
+
+function taperfinal(fn::F, width::Integer,
     data1::AbstractMatrix{T}, weighting::VectorWeights{W};
     padding=nopadding) where {T,W,F<:Function}
     if T <: Integer
@@ -281,34 +296,8 @@ end
 
 #= =#
 
-#=
 function taperfinal(fn::F, width::Integer, 
-                    ᵛʷdata1::ViewMatrix{T}, ᵛʷweights::ViewMatrix{T}) where {T,F<:Function}
-    rettype = rts(fn, (T,))
-    results = Matrix{rettype}(undef, size(ᵛʷdata1))
-
-    # only completed width coverings are fully resolvable
-    # the first (width - 1) values are to be tapered
-    nr = nrows(ᵛʷdata1)
-    taper_idxs = nr-width+2:nr
-
-    ilow = 1
-    @inbounds for idx in taper_idxs
-        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:idx, :] .* mapnormalize1(ᵛʷweights[1:idx, :]))
-    end
-
-    ilow, ihigh = 1, width
-    @inbounds for idx in width:nrows(ᵛʷdata1)
-        @views results[idx, :] = mapslices1(fn, ᵛʷdata1[ilow:ihigh, :] .* ᵛʷweights)
-        ilow = ilow + 1
-        ihigh = ihigh + 1
-    end
-
-    results
-end
-=#
-
-function taperfinal(fn::F, width::Integer, ᵛʷdata::ViewMatrix{T}, ᵛʷweights::ViewMatrix{T}) where {T,F<:Function}
+    ᵛʷdata::ViewMatrix{T}, ᵛʷweights::ViewMatrix{T}) where {T,F<:Function}
     nr = nrows(ᵛʷdata)
     rettype = rts(fn, (T,))
     results = Matrix{rettype}(undef, size(ᵛʷdata))
