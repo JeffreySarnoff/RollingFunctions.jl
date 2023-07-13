@@ -1,10 +1,10 @@
-name = "RollingWindows"
-uuid = "a49e0402-6ef8-48a0-80b1-e57915413bf3"
+name = "RollingFunctions"
+uuid = "b0e4dd01-7b14-53d8-9b45-175a3e362653"
+repo = "https://github.com/JeffreySarnoff/RollingFunctions.jl.git"
 keywords = ["rolling", "running", "windowed", "timeseries", "time series"]
 license = "MIT"
 desc = "Roll a window over data, applying a function over the window."
 authors = ["Jeffrey Sarnoff and other contributors"]
-repo = "https://github.com/JeffreySarnoff/RollingWindows.jl.git"
 version = "0.9.97"
 
 [deps]
