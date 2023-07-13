@@ -1,4 +1,4 @@
-using Documenter, DocumenterTools
+using Documenter
 
 pushfirst!(LOAD_PATH, joinpath(@__DIR__, "..")) # add to environment stack
 
