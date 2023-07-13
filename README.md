@@ -18,8 +18,7 @@
 
 ## rolling, tiling, and running functional windows over data
 
-### _At its best, this software is collaborative._
-> #### Apply your acumen and intent.
+### _At its best, this software collaborates with you._
 
 
 ### Data
@@ -62,11 +61,9 @@ And we are on _discourse_</br>
 ----
 
 
-----
-
 ## Capabilities
 
-### ≺ apply ≻ { rolling, tiling, running }
+### ≺ apply ≻ is one of { rolling, tiling, running }
 
 #### keywords (optional)
  - __padding__ = nopadding (omit padding) [_or use this value_]
@@ -95,17 +92,17 @@ And we are on _discourse_</br>
 |                   |   |                                      |
 | _unweighted_      |   | _rest_                               |
 |                   |   |(seq1, seq2)                          |
-|                   |   |(seq1, ..,  seqNseq)                  |
+|                   |   |(seq1, ..,  seqN)                  |
 |                   |   |                                      |
 | _shared weights_  |   | _rest_                               |
 |                   |   |(seq1, seq2, weights)                 |
-|                   |   |(seq1, .., seqNseq, weights)          |
+|                   |   |(seq1, .., seqN, weights)          |
 |                   |   |                                      |
 | _unique weights_  |   | _rest_                               |
 |                   |   |(seq1, seq2, [weights1, weights2])    |
-|                   |   |(seq1, .., seqNseq, [weights1, .., weightsNseq]) |
+|                   |   |(seq1, .., seqN, [weights1, .., weightsN]) |
 |                   |   |                                       |
 
-  _(the maximum number of sequences, Nseq >= 3)_
+  _(the maximum number of sequences, Nseq = 3)_
 
 ----
