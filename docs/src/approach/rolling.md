@@ -32,17 +32,14 @@ may have fewer values, it depends on whether or not
 W divides N exactly.  To get a result of length N,
 use the keyword `padding`.
 
-- `rolling` allows two keyword args (`padding` and `atend`).
-   - `padding` (defaults to `nopadding`)
-   - `atend` (defaults to `false`)
+arguments
+- fn <: Function:   summarizes, condenses windowed data
+- width::Integer:   window breadth, counts covered elements.
+- data::Vector:     the data over which the window moves.
 
-|  call signatures                              |
-|:----------------------------------------------|
-|    rolling(fn, width, data)                   |
-|    rolling(fn, width, data; padding)          |
-|    rolling(fn, width, data; atend)            |
-|    rolling(fn, width, data; padding, atend)   |
-|                                               |
+keywords
+- padding::Any=nopadding: the value place as filler.
+- atend::Bool=false:     where to place the padding.
 
 See also: [`padding`](padding.md), 
           [`atend`](atend.md),
