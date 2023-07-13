@@ -57,17 +57,17 @@
 |                   |   |                                      |
 | _unweighted_      |   | _rest_                               |
 |                   |   |(seq1, seq2)                          |
-|                   |   |(seq1, ..,  seqNseq)                  |
+|                   |   |(seq1, ..,  seqN)                  |
 |                   |   |                                      |
 | _shared weights_  |   | _rest_                               |
 |                   |   |(seq1, seq2, weights)                 |
-|                   |   |(seq1, .., seqNseq, weights)          |
+|                   |   |(seq1, .., seqN, weights)          |
 |                   |   |                                      |
 | _unique weights_  |   | _rest_                               |
 |                   |   |(seq1, seq2, [weights1, weights2])    |
-|                   |   |(seq1, .., seqNseq, [weights1, .., weightsNseq]) |
+|                   |   |(seq1, .., seqN, [weights1, .., weightsN]) |
 |                   |   |                                       |
 
-  _(the maximum number of sequences, Nseq >= 3)_
+  _(the maximum number of sequences, Nseq = 3)_
 
 ----

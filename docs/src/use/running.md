@@ -27,8 +27,8 @@ There can be no fourth value as the third value used the fins entries in𝐷𝑎
 
 julia> sum(𝐷𝑎𝑡𝑎[1:3]), sum(𝐷𝑎𝑡𝑎[2:4]), sum(𝐷𝑎𝑡𝑎[3:5])
 (6, 9, 12)
-If the width of each subsequence increases to 4..
 
+If the width of each subsequence increases to 4..
 𝑆𝑝𝑎𝑛 = 4
 result = running(𝐹𝑢𝑛𝑐,𝐷𝑎𝑡𝑎, 𝑆𝑝𝑎𝑛);
 
@@ -38,6 +38,3 @@ result
  14
 ```
 
-
-Using a width of s over data with r rows results in r - s + 1 values.
-- to obtain values, use padding or tapering
