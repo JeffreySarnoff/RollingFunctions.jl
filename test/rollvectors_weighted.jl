@@ -1,6 +1,3 @@
-clean(x) = x
-clean(x::Missing) = Missing
-
 F = sum; W = 3; weights = [0.2, 0.3, 0.5]
 D = [1, 2, 3, 4, 5];
 expected = [2.3, 3.3, 4.3];
