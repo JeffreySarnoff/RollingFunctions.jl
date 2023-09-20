@@ -6,6 +6,9 @@
 
 -----
 
+## IMPORTANT <<<
+
+For now, rather than use e.g `runmean`, `runcov`, with version 0.8 do it [this way](https://github.com/JeffreySarnoff/RollingFunctions.jl/issues/49#issuecomment-1726955742) using e.g. `running(cov, ..)`.
 
 
 
