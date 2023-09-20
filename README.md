@@ -8,8 +8,11 @@
 
 ## IMPORTANT <<<
 
-For now, rather than use e.g `runmean`, `runcov`, with version 0.8 do it [this way](https://github.com/JeffreySarnoff/RollingFunctions.jl/issues/49#issuecomment-1726955742) using e.g. `running(cov, ..)`.
+For now, rather than use e.g `runmean`, `runcov`, with version 0.8 use `running(cov, ..)`
+[here is an example](https://github.com/JeffreySarnoff/RollingFunctions.jl/issues/49#issuecomment-1726955742)
 
+-----
+-----
 
 
 [![Package Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/RollingFunctions)](https://pkgs.genieframework.com?packages=RollingFunctions&startdate=2015-12-30&enddate=2040-12-31)
