@@ -33,6 +33,9 @@ using StatsBase:  kurtosis, mad, sem, skewness, variation,
 
 using KahanSummation: sum_kbn
 using AccurateArithmetic: sum_oro
+using Static
+using Static: Zero, One, ne, lt, le, eq, ge, gt, 
+              SOneTo, SUnitRange
 
 const Sequence = Union{Vec, Tup} where {N, T, Vec<:AbstractVector{T}, Tup<:NTuple{N,T}}
 

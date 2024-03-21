@@ -9,6 +9,7 @@ version = "v0.9.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Static = "aedffcd0-7271-4cad-89d0-dc628f76c6d3"
 FastBroadcast = "7034ab61-46d4-4ed7-9d0f-46aef9175898"
 KahanSummation = "8e2b3108-d4c1-50be-a7a2-16352aec75c3"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
@@ -24,6 +25,7 @@ test = ["Test"]
 
 [compat]
 LinearAlgebra = "1.10"
+Static = "0.8.10 - 0.12"
 FastBroadcast = "0.2.8 - 0.5"
 KahanSummation = "0.3 - 0.5"
 StatsBase = "0.34 - 0.50"
