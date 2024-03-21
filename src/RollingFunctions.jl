@@ -26,6 +26,11 @@ export rolling,
  
 using LinearAlgebra: normalize
 
+using SIMD
+import VectorizationBase as Vectorize
+const VVec = Vectorize.Vec
+const VVecUnroll = Vectorize.VecUnroll
+
 using Statistics: mean, median, std, var, cor, cov
 using StatsBase:  kurtosis, mad, sem, skewness, variation,
                   AbstractWeights, Weights,
