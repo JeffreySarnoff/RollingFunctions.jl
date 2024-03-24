@@ -3,7 +3,7 @@ mad_normalized(x) = mad(x, normalize=true)
 
 for T1 in (:T, :(Union{Missing,T}))    
     for (R,F) in ((:rollmin, :minimum), (:rollmax, :maximum),
-                  (:rollmean, :mean), (:rollmedian, :median), 
+                  (:rollmean, :mean), (:rollmedian, :median), (:rollsum, :sum),
                   (:rollvar, :var), (:rollstd, :std),
                   (:rollskewness, :skewness), (:rollkurtosis, :kurtosis),
                   (:rollsem, :sem), 

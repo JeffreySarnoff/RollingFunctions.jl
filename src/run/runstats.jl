@@ -7,7 +7,7 @@ kurtosis1(x) = length(x) > 1 ? kurtosis(x) : -1.0
 
 for T1 in (:T, :(Union{Missing,T}))
     for (R,F) in ((:runmin, :minimum), (:runmax, :maximum),
-                  (:runmean, :mean), (:runmedian, :median), 
+                  (:runmean, :mean), (:runmedian, :median), (:runsum, :sum),
                   (:runvar, :var1), (:runstd, :std1),
                   (:runskewness, :skewness1), (:runkurtosis, :kurtosis1),
                   (:runsem, :sem1), 
