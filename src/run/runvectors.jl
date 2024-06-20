@@ -38,7 +38,7 @@ function basic_running(window_fn::Function,
     nvalues = nrolled(n, window_span)
     ntapers = n - nvalues
 
-    rettype  = rts(window_fn, (Vector{T},))
+    rettype  = rts(window_fn, (Vector{T},Vector{T}))
     results = Vector{rettype}(undef, n)
 
     @inbounds for idx in 1:ntapers
